@@ -16,15 +16,15 @@ final class AuthServiceProvider
     extends $FunctionalProvider<AuthService, AuthService, AuthService>
     with $Provider<AuthService> {
   const AuthServiceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'authServiceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$authServiceHash();
@@ -48,7 +48,7 @@ final class AuthServiceProvider
   }
 }
 
-String _$authServiceHash() => r'e771c719cfb4bd87b7f15fc6722ef9f56a9844e4';
+String _$authServiceHash() => r'82398d9f38c720e4ddf6b218248f15089fd4f178';
 
 @ProviderFor(dioClient)
 const dioClientProvider = DioClientProvider._();
@@ -57,15 +57,15 @@ final class DioClientProvider
     extends $FunctionalProvider<DioClient, DioClient, DioClient>
     with $Provider<DioClient> {
   const DioClientProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'dioClientProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dioClientProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$dioClientHash();
@@ -89,4 +89,4 @@ final class DioClientProvider
   }
 }
 
-String _$dioClientHash() => r'61cd0b840be2e2425355e4e1aa275c145844e74e';
+String _$dioClientHash() => r'fdcdf2b823271e48572ede4ecfb9400d06b58c00';

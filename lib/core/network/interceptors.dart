@@ -7,7 +7,8 @@ class AuthInterceptor extends Interceptor {
   AuthInterceptor(this.authService);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     final token = await authService.getToken();
 
     if (token != null) {

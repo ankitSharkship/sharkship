@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sharkship/shared/constants/colors.dart';
 
 class GetStartedScreen extends StatelessWidget {
@@ -93,7 +94,11 @@ class GetStartedScreen extends StatelessWidget {
                         horizontal: 24, vertical: 20),
                     child: Column(
                       children: [
-                        _buildButton(text: "Sign In", onTap: () {}),
+                        _buildButton(
+                            text: "Sign In",
+                            onTap: () {
+                              context.push('/signin');
+                            }),
                         const SizedBox(height: 14),
                         _buildButton(text: "Sign Up", onTap: () {}),
                       ],
