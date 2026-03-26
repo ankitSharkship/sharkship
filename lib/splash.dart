@@ -25,10 +25,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     if (!mounted) return;
 
     if (token != null && token.isNotEmpty) {
-      // Trigger user data fetching after successful token detection
-      await ref.read(userProvider.notifier).fetchUserDetails();
+      final userState = ref.read(userProvider.notifier);
+      final userAsync = ref.watch(userProvider).value;
+      await userState.fetchUserDetails();
+      if (userAsync != null && userAsync.isKycVerified) {
+        context.go('/home');
+      } else {
+        context.go('/kyc');
+      }
       if (!mounted) return;
-      context.go('/home');
     } else {
       context.go('/get-started');
     }
@@ -36,8 +41,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: ThreeDotsLoader()),
-    );
+    return const Scaffold(body: Center(child: ThreeDotsLoader()));
   }
 }

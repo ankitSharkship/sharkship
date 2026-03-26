@@ -1,4 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/features/auth/domain/usecases/authenticate_user_usecase.dart';
+import 'package:sharkship/features/auth/domain/usecases/register_user_usecase.dart';
 import '../../../../core/providers/app_providers.dart';
 import '../../data/datasources/auth_local_datasource.dart';
 import '../../data/datasources/auth_remote_datasource.dart';
@@ -52,4 +54,14 @@ PasswordLoginUseCase passwordLoginUseCase(Ref ref) {
 LogoutUseCase logoutUseCase(Ref ref) {
   final repository = ref.watch(authRepositoryProvider);
   return LogoutUseCase(repository);
+}
+
+@riverpod
+AuthenticateUserUseCase authenticateUserUseCase(Ref ref) {
+  return AuthenticateUserUseCase(ref.watch(authRepositoryProvider));
+}
+
+@riverpod
+RegisterUserUseCase registerUserUseCase(Ref ref) {
+  return RegisterUserUseCase(ref.watch(authRepositoryProvider));
 }

@@ -324,3 +324,99 @@ final class LogoutUseCaseProvider
 }
 
 String _$logoutUseCaseHash() => r'67224f00aebb158eab2aba2c4398e98150dd958c';
+
+@ProviderFor(authenticateUserUseCase)
+const authenticateUserUseCaseProvider = AuthenticateUserUseCaseProvider._();
+
+final class AuthenticateUserUseCaseProvider
+    extends
+        $FunctionalProvider<
+          AuthenticateUserUseCase,
+          AuthenticateUserUseCase,
+          AuthenticateUserUseCase
+        >
+    with $Provider<AuthenticateUserUseCase> {
+  const AuthenticateUserUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authenticateUserUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$authenticateUserUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<AuthenticateUserUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  AuthenticateUserUseCase create(Ref ref) {
+    return authenticateUserUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AuthenticateUserUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AuthenticateUserUseCase>(value),
+    );
+  }
+}
+
+String _$authenticateUserUseCaseHash() =>
+    r'53905beaacd7d2b4eec6d69acbd497305195e1e1';
+
+@ProviderFor(registerUserUseCase)
+const registerUserUseCaseProvider = RegisterUserUseCaseProvider._();
+
+final class RegisterUserUseCaseProvider
+    extends
+        $FunctionalProvider<
+          RegisterUserUseCase,
+          RegisterUserUseCase,
+          RegisterUserUseCase
+        >
+    with $Provider<RegisterUserUseCase> {
+  const RegisterUserUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'registerUserUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$registerUserUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<RegisterUserUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  RegisterUserUseCase create(Ref ref) {
+    return registerUserUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(RegisterUserUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<RegisterUserUseCase>(value),
+    );
+  }
+}
+
+String _$registerUserUseCaseHash() =>
+    r'9fde872e9b1222f61db4975e0fe64267fcc23504';

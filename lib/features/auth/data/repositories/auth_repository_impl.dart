@@ -1,3 +1,6 @@
+import 'package:sharkship/features/auth/data/models/register_user_request_model.dart';
+import 'package:sharkship/features/auth/domain/entities/authenticate_user_response.dart';
+
 import '../../domain/entities/login_response.dart';
 import '../../domain/entities/otp_response.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -17,9 +20,12 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<LoginResponse> otpLogin(
-      String phoneNo, String verifyId, String otp) async {
+    String phoneNo,
+    String verifyId,
+    String otp,
+  ) async {
     final response = await remoteDataSource.otpLogin(phoneNo, verifyId, otp);
-    
+
     if (response.accessToken != null && response.refreshToken != null) {
       await localDataSource.saveAuthData(
         response.toJson(),
@@ -33,7 +39,20 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<LoginResponse> passwordLogin(String phoneNo, String password) async {
     final response = await remoteDataSource.passwordLogin(phoneNo, password);
-    
+
+    if (response.accessToken != null && response.refreshToken != null) {
+      await localDataSource.saveAuthData(
+        response.toJson(),
+        response.accessToken!,
+        response.refreshToken!,
+      );
+    }
+    return response;
+  }
+
+  @override
+  Future<LoginResponse> registerUser(RegisterUserRequestModel request) async {
+    final response = await remoteDataSource.registerUser(request);
     if (response.accessToken != null && response.refreshToken != null) {
       await localDataSource.saveAuthData(
         response.toJson(),
@@ -48,5 +67,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout({bool allSession = false}) async {
     await localDataSource.clearAuthData();
     remoteDataSource.logout(allSession: allSession).ignore();
+  }
+
+  @override
+  Future<AuthenticateUser> authenticateUser(String phone) async {
+    return await remoteDataSource.authenticateUser(phone);
   }
 }
