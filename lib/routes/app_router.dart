@@ -19,7 +19,10 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: Routes.SIGNIN,
-      builder: (context, state) => const AuthScreen(),
+      builder: (context, state) {
+        final mode = state.extra as String? ?? "login";
+        return AuthScreen(initialMode: mode);
+      },
     ),
     GoRoute(path: Routes.HOME, builder: (context, state) => const MainScreen()),
     GoRoute(path: Routes.KYC, builder: (context, state) => const KycScreen()),

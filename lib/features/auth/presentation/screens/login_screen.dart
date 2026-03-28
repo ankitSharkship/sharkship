@@ -12,7 +12,8 @@ import '../../../../utlis/validators.dart';
 import '../state/auth_notifier.dart';
 
 class AuthScreen extends ConsumerStatefulWidget {
-  const AuthScreen({super.key});
+  final String initialMode;
+  const AuthScreen({super.key, required this.initialMode});
 
   @override
   ConsumerState<AuthScreen> createState() => _AuthScreenState();
@@ -48,6 +49,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   Timer? _resendTimer;
   int _secondsRemaining = 20;
+  @override
+  void initState() {
+    isLogin = widget.initialMode == "login";
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -90,7 +96,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           phoneController.text.trim(),
           currentVerifyId ?? "",
           otp,
-          () => context.go('/home'),
+          () => context.go('/splash'),
         );
   }
 
@@ -128,6 +134,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     }
     print(otp);
 
+    const entityTypeMap = {
+      'Sole Proprietorship': 'SOLE_PROPRIETORSHIP',
+      'Private Limited Company': 'PRIVATE_LIMITED_COMPANY',
+      'Limited Liability Partnership(LLP)': 'LIMITED_LIABILITY_PARTNERSHIP',
+    };
+    final entityType =
+        entityTypeMap[signup.form['ownershipType']] ?? 'SOLE_PROPRIETORSHIP';
+
     final request = RegisterUserRequestModel(
       otp: otp,
       verifyId: signup.form["verifyId"]!,
@@ -138,7 +152,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       email: signup.form['email']!,
       businessName: signup.form['businessName']!,
       typeOfBusiness: signup.form['category']!,
-      entityType: "SOLE_PROPRIETERSHIP",
+      entityType: entityType,
       businessAddress: BusinessAddressModel(
         addressLane1: signup.form['address1']!,
         landmark: signup.form["landmark"] ?? "",

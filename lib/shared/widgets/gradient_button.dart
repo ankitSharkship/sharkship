@@ -8,6 +8,7 @@ class GradientButton extends StatelessWidget {
   final double height;
   final BorderRadius borderRadius;
   final List<Color>? gradientColors;
+  final Widget? child;
 
   const GradientButton({
     super.key,
@@ -17,6 +18,7 @@ class GradientButton extends StatelessWidget {
     this.height = 56,
     this.borderRadius = const BorderRadius.all(Radius.circular(16)),
     this.gradientColors,
+    this.child,
   });
 
   @override
@@ -50,7 +52,7 @@ class GradientButton extends StatelessWidget {
               borderRadius: borderRadius,
             ),
             child: Center(
-              child: Text(
+              child: child ?? Text(
                 text,
                 style: const TextStyle(
                   fontSize: 16,

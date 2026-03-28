@@ -45,5 +45,32 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Register your custom scheme so DigiLocker app can return to Sharkship -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>in.sharkship.digilocker</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>sharkship</string>
+			</array>
+		</dict>
+	</array>
+
+<!-- Allow querying if DigiLocker app is installed -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>digilocker</string>
+	</array>
+
+	<!-- Allow HTTP within DigiLocker's internal redirect chain -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

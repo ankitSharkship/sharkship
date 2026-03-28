@@ -10,8 +10,7 @@ import '../../data/repositories/kyc_repository_impl.dart';
 import '../../domain/repositories/kyc_repository.dart';
 import '../../domain/usecases/verify_pan_usecase.dart';
 import '../../domain/usecases/upload_aadhar_usecase.dart';
-
-// part 'kyc_provider.g.dart';
+import '../../domain/usecases/get_kyc_details_usecase.dart';
 
 // ---------- DATASOURCE ----------
 
@@ -32,4 +31,8 @@ final verifyPanUseCaseProvider = Provider<VerifyPanUseCase>((ref) {
 
 final uploadAadharUseCaseProvider = Provider<UploadAadharUsecase>((ref) {
   return UploadAadharUsecase(ref.read(kycRepositoryProvider));
+});
+
+final getKycDetailsUseCaseProvider = Provider<GetKycDetailsUseCase>((ref) {
+  return GetKycDetailsUseCase(ref.read(kycRepositoryProvider));
 });

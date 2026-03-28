@@ -1,5 +1,8 @@
 import 'package:sharkship/core/network/api_exception.dart';
 import 'package:sharkship/features/kyc/data/datasources/kyc_remote_datasource.dart';
+import 'package:sharkship/features/kyc/data/model/digilocker_models.dart';
+import 'package:sharkship/features/kyc/data/model/kyc_response_model.dart';
+import 'package:sharkship/features/kyc/domain/entities/digilocker_init.dart';
 import 'package:sharkship/features/kyc/domain/entities/kyc.dart';
 import 'package:sharkship/features/kyc/domain/repositories/kyc_repository.dart';
 
@@ -48,6 +51,28 @@ class KycRepositoryImpl implements KycRepository {
 
   @override
   Future<void> submitKyc(Kyc kyc) async {
-    // not defined in your API yet
+    await remote.submitKyc();
+  }
+
+  @override
+  Future<void> acceptKycDocuments() async {
+    await remote.acceptKycDocuments();
+  }
+
+  @override
+  Future<KycResponseModel> fetchKycDetails() async {
+    return await remote.fetchKycDetails();
+  }
+
+  @override
+  Future<DigilockerInitEntity> initDigilocker() async {
+    return await remote.initDigilocker();
+  }
+
+  @override
+  Future<DigilockerStatusModel> getDigilockerStatus(
+    String verificationId,
+  ) async {
+    return await remote.getDigilockerStatus(verificationId);
   }
 }

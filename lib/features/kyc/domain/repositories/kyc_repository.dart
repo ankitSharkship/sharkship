@@ -1,3 +1,6 @@
+import 'package:sharkship/features/kyc/data/model/kyc_response_model.dart';
+import 'package:sharkship/features/kyc/data/model/digilocker_models.dart';
+import 'package:sharkship/features/kyc/domain/entities/digilocker_init.dart';
 import 'package:sharkship/features/kyc/domain/entities/kyc.dart';
 
 abstract class KycRepository {
@@ -9,4 +12,10 @@ abstract class KycRepository {
   Future<void> verifyAadhaar();
 
   Future<void> submitKyc(Kyc kyc);
+  Future<void> acceptKycDocuments();
+
+  Future<KycResponseModel> fetchKycDetails();
+
+  Future<DigilockerInitEntity> initDigilocker();
+  Future<DigilockerStatusModel> getDigilockerStatus(String verificationId);
 }

@@ -31,11 +31,15 @@ class GetStartedScreen extends StatelessWidget {
                   /// Top Logo
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 16),
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Image.asset("assets/images/login/login_logo.png",
-                          height: 28),
+                      child: Image.asset(
+                        "assets/images/login/login_logo.png",
+                        height: 28,
+                      ),
                     ),
                   ),
 
@@ -43,8 +47,10 @@ class GetStartedScreen extends StatelessWidget {
                   Center(
                     // Vertically centers the entire widget
                     child: Transform.translate(
-                      offset: Offset(size.width * 0.31,
-                          0), // Move up by 1/2 radius (half cut off)
+                      offset: Offset(
+                        size.width * 0.31,
+                        0,
+                      ), // Move up by 1/2 radius (half cut off)
                       child: Container(
                         width: size.width * 0.92,
                         height: size.width * 0.92,
@@ -60,8 +66,10 @@ class GetStartedScreen extends StatelessWidget {
 
                   /// Text Section
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 24, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 5,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
@@ -77,10 +85,7 @@ class GetStartedScreen extends StatelessWidget {
                         SizedBox(height: 10),
                         Text(
                           "Everything start from here",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white70,
-                          ),
+                          style: TextStyle(fontSize: 16, color: Colors.white70),
                         ),
                       ],
                     ),
@@ -91,16 +96,24 @@ class GetStartedScreen extends StatelessWidget {
                   /// Buttons
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 20),
+                      horizontal: 24,
+                      vertical: 20,
+                    ),
                     child: Column(
                       children: [
                         _buildButton(
-                            text: "Sign In",
-                            onTap: () {
-                              context.push('/signin');
-                            }),
+                          text: "Sign In",
+                          onTap: () {
+                            context.push('/signin', extra: "login");
+                          },
+                        ),
                         const SizedBox(height: 14),
-                        _buildButton(text: "Sign Up", onTap: () {}),
+                        _buildButton(
+                          text: "Sign Up",
+                          onTap: () {
+                            context.push('/signin', extra: "signup");
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -127,10 +140,7 @@ class GetStartedScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildButton({
-    required String text,
-    required VoidCallback onTap,
-  }) {
+  Widget _buildButton({required String text, required VoidCallback onTap}) {
     return SizedBox(
       width: double.infinity,
       height: 54,
@@ -146,10 +156,7 @@ class GetStartedScreen extends StatelessWidget {
         onPressed: onTap,
         child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
     );
