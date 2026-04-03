@@ -11,14 +11,14 @@ class OrderStatusSummary extends Equatable {
   });
 
   /// Helper to get count by status string
-  int getStatusCount(String status) {
+  String getStatusCount(String status) {
     for (final item in toBeProcessedAndReadyToShip) {
       if (item.status == status) return item.count;
     }
     for (final item in otherOrders) {
       if (item.status == status) return item.count;
     }
-    return 0;
+    return '0';
   }
 
   @override

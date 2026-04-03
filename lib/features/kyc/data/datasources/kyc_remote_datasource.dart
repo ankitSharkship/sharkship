@@ -25,4 +25,5 @@ abstract class KycRemoteDataSource {
   Future<DigilockerInitModel> initDigilocker();
   Future<DigilockerStatusModel> getDigilockerStatus(String verificationId);
   Future<void> submitKyc();
+  Future<String> getTermsHtml();
 }

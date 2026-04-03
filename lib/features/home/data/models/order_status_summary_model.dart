@@ -28,7 +28,6 @@ class OrderStatusSummaryModel extends OrderStatusSummary {
     return _$OrderStatusSummaryModelFromJson(data);
   }
 
-  @override
   Map<String, dynamic> toJson() => {
         'countByStatus': _$OrderStatusSummaryModelToJson(this),
       };

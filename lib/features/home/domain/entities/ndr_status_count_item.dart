@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class NdrStatusCountItem extends Equatable {
   final bool isNdr;
-  final int count;
+  final String count;
 
   const NdrStatusCountItem({required this.isNdr, required this.count});
 

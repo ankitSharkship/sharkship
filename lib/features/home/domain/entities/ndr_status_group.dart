@@ -29,6 +29,6 @@ class NdrStatusGroup extends Equatable {
   int get totalReturned => _sumList(returnedOrders);
 
   int _sumList(List<NdrStatusCountItem> items) {
-    return items.fold(0, (sum, item) => sum + item.count);
+    return items.fold(0, (sum, item) => sum + int.parse(item.count));
   }
 }

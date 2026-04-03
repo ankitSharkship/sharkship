@@ -138,7 +138,22 @@ class KycRemoteDataSourceImpl implements KycRemoteDataSource {
         '/v1/support/ticket',
         data: {"category": 'KYC', "user_note": 'Please verify my KYC details!'},
       );
-      return ;
+      return;
+    } on DioException catch (e) {
+      _handleError(e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> getTermsHtml() async {
+    try {
+      final res = await dio.get(
+        '/v1/document/terms_sheet/preview',
+        options: Options(responseType: ResponseType.plain),
+      );
+
+      return res.data.toString();
     } on DioException catch (e) {
       _handleError(e);
       rethrow;

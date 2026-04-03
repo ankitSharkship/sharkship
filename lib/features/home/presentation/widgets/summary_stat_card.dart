@@ -4,7 +4,7 @@ import 'package:sharkship/shared/widgets/global_popups.dart';
 class SummaryStatCard extends StatelessWidget {
   final String title;
   final String value;
-  final double increase;
+  final double? increase;
   final IconData icon;
   final bool showGrowth;
 
@@ -12,7 +12,7 @@ class SummaryStatCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.value,
-    required this.increase,
+    this.increase,
     required this.icon,
     this.showGrowth = true,
   });
@@ -20,8 +20,8 @@ class SummaryStatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Growth color and sign
-    final color = increase >= 0 ? Colors.green : Colors.red;
-    final sign = increase >= 0 ? "+" : "";
+    final color = increase != null ? (increase! >= 0 ? Colors.green : Colors.red) : Colors.grey;
+    final sign =increase != null ?( increase! >= 0 ? "+" : ""): "";
     final iconColor = Colors.blueAccent;
 
     return GestureDetector(
@@ -81,13 +81,13 @@ class SummaryStatCard extends StatelessWidget {
               Row(
                 children: [
                   Icon(
-                    increase >= 0 ? Icons.trending_up : Icons.trending_down,
+                    increase! >= 0 ? Icons.trending_up : Icons.trending_down,
                     size: 14,
                     color: color,
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    "$sign${increase.toStringAsFixed(1)}% vs yesterday",
+                    "$sign${increase!.toStringAsFixed(1)}% vs yesterday",
                     style: TextStyle(
                       color: color,
                       fontSize: 10,

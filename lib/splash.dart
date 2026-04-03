@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,10 +15,19 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  ProviderSubscription? _subscription;
+  bool _hasNavigated = false;
+
   @override
   void initState() {
     super.initState();
     _checkAuth();
+  }
+
+  @override
+  void dispose() {
+    _subscription?.close();
+    super.dispose();
   }
 
   Future<void> _checkAuth() async {
@@ -26,20 +36,42 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     if (!mounted) return;
 
-    if (token != null && token.isNotEmpty) {
-      // final userNotifier = ref.read(userProvider.notifier);
-      final userState = ref.read(userProvider);
+    print('[Splash] Token: ${token != null ? "exists" : "null"}');
 
-      if (!mounted) return;
-      print('+++++++++++++++++++++++++++++');
-      print(userState.value);
-      if (userState.value != null && userState.value?.isKycVerified == true) {
-        context.go(Routes.HOME);
-      } else {
-        context.go(Routes.KYC);
-      }
-    } else {
+    if (token == null || token.isEmpty) {
+      print('[Splash] No token → GET_STARTED');
       context.go(Routes.GET_STARTED);
+      return;
+    }
+
+    _subscription = ref.listenManual(
+      userProvider,
+      (prev, next) {
+        final isLoading = next is AsyncLoading;
+        print('[Splash] userProvider changed: isLoading=$isLoading, value=${next.value}');
+        if (!isLoading && !_hasNavigated) {
+          _hasNavigated = true;
+          _subscription?.close();
+          if (!mounted) return;
+          _navigateBasedOnUser(next);
+        }
+      },
+      fireImmediately: true,
+    );
+  }
+
+  void _navigateBasedOnUser(AsyncValue userState) {
+    final user = userState.value;
+    print('[Splash] Navigating: user=${user != null}, isKycVerified=${user?.isKycVerified}, agreementAccept=${user?.agreementAccept}');
+
+    if (user != null &&
+        user.isKycVerified == true &&
+        user.agreementAccept == true) {
+      print('[Splash] → HOME');
+      context.go(Routes.HOME);
+    } else {
+      print('[Splash] → KYC');
+      context.go(Routes.KYC);
     }
   }
 

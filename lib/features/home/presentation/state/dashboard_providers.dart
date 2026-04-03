@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/features/home/domain/usecases/get_carrier_pickup_data_usecase.dart';
 import 'package:sharkship/features/home/domain/usecases/get_order_status_count_usecase.dart';
 import '../../../../core/providers/app_providers.dart';
 import '../../data/datasources/dashboard_remote_datasource.dart';
@@ -38,4 +39,10 @@ GetOrderStatusCountUseCase getOrderStatusCountUseCase(Ref ref) {
 GetNdrStatusCountUsecase getNdrStatusCountUseCase(Ref ref) {
   final repository = ref.watch(dashboardRepositoryProvider);
   return GetNdrStatusCountUsecase(repository);
+}
+
+@riverpod
+GetCarrierPickupDataUsecase getCarrierPickupDataUsecase(Ref ref) {
+  final repository = ref.watch(dashboardRepositoryProvider);
+  return GetCarrierPickupDataUsecase(repository);
 }

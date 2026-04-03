@@ -10,7 +10,7 @@ NdrStatusCountItemModel _$NdrStatusCountItemModelFromJson(
   Map<String, dynamic> json,
 ) => NdrStatusCountItemModel(
   isNdr: json['isNdr'] as bool,
-  count: (json['count'] as num).toInt(),
+  count: json['count'] as String,
 );
 
 Map<String, dynamic> _$NdrStatusCountItemModelToJson(

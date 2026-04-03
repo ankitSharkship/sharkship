@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/features/home/domain/entities/pickups_entities/carrier_pickup_summary_list.dart';
 
 import '../../domain/entities/today_metrics.dart';
 import '../../domain/entities/order_status_summary.dart';
@@ -57,6 +58,21 @@ class NdrStatusNotifier extends _$NdrStatusNotifier {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
       () => ref.read(getNdrStatusCountUseCaseProvider)(),
+    );
+  }
+}
+
+@riverpod
+class CourierPickupNotifier extends _$CourierPickupNotifier {
+  @override
+  Future<CarrierPickupSummaryList> build() async {
+    return ref.read(getCarrierPickupDataUsecaseProvider)("TODAY");
+  }
+
+  Future<void> refresh({String day = "TODAY"}) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref.read(getCarrierPickupDataUsecaseProvider)(day),
     );
   }
 }

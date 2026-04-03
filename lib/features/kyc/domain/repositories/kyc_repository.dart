@@ -18,4 +18,5 @@ abstract class KycRepository {
 
   Future<DigilockerInitEntity> initDigilocker();
   Future<DigilockerStatusModel> getDigilockerStatus(String verificationId);
+  Future<String> getTermsHtml();
 }

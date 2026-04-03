@@ -55,4 +55,4 @@ final class InitDigilockerUseCaseProvider
 }
 
 String _$initDigilockerUseCaseHash() =>
-    r'd08a647ee5d9526dd1aefdbd07ba65e9f76318b3';
+    r'a32cd198c57d462d963764c54e675d5b0d943b91';

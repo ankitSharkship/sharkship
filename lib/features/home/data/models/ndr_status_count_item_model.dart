@@ -6,13 +6,9 @@ part 'ndr_status_count_item_model.g.dart';
 @JsonSerializable()
 class NdrStatusCountItemModel extends NdrStatusCountItem {
   const NdrStatusCountItemModel({
-    required bool isNdr,
-    @JsonKey(fromJson: _countFromJson)
-    required int count,
-  }) : super(
-          isNdr: isNdr,
-          count: count,
-        );
+    required super.isNdr,
+    @JsonKey(fromJson: _countFromJson) required super.count,
+  });
 
   factory NdrStatusCountItemModel.fromJson(Map<String, dynamic> json) =>
       _$NdrStatusCountItemModelFromJson(json);

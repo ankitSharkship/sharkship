@@ -4,8 +4,8 @@ import 'package:sharkship/shared/widgets/loader.dart';
 import '../state/dashboard_notifier.dart';
 import 'package:sharkship/features/home/presentation/widgets/summary_stat_card.dart';
 
-class SummaryGrid extends ConsumerWidget {
-  const SummaryGrid({super.key});
+class TodayMetricsSummaryGrid extends ConsumerWidget {
+  const TodayMetricsSummaryGrid({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,13 +29,13 @@ class SummaryGrid extends ConsumerWidget {
             Icons.show_chart,
           ),
           (
-            "Yesterday's Orders",
+            "Average Shipping",
             "${metrics.yesterdayOrderCount} Orders",
             0.0,
             Icons.history,
           ),
           (
-            "Yesterday's Revenue",
+            "Total Delivery",
             "₹ ${metrics.yesterdayRevenue ?? 0}",
             0.0,
             Icons.paid_outlined,
@@ -62,6 +62,70 @@ class SummaryGrid extends ConsumerWidget {
                 increase: items[i].$3,
                 icon: items[i].$4,
                 showGrowth: i < 2, // Only show growth for today's metrics
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class PickupsSummaryGrid extends ConsumerWidget {
+  const PickupsSummaryGrid({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final metricsState = ref.watch(courierPickupProvider);
+
+    return metricsState.when(
+      loading: () => const Center(heightFactor: 3, child: ThreeDotsLoader()),
+      error: (err, stack) => Center(child: Text('Error: $err')),
+      data: (metrics) {
+        // Correctly access items through metrics.items
+        final totalPending = metrics.items.fold<int>(
+          0,
+          (sum, item) => sum + item.pickupPending.count,
+        );
+        final totalDone = metrics.items.fold<int>(
+          0,
+          (sum, item) => sum + item.pickupDone.count,
+        );
+        final totalTomorrow = metrics.items.fold<int>(
+          0,
+          (sum, item) => sum + item.pickupScheduledTomorrow.count,
+        );
+        final grandTotalToday = metrics.items.fold<int>(
+          0,
+          (sum, item) => sum + item.pickupRescheduled.count,
+        );
+
+        final items = [
+          ("Pickup's Order", "$totalPending Orders", Icons.inventory),
+          ("Today's Pickup", "$grandTotalToday Pickups", Icons.local_shipping),
+          ("Pickup's Done", "$totalDone Orders", Icons.check_circle_outline),
+          ("Tomorrow's Pickup", "$totalTomorrow", Icons.schedule),
+        ];
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final crossAxisCount = constraints.maxWidth > 600 ? 3 : 2;
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: items.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                mainAxisExtent: 120,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+              ),
+              itemBuilder: (_, i) => SummaryStatCard(
+                title: items[i].$1,
+                value: items[i].$2,
+                icon: items[i].$3,
+                showGrowth: false,
               ),
             );
           },

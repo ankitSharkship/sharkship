@@ -249,3 +249,52 @@ final class GetNdrStatusCountUseCaseProvider
 
 String _$getNdrStatusCountUseCaseHash() =>
     r'f0319767084df02e59f95ffc2deb44aaac93d3c0';
+
+@ProviderFor(getCarrierPickupDataUsecase)
+const getCarrierPickupDataUsecaseProvider =
+    GetCarrierPickupDataUsecaseProvider._();
+
+final class GetCarrierPickupDataUsecaseProvider
+    extends
+        $FunctionalProvider<
+          GetCarrierPickupDataUsecase,
+          GetCarrierPickupDataUsecase,
+          GetCarrierPickupDataUsecase
+        >
+    with $Provider<GetCarrierPickupDataUsecase> {
+  const GetCarrierPickupDataUsecaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getCarrierPickupDataUsecaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getCarrierPickupDataUsecaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetCarrierPickupDataUsecase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetCarrierPickupDataUsecase create(Ref ref) {
+    return getCarrierPickupDataUsecase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetCarrierPickupDataUsecase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetCarrierPickupDataUsecase>(value),
+    );
+  }
+}
+
+String _$getCarrierPickupDataUsecaseHash() =>
+    r'79cb0c0e76c77a548244ec3c76b7ca5b2e44ceb0';

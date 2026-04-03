@@ -56,4 +56,4 @@ final class GetDigilockerStatusUseCaseProvider
 }
 
 String _$getDigilockerStatusUseCaseHash() =>
-    r'0e017b777a2060556ae06c2d1bf6a183fa95d39a';
+    r'546edf8625c3a70e81c9f8f12e7c82dcfd63853e';

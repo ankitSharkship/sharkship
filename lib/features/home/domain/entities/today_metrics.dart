@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 class TodayMetrics extends Equatable {
   final int todayOrderCount;
   final int yesterdayOrderCount;
-  final double? todayRevenue;
-  final double? yesterdayRevenue;
+  final String? todayRevenue;
+  final String? yesterdayRevenue;
 
   const TodayMetrics({
     required this.todayOrderCount,
@@ -18,13 +18,14 @@ class TodayMetrics extends Equatable {
     if (yesterdayOrderCount == 0) {
       return todayOrderCount > 0 ? 100.0 : 0.0;
     }
-    return ((todayOrderCount - yesterdayOrderCount) / yesterdayOrderCount) * 100;
+    return ((todayOrderCount - yesterdayOrderCount) / yesterdayOrderCount) *
+        100;
   }
 
   /// Percentage increase in revenue from yesterday to today
   double get revenuePercentageIncrease {
-    final tRev = todayRevenue ?? 0.0;
-    final yRev = yesterdayRevenue ?? 0.0;
+    final tRev = int.parse(todayRevenue ?? '0.0');
+    final yRev = int.parse(yesterdayRevenue ?? "0.0");
     if (yRev == 0) {
       return tRev > 0 ? 100.0 : 0.0;
     }
@@ -33,9 +34,9 @@ class TodayMetrics extends Equatable {
 
   @override
   List<Object?> get props => [
-        todayOrderCount,
-        yesterdayOrderCount,
-        todayRevenue,
-        yesterdayRevenue,
-      ];
+    todayOrderCount,
+    yesterdayOrderCount,
+    todayRevenue,
+    yesterdayRevenue,
+  ];
 }

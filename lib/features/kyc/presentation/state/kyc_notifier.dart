@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharkship/core/network/api_exception.dart';
 import 'package:sharkship/features/kyc/domain/entities/kyc.dart';
 import 'package:sharkship/features/kyc/domain/repositories/kyc_repository.dart';
+import 'package:sharkship/features/kyc/domain/usecases/get_terms_usecase.dart';
 import 'package:sharkship/features/kyc/domain/usecases/verify_pan_usecase.dart';
 import 'package:sharkship/features/kyc/domain/usecases/upload_aadhar_usecase.dart';
 import 'package:sharkship/features/kyc/domain/usecases/get_kyc_details_usecase.dart';
@@ -34,6 +37,7 @@ class KycNotifier extends _$KycNotifier {
       ref.read(uploadAadharUseCaseProvider);
   GetKycDetailsUseCase get _getKycDetails =>
       ref.read(getKycDetailsUseCaseProvider);
+  GetTermsUsecase get _getTerms => ref.read(getTermsUsecaseProvider);
   InitDigilockerUseCase get _initDigilocker =>
       ref.read(initDigilockerUseCaseProvider);
   GetDigilockerStatusUseCase get _getDigilockerStatus =>
@@ -287,7 +291,8 @@ class KycNotifier extends _$KycNotifier {
   Future<void> getTerms() async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      // state = state.copyWith(isLoading: false, kyc: );
+      final res = await _getTerms();
+      state = state.copyWith(isLoading: false, termsHtml: res);
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
@@ -305,8 +310,6 @@ class KycNotifier extends _$KycNotifier {
 
       KycStep nextStep = KycStep.aadhaar;
       final isRejected = details.kycTicketStatus == "REJECTED";
-      print(details.agreementAccepted);
-      print('_________+++++++++++++++++++++++++++++++++++++++++');
       final updatedKyc = state.kyc.copyWith(
         aadhaar: details.isAadhaarComplete
             ? AadhaarData(
@@ -357,10 +360,15 @@ class KycNotifier extends _$KycNotifier {
       if (details.kycTicketStatus == "PENDING") {
         nextStep = KycStep.submitted;
       } else if (details.kycTicketStatus == "RESOLVED") {
-        if (details.agreementAccepted != null &&
-            details.agreementAccepted == true) {
-          nextStep = KycStep.submitted;
+        if (details.agreementAccepted == true) {
+          state = state.copyWith(
+            isLoading: false,
+            kyc: updatedKyc.copyWith(isSubmitted: true),
+            shouldNavigateHome: true,
+          );
+          return;
         } else {
+          await getTerms();
           nextStep = KycStep.terms;
         }
       } else if (details.kycTicketStatus == "REJECTED") {
@@ -398,6 +406,7 @@ class KycNotifier extends _$KycNotifier {
         isLoading: false,
         kyc: updatedKyc.copyWith(isSubmitted: details.status != "INITIATED"),
         currentStep: nextStep,
+        termsHtml: state.termsHtml,
       );
     } catch (e) {
       state = state.copyWith(isLoading: false);

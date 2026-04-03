@@ -189,3 +189,62 @@ abstract class _$NdrStatusNotifier extends $AsyncNotifier<NdrStatusSummary> {
     element.handleValue(ref, created);
   }
 }
+
+@ProviderFor(CourierPickupNotifier)
+const courierPickupProvider = CourierPickupNotifierProvider._();
+
+final class CourierPickupNotifierProvider
+    extends
+        $AsyncNotifierProvider<
+          CourierPickupNotifier,
+          CarrierPickupSummaryList
+        > {
+  const CourierPickupNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'courierPickupProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$courierPickupNotifierHash();
+
+  @$internal
+  @override
+  CourierPickupNotifier create() => CourierPickupNotifier();
+}
+
+String _$courierPickupNotifierHash() =>
+    r'85fbfea9ca230dece5b9e939f6ec93d667cf8244';
+
+abstract class _$CourierPickupNotifier
+    extends $AsyncNotifier<CarrierPickupSummaryList> {
+  FutureOr<CarrierPickupSummaryList> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<CarrierPickupSummaryList>,
+              CarrierPickupSummaryList
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<CarrierPickupSummaryList>,
+                CarrierPickupSummaryList
+              >,
+              AsyncValue<CarrierPickupSummaryList>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

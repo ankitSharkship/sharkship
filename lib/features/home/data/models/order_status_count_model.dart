@@ -6,21 +6,18 @@ part 'order_status_count_model.g.dart';
 @JsonSerializable()
 class OrderStatusCountItemModel extends OrderStatusCountItem {
   const OrderStatusCountItemModel({
-    required String status,
-    @JsonKey(fromJson: _countFromJson) required int count,
-  }) : super(
-          status: status,
-          count: count,
-        );
+    required super.status,
+    @JsonKey(fromJson: _countFromJson) required super.count,
+  });
 
   factory OrderStatusCountItemModel.fromJson(Map<String, dynamic> json) =>
       _$OrderStatusCountItemModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderStatusCountItemModelToJson(this);
 
-  static int _countFromJson(dynamic value) {
-    if (value == null) return 0;
-    if (value is int) return value;
-    return int.tryParse(value.toString()) ?? 0;
+  static String _countFromJson(dynamic value) {
+    if (value == null) return '0';
+    if (value is String) return value;
+    return value.toString();
   }
 }

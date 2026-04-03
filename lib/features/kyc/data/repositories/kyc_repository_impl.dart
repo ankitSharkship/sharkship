@@ -47,6 +47,11 @@ class KycRepositoryImpl implements KycRepository {
   }
 
   @override
+  Future<String> getTermsHtml() async {
+    return remote.getTermsHtml();
+  }
+
+  @override
   Future<void> verifyAadhaar() async {}
 
   @override

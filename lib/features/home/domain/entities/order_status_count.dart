@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class OrderStatusCountItem extends Equatable {
   final String status;
-  final int count;
+  final String count;
 
   const OrderStatusCountItem({
     required this.status,

@@ -16,6 +16,5 @@ class NdrStatusSummaryModel extends NdrStatusSummary {
   factory NdrStatusSummaryModel.fromJson(Map<String, dynamic> json) =>
       _$NdrStatusSummaryModelFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$NdrStatusSummaryModelToJson(this);
 }

@@ -15,7 +15,8 @@ import 'package:sharkship/features/kyc/domain/entities/kyc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sharkship/routes/app_router.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart' hide ImageSource; // Import here
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart'
+    hide ImageSource; // Import here
 
 class KycScreen extends ConsumerWidget {
   const KycScreen({super.key});
@@ -33,6 +34,12 @@ class KycScreen extends ConsumerWidget {
             onRetry: () => Navigator.pop(ctx),
           ),
         );
+      }
+
+      // Navigate to Home if shouldNavigateHome flag is set
+      if (next.shouldNavigateHome) {
+        context.go(Routes.HOME);
+        return;
       }
 
       // Navigate to Home if KYC is RESOLVED and Agreement is Accepted
@@ -941,15 +948,26 @@ class _GstStepContentState extends ConsumerState<_GstStepContent> {
   }
 }
 
-
 class _TermsStepContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(kycProvider);
     final notifier = ref.read(kycProvider.notifier);
 
-    final String htmlContent ="Loading terms...";
+    // 1. Check if we are currently fetching data
+    if (state.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
+    // 2. Check if we HAVE data but it's empty/null
+    if (state.termsHtml == null || state.termsHtml!.isEmpty) {
+      // This is where it's currently stuck.
+      // If it's not loading, and this is null, we show the empty state.
+      return const Center(child: Text("No terms available."));
+    }
+
+    // 3. Only if loading is FALSE and termsHtml is NOT NULL, show the HTML
+    final String htmlContent = state.termsHtml!;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -967,18 +985,14 @@ class _TermsStepContent extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.grey.shade200),
               ),
-              // Use HtmlWidget instead of Text
               child: SingleChildScrollView(
                 child: HtmlWidget(
                   htmlContent,
-                  // This ensures the viewer handles the Word-specific styling better
-                  textStyle: const TextStyle(fontSize: 14, color: Colors.black87),
+                  textStyle: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black87,
+                  ),
                   renderMode: RenderMode.column,
-                  // Optional: if the HTML has links, you can handle them here
-                  onTapUrl: (url) {
-                    print('Tapped $url');
-                    return true;
-                  },
                 ),
               ),
             ),
@@ -1002,6 +1016,7 @@ class _TermsStepContent extends ConsumerWidget {
     );
   }
 }
+
 Widget _inputHelper({
   required String label,
   required String hint,

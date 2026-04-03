@@ -37,10 +37,10 @@ class KycResponseModel {
     this.entityType,
     this.status,
     this.agreementAccepted,
-      this.kycTicketStatus,
-      this.gstNumber,
-      this.aadharName,
-      this.aadharProfileImage,
+    this.kycTicketStatus,
+    this.gstNumber,
+    this.aadharName,
+    this.aadharProfileImage,
   });
 
   factory KycResponseModel.fromJson(Map<String, dynamic> json) {
@@ -60,7 +60,7 @@ class KycResponseModel {
       accountHolderName: json['account_holder_name'] as String?,
       entityType: json['user']?['entity_type'] as String?,
       status: json['status'] as String?,
-      agreementAccepted: json['user']?['aggrement_accept'] as bool?,
+      agreementAccepted: json['user']?['agreement_accept'] as bool?,
       kycTicketStatus: json['user']?['kycTicketStatus'] as String?,
       gstNumber: json['gst_number'] as String?,
       aadharName: json['aadhar_name'] as String?,
@@ -75,8 +75,7 @@ class KycResponseModel {
 
   bool get isPanComplete => pan != null && pan!.isNotEmpty;
 
-  bool get isBankComplete =>
-      accountNumber != null && accountNumber!.isNotEmpty;
+  bool get isBankComplete => accountNumber != null && accountNumber!.isNotEmpty;
 
   bool get isGstComplete => gstNumber != null && gstNumber!.isNotEmpty;
 }

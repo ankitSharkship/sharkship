@@ -34,6 +34,5 @@ class NdrStatusGroupModel extends NdrStatusGroup {
   factory NdrStatusGroupModel.fromJson(Map<String, dynamic> json) =>
       _$NdrStatusGroupModelFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$NdrStatusGroupModelToJson(this);
 }
