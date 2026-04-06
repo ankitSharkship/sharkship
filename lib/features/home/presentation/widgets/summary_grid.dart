@@ -24,22 +24,12 @@ class TodayMetricsSummaryGrid extends ConsumerWidget {
           ),
           (
             "Today's Revenue",
-            "₹ ${metrics.todayRevenue ?? 0}",
+            "₹ ${metrics.todayRevenue}",
             metrics.revenuePercentageIncrease,
             Icons.show_chart,
           ),
-          (
-            "Average Shipping",
-            "${metrics.yesterdayOrderCount} Orders",
-            0.0,
-            Icons.history,
-          ),
-          (
-            "Total Delivery",
-            "₹ ${metrics.yesterdayRevenue ?? 0}",
-            0.0,
-            Icons.paid_outlined,
-          ),
+          ("Average Shipping", "${0} Orders", 0.0, Icons.history),
+          ("Total Delivery", "₹ ${0}", 0.0, Icons.paid_outlined),
         ];
 
         return LayoutBuilder(
@@ -105,6 +95,69 @@ class PickupsSummaryGrid extends ConsumerWidget {
           ("Today's Pickup", "$grandTotalToday Pickups", Icons.local_shipping),
           ("Pickup's Done", "$totalDone Orders", Icons.check_circle_outline),
           ("Tomorrow's Pickup", "$totalTomorrow", Icons.schedule),
+        ];
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final crossAxisCount = constraints.maxWidth > 600 ? 3 : 2;
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: items.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                mainAxisExtent: 120,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+              ),
+              itemBuilder: (_, i) => SummaryStatCard(
+                title: items[i].$1,
+                value: items[i].$2,
+                icon: items[i].$3,
+                showGrowth: false,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class NDRSummaryGrid extends ConsumerWidget {
+  const NDRSummaryGrid({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ndrStatusAsync = ref.watch(ndrStatusProvider);
+
+    return ndrStatusAsync.when(
+      loading: () => const Center(heightFactor: 3, child: ThreeDotsLoader()),
+      error: (err, stack) => Center(child: Text('Error: $err')),
+      data: (metrics) {
+        // Correctly access items through metrics.items
+        if (metrics.countByNDRStatus.isEmpty) {
+          return const SizedBox.shrink();
+        }
+        final group = metrics.countByNDRStatus.first;
+        final items = [
+          (
+            "NDR OrderS",
+            "${group.totalNdrOrders.toString()} Orders",
+            Icons.inventory,
+          ),
+          (
+            "Reattempts",
+            "${group.totalReattempted} Pickups",
+            Icons.local_shipping,
+          ),
+          (
+            "NDR Delivered",
+            "${group.totalDelivered} Orders",
+            Icons.check_circle_outline,
+          ),
+          ("NDR Returned", group.totalReturned.toString(), Icons.schedule),
         ];
 
         return LayoutBuilder(

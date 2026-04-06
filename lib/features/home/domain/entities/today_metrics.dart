@@ -24,8 +24,8 @@ class TodayMetrics extends Equatable {
 
   /// Percentage increase in revenue from yesterday to today
   double get revenuePercentageIncrease {
-    final tRev = int.parse(todayRevenue ?? '0.0');
-    final yRev = int.parse(yesterdayRevenue ?? "0.0");
+    final tRev = double.parse(todayRevenue ?? '0.0');
+    final yRev = double.parse(yesterdayRevenue ?? "0.0");
     if (yRev == 0) {
       return tRev > 0 ? 100.0 : 0.0;
     }

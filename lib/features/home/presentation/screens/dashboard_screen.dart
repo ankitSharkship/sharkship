@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/features/home/presentation/widgets/ndr_grid.dart';
+import 'package:sharkship/features/home/presentation/widgets/pickups_charts.dart';
+import 'package:sharkship/features/home/presentation/widgets/ndr_stats_charts.dart';
 import 'package:sharkship/features/home/presentation/widgets/shipment_grid.dart';
 import 'package:sharkship/shared/constants/colors.dart';
-import 'package:sharkship/shared/widgets/loader.dart';
 import '../providers/dashboard_tab_provider.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_tabbar.dart';
@@ -62,12 +62,21 @@ class DashboardScreen extends ConsumerWidget {
           children: const [
             PickupsSummaryGrid(),
             SizedBox(height: 20),
-            SectionTitle("Pickups By Courier"),
+            PickupsCharts(),
             // SizedBox(height: 12),
             // ShipmentGrid(),
             // SizedBox(height: 20),
             // SectionTitle("NDR Details"),
             // NDRGrid(),
+          ],
+        );
+      case 2:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            NDRSummaryGrid(),
+            SizedBox(height: 20),
+            NDRStatsCharts(),
           ],
         );
       default:

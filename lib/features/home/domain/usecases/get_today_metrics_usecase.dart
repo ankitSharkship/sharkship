@@ -6,7 +6,7 @@ class GetTodayMetricsUseCase {
 
   GetTodayMetricsUseCase(this.repository);
 
-  Future<TodayMetrics> call() async {
-    return await repository.getTodayMetrics();
+  Future<TodayMetrics> call({DateTime? startDate, DateTime? endDate}) async {
+    return await repository.getTodayMetrics(startDate: startDate, endDate: endDate);
   }
 }

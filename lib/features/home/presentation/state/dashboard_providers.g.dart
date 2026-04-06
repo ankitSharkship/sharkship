@@ -105,6 +105,60 @@ final class DashboardRepositoryProvider
 String _$dashboardRepositoryHash() =>
     r'a152282720befde7ff91e3ec21d0a50c21c44ff6';
 
+@ProviderFor(DashboardDate)
+const dashboardDateProvider = DashboardDateProvider._();
+
+final class DashboardDateProvider
+    extends $NotifierProvider<DashboardDate, DateTimeRange<DateTime>> {
+  const DashboardDateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dashboardDateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$dashboardDateHash();
+
+  @$internal
+  @override
+  DashboardDate create() => DashboardDate();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DateTimeRange<DateTime> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DateTimeRange<DateTime>>(value),
+    );
+  }
+}
+
+String _$dashboardDateHash() => r'48aa338494f2772b7f5d58b838182a68f83f69f5';
+
+abstract class _$DashboardDate extends $Notifier<DateTimeRange<DateTime>> {
+  DateTimeRange<DateTime> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref as $Ref<DateTimeRange<DateTime>, DateTimeRange<DateTime>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DateTimeRange<DateTime>, DateTimeRange<DateTime>>,
+              DateTimeRange<DateTime>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
 @ProviderFor(getTodayMetricsUseCase)
 const getTodayMetricsUseCaseProvider = GetTodayMetricsUseCaseProvider._();
 
@@ -298,3 +352,99 @@ final class GetCarrierPickupDataUsecaseProvider
 
 String _$getCarrierPickupDataUsecaseHash() =>
     r'79cb0c0e76c77a548244ec3c76b7ca5b2e44ceb0';
+
+@ProviderFor(getNdrDataUseCase)
+const getNdrDataUseCaseProvider = GetNdrDataUseCaseProvider._();
+
+final class GetNdrDataUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetNdrDataUseCase,
+          GetNdrDataUseCase,
+          GetNdrDataUseCase
+        >
+    with $Provider<GetNdrDataUseCase> {
+  const GetNdrDataUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getNdrDataUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getNdrDataUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetNdrDataUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetNdrDataUseCase create(Ref ref) {
+    return getNdrDataUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetNdrDataUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetNdrDataUseCase>(value),
+    );
+  }
+}
+
+String _$getNdrDataUseCaseHash() => r'ec7d617c93ccb8eeea0113f4aab2a0d71a54a8e4';
+
+@ProviderFor(getDatewiseNdrCountUseCase)
+const getDatewiseNdrCountUseCaseProvider =
+    GetDatewiseNdrCountUseCaseProvider._();
+
+final class GetDatewiseNdrCountUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetDatewiseNdrCountUseCase,
+          GetDatewiseNdrCountUseCase,
+          GetDatewiseNdrCountUseCase
+        >
+    with $Provider<GetDatewiseNdrCountUseCase> {
+  const GetDatewiseNdrCountUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getDatewiseNdrCountUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getDatewiseNdrCountUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetDatewiseNdrCountUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetDatewiseNdrCountUseCase create(Ref ref) {
+    return getDatewiseNdrCountUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetDatewiseNdrCountUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetDatewiseNdrCountUseCase>(value),
+    );
+  }
+}
+
+String _$getDatewiseNdrCountUseCaseHash() =>
+    r'15add331884aa1e0898fb31b4c4a0ece7c3fd7d1';
