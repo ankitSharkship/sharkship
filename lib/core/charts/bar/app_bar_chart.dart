@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:sharkship/core/charts/models/chart_point.dart';
@@ -45,7 +47,13 @@ class AppBarChart extends StatelessWidget {
           getTitlesWidget: (value, _) {
             final i = value.toInt();
             if (i >= data.length) return const SizedBox();
-            return Text(data[i].label);
+            return Transform.rotate(
+              angle: -30 * pi / 180,
+              child: Container(
+                margin: const EdgeInsets.only(top: 3),
+                child: Text(data[i].label),
+              ),
+            );
           },
         ),
       ),

@@ -3,9 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/widgets/ndr_grid.dart';
 import 'package:sharkship/features/home/presentation/widgets/pickups_charts.dart';
 import 'package:sharkship/features/home/presentation/widgets/ndr_stats_charts.dart';
+import 'package:sharkship/features/home/presentation/widgets/rto_stats_charts.dart';
+import 'package:sharkship/features/home/presentation/widgets/delivered_stats_charts.dart';
+import 'package:sharkship/features/home/presentation/widgets/revenue_summary_grid.dart';
+import 'package:sharkship/features/home/presentation/widgets/revenue_breakdown_table.dart';
+import 'package:sharkship/features/home/presentation/widgets/revenue_stats_charts.dart';
 import 'package:sharkship/features/home/presentation/widgets/shipment_grid.dart';
 import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/widgets/loader.dart';
 import '../providers/dashboard_tab_provider.dart';
+import '../state/dashboard_notifier.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_tabbar.dart';
 import '../widgets/section_title.dart';
@@ -25,9 +32,7 @@ class DashboardScreen extends ConsumerWidget {
         child: Column(
           children: [
             const DashboardHeader(),
-
             DashboardTabBar(),
-
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
@@ -43,9 +48,9 @@ class DashboardScreen extends ConsumerWidget {
   Widget _buildTabContent(int tab, WidgetRef ref) {
     switch (tab) {
       case 0:
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             TodayMetricsSummaryGrid(),
             SizedBox(height: 20),
             SectionTitle("Shipments Details"),
@@ -57,30 +62,54 @@ class DashboardScreen extends ConsumerWidget {
           ],
         );
       case 1:
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             PickupsSummaryGrid(),
             SizedBox(height: 20),
             PickupsCharts(),
-            // SizedBox(height: 12),
-            // ShipmentGrid(),
-            // SizedBox(height: 20),
-            // SectionTitle("NDR Details"),
-            // NDRGrid(),
           ],
         );
       case 2:
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            NDRSummaryGrid(),
-            SizedBox(height: 20),
-            NDRStatsCharts(),
-          ],
+          children: [NDRSummaryGrid(), SizedBox(height: 20), NDRStatsCharts()],
+        );
+      case 3:
+        return const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [RtoStatsCharts()],
+        );
+      case 4:
+        return const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [DeliveredStatsCharts()],
+        );
+      case 5:
+        return Consumer(
+          builder: (context, ref, child) {
+            final revenueState = ref.watch(orderRevenueProvider);
+            return revenueState.when(
+              loading: () => const Center(child: ThreeDotsLoader()),
+              error: (err, _) => Center(child: Text('Error: $err')),
+              data: (revenue) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const RevenueSummaryGrid(),
+                    const SizedBox(height: 20),
+                    const RevenueStatsCharts(),
+                    const SizedBox(height: 20),
+                    RevenueBreakdownTable(data: revenue.courierRevenues),
+                    const SizedBox(height: 20),
+                  ],
+                );
+              },
+            );
+          },
         );
       default:
-        return Center(child: Text('Coming Soon'));
+        return const Center(child: Text('Coming Soon'));
     }
   }
 }

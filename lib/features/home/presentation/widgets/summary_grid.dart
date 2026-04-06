@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../state/dashboard_notifier.dart';
 import 'package:sharkship/features/home/presentation/widgets/summary_stat_card.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class TodayMetricsSummaryGrid extends ConsumerWidget {
   const TodayMetricsSummaryGrid({super.key});
@@ -12,7 +13,7 @@ class TodayMetricsSummaryGrid extends ConsumerWidget {
     final metricsState = ref.watch(todayMetricsProvider);
 
     return metricsState.when(
-      loading: () => const Center(heightFactor: 3, child: ThreeDotsLoader()),
+      loading: () => _TodayMetricsSkeleton(),
       error: (err, stack) => Center(child: Text('Error: $err')),
       data: (metrics) {
         final items = [
@@ -69,7 +70,7 @@ class PickupsSummaryGrid extends ConsumerWidget {
     final metricsState = ref.watch(courierPickupProvider);
 
     return metricsState.when(
-      loading: () => const Center(heightFactor: 3, child: ThreeDotsLoader()),
+      loading: () => _TodayMetricsSkeleton(),
       error: (err, stack) => Center(child: Text('Error: $err')),
       data: (metrics) {
         // Correctly access items through metrics.items
@@ -133,7 +134,7 @@ class NDRSummaryGrid extends ConsumerWidget {
     final ndrStatusAsync = ref.watch(ndrStatusProvider);
 
     return ndrStatusAsync.when(
-      loading: () => const Center(heightFactor: 3, child: ThreeDotsLoader()),
+      loading: () => _TodayMetricsSkeleton(),
       error: (err, stack) => Center(child: Text('Error: $err')),
       data: (metrics) {
         // Correctly access items through metrics.items
@@ -184,6 +185,42 @@ class NDRSummaryGrid extends ConsumerWidget {
           },
         );
       },
+    );
+  }
+}
+
+class _TodayMetricsSkeleton extends StatelessWidget {
+  const _TodayMetricsSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    final fakeItems = [
+      ("Loading", "----", 0.0, Icons.inventory),
+      ("Loading", "----", 0.0, Icons.show_chart),
+      ("Loading", "----", 0.0, Icons.history),
+      ("Loading", "----", 0.0, Icons.paid_outlined),
+    ];
+
+    return Skeletonizer(
+      enabled: true,
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: fakeItems.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisExtent: 120,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+        ),
+        itemBuilder: (_, i) => SummaryStatCard(
+          title: fakeItems[i].$1,
+          value: fakeItems[i].$2,
+          increase: fakeItems[i].$3,
+          icon: fakeItems[i].$4,
+          showGrowth: i < 2,
+        ),
+      ),
     );
   }
 }

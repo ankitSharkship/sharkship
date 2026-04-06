@@ -4,15 +4,17 @@ import 'package:sharkship/features/home/domain/entities/pickups_entities/carrier
 import '../../domain/entities/today_metrics.dart';
 import '../../domain/entities/order_status_summary.dart';
 import '../../domain/entities/ndr_status_summary.dart';
-import '../../domain/entities/ndr_data.dart';
-import '../../domain/entities/datewise_ndr_count.dart';
+import '../../domain/entities/ndr_data.dart' as NdrDataEntity;
+import '../../domain/entities/datewise_ndr_count.dart' as DatewiseNdrCountEntity;
+import '../../domain/entities/top_rto_data.dart' as TopRtoDataEntity;
+import '../../domain/entities/datewise_rto_count.dart' as DatewiseRtoCountEntity;
+import '../../domain/entities/top_delivered_data.dart' as TopDeliveredDataEntity;
+import '../../domain/entities/cod_data.dart' as CodDataEntity;
+import '../../domain/entities/order_revenue.dart' as OrderRevenueEntity;
 import 'dashboard_providers.dart';
 
 part 'dashboard_notifier.g.dart';
 
-/// -------------------------------
-/// Today Metrics Notifier
-/// -------------------------------
 @riverpod
 class TodayMetricsNotifier extends _$TodayMetricsNotifier {
   @override
@@ -36,9 +38,6 @@ class TodayMetricsNotifier extends _$TodayMetricsNotifier {
   }
 }
 
-/// -------------------------------
-/// Order Status Notifier
-/// -------------------------------
 @riverpod
 class OrderStatusNotifier extends _$OrderStatusNotifier {
   @override
@@ -62,9 +61,6 @@ class OrderStatusNotifier extends _$OrderStatusNotifier {
   }
 }
 
-/// -------------------------------
-/// NDR Status Notifier
-/// -------------------------------
 @riverpod
 class NdrStatusNotifier extends _$NdrStatusNotifier {
   @override
@@ -113,13 +109,10 @@ class CourierPickupNotifier extends _$CourierPickupNotifier {
   }
 }
 
-/// -------------------------------
-/// NDR Data Notifier (By Zone/Courier)
-/// -------------------------------
 @riverpod
-class NdrDataNotifier extends _$NdrDataNotifier {
+class NdrData extends _$NdrData {
   @override
-  Future<NdrData> build() async {
+  Future<NdrDataEntity.NdrData> build() async {
     final dateRange = ref.watch(dashboardDateProvider);
     return ref.read(getNdrDataUseCaseProvider)(
       startDate: dateRange.start,
@@ -139,13 +132,10 @@ class NdrDataNotifier extends _$NdrDataNotifier {
   }
 }
 
-/// -------------------------------
-/// Datewise NDR Count Notifier
-/// -------------------------------
 @riverpod
-class DatewiseNdrCountNotifier extends _$DatewiseNdrCountNotifier {
+class DatewiseNdrCount extends _$DatewiseNdrCount {
   @override
-  Future<List<DatewiseNdrCount>> build() async {
+  Future<List<DatewiseNdrCountEntity.DatewiseNdrCount>> build() async {
     final dateRange = ref.watch(dashboardDateProvider);
     return ref.read(getDatewiseNdrCountUseCaseProvider)(
       startDate: dateRange.start,
@@ -158,6 +148,121 @@ class DatewiseNdrCountNotifier extends _$DatewiseNdrCountNotifier {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
       () => ref.read(getDatewiseNdrCountUseCaseProvider)(
+        startDate: dateRange.start,
+        endDate: dateRange.end,
+      ),
+    );
+  }
+}
+
+@riverpod
+class TopRtoData extends _$TopRtoData {
+  @override
+  Future<TopRtoDataEntity.TopRtoData> build() async {
+    final dateRange = ref.watch(dashboardDateProvider);
+    return ref.read(getTopRtoDataUseCaseProvider)(
+      startDate: dateRange.start,
+      endDate: dateRange.end,
+    );
+  }
+
+  Future<void> refresh() async {
+    final dateRange = ref.read(dashboardDateProvider);
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref.read(getTopRtoDataUseCaseProvider)(
+        startDate: dateRange.start,
+        endDate: dateRange.end,
+      ),
+    );
+  }
+}
+
+@riverpod
+class DatewiseRtoCount extends _$DatewiseRtoCount {
+  @override
+  Future<List<DatewiseRtoCountEntity.DatewiseRtoCount>> build() async {
+    final dateRange = ref.watch(dashboardDateProvider);
+    return ref.read(getDatewiseRtoCountUseCaseProvider)(
+      startDate: dateRange.start,
+      endDate: dateRange.end,
+    );
+  }
+
+  Future<void> refresh() async {
+    final dateRange = ref.read(dashboardDateProvider);
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref.read(getDatewiseRtoCountUseCaseProvider)(
+        startDate: dateRange.start,
+        endDate: dateRange.end,
+      ),
+    );
+  }
+}
+
+@riverpod
+class TopDeliveredData extends _$TopDeliveredData {
+  @override
+  Future<TopDeliveredDataEntity.TopDeliveredData> build() async {
+    final dateRange = ref.watch(dashboardDateProvider);
+    return ref.read(getTopDeliveredDataUseCaseProvider)(
+      startDate: dateRange.start,
+      endDate: dateRange.end,
+    );
+  }
+
+  Future<void> refresh() async {
+    final dateRange = ref.read(dashboardDateProvider);
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref.read(getTopDeliveredDataUseCaseProvider)(
+        startDate: dateRange.start,
+        endDate: dateRange.end,
+      ),
+    );
+  }
+}
+
+@riverpod
+class CodData extends _$CodData {
+  @override
+  Future<List<CodDataEntity.CodData>> build() async {
+    final dateRange = ref.watch(dashboardDateProvider);
+    return ref.read(getCodDataUseCaseProvider)(
+      startDate: dateRange.start,
+      endDate: dateRange.end,
+    );
+  }
+
+  Future<void> refresh() async {
+    final dateRange = ref.read(dashboardDateProvider);
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref.read(getCodDataUseCaseProvider)(
+        startDate: dateRange.start,
+        endDate: dateRange.end,
+      ),
+    );
+  }
+}
+
+@riverpod
+class OrderRevenue extends _$OrderRevenue {
+  @override
+  Future<OrderRevenueEntity.OrderRevenue> build() async {
+    final dateRange = ref.watch(dashboardDateProvider);
+    return ref.read(getOrderRevenueUseCaseProvider)(
+      startDate: dateRange.start,
+      endDate: dateRange.end,
+    );
+  }
+
+  Future<void> refresh() async {
+    final dateRange = ref.read(dashboardDateProvider);
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref.read(getOrderRevenueUseCaseProvider)(
         startDate: dateRange.start,
         endDate: dateRange.end,
       ),

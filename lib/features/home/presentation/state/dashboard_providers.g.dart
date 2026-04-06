@@ -448,3 +448,244 @@ final class GetDatewiseNdrCountUseCaseProvider
 
 String _$getDatewiseNdrCountUseCaseHash() =>
     r'15add331884aa1e0898fb31b4c4a0ece7c3fd7d1';
+
+@ProviderFor(getTopRtoDataUseCase)
+const getTopRtoDataUseCaseProvider = GetTopRtoDataUseCaseProvider._();
+
+final class GetTopRtoDataUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetTopRtoDataUseCase,
+          GetTopRtoDataUseCase,
+          GetTopRtoDataUseCase
+        >
+    with $Provider<GetTopRtoDataUseCase> {
+  const GetTopRtoDataUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getTopRtoDataUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getTopRtoDataUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetTopRtoDataUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetTopRtoDataUseCase create(Ref ref) {
+    return getTopRtoDataUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetTopRtoDataUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetTopRtoDataUseCase>(value),
+    );
+  }
+}
+
+String _$getTopRtoDataUseCaseHash() =>
+    r'd0fcedf1564eb62e3b0b7b04beabda55eead79e7';
+
+@ProviderFor(getDatewiseRtoCountUseCase)
+const getDatewiseRtoCountUseCaseProvider =
+    GetDatewiseRtoCountUseCaseProvider._();
+
+final class GetDatewiseRtoCountUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetDatewiseRtoCountUseCase,
+          GetDatewiseRtoCountUseCase,
+          GetDatewiseRtoCountUseCase
+        >
+    with $Provider<GetDatewiseRtoCountUseCase> {
+  const GetDatewiseRtoCountUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getDatewiseRtoCountUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getDatewiseRtoCountUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetDatewiseRtoCountUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetDatewiseRtoCountUseCase create(Ref ref) {
+    return getDatewiseRtoCountUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetDatewiseRtoCountUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetDatewiseRtoCountUseCase>(value),
+    );
+  }
+}
+
+String _$getDatewiseRtoCountUseCaseHash() =>
+    r'4138a90de93d2369d739fc19247562b7574280fc';
+
+@ProviderFor(getTopDeliveredDataUseCase)
+const getTopDeliveredDataUseCaseProvider =
+    GetTopDeliveredDataUseCaseProvider._();
+
+final class GetTopDeliveredDataUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetTopDeliveredDataUseCase,
+          GetTopDeliveredDataUseCase,
+          GetTopDeliveredDataUseCase
+        >
+    with $Provider<GetTopDeliveredDataUseCase> {
+  const GetTopDeliveredDataUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getTopDeliveredDataUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getTopDeliveredDataUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetTopDeliveredDataUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetTopDeliveredDataUseCase create(Ref ref) {
+    return getTopDeliveredDataUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetTopDeliveredDataUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetTopDeliveredDataUseCase>(value),
+    );
+  }
+}
+
+String _$getTopDeliveredDataUseCaseHash() =>
+    r'38c5f3432b8875d81477af8d565989a8c777f8b3';
+
+@ProviderFor(getCodDataUseCase)
+const getCodDataUseCaseProvider = GetCodDataUseCaseProvider._();
+
+final class GetCodDataUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetCodDataUseCase,
+          GetCodDataUseCase,
+          GetCodDataUseCase
+        >
+    with $Provider<GetCodDataUseCase> {
+  const GetCodDataUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getCodDataUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getCodDataUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetCodDataUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetCodDataUseCase create(Ref ref) {
+    return getCodDataUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetCodDataUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetCodDataUseCase>(value),
+    );
+  }
+}
+
+String _$getCodDataUseCaseHash() => r'8dfc823f29f9a531ff186f41ecbac9ce349158ed';
+
+@ProviderFor(getOrderRevenueUseCase)
+const getOrderRevenueUseCaseProvider = GetOrderRevenueUseCaseProvider._();
+
+final class GetOrderRevenueUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetOrderRevenueUseCase,
+          GetOrderRevenueUseCase,
+          GetOrderRevenueUseCase
+        >
+    with $Provider<GetOrderRevenueUseCase> {
+  const GetOrderRevenueUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getOrderRevenueUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getOrderRevenueUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetOrderRevenueUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetOrderRevenueUseCase create(Ref ref) {
+    return getOrderRevenueUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetOrderRevenueUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetOrderRevenueUseCase>(value),
+    );
+  }
+}
+
+String _$getOrderRevenueUseCaseHash() =>
+    r'6a82673004fac858081a6ee40f40fe07100c539c';

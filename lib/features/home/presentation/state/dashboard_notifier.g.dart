@@ -8,21 +8,12 @@ part of 'dashboard_notifier.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// -------------------------------
-/// Today Metrics Notifier
-/// -------------------------------
 
 @ProviderFor(TodayMetricsNotifier)
 const todayMetricsProvider = TodayMetricsNotifierProvider._();
 
-/// -------------------------------
-/// Today Metrics Notifier
-/// -------------------------------
 final class TodayMetricsNotifierProvider
     extends $AsyncNotifierProvider<TodayMetricsNotifier, TodayMetrics> {
-  /// -------------------------------
-  /// Today Metrics Notifier
-  /// -------------------------------
   const TodayMetricsNotifierProvider._()
     : super(
         from: null,
@@ -45,10 +36,6 @@ final class TodayMetricsNotifierProvider
 String _$todayMetricsNotifierHash() =>
     r'af64170ecfbfd0c386f8335a4309c3cc7aa6281d';
 
-/// -------------------------------
-/// Today Metrics Notifier
-/// -------------------------------
-
 abstract class _$TodayMetricsNotifier extends $AsyncNotifier<TodayMetrics> {
   FutureOr<TodayMetrics> build();
   @$mustCallSuper
@@ -68,21 +55,11 @@ abstract class _$TodayMetricsNotifier extends $AsyncNotifier<TodayMetrics> {
   }
 }
 
-/// -------------------------------
-/// Order Status Notifier
-/// -------------------------------
-
 @ProviderFor(OrderStatusNotifier)
 const orderStatusProvider = OrderStatusNotifierProvider._();
 
-/// -------------------------------
-/// Order Status Notifier
-/// -------------------------------
 final class OrderStatusNotifierProvider
     extends $AsyncNotifierProvider<OrderStatusNotifier, OrderStatusSummary> {
-  /// -------------------------------
-  /// Order Status Notifier
-  /// -------------------------------
   const OrderStatusNotifierProvider._()
     : super(
         from: null,
@@ -105,10 +82,6 @@ final class OrderStatusNotifierProvider
 String _$orderStatusNotifierHash() =>
     r'fa9b040ba876358910130dc542022ac46bf8684e';
 
-/// -------------------------------
-/// Order Status Notifier
-/// -------------------------------
-
 abstract class _$OrderStatusNotifier
     extends $AsyncNotifier<OrderStatusSummary> {
   FutureOr<OrderStatusSummary> build();
@@ -130,21 +103,11 @@ abstract class _$OrderStatusNotifier
   }
 }
 
-/// -------------------------------
-/// NDR Status Notifier
-/// -------------------------------
-
 @ProviderFor(NdrStatusNotifier)
 const ndrStatusProvider = NdrStatusNotifierProvider._();
 
-/// -------------------------------
-/// NDR Status Notifier
-/// -------------------------------
 final class NdrStatusNotifierProvider
     extends $AsyncNotifierProvider<NdrStatusNotifier, NdrStatusSummary> {
-  /// -------------------------------
-  /// NDR Status Notifier
-  /// -------------------------------
   const NdrStatusNotifierProvider._()
     : super(
         from: null,
@@ -165,10 +128,6 @@ final class NdrStatusNotifierProvider
 }
 
 String _$ndrStatusNotifierHash() => r'8ca9bf231726a465322b82148284c2a7d5c08914';
-
-/// -------------------------------
-/// NDR Status Notifier
-/// -------------------------------
 
 abstract class _$NdrStatusNotifier extends $AsyncNotifier<NdrStatusSummary> {
   FutureOr<NdrStatusSummary> build();
@@ -249,22 +208,12 @@ abstract class _$CourierPickupNotifier
   }
 }
 
-/// -------------------------------
-/// NDR Data Notifier (By Zone/Courier)
-/// -------------------------------
+@ProviderFor(NdrData)
+const ndrDataProvider = NdrDataProvider._();
 
-@ProviderFor(NdrDataNotifier)
-const ndrDataProvider = NdrDataNotifierProvider._();
-
-/// -------------------------------
-/// NDR Data Notifier (By Zone/Courier)
-/// -------------------------------
-final class NdrDataNotifierProvider
-    extends $AsyncNotifierProvider<NdrDataNotifier, NdrData> {
-  /// -------------------------------
-  /// NDR Data Notifier (By Zone/Courier)
-  /// -------------------------------
-  const NdrDataNotifierProvider._()
+final class NdrDataProvider
+    extends $AsyncNotifierProvider<NdrData, NdrDataEntity.NdrData> {
+  const NdrDataProvider._()
     : super(
         from: null,
         argument: null,
@@ -276,31 +225,32 @@ final class NdrDataNotifierProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$ndrDataNotifierHash();
+  String debugGetCreateSourceHash() => _$ndrDataHash();
 
   @$internal
   @override
-  NdrDataNotifier create() => NdrDataNotifier();
+  NdrData create() => NdrData();
 }
 
-String _$ndrDataNotifierHash() => r'b29d8fd42c7b194633e009c070a8af919f673465';
+String _$ndrDataHash() => r'0f2805a9cf73a34c5184a8da4cb7b7a1bdbd51d7';
 
-/// -------------------------------
-/// NDR Data Notifier (By Zone/Courier)
-/// -------------------------------
-
-abstract class _$NdrDataNotifier extends $AsyncNotifier<NdrData> {
-  FutureOr<NdrData> build();
+abstract class _$NdrData extends $AsyncNotifier<NdrDataEntity.NdrData> {
+  FutureOr<NdrDataEntity.NdrData> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AsyncValue<NdrData>, NdrData>;
+    final ref =
+        this.ref
+            as $Ref<AsyncValue<NdrDataEntity.NdrData>, NdrDataEntity.NdrData>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<NdrData>, NdrData>,
-              AsyncValue<NdrData>,
+              AnyNotifier<
+                AsyncValue<NdrDataEntity.NdrData>,
+                NdrDataEntity.NdrData
+              >,
+              AsyncValue<NdrDataEntity.NdrData>,
               Object?,
               Object?
             >;
@@ -308,26 +258,16 @@ abstract class _$NdrDataNotifier extends $AsyncNotifier<NdrData> {
   }
 }
 
-/// -------------------------------
-/// Datewise NDR Count Notifier
-/// -------------------------------
+@ProviderFor(DatewiseNdrCount)
+const datewiseNdrCountProvider = DatewiseNdrCountProvider._();
 
-@ProviderFor(DatewiseNdrCountNotifier)
-const datewiseNdrCountProvider = DatewiseNdrCountNotifierProvider._();
-
-/// -------------------------------
-/// Datewise NDR Count Notifier
-/// -------------------------------
-final class DatewiseNdrCountNotifierProvider
+final class DatewiseNdrCountProvider
     extends
         $AsyncNotifierProvider<
-          DatewiseNdrCountNotifier,
-          List<DatewiseNdrCount>
+          DatewiseNdrCount,
+          List<DatewiseNdrCountEntity.DatewiseNdrCount>
         > {
-  /// -------------------------------
-  /// Datewise NDR Count Notifier
-  /// -------------------------------
-  const DatewiseNdrCountNotifierProvider._()
+  const DatewiseNdrCountProvider._()
     : super(
         from: null,
         argument: null,
@@ -339,38 +279,314 @@ final class DatewiseNdrCountNotifierProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$datewiseNdrCountNotifierHash();
+  String debugGetCreateSourceHash() => _$datewiseNdrCountHash();
 
   @$internal
   @override
-  DatewiseNdrCountNotifier create() => DatewiseNdrCountNotifier();
+  DatewiseNdrCount create() => DatewiseNdrCount();
 }
 
-String _$datewiseNdrCountNotifierHash() =>
-    r'232e2318bec1d1b281ffff6a4549d57f939a5ce4';
+String _$datewiseNdrCountHash() => r'7e6a59cfad3503c4f2491673727176b9c8cf8f50';
 
-/// -------------------------------
-/// Datewise NDR Count Notifier
-/// -------------------------------
-
-abstract class _$DatewiseNdrCountNotifier
-    extends $AsyncNotifier<List<DatewiseNdrCount>> {
-  FutureOr<List<DatewiseNdrCount>> build();
+abstract class _$DatewiseNdrCount
+    extends $AsyncNotifier<List<DatewiseNdrCountEntity.DatewiseNdrCount>> {
+  FutureOr<List<DatewiseNdrCountEntity.DatewiseNdrCount>> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
     final ref =
         this.ref
-            as $Ref<AsyncValue<List<DatewiseNdrCount>>, List<DatewiseNdrCount>>;
+            as $Ref<
+              AsyncValue<List<DatewiseNdrCountEntity.DatewiseNdrCount>>,
+              List<DatewiseNdrCountEntity.DatewiseNdrCount>
+            >;
     final element =
         ref.element
             as $ClassProviderElement<
               AnyNotifier<
-                AsyncValue<List<DatewiseNdrCount>>,
-                List<DatewiseNdrCount>
+                AsyncValue<List<DatewiseNdrCountEntity.DatewiseNdrCount>>,
+                List<DatewiseNdrCountEntity.DatewiseNdrCount>
               >,
-              AsyncValue<List<DatewiseNdrCount>>,
+              AsyncValue<List<DatewiseNdrCountEntity.DatewiseNdrCount>>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(TopRtoData)
+const topRtoDataProvider = TopRtoDataProvider._();
+
+final class TopRtoDataProvider
+    extends $AsyncNotifierProvider<TopRtoData, TopRtoDataEntity.TopRtoData> {
+  const TopRtoDataProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'topRtoDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$topRtoDataHash();
+
+  @$internal
+  @override
+  TopRtoData create() => TopRtoData();
+}
+
+String _$topRtoDataHash() => r'3b682cb59b081a14797cc8694075ba43a311d0c0';
+
+abstract class _$TopRtoData
+    extends $AsyncNotifier<TopRtoDataEntity.TopRtoData> {
+  FutureOr<TopRtoDataEntity.TopRtoData> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<TopRtoDataEntity.TopRtoData>,
+              TopRtoDataEntity.TopRtoData
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<TopRtoDataEntity.TopRtoData>,
+                TopRtoDataEntity.TopRtoData
+              >,
+              AsyncValue<TopRtoDataEntity.TopRtoData>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(DatewiseRtoCount)
+const datewiseRtoCountProvider = DatewiseRtoCountProvider._();
+
+final class DatewiseRtoCountProvider
+    extends
+        $AsyncNotifierProvider<
+          DatewiseRtoCount,
+          List<DatewiseRtoCountEntity.DatewiseRtoCount>
+        > {
+  const DatewiseRtoCountProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'datewiseRtoCountProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$datewiseRtoCountHash();
+
+  @$internal
+  @override
+  DatewiseRtoCount create() => DatewiseRtoCount();
+}
+
+String _$datewiseRtoCountHash() => r'c62cf1967c0f86972ccd9257f656475189ff04c2';
+
+abstract class _$DatewiseRtoCount
+    extends $AsyncNotifier<List<DatewiseRtoCountEntity.DatewiseRtoCount>> {
+  FutureOr<List<DatewiseRtoCountEntity.DatewiseRtoCount>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<List<DatewiseRtoCountEntity.DatewiseRtoCount>>,
+              List<DatewiseRtoCountEntity.DatewiseRtoCount>
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<List<DatewiseRtoCountEntity.DatewiseRtoCount>>,
+                List<DatewiseRtoCountEntity.DatewiseRtoCount>
+              >,
+              AsyncValue<List<DatewiseRtoCountEntity.DatewiseRtoCount>>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(TopDeliveredData)
+const topDeliveredDataProvider = TopDeliveredDataProvider._();
+
+final class TopDeliveredDataProvider
+    extends
+        $AsyncNotifierProvider<
+          TopDeliveredData,
+          TopDeliveredDataEntity.TopDeliveredData
+        > {
+  const TopDeliveredDataProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'topDeliveredDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$topDeliveredDataHash();
+
+  @$internal
+  @override
+  TopDeliveredData create() => TopDeliveredData();
+}
+
+String _$topDeliveredDataHash() => r'4c7452ac2dc6d44d9a561692f2ce1a4d7201d976';
+
+abstract class _$TopDeliveredData
+    extends $AsyncNotifier<TopDeliveredDataEntity.TopDeliveredData> {
+  FutureOr<TopDeliveredDataEntity.TopDeliveredData> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<TopDeliveredDataEntity.TopDeliveredData>,
+              TopDeliveredDataEntity.TopDeliveredData
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<TopDeliveredDataEntity.TopDeliveredData>,
+                TopDeliveredDataEntity.TopDeliveredData
+              >,
+              AsyncValue<TopDeliveredDataEntity.TopDeliveredData>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(CodData)
+const codDataProvider = CodDataProvider._();
+
+final class CodDataProvider
+    extends $AsyncNotifierProvider<CodData, List<CodDataEntity.CodData>> {
+  const CodDataProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'codDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$codDataHash();
+
+  @$internal
+  @override
+  CodData create() => CodData();
+}
+
+String _$codDataHash() => r'fe04092d0870ff13bd271213b36e920cc89a58b2';
+
+abstract class _$CodData extends $AsyncNotifier<List<CodDataEntity.CodData>> {
+  FutureOr<List<CodDataEntity.CodData>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<List<CodDataEntity.CodData>>,
+              List<CodDataEntity.CodData>
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<List<CodDataEntity.CodData>>,
+                List<CodDataEntity.CodData>
+              >,
+              AsyncValue<List<CodDataEntity.CodData>>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(OrderRevenue)
+const orderRevenueProvider = OrderRevenueProvider._();
+
+final class OrderRevenueProvider
+    extends
+        $AsyncNotifierProvider<OrderRevenue, OrderRevenueEntity.OrderRevenue> {
+  const OrderRevenueProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'orderRevenueProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$orderRevenueHash();
+
+  @$internal
+  @override
+  OrderRevenue create() => OrderRevenue();
+}
+
+String _$orderRevenueHash() => r'f94758361ddd70ffba5134d4c35f2f2fedbfab88';
+
+abstract class _$OrderRevenue
+    extends $AsyncNotifier<OrderRevenueEntity.OrderRevenue> {
+  FutureOr<OrderRevenueEntity.OrderRevenue> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<OrderRevenueEntity.OrderRevenue>,
+              OrderRevenueEntity.OrderRevenue
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<OrderRevenueEntity.OrderRevenue>,
+                OrderRevenueEntity.OrderRevenue
+              >,
+              AsyncValue<OrderRevenueEntity.OrderRevenue>,
               Object?,
               Object?
             >;
