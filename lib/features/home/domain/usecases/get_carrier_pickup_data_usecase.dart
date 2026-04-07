@@ -6,7 +6,11 @@ class GetCarrierPickupDataUsecase {
 
   GetCarrierPickupDataUsecase(this.repository);
 
-  Future<CarrierPickupSummaryList> call(String day, {DateTime? startDate, DateTime? endDate}) async {
-    return await repository.getCarrierPickupData(day, startDate: startDate, endDate: endDate);
+  Future<CarrierPickupSummaryList> call(
+    String day, {
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    return await repository.getCarrierPickupData(day);
   }
 }

@@ -55,6 +55,7 @@ flutter:
     - assets/images/home/
     - assets/images/login/
     - assets/images/kyc/
+    - assets/images/orders/
 
 flutter_launcher_icons:
   android: true

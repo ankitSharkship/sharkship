@@ -9,6 +9,8 @@ import 'package:sharkship/features/home/presentation/widgets/revenue_summary_gri
 import 'package:sharkship/features/home/presentation/widgets/revenue_breakdown_table.dart';
 import 'package:sharkship/features/home/presentation/widgets/revenue_stats_charts.dart';
 import 'package:sharkship/features/home/presentation/widgets/shipment_grid.dart';
+import 'package:sharkship/features/home/presentation/widgets/remittance_summary_grid.dart';
+import 'package:sharkship/features/home/presentation/widgets/business_overview_widgets.dart';
 import 'package:sharkship/shared/constants/colors.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../providers/dashboard_tab_provider.dart';
@@ -16,7 +18,6 @@ import '../state/dashboard_notifier.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_tabbar.dart';
 import '../widgets/section_title.dart';
-
 import '../widgets/summary_grid.dart';
 
 class DashboardScreen extends ConsumerWidget {
@@ -59,6 +60,21 @@ class DashboardScreen extends ConsumerWidget {
             SizedBox(height: 20),
             SectionTitle("NDR Details"),
             NDRGrid(),
+            SizedBox(height: 24),
+            SectionTitle("Remittance"),
+            SizedBox(height: 12),
+            RemittanceSummaryGrid(),
+            SizedBox(height: 24),
+            SectionTitle("Business Trends"),
+            SizedBox(height: 12),
+            BusinessOverviewChart(),
+            SizedBox(height: 24),
+            SectionTitle("Order Geography"),
+            SizedBox(height: 12),
+            ZoneDistributionOverviewChart(),
+            SizedBox(height: 20),
+            StateWiseOrdersTable(),
+            SizedBox(height: 24),
           ],
         );
       case 1:

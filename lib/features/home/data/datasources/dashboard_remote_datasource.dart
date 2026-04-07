@@ -10,27 +10,61 @@ import '../models/datewise_rto_count_model.dart';
 import '../models/top_delivered_data_model.dart';
 import '../models/cod_data_model.dart';
 import '../models/order_revenue_model.dart';
+import '../models/remittance_overview_model.dart';
+import '../models/business_overview_models.dart';
 
 abstract class DashboardRemoteDataSource {
-  Future<TodayMetricsModel> getTodayMetrics(
-      {DateTime? startDate, DateTime? endDate});
-  Future<OrderStatusSummaryModel> getOrderStatusSummary(
-      {DateTime? startDate, DateTime? endDate});
-  Future<NdrStatusSummaryModel> getNdrStatusSummary(
-      {DateTime? startDate, DateTime? endDate});
-  Future<CarrierPickupSummaryListModel> getCarrierPickupData(String day,
-      {DateTime? startDate, DateTime? endDate});
+  Future<TodayMetricsModel> getTodayMetrics({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<OrderStatusSummaryModel> getOrderStatusSummary({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<NdrStatusSummaryModel> getNdrStatusSummary({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<CarrierPickupSummaryListModel> getCarrierPickupData(String day);
   Future<NdrDataModel> getNdrData({DateTime? startDate, DateTime? endDate});
-  Future<List<DatewiseNdrCountModel>> getDatewiseNdrCount(
-      {DateTime? startDate, DateTime? endDate});
-  Future<TopRtoDataModel> getTopRtoData({DateTime? startDate, DateTime? endDate});
-  Future<List<DatewiseRtoCountModel>> getDatewiseRtoCount(
-      {DateTime? startDate, DateTime? endDate});
-  Future<TopDeliveredDataModel> getTopDeliveredData(
-      {DateTime? startDate, DateTime? endDate});
-  Future<List<CodDataModel>> getCodData({DateTime? startDate, DateTime? endDate});
-  Future<OrderRevenueModel> getOrderRevenue(
-      {DateTime? startDate, DateTime? endDate});
+  Future<List<DatewiseNdrCountModel>> getDatewiseNdrCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<TopRtoDataModel> getTopRtoData({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<List<DatewiseRtoCountModel>> getDatewiseRtoCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<TopDeliveredDataModel> getTopDeliveredData({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<List<CodDataModel>> getCodData({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<OrderRevenueModel> getOrderRevenue({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<RemittanceOverviewModel> getRemittanceOverview();
+  Future<List<BusinessOverviewModel>> getBusinessOverview({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<List<StateStatusCountModel>> getMapOrders({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<List<ZoneCountModel>> getZoneDistribution({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
 }
 
 class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
@@ -47,8 +81,10 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   }
 
   @override
-  Future<TodayMetricsModel> getTodayMetrics(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<TodayMetricsModel> getTodayMetrics({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     String path = 'v1/dashboard/today_metrics';
     if (startDate != null && endDate != null) {
       path +=
@@ -59,8 +95,10 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   }
 
   @override
-  Future<OrderStatusSummaryModel> getOrderStatusSummary(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<OrderStatusSummaryModel> getOrderStatusSummary({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     String query = "";
     if (startDate != null && endDate != null) {
       query =
@@ -74,8 +112,10 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   }
 
   @override
-  Future<NdrStatusSummaryModel> getNdrStatusSummary(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<NdrStatusSummaryModel> getNdrStatusSummary({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     String query = "";
     if (startDate != null && endDate != null) {
       query =
@@ -89,19 +129,21 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   }
 
   @override
-  Future<CarrierPickupSummaryListModel> getCarrierPickupData(String day,
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<CarrierPickupSummaryListModel> getCarrierPickupData(String day) async {
     String path = "/v1/dashboard/carrier-pickup-data?date=$day";
-    if (startDate != null && endDate != null) {
-      path +=
-          "&startDate=${_formatDate(startDate, true)}&endDate=${_formatDate(endDate, false)}";
-    }
+    // if (startDate != null && endDate != null) {
+    //   path +=
+    //       "&startDate=${_formatDate(startDate, true)}&endDate=${_formatDate(endDate, false)}";
+    // }
     final response = await _dio.get(path);
     return CarrierPickupSummaryListModel.fromJson(response.data);
   }
 
   @override
-  Future<NdrDataModel> getNdrData({DateTime? startDate, DateTime? endDate}) async {
+  Future<NdrDataModel> getNdrData({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     String query = "";
     if (startDate != null && endDate != null) {
       query =
@@ -112,8 +154,10 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   }
 
   @override
-  Future<List<DatewiseNdrCountModel>> getDatewiseNdrCount(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<List<DatewiseNdrCountModel>> getDatewiseNdrCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     String query = "";
     if (startDate != null && endDate != null) {
       query =
@@ -126,8 +170,10 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   }
 
   @override
-  Future<TopRtoDataModel> getTopRtoData(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<TopRtoDataModel> getTopRtoData({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     String query = "";
     if (startDate != null && endDate != null) {
       query =
@@ -138,8 +184,10 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   }
 
   @override
-  Future<List<DatewiseRtoCountModel>> getDatewiseRtoCount(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<List<DatewiseRtoCountModel>> getDatewiseRtoCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     String query = "";
     if (startDate != null && endDate != null) {
       query =
@@ -152,8 +200,10 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   }
 
   @override
-  Future<TopDeliveredDataModel> getTopDeliveredData(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<TopDeliveredDataModel> getTopDeliveredData({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     String query = "";
     if (startDate != null && endDate != null) {
       query =
@@ -164,20 +214,26 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   }
 
   @override
-  Future<List<CodDataModel>> getCodData(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<List<CodDataModel>> getCodData({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     String query = "";
     if (startDate != null && endDate != null) {
       query =
           "?startDate=${_formatDate(startDate, true)}&endDate=${_formatDate(endDate, false)}";
     }
     final response = await _dio.get("/v1/dashboard/cod_data$query");
-    return (response.data as List).map((e) => CodDataModel.fromJson(e)).toList();
+    return (response.data as List)
+        .map((e) => CodDataModel.fromJson(e))
+        .toList();
   }
 
   @override
-  Future<OrderRevenueModel> getOrderRevenue(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<OrderRevenueModel> getOrderRevenue({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     String query = "";
     if (startDate != null && endDate != null) {
       query =
@@ -185,5 +241,61 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
     }
     final response = await _dio.get("/v1/dashboard/order_revenue$query");
     return OrderRevenueModel.fromJson(response.data);
+  }
+
+  @override
+  Future<RemittanceOverviewModel> getRemittanceOverview() async {
+    final response = await _dio.get("/v1/dashboard/remittance_overview");
+    return RemittanceOverviewResponseModel.fromJson(
+      response.data,
+    ).remittanceDetails;
+  }
+
+  @override
+  Future<List<BusinessOverviewModel>> getBusinessOverview({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    String query = "";
+    if (startDate != null && endDate != null) {
+      query =
+          "?startDate=${_formatDate(startDate, true)}&endDate=${_formatDate(endDate, false)}";
+    }
+    final response = await _dio.get("/v1/dashboard/business_overview$query");
+    return (response.data['countByDate'] as List)
+        .map((e) => BusinessOverviewModel.fromJson(e))
+        .toList();
+  }
+
+  @override
+  Future<List<StateStatusCountModel>> getMapOrders({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    String query = "";
+    if (startDate != null && endDate != null) {
+      query =
+          "?startDate=${_formatDate(startDate, true)}&endDate=${_formatDate(endDate, false)}";
+    }
+    final response = await _dio.get("/v1/dashboard/map_orders$query");
+    return (response.data['countByState'] as List)
+        .map((e) => StateStatusCountModel.fromJson(e))
+        .toList();
+  }
+
+  @override
+  Future<List<ZoneCountModel>> getZoneDistribution({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    String query = "";
+    if (startDate != null && endDate != null) {
+      query =
+          "?startDate=${_formatDate(startDate, true)}&endDate=${_formatDate(endDate, false)}";
+    }
+    final response = await _dio.get("/v1/dashboard/count_by_zone$query");
+    return (response.data as List)
+        .map((e) => ZoneCountModel.fromJson(e))
+        .toList();
   }
 }

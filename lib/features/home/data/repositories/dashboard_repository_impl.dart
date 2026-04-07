@@ -9,6 +9,8 @@ import '../../domain/entities/datewise_rto_count.dart';
 import '../../domain/entities/top_delivered_data.dart';
 import '../../domain/entities/cod_data.dart';
 import '../../domain/entities/order_revenue.dart';
+import '../../domain/entities/remittance_overview.dart';
+import '../../domain/entities/business_entities.dart';
 import '../../domain/repositories/dashboard_repository.dart';
 import '../datasources/dashboard_remote_datasource.dart';
 
@@ -18,78 +20,153 @@ class DashboardRepositoryImpl implements DashboardRepository {
   DashboardRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<TodayMetrics> getTodayMetrics(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<TodayMetrics> getTodayMetrics({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     return await remoteDataSource.getTodayMetrics(
-        startDate: startDate, endDate: endDate);
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 
   @override
-  Future<OrderStatusSummary> getOrderStatusCount(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<OrderStatusSummary> getOrderStatusCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     return await remoteDataSource.getOrderStatusSummary(
-        startDate: startDate, endDate: endDate);
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 
   @override
-  Future<NdrStatusSummary> getNdrStatusCount(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<NdrStatusSummary> getNdrStatusCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     return await remoteDataSource.getNdrStatusSummary(
-        startDate: startDate, endDate: endDate);
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 
   @override
-  Future<CarrierPickupSummaryList> getCarrierPickupData(String day,
-      {DateTime? startDate, DateTime? endDate}) async {
-    return await remoteDataSource.getCarrierPickupData(day,
-        startDate: startDate, endDate: endDate);
+  Future<CarrierPickupSummaryList> getCarrierPickupData(
+    String day) async {
+    return await remoteDataSource.getCarrierPickupData(day);
   }
 
   @override
   Future<NdrData> getNdrData({DateTime? startDate, DateTime? endDate}) async {
     return await remoteDataSource.getNdrData(
-        startDate: startDate, endDate: endDate);
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 
   @override
-  Future<List<DatewiseNdrCount>> getDatewiseNdrCount(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<List<DatewiseNdrCount>> getDatewiseNdrCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     return await remoteDataSource.getDatewiseNdrCount(
-        startDate: startDate, endDate: endDate);
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 
   @override
-  Future<TopRtoData> getTopRtoData(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<TopRtoData> getTopRtoData({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     return await remoteDataSource.getTopRtoData(
-        startDate: startDate, endDate: endDate);
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 
   @override
-  Future<List<DatewiseRtoCount>> getDatewiseRtoCount(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<List<DatewiseRtoCount>> getDatewiseRtoCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     return await remoteDataSource.getDatewiseRtoCount(
-        startDate: startDate, endDate: endDate);
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 
   @override
-  Future<TopDeliveredData> getTopDeliveredData(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<TopDeliveredData> getTopDeliveredData({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     return await remoteDataSource.getTopDeliveredData(
-        startDate: startDate, endDate: endDate);
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 
   @override
-  Future<List<CodData>> getCodData(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<List<CodData>> getCodData({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     return await remoteDataSource.getCodData(
-        startDate: startDate, endDate: endDate);
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 
   @override
-  Future<OrderRevenue> getOrderRevenue(
-      {DateTime? startDate, DateTime? endDate}) async {
+  Future<OrderRevenue> getOrderRevenue({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     return await remoteDataSource.getOrderRevenue(
-        startDate: startDate, endDate: endDate);
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  @override
+  Future<RemittanceOverview> getRemittanceOverview() async {
+    return await remoteDataSource.getRemittanceOverview();
+  }
+
+  @override
+  Future<List<BusinessOverviewCount>> getBusinessOverview({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    return await remoteDataSource.getBusinessOverview(
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  @override
+  Future<List<StateStatusCount>> getMapOrders({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    return await remoteDataSource.getMapOrders(
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  @override
+  Future<List<ZonePercentageCount>> getZoneDistribution({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    return await remoteDataSource.getZoneDistribution(
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 }

@@ -11,3 +11,11 @@ class MultiLinePoint {
 
   MultiLinePoint(this.label, this.values);
 }
+
+class MultiRingChartItem {
+  final double value;
+  final String label;
+  final String percentage;
+
+  MultiRingChartItem(this.value, this.label, this.percentage);
+}

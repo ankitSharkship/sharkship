@@ -18,7 +18,7 @@ class RtoStatsCharts extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final topRtoState = ref.watch(topRtoDataProvider);
-    final datewiseRtoState = ref.watch(datewiseRtoCountProvider);
+    final datewiseRtoState = ref.watch(datewiseRtoProvider);
 
     return Column(
       children: [

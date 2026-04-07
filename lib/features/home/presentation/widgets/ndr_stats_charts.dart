@@ -15,7 +15,7 @@ class NDRStatsCharts extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ndrDataState = ref.watch(ndrDataProvider);
-    final datewiseNdrState = ref.watch(datewiseNdrCountProvider);
+    final datewiseNdrState = ref.watch(datewiseNdrProvider);
 
     return Column(
       children: [

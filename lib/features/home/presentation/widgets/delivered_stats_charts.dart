@@ -8,6 +8,7 @@ import 'package:sharkship/core/charts/models/chart_point.dart';
 import 'package:sharkship/core/charts/pie/app_pie_chart.dart';
 import 'package:sharkship/core/charts/widgets/base_chart_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
+import 'package:sharkship/shared/widgets/loader.dart';
 
 import '../state/dashboard_notifier.dart';
 
@@ -16,12 +17,12 @@ class DeliveredStatsCharts extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final topDeliveredState = ref.watch(topDeliveredDataProvider);
-    final codDataState = ref.watch(codDataProvider);
+    final deliveredData = ref.watch(topDeliveredDataProvider);
+    final codDataState = ref.watch(codTrendProvider);
 
     return Column(
       children: [
-        topDeliveredState.when(
+        deliveredData.when(
           loading: () => const Column(
             children: [
               BaseChartCard(

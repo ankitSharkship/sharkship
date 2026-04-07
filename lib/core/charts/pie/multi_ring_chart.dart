@@ -4,21 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:sharkship/core/charts/models/chart_point.dart';
 
 class MultiRingChart extends StatelessWidget {
-  final List<ChartPoint> data;
+  final List<MultiRingChartItem> data;
 
   const MultiRingChart({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
+    if (data.isEmpty) return const SizedBox.shrink();
+    
     return CustomPaint(
       painter: _MultiRingPainter(data),
     );
   }
 }
 
-
 class _MultiRingPainter extends CustomPainter {
-  final List<ChartPoint> data;
+  final List<MultiRingChartItem> data;
 
   _MultiRingPainter(this.data);
 
@@ -26,10 +27,14 @@ class _MultiRingPainter extends CustomPainter {
     Color(0xFF7FA9D6), // light blue
     Color(0xFF2C46A6), // dark blue
     Color(0xFF2F66D8), // bright blue
+    Colors.orange,
+    Colors.green,
   ];
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (data.isEmpty) return;
+    
     final center = size.center(Offset.zero);
     final double baseRadius = size.width / 2;
 
@@ -37,9 +42,11 @@ class _MultiRingPainter extends CustomPainter {
     final double gap = 10;
 
     final maxValue = data.map((e) => e.value).reduce(max);
+    if (maxValue == 0) return;
 
     for (int i = 0; i < data.length; i++) {
       final radius = baseRadius - (i * (strokeWidth + gap));
+      if (radius <= 0) break;
 
       final rect = Rect.fromCircle(center: center, radius: radius);
 
@@ -69,7 +76,7 @@ class _MultiRingPainter extends CustomPainter {
         valuePaint,
       );
 
-      // draw value text near arc end
+      // draw percentage text near arc end
       final angle = -pi / 2 + sweepAngle;
       final textOffset = Offset(
         center.dx + (radius) * cos(angle),
@@ -78,10 +85,11 @@ class _MultiRingPainter extends CustomPainter {
 
       final textPainter = TextPainter(
         text: TextSpan(
-          text: data[i].value.toStringAsFixed(2),
+          text: '${data[i].percentage}%',
           style: const TextStyle(
             fontSize: 10,
-            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
           ),
         ),
         textDirection: TextDirection.ltr,

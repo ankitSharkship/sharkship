@@ -10,7 +10,7 @@ class DioClient {
   factory DioClient.create(AuthService authService) {
     final dio = Dio(
       BaseOptions(
-        baseUrl: "https://api.sharkship.in/",
+        baseUrl: "http://192.168.1.66:3000/",
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
       ),

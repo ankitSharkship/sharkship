@@ -9,9 +9,9 @@ class ShipmentGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final shipmentStatusAsync = ref.watch(orderStatusProvider);
+    final statusState = ref.watch(orderStatusProvider);
 
-    return shipmentStatusAsync.when(
+    return statusState.when(
       loading: () => const ThreeDotsLoader(),
       error: (err, stack) => Center(child: Text('Error: $err')),
       data: (summary) {

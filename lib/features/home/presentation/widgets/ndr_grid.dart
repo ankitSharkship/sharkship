@@ -9,9 +9,9 @@ class NDRGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ndrStatusAsync = ref.watch(ndrStatusProvider);
+    final statusState = ref.watch(ndrStatusProvider);
 
-    return ndrStatusAsync.when(
+    return statusState.when(
       loading: () => const ThreeDotsLoader(),
       error: (err, stack) => Center(child: Text('Error: $err')),
       data: (summary) {

@@ -9,23 +9,53 @@ import '../entities/datewise_rto_count.dart';
 import '../entities/top_delivered_data.dart';
 import '../entities/cod_data.dart';
 import '../entities/order_revenue.dart';
+import '../entities/remittance_overview.dart';
+import '../entities/business_entities.dart';
 
 abstract class DashboardRepository {
-  Future<TodayMetrics> getTodayMetrics({DateTime? startDate, DateTime? endDate});
-  Future<OrderStatusSummary> getOrderStatusCount(
-      {DateTime? startDate, DateTime? endDate});
-  Future<NdrStatusSummary> getNdrStatusCount(
-      {DateTime? startDate, DateTime? endDate});
-  Future<CarrierPickupSummaryList> getCarrierPickupData(String day,
-      {DateTime? startDate, DateTime? endDate});
+  Future<TodayMetrics> getTodayMetrics({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<OrderStatusSummary> getOrderStatusCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<NdrStatusSummary> getNdrStatusCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<CarrierPickupSummaryList> getCarrierPickupData(String day);
   Future<NdrData> getNdrData({DateTime? startDate, DateTime? endDate});
-  Future<List<DatewiseNdrCount>> getDatewiseNdrCount(
-      {DateTime? startDate, DateTime? endDate});
+  Future<List<DatewiseNdrCount>> getDatewiseNdrCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
   Future<TopRtoData> getTopRtoData({DateTime? startDate, DateTime? endDate});
-  Future<List<DatewiseRtoCount>> getDatewiseRtoCount(
-      {DateTime? startDate, DateTime? endDate});
-  Future<TopDeliveredData> getTopDeliveredData(
-      {DateTime? startDate, DateTime? endDate});
+  Future<List<DatewiseRtoCount>> getDatewiseRtoCount({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<TopDeliveredData> getTopDeliveredData({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
   Future<List<CodData>> getCodData({DateTime? startDate, DateTime? endDate});
-  Future<OrderRevenue> getOrderRevenue({DateTime? startDate, DateTime? endDate});
+  Future<OrderRevenue> getOrderRevenue({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<RemittanceOverview> getRemittanceOverview();
+  Future<List<BusinessOverviewCount>> getBusinessOverview({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<List<StateStatusCount>> getMapOrders({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
+  Future<List<ZonePercentageCount>> getZoneDistribution({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
 }

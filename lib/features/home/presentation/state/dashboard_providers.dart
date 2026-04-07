@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sharkship/features/home/domain/entities/pickups_entities/carrier_pickup_summary_list.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sharkship/core/providers/app_providers.dart';
 import 'package:sharkship/features/home/domain/usecases/get_carrier_pickup_data_usecase.dart';
-import 'package:sharkship/features/home/domain/usecases/get_order_status_count_usecase.dart';
+import 'package:sharkship/features/home/domain/usecases/get_today_metrics_usecase.dart';
 import 'package:sharkship/features/home/domain/usecases/get_ndr_data_usecase.dart';
 import 'package:sharkship/features/home/domain/usecases/get_datewise_ndr_count_usecase.dart';
 import 'package:sharkship/features/home/domain/usecases/get_top_rto_data_usecase.dart';
@@ -10,106 +9,84 @@ import 'package:sharkship/features/home/domain/usecases/get_datewise_rto_count_u
 import 'package:sharkship/features/home/domain/usecases/get_top_delivered_data_usecase.dart';
 import 'package:sharkship/features/home/domain/usecases/get_cod_data_usecase.dart';
 import 'package:sharkship/features/home/domain/usecases/get_order_revenue_usecase.dart';
-import '../../../../core/providers/app_providers.dart';
+import 'package:sharkship/features/home/domain/usecases/get_remittance_overview_usecase.dart';
+import 'package:sharkship/features/home/domain/usecases/business_overview_usecases.dart';
+import 'package:sharkship/features/home/domain/usecases/get_ndr_status_count_usecase.dart';
+import 'package:sharkship/features/home/domain/usecases/get_order_status_count_usecase.dart';
 import '../../data/datasources/dashboard_remote_datasource.dart';
 import '../../data/repositories/dashboard_repository_impl.dart';
 import '../../domain/repositories/dashboard_repository.dart';
-import '../../domain/usecases/get_today_metrics_usecase.dart';
-import '../../domain/usecases/get_ndr_status_count_usecase.dart';
 
-part 'dashboard_providers.g.dart';
+final dashboardRemoteDataSourceProvider = Provider<DashboardRemoteDataSource>((ref) {
+  return DashboardRemoteDataSourceImpl(ref.watch(dioClientProvider).dio);
+});
 
-@riverpod
-DashboardRemoteDataSource dashboardRemoteDataSource(Ref ref) {
-  final dio = ref.watch(dioClientProvider).dio;
-  return DashboardRemoteDataSourceImpl(dio);
-}
-
-@riverpod
-DashboardRepository dashboardRepository(Ref ref) {
+final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
   return DashboardRepositoryImpl(
     remoteDataSource: ref.watch(dashboardRemoteDataSourceProvider),
   );
-}
+});
 
-@riverpod
-class DashboardDate extends _$DashboardDate {
-  @override
-  DateTimeRange build() {
-    final now = DateTime.now();
-    return DateTimeRange(
-      start: now.subtract(const Duration(days: 7)),
-      end: now,
-    );
-  }
+final getTodayMetricsUseCaseProvider = Provider<GetTodayMetricsUseCase>((ref) {
+  return GetTodayMetricsUseCase(ref.watch(dashboardRepositoryProvider));
+});
 
-  void updateRange(DateTimeRange range) {
-    state = range;
-  }
-}
+final getOrderStatusSummaryUseCaseProvider =
+    Provider<GetOrderStatusCountUseCase>((ref) {
+  return GetOrderStatusCountUseCase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetTodayMetricsUseCase getTodayMetricsUseCase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetTodayMetricsUseCase(repository);
-}
+final getNdrStatusSummaryUseCaseProvider =
+    Provider<GetNdrStatusCountUsecase>((ref) {
+  return GetNdrStatusCountUsecase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetOrderStatusCountUseCase getOrderStatusCountUseCase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetOrderStatusCountUseCase(repository);
-}
+final getCarrierPickupDataUseCaseProvider =
+    Provider<GetCarrierPickupDataUsecase>((ref) {
+  return GetCarrierPickupDataUsecase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetNdrStatusCountUsecase getNdrStatusCountUseCase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetNdrStatusCountUsecase(repository);
-}
+final getNdrDataUseCaseProvider = Provider<GetNdrDataUseCase>((ref) {
+  return GetNdrDataUseCase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetCarrierPickupDataUsecase getCarrierPickupDataUsecase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetCarrierPickupDataUsecase(repository);
-}
+final getDatewiseNdrCountUseCaseProvider = Provider<GetDatewiseNdrCountUseCase>((ref) {
+  return GetDatewiseNdrCountUseCase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetNdrDataUseCase getNdrDataUseCase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetNdrDataUseCase(repository);
-}
+final getTopRtoDataUseCaseProvider = Provider<GetTopRtoDataUseCase>((ref) {
+  return GetTopRtoDataUseCase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetDatewiseNdrCountUseCase getDatewiseNdrCountUseCase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetDatewiseNdrCountUseCase(repository);
-}
+final getDatewiseRtoCountUseCaseProvider = Provider<GetDatewiseRtoCountUseCase>((ref) {
+  return GetDatewiseRtoCountUseCase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetTopRtoDataUseCase getTopRtoDataUseCase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetTopRtoDataUseCase(repository);
-}
+final getTopDeliveredDataUseCaseProvider = Provider<GetTopDeliveredDataUseCase>((ref) {
+  return GetTopDeliveredDataUseCase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetDatewiseRtoCountUseCase getDatewiseRtoCountUseCase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetDatewiseRtoCountUseCase(repository);
-}
+final getCodDataUseCaseProvider = Provider<GetCodDataUseCase>((ref) {
+  return GetCodDataUseCase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetTopDeliveredDataUseCase getTopDeliveredDataUseCase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetTopDeliveredDataUseCase(repository);
-}
+final getOrderRevenueUseCaseProvider = Provider<GetOrderRevenueUseCase>((ref) {
+  return GetOrderRevenueUseCase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetCodDataUseCase getCodDataUseCase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetCodDataUseCase(repository);
-}
+final getRemittanceOverviewUseCaseProvider =
+    Provider<GetRemittanceOverviewUseCase>((ref) {
+  return GetRemittanceOverviewUseCase(ref.watch(dashboardRepositoryProvider));
+});
 
-@riverpod
-GetOrderRevenueUseCase getOrderRevenueUseCase(Ref ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return GetOrderRevenueUseCase(repository);
-}
+final getBusinessOverviewUseCaseProvider = Provider<GetBusinessOverviewUseCase>((ref) {
+  return GetBusinessOverviewUseCase(ref.watch(dashboardRepositoryProvider));
+});
+
+final getMapOrdersUseCaseProvider = Provider<GetMapOrdersUseCase>((ref) {
+  return GetMapOrdersUseCase(ref.watch(dashboardRepositoryProvider));
+});
+
+final getZoneDistributionUseCaseProvider = Provider<GetZoneDistributionUseCase>((ref) {
+  return GetZoneDistributionUseCase(ref.watch(dashboardRepositoryProvider));
+});
