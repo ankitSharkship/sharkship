@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'orders_tab_provider.dart';
+part of 'create_orders_tab_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,27 +9,28 @@ part of 'orders_tab_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(OrdersTab)
-const ordersTabProvider = OrdersTabProvider._();
+@ProviderFor(CreateOrdersTab)
+const createOrdersTabProvider = CreateOrdersTabProvider._();
 
-final class OrdersTabProvider extends $NotifierProvider<OrdersTab, int> {
-  const OrdersTabProvider._()
+final class CreateOrdersTabProvider
+    extends $NotifierProvider<CreateOrdersTab, int> {
+  const CreateOrdersTabProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'ordersTabProvider',
+        name: r'createOrdersTabProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$ordersTabHash();
+  String debugGetCreateSourceHash() => _$createOrdersTabHash();
 
   @$internal
   @override
-  OrdersTab create() => OrdersTab();
+  CreateOrdersTab create() => CreateOrdersTab();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(int value) {
@@ -40,9 +41,9 @@ final class OrdersTabProvider extends $NotifierProvider<OrdersTab, int> {
   }
 }
 
-String _$ordersTabHash() => r'f67c263cf4e333d6d6a212589b506b5d3d3bc366';
+String _$createOrdersTabHash() => r'71f0c10949afe3eb26154bec638d4fc1fbd2848b';
 
-abstract class _$OrdersTab extends $Notifier<int> {
+abstract class _$CreateOrdersTab extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override

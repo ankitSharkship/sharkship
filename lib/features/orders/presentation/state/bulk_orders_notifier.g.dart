@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'orders_tab_provider.dart';
+part of 'bulk_orders_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,53 @@ part of 'orders_tab_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(OrdersTab)
-const ordersTabProvider = OrdersTabProvider._();
+@ProviderFor(BulkOrdersNotifier)
+const bulkOrdersProvider = BulkOrdersNotifierProvider._();
 
-final class OrdersTabProvider extends $NotifierProvider<OrdersTab, int> {
-  const OrdersTabProvider._()
+final class BulkOrdersNotifierProvider
+    extends $NotifierProvider<BulkOrdersNotifier, BulkOrdersState> {
+  const BulkOrdersNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'ordersTabProvider',
+        name: r'bulkOrdersProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$ordersTabHash();
+  String debugGetCreateSourceHash() => _$bulkOrdersNotifierHash();
 
   @$internal
   @override
-  OrdersTab create() => OrdersTab();
+  BulkOrdersNotifier create() => BulkOrdersNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(int value) {
+  Override overrideWithValue(BulkOrdersState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<int>(value),
+      providerOverride: $SyncValueProvider<BulkOrdersState>(value),
     );
   }
 }
 
-String _$ordersTabHash() => r'f67c263cf4e333d6d6a212589b506b5d3d3bc366';
+String _$bulkOrdersNotifierHash() =>
+    r'f2f46a6f9d2b8c1711ce592d12c6afa7333ba724';
 
-abstract class _$OrdersTab extends $Notifier<int> {
-  int build();
+abstract class _$BulkOrdersNotifier extends $Notifier<BulkOrdersState> {
+  BulkOrdersState build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<int, int>;
+    final ref = this.ref as $Ref<BulkOrdersState, BulkOrdersState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
+              AnyNotifier<BulkOrdersState, BulkOrdersState>,
+              BulkOrdersState,
               Object?,
               Object?
             >;

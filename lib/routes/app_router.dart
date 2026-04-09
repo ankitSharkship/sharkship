@@ -3,6 +3,7 @@ import 'package:sharkship/features/kyc/presentation/screens/kyc_screen.dart';
 import 'package:sharkship/features/login/presentation/views/get_started.dart';
 import 'package:sharkship/features/auth/presentation/screens/login_screen.dart';
 import 'package:sharkship/features/nav/presentation/screens/main_screen.dart';
+import 'package:sharkship/features/orders/presentation/screens/create_orders.dart';
 import 'package:sharkship/splash.dart';
 part 'app_routes.dart';
 
@@ -26,5 +27,9 @@ final appRouter = GoRouter(
     ),
     GoRoute(path: Routes.HOME, builder: (context, state) => const MainScreen()),
     GoRoute(path: Routes.KYC, builder: (context, state) => const KycScreen()),
+    GoRoute(
+      path: Routes.CREATE_ORDER,
+      builder: (context, state) => const CreateOrders(),
+    ),
   ],
 );

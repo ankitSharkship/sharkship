@@ -9,6 +9,7 @@ abstract class Routes {
   static const GET_STARTED = _Paths.GET_STARTED;
   static const SIGNIN = _Paths.SIGIN;
   static const KYC = _Paths.KYC;
+  static const CREATE_ORDER = _Paths.CREATE_ORDER;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const GET_STARTED = "/get-started";
   static const SIGIN = '/signin';
   static const KYC = '/kyc';
+  static const CREATE_ORDER = '/create-order';
 }

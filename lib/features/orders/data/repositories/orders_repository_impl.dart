@@ -1,0 +1,50 @@
+import 'dart:io';
+
+import '../../domain/repositories/orders_repository.dart';
+import '../../domain/entities/orders_response_entity.dart';
+import '../../domain/entities/order_address_entity.dart';
+import '../../domain/entities/courier_rate_entity.dart';
+import '../datasources/orders_datasource.dart';
+
+class OrdersRepositoryImpl implements OrdersRepository {
+  final OrdersDataSource dataSource;
+
+  OrdersRepositoryImpl(this.dataSource);
+
+  @override
+  Future<OrdersResponseEntity> getOrders(OrderListParams params) async {
+    return await dataSource.getOrders(params);
+  }
+
+  @override
+  Future<List<OrderAddressEntity>> getPickupAddresses() async {
+    return await dataSource.getPickupAddresses();
+  }
+
+  @override
+  Future<ShippingRateResponseEntity> getShippingRates(
+    ShippingRateParams params,
+  ) async {
+    return await dataSource.getShippingRates(params);
+  }
+
+  @override
+  Future<bool> createOrder(CreateOrderParams params) async {
+    return await dataSource.createOrder(params);
+  }
+
+  @override
+  Future<void> downloadTemplate() async {
+    return await dataSource.downloadTemplate();
+  }
+
+  @override
+  Future<bool> handleBulkUpload(File file) async {
+    return await dataSource.handleBulkUpload(file);
+  }
+
+  @override
+  Future<Map<String, dynamic>> deleteOrders(Map<String, dynamic> orderIds) async {
+    return await dataSource.deleteOrders(orderIds);
+  }
+}
