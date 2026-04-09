@@ -5,6 +5,8 @@ import '../../domain/repositories/orders_repository.dart';
 import '../models/orders_response_model.dart';
 import '../models/order_address_model.dart';
 import '../models/courier_rate_model.dart';
+import '../models/courier_priority_model.dart';
+import '../models/courier_partner_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
 import 'package:excel/excel.dart';
@@ -417,5 +419,17 @@ class OrdersDataSource {
     } catch (e) {
       return {"error": "${e.toString()}"};
     }
+  }
+
+  Future<CourierPriorityModel> getCourierPriority() async {
+    final response = await _dio.get('v1/user/courier-priority');
+    return CourierPriorityModel.fromJson(response.data);
+  }
+
+  Future<List<CourierPartnerModel>> getCourierPartners() async {
+    final response = await _dio.get('v1/user/courierPartner');
+    return (response.data as List)
+        .map((e) => CourierPartnerModel.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }

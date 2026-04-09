@@ -3,6 +3,8 @@ import 'dart:io';
 import '../entities/orders_response_entity.dart';
 import '../entities/order_address_entity.dart';
 import '../entities/courier_rate_entity.dart';
+import '../entities/courier_priority_entity.dart';
+import '../entities/courier_partner_entity.dart';
 
 class OrderListParams {
   final int? skip;
@@ -328,4 +330,6 @@ abstract class OrdersRepository {
   Future<void> downloadTemplate();
   Future<bool> handleBulkUpload(File file);
   Future<Map<String, dynamic>> deleteOrders(Map<String, dynamic> orderIds);
+  Future<CourierPriorityEntity> getCourierPriority();
+  Future<List<CourierPartnerEntity>> getCourierPartners();
 }

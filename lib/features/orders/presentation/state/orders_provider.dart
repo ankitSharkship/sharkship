@@ -10,6 +10,8 @@ import '../../domain/usecases/get_orders_usecase.dart';
 import '../../domain/usecases/get_pickup_addresses_usecase.dart';
 import '../../domain/usecases/get_shipping_rates_usecase.dart';
 import '../../domain/usecases/create_order_usecase.dart';
+import '../../domain/usecases/get_courier_priority_usecase.dart';
+import '../../domain/usecases/get_courier_partners_usecase.dart';
 
 part 'orders_provider.g.dart';
 
@@ -65,4 +67,16 @@ BulkUploadUsecase bulkUploadUsecase(Ref ref) {
 DeleteOrdersUsecase deleteOrdersUseCase(Ref ref) {
   final repository = ref.watch(ordersRepositoryProvider);
   return DeleteOrdersUsecase(repository);
+}
+
+@riverpod
+GetCourierPriorityUseCase getCourierPriorityUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return GetCourierPriorityUseCase(repository);
+}
+
+@riverpod
+GetCourierPartnersUseCase getCourierPartnersUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return GetCourierPartnersUseCase(repository);
 }

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sharkship/features/orders/domain/entities/order_entity.dart';
-import 'package:sharkship/features/orders/domain/repositories/orders_repository.dart';
+import 'package:sharkship/features/orders/presentation/state/courier_settings_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/selected_orders_notifier.dart';
@@ -22,9 +21,12 @@ class OrdersScreen extends ConsumerWidget {
     final selectedTab = ref.watch(ordersTabProvider);
     Future<void> _onRefresh(int tab) async {
       ref.invalidate(ordersProvider(tab));
+      ref.invalidate(courierSettingsProvider);
       // Optionally wait for the provider to complete if you want the spinner to stay
       return ref.read(ordersProvider(tab).future);
     }
+
+    final courierSettings = ref.watch(courierSettingsProvider);
 
     return Scaffold(
       backgroundColor: ColorManager.scaffoldBg,
@@ -140,9 +142,8 @@ class OrdersScreen extends ConsumerWidget {
                         itemCount: data.orders.length,
                         itemBuilder: (context, index) {
                           final order = data.orders[index];
-                          final isSelected = selectedOrders.selectedIds.contains(
-                            order.id.toString(),
-                          );
+                          final isSelected = selectedOrders.selectedIds
+                              .contains(order.id.toString());
                           return OrderCard(
                             order: order,
                             isSelected: isSelected,

@@ -60,7 +60,7 @@ final class SelectedOrdersNotifierProvider
 }
 
 String _$selectedOrdersNotifierHash() =>
-    r'f704cfe18e847e555cab61ad06cc5b51cacef7da';
+    r'74435e1e1dd4993ab80faa3e12d670fe636b8eed';
 
 final class SelectedOrdersNotifierFamily extends $Family
     with

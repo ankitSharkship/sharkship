@@ -4,6 +4,8 @@ import '../../domain/repositories/orders_repository.dart';
 import '../../domain/entities/orders_response_entity.dart';
 import '../../domain/entities/order_address_entity.dart';
 import '../../domain/entities/courier_rate_entity.dart';
+import '../../domain/entities/courier_priority_entity.dart';
+import '../../domain/entities/courier_partner_entity.dart';
 import '../datasources/orders_datasource.dart';
 
 class OrdersRepositoryImpl implements OrdersRepository {
@@ -46,5 +48,15 @@ class OrdersRepositoryImpl implements OrdersRepository {
   @override
   Future<Map<String, dynamic>> deleteOrders(Map<String, dynamic> orderIds) async {
     return await dataSource.deleteOrders(orderIds);
+  }
+
+  @override
+  Future<CourierPriorityEntity> getCourierPriority() async {
+    return await dataSource.getCourierPriority();
+  }
+
+  @override
+  Future<List<CourierPartnerEntity>> getCourierPartners() async {
+    return await dataSource.getCourierPartners();
   }
 }

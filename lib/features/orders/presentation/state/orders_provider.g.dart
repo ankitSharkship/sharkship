@@ -433,3 +433,99 @@ final class DeleteOrdersUseCaseProvider
 
 String _$deleteOrdersUseCaseHash() =>
     r'bf50b5d806ead0cf65faaea13e7265b4a507b207';
+
+@ProviderFor(getCourierPriorityUseCase)
+const getCourierPriorityUseCaseProvider = GetCourierPriorityUseCaseProvider._();
+
+final class GetCourierPriorityUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetCourierPriorityUseCase,
+          GetCourierPriorityUseCase,
+          GetCourierPriorityUseCase
+        >
+    with $Provider<GetCourierPriorityUseCase> {
+  const GetCourierPriorityUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getCourierPriorityUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getCourierPriorityUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetCourierPriorityUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetCourierPriorityUseCase create(Ref ref) {
+    return getCourierPriorityUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetCourierPriorityUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetCourierPriorityUseCase>(value),
+    );
+  }
+}
+
+String _$getCourierPriorityUseCaseHash() =>
+    r'cf9e8b71c705edf91f42b18b46f1f30e4fb7e6b9';
+
+@ProviderFor(getCourierPartnersUseCase)
+const getCourierPartnersUseCaseProvider = GetCourierPartnersUseCaseProvider._();
+
+final class GetCourierPartnersUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetCourierPartnersUseCase,
+          GetCourierPartnersUseCase,
+          GetCourierPartnersUseCase
+        >
+    with $Provider<GetCourierPartnersUseCase> {
+  const GetCourierPartnersUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getCourierPartnersUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getCourierPartnersUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetCourierPartnersUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetCourierPartnersUseCase create(Ref ref) {
+    return getCourierPartnersUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetCourierPartnersUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetCourierPartnersUseCase>(value),
+    );
+  }
+}
+
+String _$getCourierPartnersUseCaseHash() =>
+    r'fe0b6557ff8aca00b0dbc84f4c746c8d093f0896';
