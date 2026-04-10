@@ -24,6 +24,11 @@ class OrdersRepositoryImpl implements OrdersRepository {
   }
 
   @override
+  Future<bool> setDefaultPickupAddress(int id) async {
+    return await dataSource.patchDefaultPickupAddress(id);
+  }
+
+  @override
   Future<ShippingRateResponseEntity> getShippingRates(
     ShippingRateParams params,
   ) async {
@@ -46,13 +51,30 @@ class OrdersRepositoryImpl implements OrdersRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> deleteOrders(Map<String, dynamic> orderIds) async {
+  Future<Map<String, dynamic>> deleteOrders(
+    Map<String, dynamic> orderIds,
+  ) async {
     return await dataSource.deleteOrders(orderIds);
+  }
+
+  @override
+  Future<Map<String, dynamic>> shipOrders(Map<String, dynamic> orderIds) async {
+    return await dataSource.shipOrders(orderIds);
+  }
+
+  @override
+  Future<void> exportOrders(List<int> orderIds) async {
+    return await dataSource.exportOrders(orderIds);
   }
 
   @override
   Future<CourierPriorityEntity> getCourierPriority() async {
     return await dataSource.getCourierPriority();
+  }
+
+  @override
+  Future<bool> updateCourierPriority(Map<String, dynamic> data) async {
+    return await dataSource.putCourierPriority(data);
   }
 
   @override

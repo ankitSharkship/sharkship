@@ -28,9 +28,14 @@ class DashboardDate extends _$DashboardDate {
   @override
   DateTimeRange build() {
     final now = DateTime.now();
+    final endOfDay = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).add(const Duration(days: 1)).subtract(const Duration(milliseconds: 1));
     return DateTimeRange(
       start: now.subtract(const Duration(days: 7)),
-      end: now,
+      end: endOfDay,
     );
   }
 

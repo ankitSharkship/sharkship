@@ -31,6 +31,11 @@ class OrdersDataSource {
         .toList();
   }
 
+  Future<bool> patchDefaultPickupAddress(int id) async {
+    final response = await _dio.patch('v1/address/pickupAddress/default/$id');
+    return response.statusCode == 200 || response.statusCode == 204;
+  }
+
   Future<ShippingRateResponseModel> getShippingRates(
     ShippingRateParams params,
   ) async {
@@ -421,9 +426,29 @@ class OrdersDataSource {
     }
   }
 
+  Future<Map<String, dynamic>> shipOrders(Map<String, dynamic> orderIds) async {
+    try {
+      final response = await _dio.put(
+        'v1/order',
+        data: orderIds,
+        options: Options(
+          headers: {..._dio.options.headers, 'move_to': "PROCESSED"},
+        ),
+      );
+      return response.data;
+    } catch (e) {
+      return {"error": "${e.toString()}"};
+    }
+  }
+
   Future<CourierPriorityModel> getCourierPriority() async {
     final response = await _dio.get('v1/user/courier-priority');
     return CourierPriorityModel.fromJson(response.data);
+  }
+
+  Future<bool> putCourierPriority(Map<String, dynamic> data) async {
+    final response = await _dio.put('v1/user/courier-priority', data: data);
+    return response.statusCode == 200 || response.statusCode == 201;
   }
 
   Future<List<CourierPartnerModel>> getCourierPartners() async {
@@ -431,5 +456,142 @@ class OrdersDataSource {
     return (response.data as List)
         .map((e) => CourierPartnerModel.fromJson(e as Map<String, dynamic>))
         .toList();
+  }
+}
+
+extension OrdersDataSourceExport on OrdersDataSource {
+  Future<void> exportOrders(List<int> orderIds) async {
+    final response = await _dio.post(
+      'v1/order/export',
+      data: {'order_ids': orderIds},
+    );
+    final List<dynamic> orders = response.data as List;
+    await _saveExportedOrdersToExcel(orders);
+  }
+
+  Future<void> _saveExportedOrdersToExcel(List<dynamic> orders) async {
+    try {
+      var excel = Excel.createExcel();
+      Sheet sheetObject = excel['Sheet1'];
+
+      List<String> headers = [
+        "Order ID",
+        "Client Order ID",
+        "Channel Order ID",
+        "Store",
+        "AWB",
+        "Creation Date",
+        "Carrier",
+        "Courier Type",
+        "Channel",
+        "Payment Type",
+        "Price",
+        "Total Price",
+        "Product Name",
+        "Category",
+        "Pickup Lane 1",
+        "Pickup Lane 2",
+        "Pickup City",
+        "Pickup State",
+        "Pickup Pin",
+        "Quantity",
+        "Weight",
+        "Status",
+        "Whatsapp Remark",
+        "Zone",
+        "Customer Name",
+        "Customer Mobile",
+        "Customer Email",
+        "Customer Address 1",
+        "Customer Address 2",
+        "Landmark",
+        "Customer Pin",
+        "Customer City",
+        "Customer State",
+        "Last Event",
+        "Shipping Charge",
+      ];
+
+      // Set headers in Excel
+      sheetObject.appendRow(headers.map((e) => TextCellValue(e)).toList());
+
+      // Add Data Rows
+      for (var order in orders) {
+        if (order is! Map<String, dynamic>) continue;
+
+        sheetObject.appendRow([
+          TextCellValue(order['id']?.toString() ?? ""),
+          TextCellValue(order['client_orderId']?.toString() ?? ""),
+          TextCellValue(order['channel_order_Id']?.toString() ?? ""),
+          TextCellValue(order['channel_store']?.toString() ?? ""),
+          TextCellValue(order['awb']?.toString() ?? ""),
+          TextCellValue(order['creation_Date']?.toString() ?? ""),
+          TextCellValue(order['carrier']?.toString() ?? ""),
+          TextCellValue(order['courier_type']?.toString() ?? ""),
+          TextCellValue(order['channel']?.toString() ?? ""),
+          TextCellValue(order['payment_type']?.toString() ?? ""),
+          DoubleCellValue(
+            double.tryParse(order['price']?.toString() ?? "0") ?? 0,
+          ),
+          DoubleCellValue(
+            double.tryParse(order['total_price']?.toString() ?? "0") ?? 0,
+          ),
+          TextCellValue(order['product_name']?.toString() ?? ""),
+          TextCellValue(order['product_category']?.toString() ?? ""),
+          TextCellValue(order['pickup_address_lane1']?.toString() ?? ""),
+          TextCellValue(order['pickup_address_lane2']?.toString() ?? ""),
+          TextCellValue(order['pickup_city']?.toString() ?? ""),
+          TextCellValue(order['pickup_state']?.toString() ?? ""),
+          TextCellValue(order['pickup_Pin']?.toString() ?? ""),
+          IntCellValue(int.tryParse(order['quantity']?.toString() ?? "0") ?? 0),
+          TextCellValue(order['weight']?.toString() ?? ""),
+          TextCellValue(order['status']?.toString() ?? ""),
+          TextCellValue(order['whatsapp_remark']?.toString() ?? ""),
+          TextCellValue(order['zone']?.toString() ?? ""),
+          TextCellValue(order['customer_name']?.toString() ?? ""),
+          TextCellValue(order['customer_mobile_no']?.toString() ?? ""),
+          TextCellValue(order['customer_email']?.toString() ?? ""),
+          TextCellValue(order['customer_address_lane1']?.toString() ?? ""),
+          TextCellValue(order['customer_address_lane2']?.toString() ?? ""),
+          TextCellValue(order['customer_address_landmark']?.toString() ?? ""),
+          TextCellValue(order['customer_address_Pin']?.toString() ?? ""),
+          TextCellValue(order['customer_address_city']?.toString() ?? ""),
+          TextCellValue(order['customer_address_state']?.toString() ?? ""),
+          TextCellValue(order['last_event_at']?.toString() ?? ""),
+          TextCellValue(order['shipping_charge']?.toString() ?? ""),
+        ]);
+      }
+
+      // Save File
+      Directory? directory;
+      if (Platform.isAndroid) {
+        directory = Directory('/storage/emulated/0/Download');
+        if (!await directory.exists()) {
+          directory = await getExternalStorageDirectory();
+        }
+      } else if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = await getDownloadsDirectory();
+      }
+
+      final String timestamp = DateTime.now().toIso8601String().replaceAll(
+        ':',
+        '-',
+      );
+      final String filePath =
+          '${directory!.path}/Exported_orders_$timestamp.xlsx';
+
+      final List<int>? fileBytes = excel.save();
+      if (fileBytes != null) {
+        File(filePath)
+          ..createSync(recursive: true)
+          ..writeAsBytesSync(fileBytes);
+        print("Exported file saved to: $filePath");
+        await OpenFile.open(filePath);
+      }
+    } catch (e) {
+      print("Error saving exported orders to Excel: $e");
+    }
   }
 }

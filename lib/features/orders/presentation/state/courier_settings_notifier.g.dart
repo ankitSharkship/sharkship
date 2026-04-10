@@ -35,7 +35,7 @@ final class CourierSettingsNotifierProvider
 }
 
 String _$courierSettingsNotifierHash() =>
-    r'd9f06570c473eebe93f9a785f6164c86bd4988f7';
+    r'bd82dab469b6b1b6f046c96f4331367a2d6f6c91';
 
 abstract class _$CourierSettingsNotifier
     extends $AsyncNotifier<CourierSettingsState> {

@@ -434,6 +434,53 @@ final class DeleteOrdersUseCaseProvider
 String _$deleteOrdersUseCaseHash() =>
     r'bf50b5d806ead0cf65faaea13e7265b4a507b207';
 
+@ProviderFor(shipOrdersUsecase)
+const shipOrdersUsecaseProvider = ShipOrdersUsecaseProvider._();
+
+final class ShipOrdersUsecaseProvider
+    extends
+        $FunctionalProvider<
+          ShipOrdersUsecase,
+          ShipOrdersUsecase,
+          ShipOrdersUsecase
+        >
+    with $Provider<ShipOrdersUsecase> {
+  const ShipOrdersUsecaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'shipOrdersUsecaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$shipOrdersUsecaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<ShipOrdersUsecase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ShipOrdersUsecase create(Ref ref) {
+    return shipOrdersUsecase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ShipOrdersUsecase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ShipOrdersUsecase>(value),
+    );
+  }
+}
+
+String _$shipOrdersUsecaseHash() => r'd81493faf26b2537b6470a1a22b65a3b599472f9';
+
 @ProviderFor(getCourierPriorityUseCase)
 const getCourierPriorityUseCaseProvider = GetCourierPriorityUseCaseProvider._();
 
@@ -529,3 +576,151 @@ final class GetCourierPartnersUseCaseProvider
 
 String _$getCourierPartnersUseCaseHash() =>
     r'fe0b6557ff8aca00b0dbc84f4c746c8d093f0896';
+
+@ProviderFor(updateCourierPriorityUseCase)
+const updateCourierPriorityUseCaseProvider =
+    UpdateCourierPriorityUseCaseProvider._();
+
+final class UpdateCourierPriorityUseCaseProvider
+    extends
+        $FunctionalProvider<
+          UpdateCourierPriorityUseCase,
+          UpdateCourierPriorityUseCase,
+          UpdateCourierPriorityUseCase
+        >
+    with $Provider<UpdateCourierPriorityUseCase> {
+  const UpdateCourierPriorityUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'updateCourierPriorityUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$updateCourierPriorityUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<UpdateCourierPriorityUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  UpdateCourierPriorityUseCase create(Ref ref) {
+    return updateCourierPriorityUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(UpdateCourierPriorityUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<UpdateCourierPriorityUseCase>(value),
+    );
+  }
+}
+
+String _$updateCourierPriorityUseCaseHash() =>
+    r'4be2218a354b7b68bfb292c5d6c55583262584ad';
+
+@ProviderFor(setDefaultPickupAddressUseCase)
+const setDefaultPickupAddressUseCaseProvider =
+    SetDefaultPickupAddressUseCaseProvider._();
+
+final class SetDefaultPickupAddressUseCaseProvider
+    extends
+        $FunctionalProvider<
+          SetDefaultPickupAddressUseCase,
+          SetDefaultPickupAddressUseCase,
+          SetDefaultPickupAddressUseCase
+        >
+    with $Provider<SetDefaultPickupAddressUseCase> {
+  const SetDefaultPickupAddressUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'setDefaultPickupAddressUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$setDefaultPickupAddressUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<SetDefaultPickupAddressUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  SetDefaultPickupAddressUseCase create(Ref ref) {
+    return setDefaultPickupAddressUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SetDefaultPickupAddressUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SetDefaultPickupAddressUseCase>(
+        value,
+      ),
+    );
+  }
+}
+
+String _$setDefaultPickupAddressUseCaseHash() =>
+    r'c0c8b32c1f9495c263b06aa7d1d981f201ab3ec0';
+
+@ProviderFor(exportOrdersUseCase)
+const exportOrdersUseCaseProvider = ExportOrdersUseCaseProvider._();
+
+final class ExportOrdersUseCaseProvider
+    extends
+        $FunctionalProvider<
+          ExportOrdersUseCase,
+          ExportOrdersUseCase,
+          ExportOrdersUseCase
+        >
+    with $Provider<ExportOrdersUseCase> {
+  const ExportOrdersUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'exportOrdersUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$exportOrdersUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<ExportOrdersUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ExportOrdersUseCase create(Ref ref) {
+    return exportOrdersUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ExportOrdersUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ExportOrdersUseCase>(value),
+    );
+  }
+}
+
+String _$exportOrdersUseCaseHash() =>
+    r'f2b9956d2b2060115533879874797672ad325c19';

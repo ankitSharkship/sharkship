@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharkship/features/orders/domain/usecases/bulk_upload_usecase.dart';
 import 'package:sharkship/features/orders/domain/usecases/delete_orders_usecase.dart';
 import 'package:sharkship/features/orders/domain/usecases/download_template_usecase.dart';
+import 'package:sharkship/features/orders/domain/usecases/ship_order_usecase.dart';
 import '../../../../core/providers/app_providers.dart';
 import '../../data/datasources/orders_datasource.dart';
 import '../../domain/repositories/orders_repository.dart';
@@ -12,6 +13,9 @@ import '../../domain/usecases/get_shipping_rates_usecase.dart';
 import '../../domain/usecases/create_order_usecase.dart';
 import '../../domain/usecases/get_courier_priority_usecase.dart';
 import '../../domain/usecases/get_courier_partners_usecase.dart';
+import '../../domain/usecases/update_courier_priority_usecase.dart';
+import '../../domain/usecases/set_default_pickup_address_usecase.dart';
+import '../../domain/usecases/export_orders_usecase.dart';
 
 part 'orders_provider.g.dart';
 
@@ -70,6 +74,12 @@ DeleteOrdersUsecase deleteOrdersUseCase(Ref ref) {
 }
 
 @riverpod
+ShipOrdersUsecase shipOrdersUsecase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return ShipOrdersUsecase(repository);
+}
+
+@riverpod
 GetCourierPriorityUseCase getCourierPriorityUseCase(Ref ref) {
   final repository = ref.watch(ordersRepositoryProvider);
   return GetCourierPriorityUseCase(repository);
@@ -79,4 +89,22 @@ GetCourierPriorityUseCase getCourierPriorityUseCase(Ref ref) {
 GetCourierPartnersUseCase getCourierPartnersUseCase(Ref ref) {
   final repository = ref.watch(ordersRepositoryProvider);
   return GetCourierPartnersUseCase(repository);
+}
+
+@riverpod
+UpdateCourierPriorityUseCase updateCourierPriorityUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return UpdateCourierPriorityUseCase(repository);
+}
+
+@riverpod
+SetDefaultPickupAddressUseCase setDefaultPickupAddressUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return SetDefaultPickupAddressUseCase(repository);
+}
+
+@riverpod
+ExportOrdersUseCase exportOrdersUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return ExportOrdersUseCase(repository);
 }

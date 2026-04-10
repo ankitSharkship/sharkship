@@ -74,8 +74,44 @@ class SelectedOrdersNotifier extends _$SelectedOrdersNotifier {
       await ref.read(deleteOrdersUseCaseProvider).execute({
         "order_ids": state.selectedIds.toList(),
       });
-      await Future.delayed(const Duration(seconds: 2));
-      // Clear selection after success
+      state = state.copyWith(selectedIds: {}, isLoading: false, message: null);
+      print(state.selectedIds);
+      return true;
+    } catch (e) {
+      state = state.copyWith(isLoading: false);
+      rethrow; // don't swallow errors silently
+    }
+  }
+
+  Future<bool> shipSelected() async {
+    if (state.selectedIds.isEmpty) return false;
+    final message = state.selectedIds.length > 1
+        ? "Shipping orders..."
+        : "Shipping order...";
+    state = state.copyWith(isLoading: true, message: message);
+    try {
+      final selectedIds = state.selectedIds.map((e) => int.parse(e));
+      await ref.read(shipOrdersUsecaseProvider).execute({
+        "order_ids": selectedIds.toList(),
+      });
+      state = state.copyWith(selectedIds: {}, isLoading: false, message: null);
+      print(state.selectedIds);
+      return true;
+    } catch (e) {
+      state = state.copyWith(isLoading: false);
+      rethrow; // don't swallow errors silently
+    }
+  }
+
+  Future<bool> exportOrders() async {
+    if (state.selectedIds.isEmpty) return false;
+    final message = state.selectedIds.length > 1
+        ? "Exporting orders..."
+        : "Exporting order...";
+    state = state.copyWith(isLoading: true, message: message);
+    try {
+      final selectedIds = state.selectedIds.map((e) => int.parse(e));
+      await ref.read(exportOrdersUseCaseProvider).execute(selectedIds.toList());
       state = state.copyWith(selectedIds: {}, isLoading: false, message: null);
       print(state.selectedIds);
       return true;

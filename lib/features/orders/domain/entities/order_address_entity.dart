@@ -8,6 +8,7 @@ class OrderAddressEntity {
   final int? pin;
   final String? phoneNo;
   final String? name;
+  final bool isDefault;
 
   OrderAddressEntity({
     this.id,
@@ -19,5 +20,6 @@ class OrderAddressEntity {
     this.pin,
     this.phoneNo,
     this.name,
+    this.isDefault = false,
   });
 }

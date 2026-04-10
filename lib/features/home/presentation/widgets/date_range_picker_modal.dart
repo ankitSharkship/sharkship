@@ -9,7 +9,8 @@ class DateRangePickerModal extends ConsumerStatefulWidget {
   const DateRangePickerModal({super.key});
 
   @override
-  ConsumerState<DateRangePickerModal> createState() => _DateRangePickerModalState();
+  ConsumerState<DateRangePickerModal> createState() =>
+      _DateRangePickerModalState();
 }
 
 class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
@@ -29,7 +30,14 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
       context: context,
       initialDate: isStart ? _startDate : _endDate,
       firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
+      lastDate: DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+        23,
+        59,
+        59,
+      ),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -47,12 +55,16 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
     if (picked != null) {
       setState(() {
         if (isStart) {
-          _startDate = picked;
+          _startDate = DateTime(picked.year, picked.month, picked.day);
+
           if (_endDate.isBefore(_startDate)) {
             _endDate = _startDate;
           }
         } else {
-          _endDate = picked;
+          _endDate = DateTime(picked.year, picked.month, picked.day)
+              .add(const Duration(days: 1))
+              .subtract(const Duration(milliseconds: 1));
+
           if (_startDate.isAfter(_endDate)) {
             _startDate = _endDate;
           }
@@ -132,10 +144,7 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
             height: 56,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  const Color(0xFF2193b0),
-                  const Color(0xFF6dd5ed),
-                ],
+                colors: [const Color(0xFF2193b0), const Color(0xFF6dd5ed)],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
@@ -150,9 +159,11 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
             ),
             child: ElevatedButton(
               onPressed: () {
-                ref.read(dashboardDateProvider.notifier).updateRange(
-                  DateTimeRange(start: _startDate, end: _endDate),
-                );
+                ref
+                    .read(dashboardDateProvider.notifier)
+                    .updateRange(
+                      DateTimeRange(start: _startDate, end: _endDate),
+                    );
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
@@ -199,7 +210,11 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const Icon(Icons.calendar_today_outlined, color: Color(0xFF7C86A2), size: 20),
+            const Icon(
+              Icons.calendar_today_outlined,
+              color: Color(0xFF7C86A2),
+              size: 20,
+            ),
           ],
         ),
       ),

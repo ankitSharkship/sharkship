@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sharkship/features/home/presentation/widgets/date_range_picker_modal.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/selected_orders_notifier.dart';
+import 'package:sharkship/features/orders/presentation/widgets/courier_priority_form.dart';
+import 'package:sharkship/features/orders/presentation/widgets/address_picker_form.dart';
 
 class OrdersHeader extends ConsumerWidget {
   const OrdersHeader({super.key});
 
-  void _showSearchBar(BuildContext context) {
+  void _showDatePicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => const SizedBox(),
+      builder: (context) => const DateRangePickerModal(),
     );
   }
 
@@ -24,7 +27,6 @@ class OrdersHeader extends ConsumerWidget {
       builder: (_) => _actionsBottomDrawer(context, ref),
     );
   }
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,15 +44,15 @@ class OrdersHeader extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
-                onPressed: () => _showSearchBar(context),
-                icon: const Icon(Icons.search, size: 22),
+                onPressed: () => _showDatePicker(context),
+                icon: const Icon(Icons.calendar_month, size: 22),
               ),
               IconButton(
                 onPressed: () => _showActions(context, ref),
                 icon: const Icon(Icons.build, size: 22),
               ),
               IconButton(
-                onPressed: () => _showSearchBar(context),
+                onPressed: () => _showDatePicker(context),
                 icon: const Icon(Icons.sort, size: 22),
               ),
             ],
@@ -66,6 +68,63 @@ class OrdersHeader extends ConsumerWidget {
     // final selectedOrderNotifer = ref.read(
     //   selectedOrdersProvider(selectedTab).notifier,
     // );
+    Future<void> exportOrders(BuildContext context, WidgetRef ref) async {
+      Navigator.pop(context);
+
+      final messenger = ScaffoldMessenger.of(context);
+
+      // 1. Show Loading
+      final controller = messenger.showSnackBar(
+        SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          duration: const Duration(days: 1),
+          content: _StatusNotification(
+            message: selectedOrders.message ?? "Exporting Orders",
+            status: StatusType.loading,
+          ),
+        ),
+      );
+
+      try {
+        final success = await ref
+            .read(selectedOrdersProvider(selectedTab).notifier)
+            .exportOrders();
+
+        controller.close();
+
+        if (success) {
+          messenger.showSnackBar(
+            SnackBar(
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              content: const _StatusNotification(
+                message: 'Orders Exported successfully',
+                status: StatusType.success,
+              ),
+            ),
+          );
+          ref.invalidate(ordersProvider(selectedTab));
+        } else {
+          throw Exception("Backend returned failure");
+        }
+      } catch (e) {
+        controller.close();
+        messenger.showSnackBar(
+          SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: _StatusNotification(
+              message: 'Failed to export orders: ${e.toString()}',
+              status: StatusType.error,
+            ),
+          ),
+        );
+      }
+    }
 
     Future<void> handleDelete(BuildContext context, WidgetRef ref) async {
       Navigator.pop(context);
@@ -192,7 +251,13 @@ class OrdersHeader extends ConsumerWidget {
                           icon: Icons.inventory_2_outlined,
                           color: Colors.green,
                           onTap: () {
-                            
+                            Navigator.pop(context); // Close actions sheet
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => const CourierPriorityForm(),
+                            );
                           },
                         ),
                       ),
@@ -208,6 +273,16 @@ class OrdersHeader extends ConsumerWidget {
                           label: "Select Address",
                           icon: Icons.location_on_outlined,
                           color: Colors.teal,
+                          onTap: () {
+                            Navigator.pop(context); // Close actions sheet
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) =>
+                                  const AddressPickerForm(onlyAddress: true),
+                            );
+                          },
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -218,6 +293,16 @@ class OrdersHeader extends ConsumerWidget {
                           icon: Icons.local_shipping_outlined,
                           color: Colors.orange,
                           enabled: selectedOrders.selectedIds.isNotEmpty,
+                          onTap: () {
+                            Navigator.pop(context);
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) =>
+                                  AddressPickerForm(onlyAddress: false),
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -233,6 +318,9 @@ class OrdersHeader extends ConsumerWidget {
                           icon: Icons.upload_outlined,
                           color: Colors.grey,
                           enabled: selectedOrders.selectedIds.isNotEmpty,
+                          onTap: () {
+                            exportOrders(context, ref);
+                          },
                         ),
                       ),
                       const SizedBox(width: 10),

@@ -9,8 +9,8 @@ import '../entities/courier_partner_entity.dart';
 class OrderListParams {
   final int? skip;
   final int? total;
-  final String startDate;
-  final String endDate;
+  final DateTime startDate;
+  final DateTime endDate;
   final String? channel;
   final String? paymentType;
   final String? carrier;
@@ -323,6 +323,7 @@ class CarrierParams {
 abstract class OrdersRepository {
   Future<OrdersResponseEntity> getOrders(OrderListParams params);
   Future<List<OrderAddressEntity>> getPickupAddresses();
+  Future<bool> setDefaultPickupAddress(int id);
   Future<ShippingRateResponseEntity> getShippingRates(
     ShippingRateParams params,
   );
@@ -331,5 +332,8 @@ abstract class OrdersRepository {
   Future<bool> handleBulkUpload(File file);
   Future<Map<String, dynamic>> deleteOrders(Map<String, dynamic> orderIds);
   Future<CourierPriorityEntity> getCourierPriority();
+  Future<bool> updateCourierPriority(Map<String, dynamic> data);
   Future<List<CourierPartnerEntity>> getCourierPartners();
+  Future<Map<String, dynamic>> shipOrders(Map<String, dynamic> orderIds);
+  Future<void> exportOrders(List<int> orderIds);
 }

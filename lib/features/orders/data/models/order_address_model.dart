@@ -11,6 +11,7 @@ class OrderAddressModel extends OrderAddressEntity {
     super.pin,
     super.phoneNo,
     super.name,
+    super.isDefault
   });
 
   factory OrderAddressModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +25,7 @@ class OrderAddressModel extends OrderAddressEntity {
       pin: json['Pin'] != null ? int.tryParse(json['Pin'].toString()) : null,
       phoneNo: json['phone_no']?.toString(),
       name: json['name']?.toString(),
+      isDefault: json['default'] == 'Y',
     );
   }
 }
