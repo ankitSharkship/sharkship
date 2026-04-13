@@ -16,6 +16,12 @@ import '../../domain/usecases/get_courier_partners_usecase.dart';
 import '../../domain/usecases/update_courier_priority_usecase.dart';
 import '../../domain/usecases/set_default_pickup_address_usecase.dart';
 import '../../domain/usecases/export_orders_usecase.dart';
+import '../../domain/usecases/edit_order_usecase.dart';
+import '../../domain/usecases/download_shipping_label_usecase.dart';
+import '../../domain/usecases/download_order_invoice_usecase.dart';
+import '../../domain/usecases/generate_manifestation_usecase.dart';
+import '../../domain/usecases/cancel_orders_usecase.dart';
+import '../../domain/usecases/clone_order_usecase.dart';
 
 part 'orders_provider.g.dart';
 
@@ -107,4 +113,40 @@ SetDefaultPickupAddressUseCase setDefaultPickupAddressUseCase(Ref ref) {
 ExportOrdersUseCase exportOrdersUseCase(Ref ref) {
   final repository = ref.watch(ordersRepositoryProvider);
   return ExportOrdersUseCase(repository);
+}
+
+@riverpod
+EditOrderUseCase editOrderUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return EditOrderUseCase(repository);
+}
+
+@riverpod
+DownloadShippingLabelUseCase downloadShippingLabelUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return DownloadShippingLabelUseCase(repository);
+}
+
+@riverpod
+DownloadOrderInvoiceUseCase downloadOrderInvoiceUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return DownloadOrderInvoiceUseCase(repository);
+}
+
+@riverpod
+GenerateManifestationUseCase generateManifestationUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return GenerateManifestationUseCase(repository);
+}
+
+@riverpod
+CancelOrdersUseCase cancelOrdersUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return CancelOrdersUseCase(repository);
+}
+
+@riverpod
+CloneOrderUseCase cloneOrderUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return CloneOrderUseCase(repository);
 }

@@ -21,7 +21,7 @@ class OrdersTabbar extends ConsumerWidget {
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: ColorManager.lightBlue,
+                  color: const Color.fromARGB(255, 194, 238, 255),
                   border: Border(
                     bottom: BorderSide(
                       color: isActive ? Colors.blue : Colors.transparent,

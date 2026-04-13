@@ -50,4 +50,12 @@ class OrdersNotifier extends _$OrdersNotifier {
       );
     });
   }
+
+  Future<Map<String, dynamic>> changeShipmentDetails(
+    int id,
+    Map<String, dynamic> data,
+  ) async {
+    final result = await ref.read(editOrderUseCaseProvider).execute(id, data);
+    return result;
+  }
 }

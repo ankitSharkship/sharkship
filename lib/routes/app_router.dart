@@ -4,6 +4,7 @@ import 'package:sharkship/features/login/presentation/views/get_started.dart';
 import 'package:sharkship/features/auth/presentation/screens/login_screen.dart';
 import 'package:sharkship/features/nav/presentation/screens/main_screen.dart';
 import 'package:sharkship/features/orders/presentation/screens/create_orders.dart';
+import 'package:sharkship/features/shipments/presentation/screens/shipments_screen.dart';
 import 'package:sharkship/splash.dart';
 part 'app_routes.dart';
 
@@ -30,6 +31,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: Routes.CREATE_ORDER,
       builder: (context, state) => const CreateOrders(),
+    ),
+    GoRoute(
+      path: Routes.SHIPMENT,
+      builder: (context, state) => const ShipmentsScreen(),
     ),
   ],
 );

@@ -80,7 +80,7 @@ class OrdersHeader extends ConsumerWidget {
           behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.transparent,
           duration: const Duration(days: 1),
-          content: _StatusNotification(
+          content: StatusNotification(
             message: selectedOrders.message ?? "Exporting Orders",
             status: StatusType.loading,
           ),
@@ -100,7 +100,7 @@ class OrdersHeader extends ConsumerWidget {
               elevation: 0,
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
-              content: const _StatusNotification(
+              content: const StatusNotification(
                 message: 'Orders Exported successfully',
                 status: StatusType.success,
               ),
@@ -117,7 +117,7 @@ class OrdersHeader extends ConsumerWidget {
             elevation: 0,
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
-            content: _StatusNotification(
+            content: StatusNotification(
               message: 'Failed to export orders: ${e.toString()}',
               status: StatusType.error,
             ),
@@ -138,7 +138,7 @@ class OrdersHeader extends ConsumerWidget {
           behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.transparent,
           duration: const Duration(days: 1),
-          content: _StatusNotification(
+          content: StatusNotification(
             message: selectedOrders.message ?? "Deleting Orders",
             status: StatusType.deleteLoading,
           ),
@@ -148,7 +148,7 @@ class OrdersHeader extends ConsumerWidget {
       try {
         final success = await ref
             .read(selectedOrdersProvider(selectedTab).notifier)
-            .deleteSelected();
+            .deleteSelected(null);
 
         controller.close();
 
@@ -158,7 +158,7 @@ class OrdersHeader extends ConsumerWidget {
               elevation: 0,
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
-              content: const _StatusNotification(
+              content: const StatusNotification(
                 message: 'Orders deleted successfully',
                 status: StatusType.success,
               ),
@@ -175,7 +175,7 @@ class OrdersHeader extends ConsumerWidget {
             elevation: 0,
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
-            content: _StatusNotification(
+            content: StatusNotification(
               message: 'Failed to delete orders: ${e.toString()}',
               status: StatusType.error,
             ),
@@ -238,7 +238,7 @@ class OrdersHeader extends ConsumerWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: _ActionButton(
+                        child: ActionButton(
                           label: "Sync",
                           icon: Icons.sync,
                           color: Colors.blue,
@@ -246,7 +246,7 @@ class OrdersHeader extends ConsumerWidget {
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: _ActionButton(
+                        child: ActionButton(
                           label: "Select Courier",
                           icon: Icons.inventory_2_outlined,
                           color: Colors.green,
@@ -269,7 +269,7 @@ class OrdersHeader extends ConsumerWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: _ActionButton(
+                        child: ActionButton(
                           label: "Select Address",
                           icon: Icons.location_on_outlined,
                           color: Colors.teal,
@@ -288,7 +288,7 @@ class OrdersHeader extends ConsumerWidget {
                       const SizedBox(width: 10),
 
                       Expanded(
-                        child: _ActionButton(
+                        child: ActionButton(
                           label: "Ship Orders",
                           icon: Icons.local_shipping_outlined,
                           color: Colors.orange,
@@ -313,7 +313,7 @@ class OrdersHeader extends ConsumerWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: _ActionButton(
+                        child: ActionButton(
                           label: "Export Orders",
                           icon: Icons.upload_outlined,
                           color: Colors.grey,
@@ -325,7 +325,7 @@ class OrdersHeader extends ConsumerWidget {
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: _ActionButton(
+                        child: ActionButton(
                           label: "Delete",
                           icon: Icons.delete_outline,
                           color: Colors.red,
@@ -347,14 +347,14 @@ class OrdersHeader extends ConsumerWidget {
   }
 }
 
-class _ActionButton extends StatelessWidget {
+class ActionButton extends StatelessWidget {
   final String label;
   final IconData icon;
   final Color color;
   final bool enabled;
   final VoidCallback? onTap;
 
-  const _ActionButton({
+  const ActionButton({
     required this.label,
     required this.icon,
     required this.color,
@@ -381,10 +381,10 @@ class _ActionButton extends StatelessWidget {
 
 enum StatusType { loading, success, error, deleteLoading }
 
-class _StatusNotification extends StatelessWidget {
+class StatusNotification extends StatelessWidget {
   final String message;
   final StatusType status;
-  const _StatusNotification({required this.message, required this.status});
+  const StatusNotification({required this.message, required this.status});
 
   @override
   Widget build(BuildContext context) {

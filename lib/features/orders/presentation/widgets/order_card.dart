@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sharkship/features/orders/presentation/state/orders_notifier.dart';
+import 'package:sharkship/features/orders/presentation/state/orders_provider.dart';
+import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
+import 'package:sharkship/features/orders/presentation/state/selected_orders_notifier.dart';
+import 'package:sharkship/features/orders/presentation/widgets/orders_header.dart';
 import 'package:sharkship/shared/constants/colors.dart';
 import '../../domain/entities/order_entity.dart';
 
-class OrderCard extends StatefulWidget {
+class OrderCard extends ConsumerStatefulWidget {
   final OrderEntity order;
   final bool isSelected;
+  final bool isFailed;
   final ValueChanged<bool?> onCheckboxChanged;
   final VoidCallback? onTruckTap;
   final VoidCallback? onMoreTap;
@@ -14,15 +21,16 @@ class OrderCard extends StatefulWidget {
     required this.order,
     required this.isSelected,
     required this.onCheckboxChanged,
+    this.isFailed = false,
     this.onTruckTap,
     this.onMoreTap,
   });
 
   @override
-  State<OrderCard> createState() => _OrderCardState();
+  ConsumerState<OrderCard> createState() => _OrderCardState();
 }
 
-class _OrderCardState extends State<OrderCard>
+class _OrderCardState extends ConsumerState<OrderCard>
     with AutomaticKeepAliveClientMixin {
   bool isExpanded = false;
 
@@ -134,7 +142,7 @@ class _OrderCardState extends State<OrderCard>
                               Icons.local_shipping_outlined,
                               color: ColorManager.lightBlue,
                             ),
-                            onPressed: widget.onMoreTap,
+                            onPressed: widget.onTruckTap,
                             iconSize: 20,
                           ),
                         ),
@@ -160,15 +168,137 @@ class _OrderCardState extends State<OrderCard>
                               ),
                             ],
                           ),
-                          child: IconButton(
+                          child: PopupMenuButton<String>(
+                            color: Colors.white,
                             padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
                             icon: const Icon(
                               Icons.more_horiz,
                               color: ColorManager.lightBlue,
                             ),
-                            onPressed: widget.onMoreTap,
-                            iconSize: 20,
+
+                            position: PopupMenuPosition.under,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            onSelected: (value) async {
+                              switch (value) {
+                                case 'edit':
+                                  // handle edit
+                                  break;
+                                case 'clone':
+                                  if (!mounted) break;
+                                  final messenger = ScaffoldMessenger.of(
+                                    context,
+                                  );
+                                  // 1. Show Loading
+                                  final controller = messenger.showSnackBar(
+                                    SnackBar(
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      duration: const Duration(days: 1),
+                                      content: const StatusNotification(
+                                        message: "Cloning Order",
+                                        status: StatusType.loading,
+                                      ),
+                                    ),
+                                  );
+
+                                  try {
+                                    await ref
+                                        .read(cloneOrderUseCaseProvider)
+                                        .execute(order.id);
+                                    controller.close();
+                                    messenger.showSnackBar(
+                                      SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: const StatusNotification(
+                                          message: 'Order cloned successfully',
+                                          status: StatusType.success,
+                                        ),
+                                      ),
+                                    );
+                                    // Refresh the list to show the new cloned order
+                                    // Usually cloned order appears in "Draft" or "Pending" but we refresh the current tab anyway
+                                    final selectedTab = ref.read(
+                                      ordersTabProvider,
+                                    );
+                                    ref.invalidate(ordersProvider(selectedTab));
+                                  } catch (e) {
+                                    controller.close();
+                                    messenger.showSnackBar(
+                                      SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: StatusNotification(
+                                          message: 'Error: ${e.toString()}',
+                                          status: StatusType.error,
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  break;
+                                case 'delete':
+                                  final selectedTab = ref.read(
+                                    ordersTabProvider,
+                                  );
+                                  final success = await ref
+                                      .read(
+                                        selectedOrdersProvider(
+                                          selectedTab,
+                                        ).notifier,
+                                      )
+                                      .deleteSelected(order.id);
+
+                                  if (success && mounted) {
+                                    ref.invalidate(ordersProvider(selectedTab));
+                                  }
+                                  break;
+                              }
+                            },
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 'edit',
+                                child: Row(
+                                  children: const [
+                                    Icon(Icons.edit, size: 18),
+                                    SizedBox(width: 10),
+                                    Text('Edit'),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'clone',
+                                child: Row(
+                                  children: const [
+                                    Icon(Icons.copy, size: 18),
+                                    SizedBox(width: 10),
+                                    Text('Clone Order'),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'delete',
+                                child: Row(
+                                  children: const [
+                                    Icon(
+                                      Icons.delete,
+                                      size: 18,
+                                      color: Colors.red,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Delete',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -216,10 +346,16 @@ class _OrderCardState extends State<OrderCard>
                           ),
                           const SizedBox(height: 8),
                           Row(
-                            children: const [
-                              Icon(Icons.phone, size: 18, color: Colors.red),
-                              SizedBox(width: 8),
-                              Icon(Icons.chat, size: 18, color: Colors.red),
+                            children: [
+                              _statusIcon(
+                                icon: Icons.phone,
+                                status: order.ivrRemark,
+                              ),
+                              const SizedBox(width: 8),
+                              _statusIcon(
+                                icon: Icons.chat,
+                                status: order.whatsappRemark,
+                              ),
                             ],
                           ),
                         ],
@@ -260,32 +396,54 @@ class _OrderCardState extends State<OrderCard>
                         ),
 
                         const SizedBox(height: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
+                        Tooltip(
+                          message: widget.isFailed
+                              ? widget.order.errorMessage
+                              : "", // empty → no tooltip
+                          preferBelow: false,
+                          waitDuration: const Duration(milliseconds: 300),
+                          showDuration: const Duration(seconds: 2),
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 32, 112, 35),
-                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.black87,
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.security_rounded,
-                                color: ColorManager.white,
-                                size: 15,
-                              ),
-                              const SizedBox(width: 4),
-                              const Text(
-                                "No RTO Risk",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: !widget.isFailed
+                                  ? const Color.fromARGB(255, 32, 112, 35)
+                                  : Colors.red,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  !widget.isFailed
+                                      ? Icons.security_rounded
+                                      : Icons.warning,
+                                  color: ColorManager.white,
+                                  size: 15,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 4),
+                                Text(
+                                  !widget.isFailed
+                                      ? "No RTO Risk"
+                                      : "Failed Due to",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -383,6 +541,29 @@ class _OrderCardState extends State<OrderCard>
           ),
         ],
       ),
+    );
+  }
+
+  Widget _statusIcon({required IconData icon, required String? status}) {
+    if (status == null) return const SizedBox(); // hide completely
+
+    Color bgColor;
+
+    switch (status) {
+      case 'PENDING':
+        bgColor = const Color.fromARGB(255, 217, 172, 10);
+        break;
+      case 'VERIFIED':
+        bgColor = Colors.green;
+        break;
+      default:
+        bgColor = Colors.red;
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(4), // tight → +2 radius feel
+      decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
+      child: Icon(icon, size: 18, color: Colors.white),
     );
   }
 

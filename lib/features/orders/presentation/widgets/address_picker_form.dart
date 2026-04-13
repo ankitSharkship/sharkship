@@ -8,7 +8,8 @@ import '../../domain/entities/order_address_entity.dart';
 
 class AddressPickerForm extends ConsumerStatefulWidget {
   final bool onlyAddress;
-  const AddressPickerForm({super.key, this.onlyAddress = true});
+  final VoidCallback? onNext;
+  const AddressPickerForm({super.key, this.onlyAddress = true, this.onNext});
 
   @override
   ConsumerState<AddressPickerForm> createState() => _AddressPickerFormState();
@@ -75,12 +76,16 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
           );
         } else {
           try {
-            Navigator.pop(context);
-            showModalBottomSheet(
-              context: context,
-              builder: (context) =>
-                  const CourierPriorityForm(onlyCourier: false),
-            );
+            if (widget.onNext != null) {
+              widget.onNext!();
+            } else {
+              Navigator.pop(context);
+              showModalBottomSheet(
+                context: context,
+                builder: (context) =>
+                    const CourierPriorityForm(onlyCourier: false),
+              );
+            }
           } catch (e) {
             print(e);
           }
@@ -88,11 +93,15 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
       }
     } else {
       try {
-        Navigator.pop(context);
-        showModalBottomSheet(
-          context: context,
-          builder: (context) => const CourierPriorityForm(onlyCourier: false),
-        );
+        if (widget.onNext != null) {
+          widget.onNext!();
+        } else {
+          Navigator.pop(context);
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => const CourierPriorityForm(onlyCourier: false),
+          );
+        }
       } catch (e) {
         print(e);
       }

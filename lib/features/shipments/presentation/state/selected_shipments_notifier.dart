@@ -1,25 +1,25 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharkship/features/orders/domain/entities/orders_response_entity.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_provider.dart';
-part 'selected_orders_notifier.g.dart';
+part 'selected_shipments_notifier.g.dart';
 
-class SelectedOrdersState {
+class SelectedShipmentsState {
   final Set<String> selectedIds;
   final bool isLoading;
   final String? message;
 
-  const SelectedOrdersState({
+  const SelectedShipmentsState({
     required this.selectedIds,
     required this.isLoading,
     this.message,
   });
 
-  SelectedOrdersState copyWith({
+  SelectedShipmentsState copyWith({
     Set<String>? selectedIds,
     bool? isLoading,
     String? message,
   }) {
-    return SelectedOrdersState(
+    return SelectedShipmentsState(
       selectedIds: selectedIds ?? this.selectedIds,
       isLoading: isLoading ?? this.isLoading,
       message: message ?? this.message,
@@ -28,10 +28,10 @@ class SelectedOrdersState {
 }
 
 @riverpod
-class SelectedOrdersNotifier extends _$SelectedOrdersNotifier {
+class SelectedShipmentsNotifier extends _$SelectedShipmentsNotifier {
   @override
-  SelectedOrdersState build(int tabIndex) {
-    return const SelectedOrdersState(selectedIds: {}, isLoading: false);
+  SelectedShipmentsState build(int index) {
+    return const SelectedShipmentsState(selectedIds: {}, isLoading: false);
   }
 
   void toggle(String id) {
@@ -63,49 +63,24 @@ class SelectedOrdersNotifier extends _$SelectedOrdersNotifier {
     state = state.copyWith(selectedIds: {});
   }
 
-  Future<bool> deleteSelected(int? id) async {
-    if (state.selectedIds.isEmpty && id == null) return false;
-    final message = state.selectedIds.length > 1
-        ? "Deleting orders..."
-        : "Deleting order...";
-    state = state.copyWith(isLoading: true, message: message);
+  Future<bool> downloadLabels([List<int>? customIds]) async {
+    final idsToDownload =
+        customIds ?? state.selectedIds.map((e) => int.parse(e)).toList();
+    if (idsToDownload.isEmpty) return false;
 
+    state = state.copyWith(isLoading: true, message: null);
     try {
-      await ref.read(deleteOrdersUseCaseProvider).execute({
-        "order_ids": id == null
-            ? state.selectedIds.map((e) => int.parse(e)).toList()
-            : [id],
-      });
-      state = state.copyWith(selectedIds: {}, isLoading: false, message: null);
-      print(state.selectedIds);
-      return true;
-    } catch (e) {
-      state = state.copyWith(isLoading: false);
-      rethrow; // don't swallow errors silently
-    }
-  }
-
-  Future<bool> shipSelected(int? id) async {
-    if (state.selectedIds.isEmpty && id == null) return false;
-    final message = state.selectedIds.length > 1
-        ? "Shipping orders..."
-        : "Shipping order...";
-    state = state.copyWith(isLoading: true, message: message);
-    try {
-      final selectedIds = state.selectedIds.map((e) => int.parse(e));
-      await ref.read(shipOrdersUsecaseProvider).execute({
-        "order_ids": id == null ? selectedIds.toList() : [id],
-      });
-      print(
-        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++',
+      await ref
+          .read(downloadShippingLabelUseCaseProvider)
+          .execute(idsToDownload);
+      state = state.copyWith(
+        isLoading: false,
+        selectedIds: customIds == null ? {} : state.selectedIds,
       );
-      print([id]);
-      state = state.copyWith(selectedIds: {}, isLoading: false, message: null);
-      print(state.selectedIds);
       return true;
     } catch (e) {
-      state = state.copyWith(isLoading: false);
-      rethrow; // don't swallow errors silently
+      state = state.copyWith(isLoading: false, message: e.toString());
+      return false;
     }
   }
 

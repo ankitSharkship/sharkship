@@ -724,3 +724,291 @@ final class ExportOrdersUseCaseProvider
 
 String _$exportOrdersUseCaseHash() =>
     r'f2b9956d2b2060115533879874797672ad325c19';
+
+@ProviderFor(editOrderUseCase)
+const editOrderUseCaseProvider = EditOrderUseCaseProvider._();
+
+final class EditOrderUseCaseProvider
+    extends
+        $FunctionalProvider<
+          EditOrderUseCase,
+          EditOrderUseCase,
+          EditOrderUseCase
+        >
+    with $Provider<EditOrderUseCase> {
+  const EditOrderUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'editOrderUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$editOrderUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<EditOrderUseCase> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  EditOrderUseCase create(Ref ref) {
+    return editOrderUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(EditOrderUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<EditOrderUseCase>(value),
+    );
+  }
+}
+
+String _$editOrderUseCaseHash() => r'0453c1f7bac6d7c3ed268adfef2d6d030d5f3962';
+
+@ProviderFor(downloadShippingLabelUseCase)
+const downloadShippingLabelUseCaseProvider =
+    DownloadShippingLabelUseCaseProvider._();
+
+final class DownloadShippingLabelUseCaseProvider
+    extends
+        $FunctionalProvider<
+          DownloadShippingLabelUseCase,
+          DownloadShippingLabelUseCase,
+          DownloadShippingLabelUseCase
+        >
+    with $Provider<DownloadShippingLabelUseCase> {
+  const DownloadShippingLabelUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'downloadShippingLabelUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$downloadShippingLabelUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<DownloadShippingLabelUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  DownloadShippingLabelUseCase create(Ref ref) {
+    return downloadShippingLabelUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DownloadShippingLabelUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DownloadShippingLabelUseCase>(value),
+    );
+  }
+}
+
+String _$downloadShippingLabelUseCaseHash() =>
+    r'ef74ed4ff9606ccd41a8a083d76db65d1da0167b';
+
+@ProviderFor(downloadOrderInvoiceUseCase)
+const downloadOrderInvoiceUseCaseProvider =
+    DownloadOrderInvoiceUseCaseProvider._();
+
+final class DownloadOrderInvoiceUseCaseProvider
+    extends
+        $FunctionalProvider<
+          DownloadOrderInvoiceUseCase,
+          DownloadOrderInvoiceUseCase,
+          DownloadOrderInvoiceUseCase
+        >
+    with $Provider<DownloadOrderInvoiceUseCase> {
+  const DownloadOrderInvoiceUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'downloadOrderInvoiceUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$downloadOrderInvoiceUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<DownloadOrderInvoiceUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  DownloadOrderInvoiceUseCase create(Ref ref) {
+    return downloadOrderInvoiceUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DownloadOrderInvoiceUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DownloadOrderInvoiceUseCase>(value),
+    );
+  }
+}
+
+String _$downloadOrderInvoiceUseCaseHash() =>
+    r'552ead393484abcec112de28b12696358ce737bf';
+
+@ProviderFor(generateManifestationUseCase)
+const generateManifestationUseCaseProvider =
+    GenerateManifestationUseCaseProvider._();
+
+final class GenerateManifestationUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GenerateManifestationUseCase,
+          GenerateManifestationUseCase,
+          GenerateManifestationUseCase
+        >
+    with $Provider<GenerateManifestationUseCase> {
+  const GenerateManifestationUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'generateManifestationUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$generateManifestationUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GenerateManifestationUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GenerateManifestationUseCase create(Ref ref) {
+    return generateManifestationUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GenerateManifestationUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GenerateManifestationUseCase>(value),
+    );
+  }
+}
+
+String _$generateManifestationUseCaseHash() =>
+    r'5137162fe1b9d207d79bcb564db3f48d01043c69';
+
+@ProviderFor(cancelOrdersUseCase)
+const cancelOrdersUseCaseProvider = CancelOrdersUseCaseProvider._();
+
+final class CancelOrdersUseCaseProvider
+    extends
+        $FunctionalProvider<
+          CancelOrdersUseCase,
+          CancelOrdersUseCase,
+          CancelOrdersUseCase
+        >
+    with $Provider<CancelOrdersUseCase> {
+  const CancelOrdersUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'cancelOrdersUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$cancelOrdersUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<CancelOrdersUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  CancelOrdersUseCase create(Ref ref) {
+    return cancelOrdersUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(CancelOrdersUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<CancelOrdersUseCase>(value),
+    );
+  }
+}
+
+String _$cancelOrdersUseCaseHash() =>
+    r'54567d03520307b0540b51f0d9e3e12caaaaa115';
+
+@ProviderFor(cloneOrderUseCase)
+const cloneOrderUseCaseProvider = CloneOrderUseCaseProvider._();
+
+final class CloneOrderUseCaseProvider
+    extends
+        $FunctionalProvider<
+          CloneOrderUseCase,
+          CloneOrderUseCase,
+          CloneOrderUseCase
+        >
+    with $Provider<CloneOrderUseCase> {
+  const CloneOrderUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'cloneOrderUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$cloneOrderUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<CloneOrderUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  CloneOrderUseCase create(Ref ref) {
+    return cloneOrderUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(CloneOrderUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<CloneOrderUseCase>(value),
+    );
+  }
+}
+
+String _$cloneOrderUseCaseHash() => r'd2141d10e0805801b0cba7f428396dd992b4cda8';

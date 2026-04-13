@@ -457,6 +457,151 @@ class OrdersDataSource {
         .map((e) => CourierPartnerModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  Future<void> downloadShippingLabel(List<int> orderIds) async {
+    try {
+      Directory? directory;
+      if (Platform.isAndroid) {
+        directory = Directory('/storage/emulated/0/Download');
+        if (!await directory.exists()) {
+          directory = await getExternalStorageDirectory();
+        }
+      } else if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = await getDownloadsDirectory();
+      }
+
+      final String timestamp = DateTime.now().toIso8601String().replaceAll(
+        ':',
+        '-',
+      );
+      final String filePath = '${directory!.path}/Shipping_Label_$timestamp.pdf';
+
+      final response = await _dio.post(
+        'v1/document/shipping_label',
+        data: {'order_ids': orderIds},
+        options: Options(
+          responseType: ResponseType.bytes,
+          followRedirects: false,
+        ),
+      );
+
+      final File file = File(filePath);
+      await file.writeAsBytes(response.data);
+      print("Shipping label downloaded to: $filePath");
+
+      final result = await OpenFile.open(filePath);
+      if (result.type != ResultType.done) {
+        print("Could not open file: ${result.message}");
+      }
+    } catch (e) {
+      print('Download Label Error: $e');
+    }
+  }
+
+  Future<void> updateInvoiceConfiguration(Map<String, dynamic> config) async {
+    await _dio.put('v1/document/invoice_configuration', data: config);
+  }
+
+  Future<void> downloadOrderInvoice(List<int> orderIds) async {
+    try {
+      Directory? directory;
+      if (Platform.isAndroid) {
+        directory = Directory('/storage/emulated/0/Download');
+        if (!await directory.exists()) {
+          directory = await getExternalStorageDirectory();
+        }
+      } else if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = await getDownloadsDirectory();
+      }
+
+      final String timestamp = DateTime.now().toIso8601String().replaceAll(
+        ':',
+        '-',
+      );
+      final String filePath = '${directory!.path}/Order_Invoice_$timestamp.pdf';
+
+      final response = await _dio.post(
+        'v1/document/order_invoice/bulk',
+        data: {'order_ids': orderIds},
+        options: Options(
+          responseType: ResponseType.bytes,
+          followRedirects: false,
+        ),
+      );
+
+      final File file = File(filePath);
+      await file.writeAsBytes(response.data);
+      print("Order invoice downloaded to: $filePath");
+
+      final result = await OpenFile.open(filePath);
+      if (result.type != ResultType.done) {
+        print("Could not open file: ${result.message}");
+      }
+    } catch (e) {
+      print('Download Invoice Error: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> generateManifestation(List<int> orderIds) async {
+    try {
+      Directory? directory;
+      if (Platform.isAndroid) {
+        directory = Directory('/storage/emulated/0/Download');
+        if (!await directory.exists()) {
+          directory = await getExternalStorageDirectory();
+        }
+      } else if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = await getDownloadsDirectory();
+      }
+
+      final String timestamp = DateTime.now().toIso8601String().replaceAll(
+        ':',
+        '-',
+      );
+      final String filePath = '${directory!.path}/Manifest_$timestamp.pdf';
+
+      final response = await _dio.post(
+        'v1/document/generate_manifestation',
+        data: {'order_ids': orderIds},
+        options: Options(
+          responseType: ResponseType.bytes,
+          followRedirects: false,
+        ),
+      );
+
+      final File file = File(filePath);
+      await file.writeAsBytes(response.data);
+      print("Manifest downloaded to: $filePath");
+
+      final result = await OpenFile.open(filePath);
+      if (result.type != ResultType.done) {
+        print("Could not open file: ${result.message}");
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> cancelOrders(List<int> orderIds) async {
+    await _dio.put(
+      'v1/order',
+      data: {'order_ids': orderIds},
+      options: Options(
+        headers: {'move_to': 'CANCELLED'},
+      ),
+    );
+  }
+
+  Future<void> cloneOrder(int id) async {
+    await _dio.post('v1/order/clone/$id');
+  }
 }
 
 extension OrdersDataSourceExport on OrdersDataSource {
@@ -593,5 +738,15 @@ extension OrdersDataSourceExport on OrdersDataSource {
     } catch (e) {
       print("Error saving exported orders to Excel: $e");
     }
+  }
+}
+
+extension OrdersDataSourceEdit on OrdersDataSource {
+  Future<Map<String, dynamic>> editOrder(
+    int id,
+    Map<String, dynamic> data,
+  ) async {
+    final response = await _dio.put('v1/order/edit/$id', data: data);
+    return response.data as Map<String, dynamic>;
   }
 }

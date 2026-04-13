@@ -43,6 +43,9 @@ class OrderModel extends OrderEntity {
     required super.businessName,
     super.pickupDate,
     super.ofd,
+    super.errorMessage,
+    super.expectedDeliveryDateMax,
+    super.expectedDeliveryDateMin,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
@@ -67,8 +70,8 @@ class OrderModel extends OrderEntity {
           : 0,
       productQuantity: json['product_quantity'] ?? 0,
       productSkuNo: json['product_sku_no']?.toString(),
-      shippingCharge: json['shipping_charge'] is num
-          ? json['shipping_charge'] as num
+      shippingCharge: json['shipping_charge'] is String
+          ? num.parse(json['shipping_charge'])
           : 0,
       shipmentLengthInCms: json['shipment_length_in_cms'] ?? 0,
       shipmentWidthInCms: json['shipment_width_in_cms'] ?? 0,
@@ -102,7 +105,14 @@ class OrderModel extends OrderEntity {
       pickupDate: json['pickup_date'] != null
           ? DateTime.parse(json['pickup_date'])
           : null,
+      expectedDeliveryDateMax: json['expected_delivery_date_max'] != null
+          ? DateTime.parse(json['expected_delivery_date_max'])
+          : null,
+      expectedDeliveryDateMin: json['expected_delivery_date_min'] != null
+          ? DateTime.parse(json['expected_delivery_date_min'])
+          : null,
       ofd: json['ofd']?.toString(),
+      errorMessage: json['errorMessage']?.toString(),
     );
   }
 }

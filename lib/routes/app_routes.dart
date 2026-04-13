@@ -10,6 +10,7 @@ abstract class Routes {
   static const SIGNIN = _Paths.SIGIN;
   static const KYC = _Paths.KYC;
   static const CREATE_ORDER = _Paths.CREATE_ORDER;
+  static const SHIPMENT = _Paths.SHIPMENT;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const SIGIN = '/signin';
   static const KYC = '/kyc';
   static const CREATE_ORDER = '/create-order';
+  static const SHIPMENT = '/shipment';
 }

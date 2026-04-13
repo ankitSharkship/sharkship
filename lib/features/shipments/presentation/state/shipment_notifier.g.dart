@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'orders_notifier.dart';
+part of 'shipment_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,39 +9,39 @@ part of 'orders_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(OrdersNotifier)
-const ordersProvider = OrdersNotifierFamily._();
+@ProviderFor(ShipmentNotifier)
+const shipmentProvider = ShipmentNotifierFamily._();
 
-final class OrdersNotifierProvider
-    extends $AsyncNotifierProvider<OrdersNotifier, OrdersResponseEntity> {
-  const OrdersNotifierProvider._({
-    required OrdersNotifierFamily super.from,
+final class ShipmentNotifierProvider
+    extends $AsyncNotifierProvider<ShipmentNotifier, OrdersResponseEntity> {
+  const ShipmentNotifierProvider._({
+    required ShipmentNotifierFamily super.from,
     required int super.argument,
   }) : super(
          retry: null,
-         name: r'ordersProvider',
+         name: r'shipmentProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$ordersNotifierHash();
+  String debugGetCreateSourceHash() => _$shipmentNotifierHash();
 
   @override
   String toString() {
-    return r'ordersProvider'
+    return r'shipmentProvider'
         ''
         '($argument)';
   }
 
   @$internal
   @override
-  OrdersNotifier create() => OrdersNotifier();
+  ShipmentNotifier create() => ShipmentNotifier();
 
   @override
   bool operator ==(Object other) {
-    return other is OrdersNotifierProvider && other.argument == argument;
+    return other is ShipmentNotifierProvider && other.argument == argument;
   }
 
   @override
@@ -50,34 +50,34 @@ final class OrdersNotifierProvider
   }
 }
 
-String _$ordersNotifierHash() => r'a5f7558f6f40a8777ab30aece49fd0a387a37c16';
+String _$shipmentNotifierHash() => r'875be74d68730bf926cdf6c16832f499ec88ccef';
 
-final class OrdersNotifierFamily extends $Family
+final class ShipmentNotifierFamily extends $Family
     with
         $ClassFamilyOverride<
-          OrdersNotifier,
+          ShipmentNotifier,
           AsyncValue<OrdersResponseEntity>,
           OrdersResponseEntity,
           FutureOr<OrdersResponseEntity>,
           int
         > {
-  const OrdersNotifierFamily._()
+  const ShipmentNotifierFamily._()
     : super(
         retry: null,
-        name: r'ordersProvider',
+        name: r'shipmentProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
       );
 
-  OrdersNotifierProvider call(int tabIndex) =>
-      OrdersNotifierProvider._(argument: tabIndex, from: this);
+  ShipmentNotifierProvider call(int tabIndex) =>
+      ShipmentNotifierProvider._(argument: tabIndex, from: this);
 
   @override
-  String toString() => r'ordersProvider';
+  String toString() => r'shipmentProvider';
 }
 
-abstract class _$OrdersNotifier extends $AsyncNotifier<OrdersResponseEntity> {
+abstract class _$ShipmentNotifier extends $AsyncNotifier<OrdersResponseEntity> {
   late final _$args = ref.$arg as int;
   int get tabIndex => _$args;
 

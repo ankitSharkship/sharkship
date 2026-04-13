@@ -336,4 +336,11 @@ abstract class OrdersRepository {
   Future<List<CourierPartnerEntity>> getCourierPartners();
   Future<Map<String, dynamic>> shipOrders(Map<String, dynamic> orderIds);
   Future<void> exportOrders(List<int> orderIds);
+  Future<Map<String, dynamic>> editOrder(int id, Map<String, dynamic> data);
+  Future<void> downloadShippingLabel(List<int> orderIds);
+  Future<void> updateInvoiceConfiguration(Map<String, dynamic> config);
+  Future<void> downloadOrderInvoice(List<int> orderIds);
+  Future<void> generateManifestation(List<int> orderIds);
+  Future<void> cancelOrders(List<int> orderIds);
+  Future<void> cloneOrder(int id);
 }

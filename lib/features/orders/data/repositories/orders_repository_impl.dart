@@ -81,4 +81,39 @@ class OrdersRepositoryImpl implements OrdersRepository {
   Future<List<CourierPartnerEntity>> getCourierPartners() async {
     return await dataSource.getCourierPartners();
   }
+
+  @override
+  Future<Map<String, dynamic>> editOrder(int id, Map<String, dynamic> data) {
+    return dataSource.editOrder(id, data);
+  }
+  
+  @override
+  Future<void> downloadShippingLabel(List<int> orderIds) {
+    return dataSource.downloadShippingLabel(orderIds);
+  }
+
+  @override
+  Future<void> updateInvoiceConfiguration(Map<String, dynamic> config) {
+    return dataSource.updateInvoiceConfiguration(config);
+  }
+
+  @override
+  Future<void> downloadOrderInvoice(List<int> orderIds) {
+    return dataSource.downloadOrderInvoice(orderIds);
+  }
+
+  @override
+  Future<void> generateManifestation(List<int> orderIds) {
+    return dataSource.generateManifestation(orderIds);
+  }
+
+  @override
+  Future<void> cancelOrders(List<int> orderIds) {
+    return dataSource.cancelOrders(orderIds);
+  }
+
+  @override
+  Future<void> cloneOrder(int id) {
+    return dataSource.cloneOrder(id);
+  }
 }

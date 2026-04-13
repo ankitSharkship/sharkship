@@ -41,6 +41,9 @@ class OrderEntity {
   final String businessName;
   final DateTime? pickupDate;
   final String? ofd;
+  final String? errorMessage;
+  final DateTime? expectedDeliveryDateMin;
+  final DateTime? expectedDeliveryDateMax;
 
   OrderEntity({
     required this.id,
@@ -80,6 +83,9 @@ class OrderEntity {
     required this.customer,
     required this.businessName,
     this.pickupDate,
+    this.expectedDeliveryDateMin,
+    this.expectedDeliveryDateMax,
     this.ofd,
+    this.errorMessage,
   });
 }

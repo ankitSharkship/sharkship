@@ -59,6 +59,7 @@ class DashboardScreen extends ConsumerWidget {
             ShipmentGrid(),
             SizedBox(height: 20),
             SectionTitle("NDR Details"),
+            SizedBox(height: 12),
             NDRGrid(),
             SizedBox(height: 24),
             SectionTitle("Remittance"),

@@ -12,7 +12,8 @@ import 'package:sharkship/features/orders/presentation/state/orders_notifier.dar
 
 class CourierPriorityForm extends ConsumerStatefulWidget {
   final bool onlyCourier;
-  const CourierPriorityForm({super.key, this.onlyCourier = true});
+  final int? orderId;
+  const CourierPriorityForm({super.key, this.onlyCourier = true, this.orderId});
 
   @override
   ConsumerState<CourierPriorityForm> createState() =>
@@ -27,6 +28,7 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
 
   @override
   void initState() {
+    print(widget.orderId);
     super.initState();
     _initData();
   }
@@ -301,10 +303,11 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
             const SnackBar(content: Text("Priority saved successfully")),
           );
         } else {
-          final selectedTab = ref.watch(ordersTabProvider);
+          final selectedTab = ref.read(ordersTabProvider);
           final shipOrders = await ref
               .read(selectedOrdersProvider(selectedTab).notifier)
-              .shipSelected();
+              .shipSelected(widget.orderId);
+          print(shipOrders);
           if (shipOrders) {
             ScaffoldMessenger.of(
               context,

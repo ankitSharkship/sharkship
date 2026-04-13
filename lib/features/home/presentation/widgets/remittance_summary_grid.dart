@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/widgets/shipment_stat_card.dart';
 import 'package:sharkship/features/home/presentation/widgets/summary_stat_card.dart';
+import 'package:sharkship/shared/widgets/global_popups.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../state/dashboard_notifier.dart';
 
@@ -61,12 +62,25 @@ class RemittanceSummaryGrid extends ConsumerWidget {
                   title: item.$1,
                   value: item.$2,
                   icon: item.$3,
+                  onTap: () {
+                    _comingSoon(context);
+                  },
                 );
               },
             );
           },
         );
       },
+    );
+  }
+
+  void _comingSoon(BuildContext context) {
+    GlobalPopups.showAlert(
+      context: context,
+      title: "Coming Soon",
+      body: "This feature is coming soon",
+      confirmText: "OK",
+      onConfirm: () => Navigator.pop(context),
     );
   }
 }

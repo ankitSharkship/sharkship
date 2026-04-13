@@ -25,12 +25,12 @@ class TodayMetricsSummaryGrid extends ConsumerWidget {
           ),
           (
             "Today's Revenue",
-            "₹ ${metrics.todayRevenue}",
+            "₹ ${metrics.todayRevenue ?? 0}",
             metrics.revenuePercentageIncrease,
             Icons.show_chart,
           ),
-          ("Average Shipping", "${0} Orders", 0.0, Icons.history),
-          ("Total Delivery", "₹ ${0}", 0.0, Icons.paid_outlined),
+          ("Average Shipping", "₹ ${0} ", 0.0, Icons.local_shipping),
+          ("Total Delivery", "${0} Orders", 0.0, Icons.paid_outlined),
         ];
 
         return LayoutBuilder(

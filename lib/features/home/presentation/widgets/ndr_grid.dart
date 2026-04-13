@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
+import 'package:sharkship/shared/widgets/global_popups.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import 'shipment_stat_card.dart';
 
@@ -54,11 +55,24 @@ class NDRGrid extends ConsumerWidget {
                 title: items[i].$1,
                 value: items[i].$2,
                 icon: items[i].$3,
+                onTap: () {
+                  _comingSoon(context);
+                },
               ),
             );
           },
         );
       },
+    );
+  }
+
+  void _comingSoon(BuildContext context) {
+    GlobalPopups.showAlert(
+      context: context,
+      title: "Coming Soon",
+      body: "This feature is coming soon",
+      confirmText: "OK",
+      onConfirm: () => Navigator.pop(context),
     );
   }
 }

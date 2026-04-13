@@ -5,12 +5,14 @@ class ShipmentStatCard extends StatelessWidget {
   final String title;
   final String value;
   final IconData icon;
+  final VoidCallback onTap;
 
   const ShipmentStatCard({
     super.key,
     required this.title,
     required this.value,
     required this.icon,
+    required this.onTap,
   });
 
   @override
@@ -18,7 +20,7 @@ class ShipmentStatCard extends StatelessWidget {
     const iconColor = Colors.blueAccent;
 
     return GestureDetector(
-      onTap: () => _comingSoon(context),
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
