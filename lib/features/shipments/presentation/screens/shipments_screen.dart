@@ -11,7 +11,6 @@ import 'package:sharkship/features/shipments/presentation/state/shipment_tab_pro
 import 'package:sharkship/features/shipments/presentation/widgets/shipment_header.dart';
 import 'package:sharkship/features/shipments/presentation/widgets/shipment_tabbar.dart';
 import 'package:sharkship/shared/constants/colors.dart';
-import 'package:sharkship/shared/widgets/gradient_button.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../widgets/shipment_card.dart';
 
@@ -29,8 +28,8 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
     super.initState();
 
     _scrollController.addListener(() {
-      if (_scrollController.position.maxScrollExtent ==
-          _scrollController.offset) {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 200) {
         _loadMore();
       }
     });
@@ -38,7 +37,6 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _scrollController.dispose();
   }
@@ -54,10 +52,7 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
 
     if (state.data == null) return;
 
-    print(state.data!.orders.length);
-    print(state.data!.totalCount);
     if (state.data!.orders.length >= state.data!.totalCount) return;
-    print('Loading more not started4');
     ref.read(shipmentProvider(selectedTab).notifier).loadMore();
   }
 
@@ -82,12 +77,7 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
                 onRefresh: () => _onRefresh(selectedTab),
                 backgroundColor: ColorManager.lightBlue,
                 color: Colors.white,
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.all(16),
-                  child: _buildTabContent(selectedTab, ref, context),
-                ),
+                child: _buildTabContent(selectedTab, ref, context),
               ),
             ),
           ],
@@ -98,7 +88,7 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
 
   Widget _buildTabContent(int tab, WidgetRef ref, BuildContext context) {
     final shipments = ref.watch(shipmentProvider(tab));
-    final shipmentsState = ref.read(shipmentProvider(tab).notifier);
+    // final shipmentsState = ref.read(shipmentProvider(tab).notifier);
     final selectedShipments = ref.watch(selectedShipmentsProvider(tab));
     final selectedSihpmentsNotifier = ref.read(
       selectedShipmentsProvider(tab).notifier,
@@ -168,110 +158,131 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
       data: (state) {
         final data =
             state.data ?? OrdersResponseEntity(totalCount: 0, orders: []);
+
         if (state.isFiltering) {
           return const Center(child: ThreeDotsLoader());
         }
-        return Column(
-          children: [
-            if (data.totalCount == 0) ...[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: SvgPicture.asset(
-                      'assets/images/orders/no_orders.svg',
-                      height: 300,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'No Orders Found',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: ColorManager.secondaryBlue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+
+        if (data.totalCount == 0) {
+          return ListView(
+            controller: _scrollController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: [SizedBox(height: 100), _emptyState()],
+          );
+        }
+
+        return ListView.builder(
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: true,
+          cacheExtent: 300,
+          controller: _scrollController,
+          padding: const EdgeInsets.all(16),
+          itemCount: data.orders.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return _header(data, selectedSihpmentsNotifier);
+            }
+
+            final adjustedIndex = index - 1;
+
+            if (adjustedIndex >= data.orders.length) {
+              if (state?.isLoadingMore ?? false) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              return const SizedBox.shrink();
+            }
+
+            final order = data.orders[adjustedIndex];
+
+            final isSelected = selectedShipments.selectedIds.contains(
+              order.id.toString(),
+            );
+
+            return RepaintBoundary(
+              child: ShipmentCard(
+                tab:tab,
+                order: order,
+                isSelected: isSelected,
+                onCheckboxChanged: (_) {
+                  selectedSihpmentsNotifier.toggle(order.id.toString());
+                },
+                onDownloadTap: selectedShipments.isLoading
+                    ? null
+                    : () {
+                        handleDownloadShippingLabel(context, ref, order.id);
+                      },
               ),
-            ] else ...[
-              Column(
-                children: [
-                  // SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Checkbox(
-                        value: selectedSihpmentsNotifier.isAllSelected(data),
-                        onChanged: (value) {
-                          selectedSihpmentsNotifier.toggleAll(data);
-                        },
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        // isAllSelected ? "Unselect All" :
-                        !selectedSihpmentsNotifier.isAllSelected(data)
-                            ? "Select All"
-                            : "Unselect All",
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    ],
-                  ),
-                  // SizedBox(height: 10),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount:
-                        data.orders.length + (state.isLoadingMore ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index < data.orders.length) {
-                        final order = data.orders[index];
-                        final isSelected = selectedShipments.selectedIds
-                            .contains(order.id.toString());
-                        return ShipmentCard(
-                          order: order,
-                          isSelected: isSelected,
-                          onCheckboxChanged: (value) {
-                            selectedSihpmentsNotifier.toggle(
-                              order.id.toString(),
-                            );
-                          },
-                          onDownloadTap: selectedShipments.isLoading
-                              ? null
-                              : () {
-                                  handleDownloadShippingLabel(
-                                    context,
-                                    ref,
-                                    order.id,
-                                  );
-                                },
-                        );
-                      } else {
-                        return _PaginationLoader(state);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ],
+            );
+          },
         );
       },
       error: (err, stack) => ErrorWidget(err),
-      loading: () => Center(child: OrdersSkeletonList()),
+      loading: () => const OrdersSkeletonList(),
     );
   }
 
-  Widget _PaginationLoader(state) {
-    if (!state.isLoadingMore) return const SizedBox();
-
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: Center(child: CircularProgressIndicator()),
+  Widget _header(
+    OrdersResponseEntity data,
+    SelectedShipmentsNotifier selectedSihpmentsNotifier,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Checkbox(
+          value: selectedSihpmentsNotifier.isAllSelected(data),
+          onChanged: (value) {
+            selectedSihpmentsNotifier.toggleAll(data);
+          },
+        ),
+        const SizedBox(width: 4),
+        Text(
+          // isAllSelected ? "Unselect All" :
+          !selectedSihpmentsNotifier.isAllSelected(data)
+              ? "Select All"
+              : "Unselect All",
+          style: const TextStyle(fontSize: 14),
+        ),
+      ],
     );
   }
+
+  Widget _emptyState() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: SvgPicture.asset(
+            'assets/images/orders/no_orders.svg',
+            height: 300,
+            fit: BoxFit.fill,
+            cacheColorFilter: true,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'No Orders Found',
+          style: TextStyle(
+            fontSize: 20,
+            color: ColorManager.secondaryBlue,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Widget _PaginationLoader(state) {
+  //   if (!state.isLoadingMore) return const SizedBox();
+
+  //   return const Padding(
+  //     padding: EdgeInsets.symmetric(vertical: 16),
+  //     child: Center(child: CircularProgressIndicator()),
+  //   );
+  // }
 }

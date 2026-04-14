@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sharkship/features/auth/presentation/state/auth_notifier.dart';
+import 'package:sharkship/features/more/presentation/widgets/menu_list_item.dart';
+import 'package:sharkship/features/nav/presentation/state/bottom_nav_state.dart';
+import 'package:sharkship/features/shipments/presentation/state/shipment_tab_provider.dart';
 import 'package:sharkship/features/user/presentation/state/user_notifier.dart';
 import 'package:sharkship/features/user/presentation/state/user_balance_notifier.dart';
+import 'package:sharkship/routes/app_router.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
@@ -17,15 +21,7 @@ class MoreScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-      appBar: AppBar(
-        title: const Text(
-          "More",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black,
-      ),
+
       body: userAsync.when(
         loading: () => const Center(child: ThreeDotsLoader()),
         error: (err, st) => Center(child: Text("Error: $err")),
@@ -34,14 +30,17 @@ class MoreScreen extends ConsumerWidget {
             return const Center(child: Text("User not logged in"));
           }
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                _buildProfileCard(context, user, ref),
-                const SizedBox(height: 32),
-                _buildLogoutButton(context, ref),
-              ],
+          return SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildProfileCard(context, user, ref),
+                  const SizedBox(height: 32),
+                  _buildItems(context, ref),
+                ],
+              ),
             ),
           );
         },
@@ -50,6 +49,7 @@ class MoreScreen extends ConsumerWidget {
   }
 
   Widget _buildProfileCard(BuildContext context, dynamic user, WidgetRef ref) {
+    final balanceState = ref.watch(userBalanceProvider);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -79,13 +79,13 @@ class MoreScreen extends ConsumerWidget {
                     ),
                   ),
                   child: CircleAvatar(
-                    radius: 40,
+                    radius: 30,
                     backgroundColor: Colors.blue.shade50,
                     backgroundImage: user.profileImageUrl != null
                         ? CachedNetworkImageProvider(user.profileImageUrl!)
                         : null,
                     child: user.profileImageUrl == null
-                        ? const Icon(Icons.person, size: 40, color: Colors.blue)
+                        ? const Icon(Icons.person, size: 30, color: Colors.blue)
                         : null,
                   ),
                 ),
@@ -97,9 +97,9 @@ class MoreScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${user.firstName} ${user.lastName}",
+                        "${user.firstName} ${user.lastName ?? ""}",
                         style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           fontWeight: FontWeight.w800,
                           letterSpacing: -0.5,
                         ),
@@ -108,7 +108,7 @@ class MoreScreen extends ConsumerWidget {
                       Text(
                         user.email,
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 14,
                           color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
                         ),
@@ -152,44 +152,56 @@ class MoreScreen extends ConsumerWidget {
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: const Color(0xFF2D7FB8).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
                     Icons.account_balance_wallet_outlined,
                     color: Color(0xFF2D7FB8),
+                    size: 19,
                   ),
                 ),
                 const SizedBox(width: 16),
-                const Text(
-                  "Total Balance",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF2D7FB8),
-                  ),
-                ),
-                const Spacer(),
-                ref
-                    .watch(userBalanceProvider)
-                    .when(
-                      data: (balance) => Text(
-                        "₹${balance?.balance ?? '0.00'}",
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF5AB6E5),
-                        ),
-                      ),
-                      loading: () => const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                      error: (_, __) => const Text("₹0.00"),
+                if (balanceState.value?.activeWallet != "POSTPAID") ...[
+                  const Text(
+                    "Total Balance",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF2D7FB8),
                     ),
+                  ),
+                  const Spacer(),
+                  ref
+                      .watch(userBalanceProvider)
+                      .when(
+                        data: (balance) => Text(
+                          "₹${balance?.balance ?? '0.00'}",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFF5AB6E5),
+                          ),
+                        ),
+                        loading: () => const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                        error: (_, __) => const Text("₹0.00"),
+                      ),
+                ] else ...[
+                  const Text(
+                    "POSTPAID",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF2D7FB8),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
@@ -198,24 +210,226 @@ class MoreScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildLogoutButton(BuildContext context, WidgetRef ref) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton.icon(
-        onPressed: () => _showLogoutDialog(context, ref),
-        icon: const Icon(Icons.logout),
-        label: const Text("Log Out"),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red.shade50,
-          foregroundColor: Colors.red,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side: BorderSide(color: Colors.red.shade100),
+  Widget _buildItems(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        MenuListItem(
+          item: MenuItem(
+            title: "Dashboard",
+            icon: Icons.dashboard_outlined,
+            onTap: () {
+              ref.read(bottomNavProvider.notifier).state = 0;
+            },
           ),
         ),
-      ),
+        MenuListItem(
+          item: MenuItem(
+            title: "Orders",
+            icon: Icons.inventory,
+            isDropdown: true,
+            children: [
+              MenuItem(
+                title: "Manage Orders",
+                icon: Icons.description_outlined,
+                onTap: () {
+                  ref.read(bottomNavProvider.notifier).state = 1;
+                },
+              ),
+              MenuItem(
+                title: "Create Orders",
+                icon: Icons.add_box_outlined,
+                onTap: () {
+                  context.push(Routes.CREATE_ORDER);
+                },
+              ),
+              MenuItem(
+                title: "Shipment Tracking",
+                icon: Icons.local_shipping_outlined,
+                onTap: () {
+                  print('HDHD(#))))))))))))))))))))))))))))))))))))))');
+                  ref.read(shipmentTabProvider.notifier).setTab(0);
+                  ref.read(bottomNavProvider.notifier).state = 2;
+                },
+              ),
+              MenuItem(
+                title: "Returns",
+                icon: Icons.assignment_return_outlined,
+                onTap: () {},
+              ),
+            ],
+          ),
+        ),
+        MenuListItem(
+          item: MenuItem(
+            title: "NDR",
+            icon: Icons.assignment_return_outlined,
+            onTap: () {
+              _comingSoon(context);
+            },
+          ),
+        ),
+        MenuListItem(
+          item: MenuItem(
+            title: "Weight Discrepancy",
+            icon: Icons.dashboard_outlined,
+            onTap: () {
+              _comingSoon(context);
+            },
+          ),
+        ),
+        MenuListItem(
+          item: MenuItem(
+            title: "Finances",
+            icon: Icons.wallet,
+            isDropdown: true,
+            children: [
+              MenuItem(
+                title: "Shipping Charges",
+                icon: Icons.description_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+              MenuItem(
+                title: "Seller Charges",
+                icon: Icons.add_box_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+              MenuItem(
+                title: "Rate Calculator",
+                icon: Icons.local_shipping_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+              MenuItem(
+                title: "Transaction Summary",
+                icon: Icons.assignment_return_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+              MenuItem(
+                title: "Remittance Summary",
+                icon: Icons.assignment_return_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+              MenuItem(
+                title: "Invoice Summary",
+                icon: Icons.assignment_return_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+            ],
+          ),
+        ),
+        MenuListItem(
+          item: MenuItem(
+            title: "Buyer Experience",
+            icon: Icons.supervised_user_circle_outlined,
+            isDropdown: true,
+            children: [
+              MenuItem(
+                title: "Buyer Communication",
+                icon: Icons.description_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+            ],
+          ),
+        ),
+        MenuListItem(
+          item: MenuItem(
+            title: "Business Tools",
+            icon: Icons.settings_applications_outlined,
+            isDropdown: true,
+            children: [
+              MenuItem(
+                title: "Courier Partner Priority",
+                icon: Icons.description_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+              MenuItem(
+                title: "Manage Pickup Address",
+                icon: Icons.add_box_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+              MenuItem(
+                title: "Customize Shipping Label",
+                icon: Icons.local_shipping_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+              MenuItem(
+                title: "API Integration",
+                icon: Icons.assignment_return_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+              MenuItem(
+                title: "Reports",
+                icon: Icons.assignment_return_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+              MenuItem(
+                title: "Mange Users",
+                icon: Icons.assignment_return_outlined,
+                onTap: () {
+                  _comingSoon(context);
+                },
+              ),
+            ],
+          ),
+        ),
+        MenuListItem(
+          item: MenuItem(
+            title: "KYC Verification",
+            icon: Icons.contact_emergency_outlined,
+            onTap: () {
+              _comingSoon(context);
+            },
+          ),
+        ),
+        MenuListItem(
+          item: MenuItem(
+            title: "Get Support",
+            icon: Icons.support_agent,
+            onTap: () {
+              _comingSoon(context);
+            },
+          ),
+        ),
+        MenuListItem(
+          item: MenuItem(
+            title: "Channel Integrations",
+            icon: Icons.settings_input_composite_outlined,
+            onTap: () {
+              _comingSoon(context);
+            },
+          ),
+        ),
+        MenuListItem(
+          item: MenuItem(
+            title: "Logout",
+            icon: Icons.logout,
+            onTap: () => _showLogoutDialog(context, ref),
+          ),
+        ),
+      ],
     );
   }
 

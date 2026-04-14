@@ -139,7 +139,6 @@ class ShipmentNotifier extends _$ShipmentNotifier {
   }
 
   Future<void> loadMore() async {
-    print('Loading more');
     final current = state.value;
     if (current == null || current.isLoadingMore || current.data == null)
       return;
@@ -152,7 +151,6 @@ class ShipmentNotifier extends _$ShipmentNotifier {
     state = AsyncData(current.copyWith(isLoadingMore: true));
 
     try {
-      print('Loading more started');
       final params = _buildParams().copyWith(skip: currentCount, total: 10);
 
       final newResponse = await _fetchOrders(params);

@@ -12,6 +12,7 @@ import 'package:sharkship/features/orders/presentation/state/single_order_ship_n
 import 'package:sharkship/features/orders/presentation/widgets/address_picker_form.dart';
 import 'package:sharkship/features/orders/presentation/widgets/courier_priority_form.dart';
 import 'package:sharkship/features/orders/presentation/widgets/order_card.dart';
+import 'package:sharkship/features/orders/presentation/widgets/order_skeleton.dart';
 import 'package:sharkship/features/orders/presentation/widgets/orders_header.dart';
 import 'package:sharkship/features/orders/presentation/widgets/orders_tabbar.dart';
 import 'package:sharkship/routes/app_router.dart';
@@ -19,11 +20,49 @@ import 'package:sharkship/shared/constants/colors.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
-class OrdersScreen extends ConsumerWidget {
+class OrdersScreen extends ConsumerStatefulWidget {
   const OrdersScreen({super.key});
+  @override
+  ConsumerState<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends ConsumerState<OrdersScreen> {
+  final ScrollController _scrollController = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 200) {
+        _loadMore();
+      }
+    });
+  }
+
+  void _loadMore() {
+    final selectedTab = ref.read(ordersTabProvider);
+
+    final state = ref.read(ordersProvider(selectedTab)).value;
+
+    if (state == null) return;
+
+    if (state.isLoadingMore) return;
+
+    if (state.data == null) return;
+
+    if (state.data!.orders.length >= state.data!.totalCount) return;
+    ref.read(ordersProvider(selectedTab).notifier).loadMore();
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final selectedTab = ref.watch(ordersTabProvider);
     Future<void> _onRefresh(int tab) async {
       ref.invalidate(ordersProvider(tab));
@@ -44,11 +83,7 @@ class OrdersScreen extends ConsumerWidget {
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () => _onRefresh(selectedTab),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.only(left: 16, right: 16),
-                  child: _buildTabContent(selectedTab, ref),
-                ),
+                child: _buildTabContent(selectedTab, ref),
               ),
             ),
           ],
@@ -69,13 +104,11 @@ class OrdersScreen extends ConsumerWidget {
           backgroundColor: Colors.transparent,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
   Widget _buildTabContent(int tab, WidgetRef ref) {
     final orders = ref.watch(ordersProvider(tab));
-    final ordersState = ref.read(ordersProvider(tab).notifier);
     final selectedOrders = ref.watch(selectedOrdersProvider(tab));
     final selectedOrdersNotifer = ref.read(
       selectedOrdersProvider(tab).notifier,
@@ -89,188 +122,121 @@ class OrdersScreen extends ConsumerWidget {
       return;
     }
 
-    switch (tab) {
-      case 0:
-        return orders.when(
-          data: (state) {
-            final data =
-                state?.data ?? OrdersResponseEntity(totalCount: 0, orders: []);
-            if (state?.isFiltering ?? false) {
-              return const Center(child: ThreeDotsLoader());
+    return orders.when(
+      data: (state) {
+        final data =
+            state?.data ?? OrdersResponseEntity(totalCount: 0, orders: []);
+        if (state?.isFiltering ?? false) {
+          return const Center(child: ThreeDotsLoader());
+        }
+        if (data.totalCount == 0) {
+          return ListView(
+            controller: _scrollController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: [SizedBox(height: 100), _emptyState()],
+          );
+        }
+
+        return ListView.builder(
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: true,
+          cacheExtent: 300,
+          controller: _scrollController,
+          padding: const EdgeInsets.all(16),
+          itemCount: data.orders.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return _header(selectedOrdersNotifer, data);
             }
 
-            return Column(
-              children: [
-                if (data.totalCount == 0) ...[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
-                        child: SvgPicture.asset(
-                          'assets/images/orders/no_orders.svg',
-                          height: 300,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'No Orders Found',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: ColorManager.secondaryBlue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Text(
-                        'Start by creating a new order to manage and\n track it easily from this dashboard',
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ] else ...[
-                  Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Checkbox(
-                            value: selectedOrdersNotifer.isAllSelected(data),
-                            onChanged: (value) {
-                              selectedOrdersNotifer.toggleAll(data);
-                            },
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            !selectedOrdersNotifer.isAllSelected(data)
-                                ? "Select All"
-                                : "Unselect All",
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: data.orders.length,
-                        itemBuilder: (context, index) {
-                          final order = data.orders[index];
-                          final isSelected = selectedOrders.selectedIds
-                              .contains(order.id.toString());
-                          return OrderCard(
-                            order: order,
-                            isSelected: isSelected,
-                            onCheckboxChanged: (value) {
-                              selectedOrdersNotifer.toggle(order.id.toString());
-                            },
-                            onTruckTap: () {
-                              _openSingleShipModal(order, context);
-                            },
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ],
-            );
-          },
-          error: (err, stack) => Center(child: Text('Error: $err')),
-          loading: () => Center(child: ThreeDotsLoader()),
-        );
+            final adjustedIndex = index - 1;
 
-      case 1:
-        return orders.when(
-          data: (state) {
-            final data =
-                state?.data ?? OrdersResponseEntity(totalCount: 0, orders: []);
-            if (state?.isFiltering ?? false) {
-              return const Center(child: ThreeDotsLoader());
+            if (adjustedIndex >= data.orders.length) {
+              if (state?.isLoadingMore ?? false) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              return const SizedBox.shrink();
             }
+            final order = data.orders[adjustedIndex];
 
-            return Column(
-              children: [
-                if (data.totalCount == 0) ...[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
-                        child: SvgPicture.asset(
-                          'assets/images/orders/no_orders.svg',
-                          height: 300,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'No Orders Found',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: ColorManager.secondaryBlue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Text(
-                        'Start by creating a new order to manage and\n track it easily from this dashboard',
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ] else ...[
-                  Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Checkbox(
-                            value: selectedOrdersNotifer.isAllSelected(data),
-                            onChanged: (value) {
-                              selectedOrdersNotifer.toggleAll(data);
-                            },
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            !selectedOrdersNotifer.isAllSelected(data)
-                                ? "Select All"
-                                : "Unselect All",
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: data.orders.length,
-                        itemBuilder: (context, index) {
-                          return OrderCard(
-                            order: data.orders[index],
-                            isSelected: false,
-                            isFailed: true,
-                            onCheckboxChanged: (value) {},
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ],
+            final isSelected = selectedOrders.selectedIds.contains(
+              order.id.toString(),
+            );
+            return RepaintBoundary(
+              child: OrderCard(
+                tab: tab,
+                isSelected: isSelected,
+                order: order,
+                onCheckboxChanged: (_) {
+                  selectedOrdersNotifer.toggle(order.id.toString());
+                },
+                isFailed: tab == 1,
+              ),
             );
           },
-          error: (err, stack) => Center(child: Text('Error: $err')),
-          loading: () => ThreeDotsLoader(),
         );
-      default:
-        return const Center(child: Text("Coming Soon"));
-    }
+      },
+      error: (err, stack) => ErrorWidget(err),
+      loading: () => const OrdersSkeletonList(itemCount: 2),
+    );
+  }
+
+  Widget _header(
+    SelectedOrdersNotifier selectedOrdersNotifer,
+    OrdersResponseEntity data,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Checkbox(
+          value: selectedOrdersNotifer.isAllSelected(data),
+          onChanged: (value) {
+            selectedOrdersNotifer.toggleAll(data);
+          },
+        ),
+        const SizedBox(width: 4),
+        Text(
+          !selectedOrdersNotifer.isAllSelected(data)
+              ? "Select All"
+              : "Unselect All",
+          style: const TextStyle(fontSize: 14),
+        ),
+      ],
+    );
+  }
+
+  Widget _emptyState() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: SvgPicture.asset(
+            'assets/images/orders/no_orders.svg',
+            height: 300,
+            fit: BoxFit.fill,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'No Orders Found',
+          style: TextStyle(
+            fontSize: 20,
+            color: ColorManager.secondaryBlue,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const Text(
+          'Start by creating a new order to manage and\n track it easily from this dashboard',
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
   }
 }
 

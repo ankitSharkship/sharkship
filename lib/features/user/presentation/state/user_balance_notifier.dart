@@ -4,6 +4,7 @@ import 'user_providers.dart';
 
 part 'user_balance_notifier.g.dart';
 
+
 @Riverpod(keepAlive: true)
 class UserBalanceNotifier extends _$UserBalanceNotifier {
   @override

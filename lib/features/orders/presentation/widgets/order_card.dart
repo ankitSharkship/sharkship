@@ -9,6 +9,7 @@ import 'package:sharkship/shared/constants/colors.dart';
 import '../../domain/entities/order_entity.dart';
 
 class OrderCard extends ConsumerStatefulWidget {
+  final int tab;
   final OrderEntity order;
   final bool isSelected;
   final bool isFailed;
@@ -18,6 +19,7 @@ class OrderCard extends ConsumerStatefulWidget {
 
   const OrderCard({
     super.key,
+    required this.tab,
     required this.order,
     required this.isSelected,
     required this.onCheckboxChanged,
@@ -30,13 +32,10 @@ class OrderCard extends ConsumerStatefulWidget {
   ConsumerState<OrderCard> createState() => _OrderCardState();
 }
 
-class _OrderCardState extends ConsumerState<OrderCard>
-    with AutomaticKeepAliveClientMixin {
+class _OrderCardState extends ConsumerState<OrderCard> {
   bool isExpanded = false;
 
   @override
-  bool get wantKeepAlive => true;
-
   void toggle() {
     setState(() {
       isExpanded = !isExpanded;
@@ -45,8 +44,6 @@ class _OrderCardState extends ConsumerState<OrderCard>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     final order = widget.order;
     bool noRTORisk =
         order.customer.mobileNo.length == 10 && order.customer.name != null;

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/orders/domain/entities/order_entity.dart';
-import 'package:sharkship/features/orders/presentation/state/orders_notifier.dart';
-import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
-import 'package:sharkship/features/orders/presentation/state/selected_orders_notifier.dart';
-import 'package:sharkship/features/shipments/presentation/state/shipment_tab_provider.dart';
 import 'package:sharkship/shared/constants/colors.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_provider.dart';
 import 'package:sharkship/features/orders/presentation/widgets/orders_header.dart';
@@ -18,6 +14,7 @@ class ShipmentCard extends ConsumerStatefulWidget {
   final ValueChanged<bool?> onCheckboxChanged;
   final VoidCallback? onDownloadTap;
   final VoidCallback? onMoreTap;
+  final int tab;
 
   const ShipmentCard({
     super.key,
@@ -27,19 +24,17 @@ class ShipmentCard extends ConsumerStatefulWidget {
     this.isFailed = false,
     this.onDownloadTap,
     this.onMoreTap,
+    required this.tab,
   });
 
   @override
   ConsumerState<ShipmentCard> createState() => _OrderCardState();
 }
 
-class _OrderCardState extends ConsumerState<ShipmentCard>
-    with AutomaticKeepAliveClientMixin {
+class _OrderCardState extends ConsumerState<ShipmentCard> {
   bool isExpanded = false;
 
   @override
-  bool get wantKeepAlive => true;
-
   void toggle() {
     setState(() {
       isExpanded = !isExpanded;
@@ -48,10 +43,8 @@ class _OrderCardState extends ConsumerState<ShipmentCard>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     final order = widget.order;
-    final tab = ref.watch(shipmentTabProvider);
+    final tab = widget.tab;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 1, vertical: 8),
