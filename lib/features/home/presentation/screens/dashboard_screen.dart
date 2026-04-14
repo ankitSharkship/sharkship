@@ -105,23 +105,16 @@ class DashboardScreen extends ConsumerWidget {
       case 5:
         return Consumer(
           builder: (context, ref, child) {
-            final revenueState = ref.watch(orderRevenueProvider);
-            return revenueState.when(
-              loading: () => const Center(child: ThreeDotsLoader()),
-              error: (err, _) => Center(child: Text('Error: $err')),
-              data: (revenue) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const RevenueSummaryGrid(),
-                    const SizedBox(height: 20),
-                    const RevenueStatsCharts(),
-                    const SizedBox(height: 20),
-                    RevenueBreakdownTable(data: revenue.courierRevenues),
-                    const SizedBox(height: 20),
-                  ],
-                );
-              },
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const RevenueSummaryGrid(),
+                const SizedBox(height: 20),
+                const RevenueStatsCharts(),
+                const SizedBox(height: 20),
+                const RevenueBreakdownTable(),
+                const SizedBox(height: 20),
+              ],
             );
           },
         );

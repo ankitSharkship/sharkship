@@ -13,7 +13,7 @@ part of 'shipment_notifier.dart';
 const shipmentProvider = ShipmentNotifierFamily._();
 
 final class ShipmentNotifierProvider
-    extends $AsyncNotifierProvider<ShipmentNotifier, OrdersResponseEntity> {
+    extends $AsyncNotifierProvider<ShipmentNotifier, ShipmentState> {
   const ShipmentNotifierProvider._({
     required ShipmentNotifierFamily super.from,
     required int super.argument,
@@ -50,15 +50,15 @@ final class ShipmentNotifierProvider
   }
 }
 
-String _$shipmentNotifierHash() => r'875be74d68730bf926cdf6c16832f499ec88ccef';
+String _$shipmentNotifierHash() => r'19e0f41882b03dc993b36803a4df751460399d43';
 
 final class ShipmentNotifierFamily extends $Family
     with
         $ClassFamilyOverride<
           ShipmentNotifier,
-          AsyncValue<OrdersResponseEntity>,
-          OrdersResponseEntity,
-          FutureOr<OrdersResponseEntity>,
+          AsyncValue<ShipmentState>,
+          ShipmentState,
+          FutureOr<ShipmentState>,
           int
         > {
   const ShipmentNotifierFamily._()
@@ -77,26 +77,21 @@ final class ShipmentNotifierFamily extends $Family
   String toString() => r'shipmentProvider';
 }
 
-abstract class _$ShipmentNotifier extends $AsyncNotifier<OrdersResponseEntity> {
+abstract class _$ShipmentNotifier extends $AsyncNotifier<ShipmentState> {
   late final _$args = ref.$arg as int;
   int get tabIndex => _$args;
 
-  FutureOr<OrdersResponseEntity> build(int tabIndex);
+  FutureOr<ShipmentState> build(int tabIndex);
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build(_$args);
-    final ref =
-        this.ref
-            as $Ref<AsyncValue<OrdersResponseEntity>, OrdersResponseEntity>;
+    final ref = this.ref as $Ref<AsyncValue<ShipmentState>, ShipmentState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<
-                AsyncValue<OrdersResponseEntity>,
-                OrdersResponseEntity
-              >,
-              AsyncValue<OrdersResponseEntity>,
+              AnyNotifier<AsyncValue<ShipmentState>, ShipmentState>,
+              AsyncValue<ShipmentState>,
               Object?,
               Object?
             >;

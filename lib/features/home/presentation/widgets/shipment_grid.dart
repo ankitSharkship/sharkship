@@ -7,6 +7,7 @@ import 'package:sharkship/features/orders/presentation/state/orders_tab_provider
 import 'package:sharkship/features/shipments/presentation/state/shipment_tab_provider.dart';
 import 'package:sharkship/routes/app_router.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'shipment_stat_card.dart';
 
 class ShipmentGrid extends ConsumerWidget {
@@ -17,7 +18,7 @@ class ShipmentGrid extends ConsumerWidget {
     final statusState = ref.watch(orderStatusProvider);
 
     return statusState.when(
-      loading: () => const ThreeDotsLoader(),
+      loading: () => const _ShipmentGridSkeleton(),
       error: (err, stack) => Center(child: Text('Error: $err')),
       data: (summary) {
         final items = [
@@ -103,6 +104,47 @@ class ShipmentGrid extends ConsumerWidget {
           },
         );
       },
+    );
+  }
+}
+
+class _ShipmentGridSkeleton extends StatelessWidget {
+  const _ShipmentGridSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    final fakeItems = [
+      ("Loading", "----", 0.0, Icons.inventory),
+      ("Loading", "----", 0.0, Icons.show_chart),
+      ("Loading", "----", 0.0, Icons.history),
+      ("Loading", "----", 0.0, Icons.paid_outlined),
+      ("Loading", "----", 0.0, Icons.history),
+      ("Loading", "----", 0.0, Icons.paid_outlined),
+    ];
+
+    return Skeletonizer(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final crossAxisCount = constraints.maxWidth > 600 ? 3 : 2;
+          return GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: fakeItems.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              mainAxisExtent: 70,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+            ),
+            itemBuilder: (_, i) => ShipmentStatCard(
+              title: fakeItems[i].$1,
+              value: fakeItems[i].$2,
+              icon: fakeItems[i].$4,
+              onTap: () {},
+            ),
+          );
+        },
+      ),
     );
   }
 }

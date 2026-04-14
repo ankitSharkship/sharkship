@@ -21,7 +21,8 @@ class OrdersDataSource {
       'v1/order/list',
       queryParameters: params.toJson(),
     );
-    return OrdersResponseModel.fromJson(response.data);
+    final data = response.data['data'] ?? response.data;
+    return OrdersResponseModel.fromJson(data);
   }
 
   Future<List<OrderAddressModel>> getPickupAddresses() async {

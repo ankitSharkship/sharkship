@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/screens/dashboard_screen.dart';
-import 'package:sharkship/features/home/presentation/screens/home_page_backup.dart';
+
 import 'package:sharkship/features/more/presentation/screens/more_screen.dart';
 import 'package:sharkship/features/nav/presentation/state/bottom_nav_state.dart';
 import 'package:sharkship/features/orders/presentation/screens/orders_screen.dart';
@@ -19,7 +19,7 @@ class MainScreen extends ConsumerWidget {
     final screens = [
       const DashboardScreen(),
       const OrdersScreen(),
-      const ShipmentsScreen(),
+      ShipmentsScreen(),
       const SupportScreen(),
       const MoreScreen(),
     ];

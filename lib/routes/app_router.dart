@@ -34,7 +34,7 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: Routes.SHIPMENT,
-      builder: (context, state) => const ShipmentsScreen(),
+      builder: (context, state) => ShipmentsScreen(),
     ),
   ],
 );

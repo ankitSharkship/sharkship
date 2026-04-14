@@ -234,3 +234,51 @@ final class GetUserDetailsUseCaseProvider
 
 String _$getUserDetailsUseCaseHash() =>
     r'6f319ace75fc4a0f24cfcfd2a2f594d1f13d50a8';
+
+@ProviderFor(getUserBalanceUseCase)
+const getUserBalanceUseCaseProvider = GetUserBalanceUseCaseProvider._();
+
+final class GetUserBalanceUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetUserBalanceUseCase,
+          GetUserBalanceUseCase,
+          GetUserBalanceUseCase
+        >
+    with $Provider<GetUserBalanceUseCase> {
+  const GetUserBalanceUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getUserBalanceUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getUserBalanceUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetUserBalanceUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetUserBalanceUseCase create(Ref ref) {
+    return getUserBalanceUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetUserBalanceUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetUserBalanceUseCase>(value),
+    );
+  }
+}
+
+String _$getUserBalanceUseCaseHash() =>
+    r'964057df060983a74b3db62d8dd3a68c7bbf3391';

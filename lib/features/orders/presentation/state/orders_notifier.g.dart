@@ -13,7 +13,7 @@ part of 'orders_notifier.dart';
 const ordersProvider = OrdersNotifierFamily._();
 
 final class OrdersNotifierProvider
-    extends $AsyncNotifierProvider<OrdersNotifier, OrdersResponseEntity> {
+    extends $AsyncNotifierProvider<OrdersNotifier, OrdersState> {
   const OrdersNotifierProvider._({
     required OrdersNotifierFamily super.from,
     required int super.argument,
@@ -50,15 +50,15 @@ final class OrdersNotifierProvider
   }
 }
 
-String _$ordersNotifierHash() => r'a5f7558f6f40a8777ab30aece49fd0a387a37c16';
+String _$ordersNotifierHash() => r'49518453e717827c10e71a67da10fed8fa46da78';
 
 final class OrdersNotifierFamily extends $Family
     with
         $ClassFamilyOverride<
           OrdersNotifier,
-          AsyncValue<OrdersResponseEntity>,
-          OrdersResponseEntity,
-          FutureOr<OrdersResponseEntity>,
+          AsyncValue<OrdersState>,
+          OrdersState,
+          FutureOr<OrdersState>,
           int
         > {
   const OrdersNotifierFamily._()
@@ -77,26 +77,21 @@ final class OrdersNotifierFamily extends $Family
   String toString() => r'ordersProvider';
 }
 
-abstract class _$OrdersNotifier extends $AsyncNotifier<OrdersResponseEntity> {
+abstract class _$OrdersNotifier extends $AsyncNotifier<OrdersState> {
   late final _$args = ref.$arg as int;
   int get tabIndex => _$args;
 
-  FutureOr<OrdersResponseEntity> build(int tabIndex);
+  FutureOr<OrdersState> build(int tabIndex);
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build(_$args);
-    final ref =
-        this.ref
-            as $Ref<AsyncValue<OrdersResponseEntity>, OrdersResponseEntity>;
+    final ref = this.ref as $Ref<AsyncValue<OrdersState>, OrdersState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<
-                AsyncValue<OrdersResponseEntity>,
-                OrdersResponseEntity
-              >,
-              AsyncValue<OrdersResponseEntity>,
+              AnyNotifier<AsyncValue<OrdersState>, OrdersState>,
+              AsyncValue<OrdersState>,
               Object?,
               Object?
             >;

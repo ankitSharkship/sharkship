@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/widgets/date_range_picker_modal.dart';
+import 'package:sharkship/features/orders/presentation/state/courier_settings_notifier.dart';
+import 'package:sharkship/features/orders/presentation/state/filters_tab_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_notifier.dart';
+
 import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/selected_orders_notifier.dart';
 import 'package:sharkship/features/orders/presentation/widgets/courier_priority_form.dart';
 import 'package:sharkship/features/orders/presentation/widgets/address_picker_form.dart';
+
+import 'package:sharkship/shared/widgets/gradient_button.dart';
 
 class OrdersHeader extends ConsumerWidget {
   const OrdersHeader({super.key});
@@ -28,6 +33,15 @@ class OrdersHeader extends ConsumerWidget {
     );
   }
 
+  void _showFilter(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (_) => _filterBottomDrawer(context, ref),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
@@ -45,19 +59,113 @@ class OrdersHeader extends ConsumerWidget {
             children: [
               IconButton(
                 onPressed: () => _showDatePicker(context),
-                icon: const Icon(Icons.calendar_month, size: 22),
+                icon: const Icon(Icons.calendar_month_outlined, size: 28),
               ),
               IconButton(
                 onPressed: () => _showActions(context, ref),
                 icon: const Icon(Icons.build, size: 22),
               ),
               IconButton(
-                onPressed: () => _showDatePicker(context),
-                icon: const Icon(Icons.sort, size: 22),
+                onPressed: () => _showFilter(context, ref),
+                icon: const Icon(Icons.filter_alt, size: 22),
               ),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _filterBottomDrawer(BuildContext context, WidgetRef ref) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.7,
+      padding: const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 0),
+      decoration: const BoxDecoration(
+        color: Color(0xFFDCE6ED),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Column(
+          children: [
+            Container(
+              width: 60,
+              height: 6,
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+
+            // title
+            Row(
+              children: const [
+                Icon(Icons.filter_alt, size: 24),
+                SizedBox(width: 12),
+                Text(
+                  "Filter Options",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+            const Divider(height: 1),
+
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _LeftTabs(),
+                  const VerticalDivider(width: 1),
+                  const Expanded(child: _RightContent()),
+                ],
+              ),
+            ),
+
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: const Text(
+                      "Cancel",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      final selectedTab = ref.read(ordersTabProvider);
+                      ref
+                          .read(ordersProvider(selectedTab).notifier)
+                          .applyFilters();
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "Apply",
+                      style: TextStyle(
+                        color: Color(0xFF0084FF),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -445,6 +553,373 @@ class StatusNotification extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _LeftTabs extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedTab = ref.watch(selectedOrderFilterTabProvider);
+
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: 120,
+        child: Column(
+          children: OrderFilterTab.values.map((tab) {
+            final isSelected = tab == selectedTab;
+
+            return GestureDetector(
+              onTap: () {
+                ref.read(selectedOrderFilterTabProvider.notifier).state = tab;
+              },
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                color: isSelected ? Colors.blue.shade50 : Colors.transparent,
+                child: Text(
+                  _getLabel(tab),
+                  style: TextStyle(
+                    color: isSelected ? Colors.blue : Colors.black,
+                    fontWeight: isSelected
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  String _getLabel(OrderFilterTab tab) {
+    switch (tab) {
+      case OrderFilterTab.channels:
+        return "Channels";
+      case OrderFilterTab.courierServiceType:
+        return "Courier Service Type";
+      case OrderFilterTab.pickupAddress:
+        return "Pickup Address";
+      case OrderFilterTab.whatsappConfirmation:
+        return "Whatsapp Confirmation";
+      case OrderFilterTab.paymentType:
+        return "Payment Type";
+    }
+  }
+}
+
+class _RightContent extends ConsumerWidget {
+  const _RightContent();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedTab = ref.watch(selectedOrderFilterTabProvider);
+
+    switch (selectedTab) {
+      case OrderFilterTab.channels:
+        return _ChannelsView();
+      case OrderFilterTab.courierServiceType:
+        return _CourierServiceTypeView();
+      case OrderFilterTab.pickupAddress:
+        return _PickupAddressView();
+      case OrderFilterTab.whatsappConfirmation:
+        return _WhatsappConfirmationView();
+      case OrderFilterTab.paymentType:
+        return _PaymentTypeView();
+    }
+  }
+}
+
+class _ChannelsView extends ConsumerWidget {
+  final channels = [
+    RadioItems(displayName: "All", value: "All"),
+    RadioItems(displayName: "Manual", value: "MANUAL"),
+    RadioItems(displayName: "Shopify", value: "SHOPIFY"),
+    RadioItems(displayName: "Open Cart", value: "OPENCART"),
+    RadioItems(displayName: "Woo Commerce", value: "WOOCOMMERCE"),
+    RadioItems(displayName: "WIX", value: "WIX"),
+  ];
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(orderChannelFilterProvider);
+    return ListView.builder(
+      itemCount: channels.length,
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      itemBuilder: (context, index) {
+        final channel = channels[index];
+        return RadioListTile<String>(
+          value: channel.value,
+          groupValue: selected ?? "All",
+          title: Text(
+            channel.displayName,
+            style: const TextStyle(fontSize: 14),
+          ),
+          dense: true,
+          controlAffinity: ListTileControlAffinity.leading,
+          activeColor: Colors.blue,
+          onChanged: (val) {
+            ref.read(orderChannelFilterProvider.notifier).state = val;
+          },
+        );
+      },
+    );
+  }
+}
+
+class _CourierServiceTypeView extends ConsumerWidget {
+  final courierType = [
+    RadioItems(displayName: "All", value: "All"),
+    RadioItems(displayName: "PAN INDIA", value: "PAN_INDIA"),
+    RadioItems(displayName: "SDD", value: "SDD"),
+    RadioItems(displayName: "NDD", value: "NDD"),
+  ];
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(orderCourierServiceTypeFilterProvider);
+
+    return ListView.builder(
+      itemCount: courierType.length,
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      itemBuilder: (context, index) {
+        final channel = courierType[index];
+        return RadioListTile<String>(
+          value: channel.value,
+          groupValue: selected ?? "All",
+          title: Text(
+            channel.displayName,
+            style: const TextStyle(fontSize: 14),
+          ),
+          dense: true,
+          controlAffinity: ListTileControlAffinity.leading,
+          activeColor: Colors.blue,
+          onChanged: (val) {
+            ref.read(orderCourierServiceTypeFilterProvider.notifier).state =
+                val;
+          },
+        );
+      },
+    );
+  }
+}
+
+class _PickupAddressView extends ConsumerWidget {
+  const _PickupAddressView({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(courierSettingsProvider);
+    final selectedId = ref.watch(orderPickupAddressFilterProvider);
+
+    return state.when(
+      data: (data) {
+        final addresses = data.addresses;
+
+        if (addresses == null || addresses.isEmpty) {
+          return const Center(
+            child: Text(
+              "No addresses found",
+              style: TextStyle(color: Colors.grey),
+            ),
+          );
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: addresses.length + 1, // +1 for "All"
+          itemBuilder: (context, index) {
+            /// ✅ ALL OPTION
+            if (index == 0) {
+              final isSelected = selectedId == null;
+
+              return GestureDetector(
+                onTap: () {
+                  ref.read(orderPickupAddressFilterProvider.notifier).state =
+                      null;
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: isSelected ? Colors.blue : const Color(0xFFE8EEF5),
+                      width: isSelected ? 2 : 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.02),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: const Text(
+                    "All",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              );
+            }
+
+            /// ✅ NORMAL ITEMS (shift index)
+            final addr = addresses[index - 1];
+            final isSelected = selectedId == addr.id.toString();
+
+            return GestureDetector(
+              onTap: () {
+                ref.read(orderPickupAddressFilterProvider.notifier).state = addr
+                    .id
+                    .toString();
+              },
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: isSelected ? Colors.blue : const Color(0xFFE8EEF5),
+                    width: isSelected ? 2 : 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.02),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// Name + Default Tag
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            addr.name ?? "Unnamed Address",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        if (addr.isDefault)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF22C55E).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Text(
+                              "Default",
+                              style: TextStyle(
+                                color: Color(0xFF22C55E),
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    /// Address line
+                    Text(
+                      "${addr.addressLane1}, ${addr.addressLane2 ?? ''}",
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+
+                    /// City + State + PIN
+                    Text(
+                      "${addr.city}, ${addr.state} - ${addr.pin}",
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text("Error: $err")),
+    );
+  }
+}
+
+class _WhatsappConfirmationView extends ConsumerWidget {
+  final types = [
+    RadioItems(displayName: "All", value: "All"),
+    RadioItems(displayName: "Yes", value: "YES"),
+    RadioItems(displayName: "No", value: "NO"),
+    RadioItems(displayName: "Pending", value: "PENDING"),
+    RadioItems(displayName: "Address Update", value: "ADDRESS_UPDATE"),
+  ];
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(orderWhatsappConfirmationFilterProvider);
+
+    return ListView.builder(
+      itemCount: types.length,
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      itemBuilder: (context, index) {
+        final type = types[index];
+        return RadioListTile<String>(
+          value: type.value,
+          groupValue: selected ?? "All",
+          title: Text(type.displayName, style: const TextStyle(fontSize: 14)),
+          dense: true,
+          controlAffinity: ListTileControlAffinity.leading,
+          activeColor: Colors.blue,
+          onChanged: (val) {
+            ref.read(orderWhatsappConfirmationFilterProvider.notifier).state =
+                val;
+          },
+        );
+      },
+    );
+  }
+}
+
+class _PaymentTypeView extends ConsumerWidget {
+  final types = [
+    RadioItems(displayName: "All", value: "All"),
+    RadioItems(displayName: "Cod", value: "COD"),
+    RadioItems(displayName: "Prepaid", value: "PREPAID"),
+    RadioItems(displayName: "Partial COD", value: "PARTIAL_COD"),
+  ];
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(orderPaymentTypeFilterProvider);
+
+    return ListView.builder(
+      itemCount: types.length,
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      itemBuilder: (context, index) {
+        final type = types[index];
+        return RadioListTile<String>(
+          value: type.value,
+          groupValue: selected ?? "All",
+          title: Text(type.displayName, style: const TextStyle(fontSize: 14)),
+          dense: true,
+          controlAffinity: ListTileControlAffinity.leading,
+          activeColor: Colors.blue,
+          onChanged: (val) {
+            ref.read(orderPaymentTypeFilterProvider.notifier).state = val;
+          },
+        );
+      },
     );
   }
 }

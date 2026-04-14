@@ -8,6 +8,7 @@ class GradientButton extends StatelessWidget {
   final double height;
   final BorderRadius borderRadius;
   final List<Color>? gradientColors;
+  final double? width;
   final Widget? child;
 
   const GradientButton({
@@ -16,6 +17,7 @@ class GradientButton extends StatelessWidget {
     required this.onTap,
     this.isActive = true,
     this.height = 56,
+    this.width,
     this.borderRadius = const BorderRadius.all(Radius.circular(16)),
     this.gradientColors,
     this.child,
@@ -42,7 +44,7 @@ class GradientButton extends StatelessWidget {
           borderRadius: borderRadius,
           child: Ink(
             height: height,
-            width: double.infinity,
+            width: width ?? double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: colors,

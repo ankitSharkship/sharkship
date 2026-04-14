@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sharkship/features/orders/domain/entities/order_entity.dart';
+import 'package:sharkship/features/orders/domain/entities/orders_response_entity.dart';
 import 'package:sharkship/features/orders/presentation/state/courier_settings_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
@@ -91,7 +92,13 @@ class OrdersScreen extends ConsumerWidget {
     switch (tab) {
       case 0:
         return orders.when(
-          data: (data) {
+          data: (state) {
+            final data =
+                state?.data ?? OrdersResponseEntity(totalCount: 0, orders: []);
+            if (state?.isFiltering ?? false) {
+              return const Center(child: ThreeDotsLoader());
+            }
+
             return Column(
               children: [
                 if (data.totalCount == 0) ...[
@@ -125,30 +132,27 @@ class OrdersScreen extends ConsumerWidget {
                 ] else ...[
                   Column(
                     children: [
-                      // SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Checkbox(
-                            value: selectedOrdersNotifer.isAllSelected(
-                              orders.value!,
-                            ),
+                            value: selectedOrdersNotifer.isAllSelected(data),
                             onChanged: (value) {
-                              selectedOrdersNotifer.toggleAll(orders.value!);
+                              selectedOrdersNotifer.toggleAll(data);
                             },
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            // isAllSelected ? "Unselect All" :
-                            !selectedOrdersNotifer.isAllSelected(orders.value!)
+                            !selectedOrdersNotifer.isAllSelected(data)
                                 ? "Select All"
                                 : "Unselect All",
                             style: const TextStyle(fontSize: 14),
                           ),
                         ],
                       ),
-                      // SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -181,7 +185,13 @@ class OrdersScreen extends ConsumerWidget {
 
       case 1:
         return orders.when(
-          data: (data) {
+          data: (state) {
+            final data =
+                state?.data ?? OrdersResponseEntity(totalCount: 0, orders: []);
+            if (state?.isFiltering ?? false) {
+              return const Center(child: ThreeDotsLoader());
+            }
+
             return Column(
               children: [
                 if (data.totalCount == 0) ...[
@@ -215,30 +225,27 @@ class OrdersScreen extends ConsumerWidget {
                 ] else ...[
                   Column(
                     children: [
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Checkbox(
-                            value: selectedOrdersNotifer.isAllSelected(
-                              orders.value!,
-                            ),
+                            value: selectedOrdersNotifer.isAllSelected(data),
                             onChanged: (value) {
-                              selectedOrdersNotifer.toggleAll(orders.value!);
+                              selectedOrdersNotifer.toggleAll(data);
                             },
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            // isAllSelected ? "Unselect All" :
-                            !selectedOrdersNotifer.isAllSelected(orders.value!)
+                            !selectedOrdersNotifer.isAllSelected(data)
                                 ? "Select All"
                                 : "Unselect All",
                             style: const TextStyle(fontSize: 14),
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),

@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/user.dart';
 import 'user_providers.dart';
+import 'user_balance_notifier.dart';
 
 part 'user_notifier.g.dart';
 
@@ -25,12 +26,15 @@ class UserNotifier extends _$UserNotifier {
 
         // Fire API in background (no await)
         _fetchAndUpdate();
+        fetchUserBalance();
       } else {
         // No local → fetch normally
         await fetchUserDetails();
+        await fetchUserBalance();
       }
     } catch (_) {
       await fetchUserDetails();
+      await fetchUserBalance();
     }
   }
 
@@ -47,30 +51,24 @@ class UserNotifier extends _$UserNotifier {
     }
   }
 
-  // Future<void> _loadFromLocal() async {
-  //   try {
-  //     final repository = ref.read(userRepositoryProvider);
-  //     final user = await repository.getUserFromLocalStorage();
-  //     if (!ref.mounted) return;
-  //     if (user != null) {
-  //       state = AsyncValue.data(user);
-  //     }
-  //     await fetchUserDetails();
-  //   } catch (e) {
-  //     // Don't set error here, let fetch handle it
-  //   }
-  // }
-
   Future<void> fetchUserDetails() async {
     state = const AsyncValue.loading();
     try {
       final useCase = ref.read(getUserDetailsUseCaseProvider);
       final user = await useCase();
-      if (!ref.mounted) return; // Added check
+      if (!ref.mounted) return;
       state = AsyncValue.data(user);
     } catch (e, st) {
-      if (!ref.mounted) return; // Added check
+      if (!ref.mounted) return;
       state = AsyncValue.error(e, st);
+    }
+  }
+
+  Future<void> fetchUserBalance() async {
+    try {
+      await ref.read(userBalanceProvider.notifier).fetchBalance();
+    } catch (_) {
+      // handled in balance notifier state
     }
   }
 

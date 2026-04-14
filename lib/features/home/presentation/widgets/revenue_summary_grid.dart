@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/widgets/summary_stat_card.dart';
-import 'package:sharkship/shared/widgets/loader.dart';
+
+import 'package:skeletonizer/skeletonizer.dart';
 import '../state/dashboard_notifier.dart';
-import 'summary_grid.dart'; // Reuse SummaryCard
 
 class RevenueSummaryGrid extends ConsumerWidget {
   const RevenueSummaryGrid({super.key});
@@ -13,7 +13,7 @@ class RevenueSummaryGrid extends ConsumerWidget {
     final revenueState = ref.watch(orderRevenueProvider);
 
     return revenueState.when(
-      loading: () => const Center(child: ThreeDotsLoader()),
+      loading: () => const Center(child: _RevenueSummaryGridSkeleton()),
       error: (error, _) => Center(child: Text('Error: $error')),
       data: (revenue) {
         final items = [
@@ -65,6 +65,42 @@ class RevenueSummaryGrid extends ConsumerWidget {
           },
         );
       },
+    );
+  }
+}
+
+class _RevenueSummaryGridSkeleton extends StatelessWidget {
+  const _RevenueSummaryGridSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    final fakeItems = [
+      ("Loading", "----", 0.0, Icons.inventory),
+      ("Loading", "----", 0.0, Icons.show_chart),
+      ("Loading", "----", 0.0, Icons.history),
+      ("Loading", "----", 0.0, Icons.paid_outlined),
+    ];
+
+    return Skeletonizer(
+      enabled: true,
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: fakeItems.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisExtent: 120,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+        ),
+        itemBuilder: (_, i) => SummaryStatCard(
+          title: fakeItems[i].$1,
+          value: fakeItems[i].$2,
+          increase: fakeItems[i].$3,
+          icon: fakeItems[i].$4,
+          showGrowth: i < 2,
+        ),
+      ),
     );
   }
 }

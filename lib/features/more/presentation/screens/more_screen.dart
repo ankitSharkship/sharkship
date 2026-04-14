@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sharkship/features/auth/presentation/state/auth_notifier.dart';
 import 'package:sharkship/features/user/presentation/state/user_notifier.dart';
+import 'package:sharkship/features/user/presentation/state/user_balance_notifier.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
@@ -37,7 +38,7 @@ class MoreScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                _buildProfileCard(context, user),
+                _buildProfileCard(context, user, ref),
                 const SizedBox(height: 32),
                 _buildLogoutButton(context, ref),
               ],
@@ -48,7 +49,7 @@ class MoreScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildProfileCard(BuildContext context, dynamic user) {
+  Widget _buildProfileCard(BuildContext context, dynamic user, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -171,14 +172,24 @@ class MoreScreen extends ConsumerWidget {
                   ),
                 ),
                 const Spacer(),
-                const Text(
-                  "₹100.00",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF5AB6E5),
-                  ),
-                ),
+                ref
+                    .watch(userBalanceProvider)
+                    .when(
+                      data: (balance) => Text(
+                        "₹${balance?.balance ?? '0.00'}",
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFF5AB6E5),
+                        ),
+                      ),
+                      loading: () => const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      error: (_, __) => const Text("₹0.00"),
+                    ),
               ],
             ),
           ),

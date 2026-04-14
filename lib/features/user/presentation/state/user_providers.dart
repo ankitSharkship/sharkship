@@ -6,6 +6,7 @@ import '../../data/datasources/user_remote_datasource.dart';
 import '../../data/repositories/user_repository_impl.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../../domain/usecases/get_user_details_usecase.dart';
+import '../../domain/usecases/get_user_balance_usecase.dart';
 
 part 'user_providers.g.dart';
 
@@ -37,4 +38,10 @@ UserRepository userRepository(Ref ref) {
 GetUserDetailsUseCase getUserDetailsUseCase(Ref ref) {
   final repository = ref.watch(userRepositoryProvider);
   return GetUserDetailsUseCase(repository);
+}
+
+@riverpod
+GetUserBalanceUseCase getUserBalanceUseCase(Ref ref) {
+  final repository = ref.watch(userRepositoryProvider);
+  return GetUserBalanceUseCase(repository);
 }

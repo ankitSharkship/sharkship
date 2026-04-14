@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
-import 'package:sharkship/shared/widgets/loader.dart';
+// import 'package:sharkship/shared/widgets/loader.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'shipment_stat_card.dart';
 
 class NDRGrid extends ConsumerWidget {
@@ -13,7 +14,7 @@ class NDRGrid extends ConsumerWidget {
     final statusState = ref.watch(ndrStatusProvider);
 
     return statusState.when(
-      loading: () => const ThreeDotsLoader(),
+      loading: () => const _NDRGridSkeleton(),
       error: (err, stack) => Center(child: Text('Error: $err')),
       data: (summary) {
         if (summary.countByNDRStatus.isEmpty) {
@@ -73,6 +74,47 @@ class NDRGrid extends ConsumerWidget {
       body: "This feature is coming soon",
       confirmText: "OK",
       onConfirm: () => Navigator.pop(context),
+    );
+  }
+}
+
+class _NDRGridSkeleton extends StatelessWidget {
+  const _NDRGridSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    final fakeItems = [
+      ("Loading", "----", 0.0, Icons.inventory),
+      ("Loading", "----", 0.0, Icons.show_chart),
+      ("Loading", "----", 0.0, Icons.history),
+      ("Loading", "----", 0.0, Icons.paid_outlined),
+      ("Loading", "----", 0.0, Icons.history),
+      ("Loading", "----", 0.0, Icons.paid_outlined),
+    ];
+
+    return Skeletonizer(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final crossAxisCount = constraints.maxWidth > 600 ? 3 : 2;
+          return GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: fakeItems.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              mainAxisExtent: 70,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+            ),
+            itemBuilder: (_, i) => ShipmentStatCard(
+              title: fakeItems[i].$1,
+              value: fakeItems[i].$2,
+              icon: fakeItems[i].$4,
+              onTap: () {},
+            ),
+          );
+        },
+      ),
     );
   }
 }

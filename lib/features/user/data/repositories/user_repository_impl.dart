@@ -1,8 +1,9 @@
-import '../../domain/entities/user.dart';
+import '../../domain/entities/user_balance.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../datasources/user_local_datasource.dart';
 import '../datasources/user_remote_datasource.dart';
 import '../models/user_model.dart';
+import '../../domain/entities/user.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource remoteDataSource;
@@ -33,5 +34,10 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<void> clearUserFromLocalStorage() async {
     await localDataSource.clearUser();
+  }
+
+  @override
+  Future<UserBalance> getUserBalance() async {
+    return await remoteDataSource.getUserBalance();
   }
 }

@@ -51,6 +51,52 @@ class OrderListParams {
     this.whatsappRemark,
   });
 
+  OrderListParams copyWith({
+    int? skip,
+    int? total,
+    DateTime? startDate,
+    DateTime? endDate,
+    String? channel,
+    String? paymentType,
+    String? carrier,
+    String? status,
+    List<String>? channelStore,
+    String? isNdr,
+    String? isRto,
+    String? isLabelDownloaded,
+    String? isFailed,
+    num? weight,
+    String? productName,
+    List<String>? serviceType,
+    String? remark,
+    int? pickupAddressId,
+    String? shopifyOrderIdFilter,
+    String? whatsappRemark,
+  }) {
+    return OrderListParams(
+      skip: skip ?? this.skip,
+      total: total ?? this.total,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      channel: channel ?? this.channel,
+      paymentType: paymentType ?? this.paymentType,
+      carrier: carrier ?? this.carrier,
+      status: status ?? this.status,
+      channelStore: channelStore ?? this.channelStore,
+      isNdr: isNdr ?? this.isNdr,
+      isRto: isRto ?? this.isRto,
+      isLabelDownloaded: isLabelDownloaded ?? this.isLabelDownloaded,
+      isFailed: isFailed ?? this.isFailed,
+      weight: weight ?? this.weight,
+      productName: productName ?? this.productName,
+      serviceType: serviceType ?? this.serviceType,
+      remark: remark ?? this.remark,
+      pickupAddressId: pickupAddressId ?? this.pickupAddressId,
+      shopifyOrderIdFilter: shopifyOrderIdFilter ?? this.shopifyOrderIdFilter,
+      whatsappRemark: whatsappRemark ?? this.whatsappRemark,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       if (skip != null) 'skip': skip,
