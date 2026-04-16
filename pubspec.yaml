@@ -10,6 +10,7 @@ dependencies:
   app_links: ^7.0.0
   cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
+  curved_navigation_bar: ^1.0.6
   dio: ^5.9.2
   equatable: ^2.0.8
   excel: ^4.0.6
@@ -35,6 +36,7 @@ dependencies:
   json_annotation: ^4.9.0
   logger: ^2.7.0
   open_file: ^3.5.11
+  path_provider: ^2.1.5
   permission_handler: ^12.0.1
   riverpod_annotation: ^3.0.0
   skeletonizer: ^2.1.3

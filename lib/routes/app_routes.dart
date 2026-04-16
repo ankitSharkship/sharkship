@@ -11,6 +11,8 @@ abstract class Routes {
   static const KYC = _Paths.KYC;
   static const CREATE_ORDER = _Paths.CREATE_ORDER;
   static const SHIPMENT = _Paths.SHIPMENT;
+  static const NDR = _Paths.NDR;
+  static const SHIPMENT_TRACKING = _Paths.SHIPMENT_TRACKING;
 }
 
 abstract class _Paths {
@@ -23,4 +25,6 @@ abstract class _Paths {
   static const KYC = '/kyc';
   static const CREATE_ORDER = '/create-order';
   static const SHIPMENT = '/shipment';
+  static const NDR = '/ndr';
+  static const SHIPMENT_TRACKING = '/shipment-tracking';
 }

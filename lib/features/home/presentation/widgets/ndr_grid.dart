@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
+import 'package:sharkship/features/ndr/presentation/state/ndr_tab_provider.dart';
+import 'package:sharkship/routes/app_router.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 // import 'package:sharkship/shared/widgets/loader.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -57,7 +60,18 @@ class NDRGrid extends ConsumerWidget {
                 value: items[i].$2,
                 icon: items[i].$3,
                 onTap: () {
-                  _comingSoon(context);
+                  context.push(Routes.NDR);
+                  switch (i) {
+                    case 0:
+                      ref.read(ndrTabProvider.notifier).setTab(0);
+                    case 1:
+                      ref.read(ndrTabProvider.notifier).setTab(1);
+                    case 2:
+                      ref.read(ndrTabProvider.notifier).setTab(2);
+                    case 3:
+                      ref.read(ndrTabProvider.notifier).setTab(3);
+                    default:
+                  }
                 },
               ),
             );

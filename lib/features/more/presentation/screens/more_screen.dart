@@ -246,9 +246,8 @@ class MoreScreen extends ConsumerWidget {
                 title: "Shipment Tracking",
                 icon: Icons.local_shipping_outlined,
                 onTap: () {
-                  print('HDHD(#))))))))))))))))))))))))))))))))))))))');
-                  ref.read(shipmentTabProvider.notifier).setTab(0);
-                  ref.read(bottomNavProvider.notifier).state = 2;
+                  print('Stareted');
+                  context.push(Routes.SHIPMENT_TRACKING);
                 },
               ),
               MenuItem(
@@ -264,7 +263,7 @@ class MoreScreen extends ConsumerWidget {
             title: "NDR",
             icon: Icons.assignment_return_outlined,
             onTap: () {
-              _comingSoon(context);
+              context.push(Routes.NDR);
             },
           ),
         ),

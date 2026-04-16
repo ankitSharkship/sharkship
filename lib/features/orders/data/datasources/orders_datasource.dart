@@ -477,7 +477,8 @@ class OrdersDataSource {
         ':',
         '-',
       );
-      final String filePath = '${directory!.path}/Shipping_Label_$timestamp.pdf';
+      final String filePath =
+          '${directory!.path}/Shipping_Label_$timestamp.pdf';
 
       final response = await _dio.post(
         'v1/document/shipping_label',
@@ -594,9 +595,7 @@ class OrdersDataSource {
     await _dio.put(
       'v1/order',
       data: {'order_ids': orderIds},
-      options: Options(
-        headers: {'move_to': 'CANCELLED'},
-      ),
+      options: Options(headers: {'move_to': 'CANCELLED'}),
     );
   }
 

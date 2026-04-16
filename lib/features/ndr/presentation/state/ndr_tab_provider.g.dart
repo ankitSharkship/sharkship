@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_notifier.dart';
+part of 'ndr_tab_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,52 +9,51 @@ part of 'user_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(UserNotifier)
-const userProvider = UserNotifierProvider._();
+@ProviderFor(NdrTab)
+const ndrTabProvider = NdrTabProvider._();
 
-final class UserNotifierProvider
-    extends $NotifierProvider<UserNotifier, AsyncValue<User?>> {
-  const UserNotifierProvider._()
+final class NdrTabProvider extends $NotifierProvider<NdrTab, int> {
+  const NdrTabProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'userProvider',
-        isAutoDispose: false,
+        name: r'ndrTabProvider',
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$userNotifierHash();
+  String debugGetCreateSourceHash() => _$ndrTabHash();
 
   @$internal
   @override
-  UserNotifier create() => UserNotifier();
+  NdrTab create() => NdrTab();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AsyncValue<User?> value) {
+  Override overrideWithValue(int value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<AsyncValue<User?>>(value),
+      providerOverride: $SyncValueProvider<int>(value),
     );
   }
 }
 
-String _$userNotifierHash() => r'd98c638b8fb161c2f01d32908bab7a460e38c867';
+String _$ndrTabHash() => r'd961187c0362f1e72a20ab4db946f7701e09011f';
 
-abstract class _$UserNotifier extends $Notifier<AsyncValue<User?>> {
-  AsyncValue<User?> build();
+abstract class _$NdrTab extends $Notifier<int> {
+  int build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AsyncValue<User?>, AsyncValue<User?>>;
+    final ref = this.ref as $Ref<int, int>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<User?>, AsyncValue<User?>>,
-              AsyncValue<User?>,
+              AnyNotifier<int, int>,
+              int,
               Object?,
               Object?
             >;

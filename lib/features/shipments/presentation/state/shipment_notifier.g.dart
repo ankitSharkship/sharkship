@@ -50,7 +50,7 @@ final class ShipmentNotifierProvider
   }
 }
 
-String _$shipmentNotifierHash() => r'19e0f41882b03dc993b36803a4df751460399d43';
+String _$shipmentNotifierHash() => r'2c0394a1eeb70d29a42af6424ed5d7c964f615b0';
 
 final class ShipmentNotifierFamily extends $Family
     with

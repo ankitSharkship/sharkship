@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/dashboard_tab_provider.dart';
+import 'package:sharkship/features/ndr/presentation/state/ndr_tab_provider.dart';
 
-class DashboardTabBar extends ConsumerWidget {
+class NdrTabbar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selected = ref.watch(dashboardTabProvider);
+    final selected = ref.watch(ndrTabProvider);
 
     return SizedBox(
       height: 48,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: dashboardTabs.length,
+        itemCount: ndrTabs.length,
         itemBuilder: (_, i) {
           final isActive = i == selected;
 
           return GestureDetector(
-            onTap: () => ref.read(dashboardTabProvider.notifier).setTab(i),
+            onTap: () => ref.read(ndrTabProvider.notifier).setTab(i),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               alignment: Alignment.center,
               decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 194, 238, 255),
                 border: Border(
                   bottom: BorderSide(
                     color: isActive ? Colors.blue : Colors.transparent,
@@ -29,7 +30,7 @@ class DashboardTabBar extends ConsumerWidget {
                 ),
               ),
               child: Text(
-                dashboardTabs[i],
+                ndrTabs[i],
                 style: TextStyle(
                   color: isActive ? Colors.blue : Colors.black54,
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
