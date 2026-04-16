@@ -13,6 +13,7 @@ abstract class Routes {
   static const SHIPMENT = _Paths.SHIPMENT;
   static const NDR = _Paths.NDR;
   static const SHIPMENT_TRACKING = _Paths.SHIPMENT_TRACKING;
+  static const TRACKING_RESULT = _Paths.TRACKING_RESULT;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const SHIPMENT = '/shipment';
   static const NDR = '/ndr';
   static const SHIPMENT_TRACKING = '/shipment-tracking';
+  static const TRACKING_RESULT = '/tracking-result';
 }

@@ -50,7 +50,7 @@ final class NdrNotifierProvider
   }
 }
 
-String _$ndrNotifierHash() => r'bb3b227cca773fe9d68eb7f175975ac6368575a2';
+String _$ndrNotifierHash() => r'c9cc45e3b0de2325de494bf3308a191a583a9209';
 
 final class NdrNotifierFamily extends $Family
     with

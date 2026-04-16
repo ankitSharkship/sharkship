@@ -59,7 +59,7 @@ final class SelectedNdrNotifierProvider
 }
 
 String _$selectedNdrNotifierHash() =>
-    r'9bc206d6841718811a1be688d5bae98e12885a4b';
+    r'4c39a19c3ecce62befc831e1fe8fe9bb2f5961b1';
 
 final class SelectedNdrNotifierFamily extends $Family
     with

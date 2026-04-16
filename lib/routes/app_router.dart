@@ -7,6 +7,7 @@ import 'package:sharkship/features/ndr/presentation/screens/ndr_screen.dart';
 import 'package:sharkship/features/orders/presentation/screens/create_orders.dart';
 import 'package:sharkship/features/shipments/presentation/screens/shipment_tracking.dart';
 import 'package:sharkship/features/shipments/presentation/screens/shipments_screen.dart';
+import 'package:sharkship/features/shipments/presentation/screens/tracking_result.dart';
 import 'package:sharkship/splash.dart';
 part 'app_routes.dart';
 
@@ -42,6 +43,13 @@ final appRouter = GoRouter(
     GoRoute(
       path: Routes.SHIPMENT_TRACKING,
       builder: (context, state) => const ShipmentTracking(),
+    ),
+    GoRoute(
+      path: Routes.TRACKING_RESULT,
+      builder: (context, state) {
+        final trackingId = state.extra as String;
+        return TrackingResult(trackingId: trackingId);
+      },
     ),
   ],
 );
