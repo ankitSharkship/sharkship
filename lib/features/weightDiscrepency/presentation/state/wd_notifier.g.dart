@@ -50,7 +50,7 @@ final class WdNotifierProvider
   }
 }
 
-String _$wdNotifierHash() => r'c7e5a3cc10d363abd6ac4b4f244e0528a1c310a0';
+String _$wdNotifierHash() => r'9a72b89bf508760920f9569b7d499a0932c0f342';
 
 final class WdNotifierFamily extends $Family
     with

@@ -284,25 +284,25 @@ class MoreScreen extends ConsumerWidget {
             icon: Icons.wallet,
             isDropdown: true,
             children: [
-              MenuItem(
-                title: "Shipping Charges",
-                icon: Icons.description_outlined,
-                onTap: () {
-                  _comingSoon(context);
-                },
-              ),
+              // MenuItem(
+              //   title: "Shipping Charges",
+              //   icon: Icons.description_outlined,
+              //   onTap: () {
+              //     _comingSoon(context);
+              //   },
+              // ),
               MenuItem(
                 title: "Seller Charges",
                 icon: Icons.add_box_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  context.push(Routes.SELLER_CHARGES);
                 },
               ),
               MenuItem(
                 title: "Rate Calculator",
                 icon: Icons.local_shipping_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  context.push(Routes.RATE_CALCULATOR);
                 },
               ),
               MenuItem(

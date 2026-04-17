@@ -59,7 +59,7 @@ final class SelectedWdNotifierProvider
 }
 
 String _$selectedWdNotifierHash() =>
-    r'758f860489add5554f2cb49675918c8633e57e69';
+    r'41e1279987f153771d1fb8f3e1b4b6b2da64ab8e';
 
 final class SelectedWdNotifierFamily extends $Family
     with

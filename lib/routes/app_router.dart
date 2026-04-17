@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:sharkship/features/finance/presentation/screens/seller_charges.dart';
+import 'package:sharkship/features/finance/presentation/screens/shipment_rate_calculator.dart';
 import 'package:sharkship/features/kyc/presentation/screens/kyc_screen.dart';
 import 'package:sharkship/features/login/presentation/views/get_started.dart';
 import 'package:sharkship/features/auth/presentation/screens/login_screen.dart';
@@ -55,6 +57,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: Routes.WEIGHT_DISC,
       builder: (context, state) => const WeightDiscrepancy(),
+    ),
+    GoRoute(
+      path: Routes.SELLER_CHARGES,
+      builder: (context, state) => const SellerChargesScreen(),
+    ),
+    GoRoute(
+      path: Routes.RATE_CALCULATOR,
+      builder: (context, state) => const ShipmentRateCalculator(),
     ),
   ],
 );
