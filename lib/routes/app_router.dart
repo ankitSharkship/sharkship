@@ -8,6 +8,7 @@ import 'package:sharkship/features/orders/presentation/screens/create_orders.dar
 import 'package:sharkship/features/shipments/presentation/screens/shipment_tracking.dart';
 import 'package:sharkship/features/shipments/presentation/screens/shipments_screen.dart';
 import 'package:sharkship/features/shipments/presentation/screens/tracking_result.dart';
+import 'package:sharkship/features/weightDiscrepency/presentation/screens/weight_discrepency.dart';
 import 'package:sharkship/splash.dart';
 part 'app_routes.dart';
 
@@ -50,6 +51,10 @@ final appRouter = GoRouter(
         final trackingId = state.extra as String;
         return TrackingResult(trackingId: trackingId);
       },
+    ),
+    GoRoute(
+      path: Routes.WEIGHT_DISC,
+      builder: (context, state) => const WeightDiscrepancy(),
     ),
   ],
 );

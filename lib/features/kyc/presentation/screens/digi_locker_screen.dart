@@ -61,25 +61,25 @@ class _DigiLockerScreenState extends State<DigiLockerScreen> {
   void initState() {
     super.initState();
     // Register to receive the deep link when DigiLocker native app returns
-    DigilockerDeepLinkService().onDeepLink = _handleNativeAppReturn;
+    // DigilockerDeepLinkService().onDeepLink = _handleNativeAppReturn;
   }
 
   @override
   void dispose() {
-    DigilockerDeepLinkService().onDeepLink = null;
+    // DigilockerDeepLinkService().onDeepLink = null;
     super.dispose();
   }
 
-  // ── Flow A: DigiLocker native app installed ───────────────────────────────
-  // DigiLocker app finishes and calls sharkship://digilocker/callback?...
-  void _handleNativeAppReturn(Uri uri) {
-    debugPrint('[DigiLocker] Native app returned: $uri');
+  // // ── Flow A: DigiLocker native app installed ───────────────────────────────
+  // // DigiLocker app finishes and calls sharkship://digilocker/callback?...
+  // void _handleNativeAppReturn(Uri uri) {
+  //   debugPrint('[DigiLocker] Native app returned: $uri');
 
-    // DigiLocker typically appends ?code=xxx&state=xxx on success
-    // Absence of an "error" param is treated as success
-    final isError = uri.queryParameters.containsKey('error');
-    _finalise(success: !isError);
-  }
+  //   // DigiLocker typically appends ?code=xxx&state=xxx on success
+  //   // Absence of an "error" param is treated as success
+  //   final isError = uri.queryParameters.containsKey('error');
+  //   _finalise(success: !isError);
+  // }
 
   // ── Flow B: WebView-only — Cashfree redirects to your web URL ────────────
   void _handleRedirectUrl(String url) {

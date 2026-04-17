@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sharkship/features/ndr/domain/entity/ndr_order_entity.dart';
+
+import 'package:sharkship/features/weightDiscrepency/domain/entities/weight_discrepancy_entity.dart';
+import 'package:sharkship/features/weightDiscrepency/presentation/state/wd_notifier.dart';
 
 import 'package:sharkship/shared/constants/colors.dart';
 
-class NdrCard extends ConsumerStatefulWidget {
-  final NdrOrderEntity order;
+class WdCard extends ConsumerStatefulWidget {
+  final WeightDiscrepancyEntity order;
   final bool isSelected;
   final bool isFailed;
   final ValueChanged<bool?> onCheckboxChanged;
@@ -13,7 +19,7 @@ class NdrCard extends ConsumerStatefulWidget {
   final VoidCallback? onMoreTap;
   final int tab;
 
-  const NdrCard({
+  const WdCard({
     super.key,
     required this.order,
     required this.isSelected,
@@ -25,11 +31,34 @@ class NdrCard extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<NdrCard> createState() => _NdrOrderCardState();
+  ConsumerState<WdCard> createState() => _NdrOrderCardState();
 }
 
-class _NdrOrderCardState extends ConsumerState<NdrCard> {
+class _NdrOrderCardState extends ConsumerState<WdCard> {
   bool isExpanded = false;
+
+  Future<void> _pickAndUploadImages() async {
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> images = await picker.pickMultiImage();
+
+    if (images.isEmpty) return;
+
+    try {
+      EasyLoading.show(status: 'Uploading images...');
+      final filePaths = images.map((img) => img.path).toList();
+
+      await ref
+          .read(wdProvider(widget.tab).notifier)
+          .uploadDispute(
+            trackingId: widget.order.trackingId.toString(),
+            filePaths: filePaths,
+          );
+
+      EasyLoading.showSuccess('Dispute raised successfully');
+    } catch (e) {
+      EasyLoading.showError('Failed to raise dispute: $e');
+    }
+  }
 
   @override
   void toggle() {
@@ -38,16 +67,17 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
     });
   }
 
-  Color _getColor(int tab) {
-    switch (tab) {
-      case 0:
-        return const Color.fromARGB(255, 233, 233, 233);
-      case 1:
-        return const Color.fromARGB(255, 209, 242, 255);
-      case 2:
+  Color _getColor(String status) {
+    switch (status) {
+      case 'DISPUTED':
+        return const Color.fromARGB(255, 249, 231, 179);
+      case 'PENDING':
+        return const Color.fromARGB(255, 199, 239, 255);
+      case 'COMPLETE':
         return const Color.fromARGB(255, 213, 255, 215);
-      case 3:
+      case 'CANCELLED':
         return const Color.fromARGB(255, 255, 211, 208);
+
       default:
         return Colors.red;
     }
@@ -119,9 +149,14 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    if (tab == 0) ...[
+                    if (tab != 0 &&
+                        order.weightDispute?.urls != null &&
+                        order.weightDispute!.urls!.isNotEmpty) ...[
                       GestureDetector(
-                        onTap: widget.onDownloadTap,
+                        onTap: () => _showShipmentImages(
+                          context,
+                          order.weightDispute!.urls!,
+                        ),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,
@@ -141,16 +176,60 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
                               ),
                             ],
                           ),
-                          child: Row(
+                          child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(
-                                Icons.restart_alt_outlined,
+                              Icon(
+                                Icons.image_outlined,
                                 color: Colors.blue,
                                 size: 18,
                               ),
+                              SizedBox(width: 6),
                               Text(
-                                'Re Attempt',
+                                'View Proofs',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                    if (tab == 0) ...[
+                      GestureDetector(
+                        onTap: _pickAndUploadImages,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: Colors.greenAccent.withOpacity(0.5),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.restart_alt_outlined,
+                                color: Colors.greenAccent,
+                                size: 18,
+                              ),
+                              SizedBox(width: 6),
+                              Text(
+                                'Raise Dispute',
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -261,14 +340,22 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: _getColor(tab),
+                            color: const Color.fromARGB(255, 199, 239, 255),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Row(
                             children: [
                               const SizedBox(width: 4),
 
-                              _ndrStatusBadge(tab),
+                              // _ndrStatusBadge(tab, order),
+                              Text(
+                                order.status.toUpperCase(),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -334,11 +421,11 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
     );
   }
 
-  Widget _ndrStatusBadge(int tab) {
+  Widget _ndrStatusBadge(int tab, WeightDiscrepancyEntity order) {
     switch (tab) {
       case 0:
         return Text(
-          "NDR",
+          "DISPUTED",
           style: const TextStyle(
             color: Colors.black,
             fontSize: 11,
@@ -347,7 +434,7 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
         );
       case 1:
         return Text(
-          "Re Attempt",
+          "PENDING",
           style: const TextStyle(
             color: Colors.blueAccent,
             fontSize: 11,
@@ -356,7 +443,7 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
         );
       case 2:
         return Text(
-          "Delivered",
+          "COMPLETE",
           style: const TextStyle(
             color: Colors.green,
             fontSize: 11,
@@ -365,7 +452,7 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
         );
       case 3:
         return Text(
-          "RTO",
+          "CANCELLED",
           style: const TextStyle(
             color: Colors.red,
             fontSize: 11,
@@ -374,7 +461,7 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
         );
       default:
         return Text(
-          !widget.isFailed ? "No RTO Risk" : "Failed Due to",
+          order.status.toUpperCase(),
           style: const TextStyle(
             color: Colors.white,
             fontSize: 11,
@@ -384,7 +471,11 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
     }
   }
 
-  Widget _middleSection(int tab, bool isExpanded, NdrOrderEntity order) {
+  Widget _middleSection(
+    int tab,
+    bool isExpanded,
+    WeightDiscrepancyEntity order,
+  ) {
     switch (tab) {
       default:
         return Column(
@@ -393,32 +484,39 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: _row("AWB", order.trackingId.toString()),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: _row("NDR Date & Time", order.lastEventAt.toString()),
-            ),
+            if (order.weightDispute?.uploadedAt != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: _row(
+                  "Dispute Date & Time",
+                  order.weightDispute!.uploadedAt.toString(),
+                ),
+              ),
+            ],
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: _row(
                 "Product Details",
                 "${order.productName} QTY: ${order.productQuantity}",
+                isMultiline: true,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: _row("NDR Attempts", "${order.ndrCount}"),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: _row(
-                "Shipment Details",
-                "${order.productWeightInKg} (${order.shipmentLengthInCms} x ${order.shipmentWidthInCms} x ${order.shipmentHeightInCms} )",
-              ),
-            ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: _row("Carrier", "${order.carrier}, ${order.courierType}"),
             ),
+            if (order.weightDispute?.forwardDisputeAmount != null &&
+                order.weightDispute?.reverseDisputeAmount != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: _row(
+                  "Dispute Amount",
+                  "Forward: ${order.weightDispute!.forwardDisputeAmount}\nReverse: ${order.weightDispute!.reverseDisputeAmount}",
+                  isMultiline: true,
+                ),
+              ),
+            ],
 
             /// EXPANDED PART
             AnimatedSize(
@@ -427,6 +525,64 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
               child: isExpanded
                   ? Column(
                       children: [
+                        if (order?.weightDispute?.daysLeft != null) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: _row(
+                              "Days Left",
+                              "${order.weightDispute!.daysLeft}",
+                              isMultiline: true,
+                            ),
+                          ),
+                        ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: _row(
+                            "Shipment Weight",
+                            "Give Weight: ${order.productWeightInKg} \nDispute Weight: ${order.weightDispute!.changeWeight}",
+                            isMultiline: true,
+                          ),
+                        ),
+                        if (order.weightDispute?.urls != null &&
+                            order.weightDispute!.urls!.isNotEmpty) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 130,
+                                  child: const Text(
+                                    "Proof",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: ColorManager.black,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () => _showShipmentImages(
+                                    context,
+                                    order.weightDispute!.urls!,
+                                  ),
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: const Size(0, 0),
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: const Text(
+                                    "Shipment Images",
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: _row(
@@ -882,6 +1038,63 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showShipmentImages(BuildContext context, List<String> urls) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        insetPadding: const EdgeInsets.all(16),
+        child: Container(
+          width: double.infinity,
+
+          decoration: BoxDecoration(
+            color: ColorManager.scaffoldBg,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          height: 500,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Text(
+                "Shipment Images",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: PageView.builder(
+                  itemCount: urls.length,
+                  itemBuilder: (context, index) {
+                    return InteractiveViewer(
+                      child: CachedNetworkImage(
+                        imageUrl: urls[index],
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error, size: 50),
+                        fit: BoxFit.contain,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              if (urls.length > 1)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    "Swipe left/right to view all (${urls.length})",
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Close"),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

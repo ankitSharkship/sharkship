@@ -174,6 +174,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                   selectedOrdersNotifer.toggle(order.id.toString());
                 },
                 isFailed: tab == 1,
+                onTruckTap: () {
+                  _openSingleShipModal(order, context);
+                },
               ),
             );
           },

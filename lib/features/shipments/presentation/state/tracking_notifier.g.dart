@@ -33,7 +33,7 @@ final class TrackingNotifierProvider
   TrackingNotifier create() => TrackingNotifier();
 }
 
-String _$trackingNotifierHash() => r'1edcd8d4b109d85c696064c50072dbbf30a4de89';
+String _$trackingNotifierHash() => r'61461492dc88805ba2a190078cf0d253c1d13dd3';
 
 abstract class _$TrackingNotifier
     extends $AsyncNotifier<TrackingDetailsEntity?> {

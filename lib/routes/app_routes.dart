@@ -14,6 +14,12 @@ abstract class Routes {
   static const NDR = _Paths.NDR;
   static const SHIPMENT_TRACKING = _Paths.SHIPMENT_TRACKING;
   static const TRACKING_RESULT = _Paths.TRACKING_RESULT;
+  static const WEIGHT_DISC = _Paths.WEIGHT_DISC;
+  static const SELLER_CHARGES = _Paths.SELLER_CHARGES;
+  static const RATE_CALCULATOR = _Paths.RATE_CALCULATOR;
+  static const REMITTANCE_SUMMARY = _Paths.REMITTANCE_SUMMARY;
+  static const TRANSACTION_SUMMARY = _Paths.TRANSACTION_SUMMARY;
+  static const INVOICE_SUMMARY = _Paths.INVOICE_SUMMARY;
 }
 
 abstract class _Paths {
@@ -29,4 +35,12 @@ abstract class _Paths {
   static const NDR = '/ndr';
   static const SHIPMENT_TRACKING = '/shipment-tracking';
   static const TRACKING_RESULT = '/tracking-result';
+  static const WEIGHT_DISC = '/weight-discrepancy';
+  static const SELLER_CHARGES = '/seller-charges';
+  static const RATE_CALCULATOR = '/rate-calculator';
+  static const REMITTANCE_SUMMARY = '/remittance-summary';
+  static const INVOICE_SUMMARY = '/invoice-summary';
+  static const TRANSACTION_SUMMARY = '/transaction-summary';
 }
+
+//rate calculator, remittance summary, invoice summary, transaction summary

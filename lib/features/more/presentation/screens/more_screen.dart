@@ -246,14 +246,16 @@ class MoreScreen extends ConsumerWidget {
                 title: "Shipment Tracking",
                 icon: Icons.local_shipping_outlined,
                 onTap: () {
-                  print('Stareted');
                   context.push(Routes.SHIPMENT_TRACKING);
                 },
               ),
               MenuItem(
                 title: "Returns",
                 icon: Icons.assignment_return_outlined,
-                onTap: () {},
+                onTap: () {
+                  ref.read(shipmentTabProvider.notifier).state = 4;
+                  ref.read(bottomNavProvider.notifier).state = 2;
+                },
               ),
             ],
           ),
@@ -272,7 +274,7 @@ class MoreScreen extends ConsumerWidget {
             title: "Weight Discrepancy",
             icon: Icons.dashboard_outlined,
             onTap: () {
-              _comingSoon(context);
+              context.push(Routes.WEIGHT_DISC);
             },
           ),
         ),
