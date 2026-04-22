@@ -199,3 +199,150 @@ final class CalculateShippingRateUseCaseProvider
 
 String _$calculateShippingRateUseCaseHash() =>
     r'5d74ed669c90b7581ea60b38fdd3103aec910332';
+
+@ProviderFor(getTransactionsUseCase)
+const getTransactionsUseCaseProvider = GetTransactionsUseCaseProvider._();
+
+final class GetTransactionsUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetTransactionsUseCase,
+          GetTransactionsUseCase,
+          GetTransactionsUseCase
+        >
+    with $Provider<GetTransactionsUseCase> {
+  const GetTransactionsUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getTransactionsUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getTransactionsUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetTransactionsUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetTransactionsUseCase create(Ref ref) {
+    return getTransactionsUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetTransactionsUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetTransactionsUseCase>(value),
+    );
+  }
+}
+
+String _$getTransactionsUseCaseHash() =>
+    r'd9fe2751193d03c8c904f9b293498cc06313c0a4';
+
+@ProviderFor(getMessageMetricsUseCase)
+const getMessageMetricsUseCaseProvider = GetMessageMetricsUseCaseProvider._();
+
+final class GetMessageMetricsUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetMessageMetricsUseCase,
+          GetMessageMetricsUseCase,
+          GetMessageMetricsUseCase
+        >
+    with $Provider<GetMessageMetricsUseCase> {
+  const GetMessageMetricsUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getMessageMetricsUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getMessageMetricsUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetMessageMetricsUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetMessageMetricsUseCase create(Ref ref) {
+    return getMessageMetricsUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetMessageMetricsUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetMessageMetricsUseCase>(value),
+    );
+  }
+}
+
+String _$getMessageMetricsUseCaseHash() =>
+    r'd81b5a45e14fec0a73fe4e31d54833e8322b41aa';
+
+@ProviderFor(getMessageTransactionsUseCase)
+const getMessageTransactionsUseCaseProvider =
+    GetMessageTransactionsUseCaseProvider._();
+
+final class GetMessageTransactionsUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetMessageTransactionsUseCase,
+          GetMessageTransactionsUseCase,
+          GetMessageTransactionsUseCase
+        >
+    with $Provider<GetMessageTransactionsUseCase> {
+  const GetMessageTransactionsUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getMessageTransactionsUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getMessageTransactionsUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetMessageTransactionsUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetMessageTransactionsUseCase create(Ref ref) {
+    return getMessageTransactionsUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetMessageTransactionsUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetMessageTransactionsUseCase>(
+        value,
+      ),
+    );
+  }
+}
+
+String _$getMessageTransactionsUseCaseHash() =>
+    r'ea4c22936b1dcab3307475ca642b35819d167f31';

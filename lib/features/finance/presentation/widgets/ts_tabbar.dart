@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sharkship/features/finance/presentation/state/sc_tab_provider.dart';
+import 'package:sharkship/features/finance/presentation/state/ts_tab_provider.dart';
 
-
-class ScTabbar extends ConsumerWidget {
+class TsTabbar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selected = ref.watch(scTabProvider);
+    final selected = ref.watch(tsTabProvider);
 
     return SizedBox(
       height: 48,
-      width: double.infinity,
       child: Row(
-        children: List.generate(scTabs.length, (i) {
+        children: List.generate(tsTabs.length, (i) {
           final isActive = i == selected;
 
           return Expanded(
             child: GestureDetector(
-              onTap: () => ref.read(scTabProvider.notifier).setTab(i),
+              onTap: () => ref.read(tsTabProvider.notifier).setTab(i),
               child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 194, 238, 255),
@@ -30,7 +29,7 @@ class ScTabbar extends ConsumerWidget {
                   ),
                 ),
                 child: Text(
-                  scTabs[i],
+                  tsTabs[i],
                   style: TextStyle(
                     color: isActive ? Colors.blue : Colors.black54,
                     fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
@@ -44,3 +43,5 @@ class ScTabbar extends ConsumerWidget {
     );
   }
 }
+
+// color: const Color.fromARGB(255, 194, 238, 255),

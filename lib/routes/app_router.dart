@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:sharkship/features/finance/presentation/screens/seller_charges.dart';
 import 'package:sharkship/features/finance/presentation/screens/shipment_rate_calculator.dart';
+import 'package:sharkship/features/finance/presentation/screens/transaction_summary.dart';
 import 'package:sharkship/features/kyc/presentation/screens/kyc_screen.dart';
 import 'package:sharkship/features/login/presentation/views/get_started.dart';
 import 'package:sharkship/features/auth/presentation/screens/login_screen.dart';
@@ -65,6 +66,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: Routes.RATE_CALCULATOR,
       builder: (context, state) => const ShipmentRateCalculator(),
+    ),
+    GoRoute(
+      path: Routes.TRANSACTION_SUMMARY,
+      builder: (context, state) => const TransactionSummary(),
     ),
   ],
 );

@@ -6,6 +6,10 @@ import '../../domain/repositories/finance_repository.dart';
 import '../../domain/usecases/get_shipping_rates_usecase.dart';
 import '../../domain/usecases/calculate_shipping_rate_usecase.dart';
 
+import '../../domain/usecases/get_transactions_usecase.dart';
+import '../../domain/usecases/get_message_metrics_usecase.dart';
+import '../../domain/usecases/get_message_transactions_usecase.dart';
+
 part 'finance_providers.g.dart';
 
 @riverpod
@@ -30,4 +34,22 @@ GetShippingRatesUseCase getShippingRatesUseCase(Ref ref) {
 CalculateShippingRateUseCase calculateShippingRateUseCase(Ref ref) {
   final repository = ref.watch(financeRepositoryProvider);
   return CalculateShippingRateUseCase(repository);
+}
+
+@riverpod
+GetTransactionsUseCase getTransactionsUseCase(Ref ref) {
+  final repository = ref.watch(financeRepositoryProvider);
+  return GetTransactionsUseCase(repository);
+}
+
+@riverpod
+GetMessageMetricsUseCase getMessageMetricsUseCase(Ref ref) {
+  final repository = ref.watch(financeRepositoryProvider);
+  return GetMessageMetricsUseCase(repository);
+}
+
+@riverpod
+GetMessageTransactionsUseCase getMessageTransactionsUseCase(Ref ref) {
+  final repository = ref.watch(financeRepositoryProvider);
+  return GetMessageTransactionsUseCase(repository);
 }

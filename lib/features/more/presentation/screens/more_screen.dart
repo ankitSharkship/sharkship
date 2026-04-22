@@ -309,7 +309,7 @@ class MoreScreen extends ConsumerWidget {
                 title: "Transaction Summary",
                 icon: Icons.assignment_return_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  context.push(Routes.TRANSACTION_SUMMARY);
                 },
               ),
               MenuItem(

@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import '../models/shipping_rate_model.dart';
 import '../models/calculator_rate_model.dart';
+import '../models/transaction_model.dart';
+import '../models/message_metrics_model.dart';
+import '../models/message_transaction_model.dart';
 
 class FinanceDataSource {
   final Dio _dio;
@@ -12,9 +15,7 @@ class FinanceDataSource {
   }) async {
     final response = await _dio.get(
       '/v1/user/shipping-rates',
-      queryParameters: {
-        'service_type': serviceType,
-      },
+      queryParameters: {'service_type': serviceType},
     );
 
     final List<dynamic> data = response.data;
@@ -55,7 +56,98 @@ class FinanceDataSource {
 
     final List<dynamic> ratesData = response.data['rates'] as List<dynamic>;
     return ratesData
-        .map((json) => CalculatorRateModel.fromJson(json as Map<String, dynamic>))
+        .map(
+          (json) => CalculatorRateModel.fromJson(json as Map<String, dynamic>),
+        )
         .toList();
+  }
+
+  Future<TransactionResponseModel> getTransactions({
+    int total = 10,
+    int skip = 0,
+    String? transactionType,
+    String? affectedBalance,
+    String? transactionCategory,
+    String? startDate,
+    String? endDate,
+    String? isWallet,
+    String? paymentGateway,
+    String? journeyType,
+    String? orderId,
+    String? trackingId,
+    String? paymentGatewayId,
+  }) async {
+    try {
+      final response = await _dio.get(
+        '/v1/finance/transactions',
+        queryParameters: {
+          'total': total,
+          'skip': skip,
+          'transactionType': transactionType,
+          'affectedBalance': affectedBalance,
+          'transactionCategory': transactionCategory,
+          'startDate': startDate,
+          'endDate': endDate,
+          'isWallet': isWallet,
+          'payment_gateway': paymentGateway,
+          'journey_type': journeyType,
+          if (trackingId != "" && trackingId != null) 'tracking_id': trackingId,
+          if (orderId != "" && orderId != null) 'orderId': orderId,
+          if (paymentGatewayId != "" && paymentGatewayId != null)
+            'payment_gateway_id': paymentGatewayId,
+        },
+      );
+
+      return TransactionResponseModel.fromJson(
+        response.data as Map<String, dynamic>,
+      );
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404 &&
+          e.response?.data["errorCode"] == "FIN-0003") {
+        return TransactionResponseModel.fromJson({
+          "totalCount": 0,
+          "transactions": [],
+        });
+      }
+      rethrow;
+    }
+  }
+
+  Future<MessageMetricsModel> getMessageMetrics({
+    required String startDate,
+    required String endDate,
+
+  }) async {
+    final response = await _dio.get(
+      '/v1/user/message-metrics',
+      queryParameters: {
+        'startDate': startDate,
+        'endDate': endDate,
+
+      },
+    );
+
+    return MessageMetricsModel.fromJson(response.data as Map<String, dynamic>);
+  }
+
+  Future<MessageTransactionsResponseModel> getMessageTransactions({
+    required int take,
+    required int skip,
+    required String startDate,
+    required String endDate,
+  }) async {
+    final response = await _dio.get(
+      '/v1/finance/message-transactions',
+      queryParameters: {
+        'take': take,
+        'skip': skip,
+        'startDate': startDate,
+        'endDate': endDate,
+      },
+    );
+
+    return MessageTransactionsResponseModel.fromJson(
+      response.data as Map<String, dynamic>,
+    );
   }
 }
