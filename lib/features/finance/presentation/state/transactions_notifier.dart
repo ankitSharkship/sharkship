@@ -1,5 +1,5 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/errors/failures.dart';
 import 'package:sharkship/features/finance/domain/entities/message_metrics_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/message_transaction_entity.dart';
 import 'package:sharkship/features/finance/presentation/state/ts_filters_tab_provider.dart';
@@ -129,12 +129,10 @@ class Transactions extends _$Transactions {
 
     // Only watch parts of searchState that should trigger a refetch.
     // This avoids rebuilds when changing search type while search is inactive.
-    final effectiveSearch = ref.watch(tsSearchProvider.select((s) {
-      if (s.active && s.value.isNotEmpty) {
-        return (type: s.type, value: s.value);
-      }
-      return null;
-    }));
+    final searchState = ref.watch(tsSearchProvider);
+    final effectiveSearch = (searchState.active && searchState.value.isNotEmpty)
+        ? (type: searchState.type, value: searchState.value)
+        : null;
 
     if (tabIndex == 0 || tabIndex == 1) {
       String? orderId;
@@ -169,23 +167,30 @@ class Transactions extends _$Transactions {
       final response = await _fetchFromUseCase(params, tabIndex);
       return TransactionsState(data: response);
     } else {
-      final response1 = await ref
+      final msgParams = TransactionsParams(
+        total: 10,
+        skip: 0,
+        startDate: dashboardDate.start.toIso8601String(),
+        endDate: dashboardDate.end.toIso8601String(),
+        isWallet: "sms",
+        isFilter: false,
+      );
+
+      final msgResult = await ref
           .read(getMessageTransactionsUseCaseProvider)
-          .execute(
-            take: 10,
-            skip: 0,
-            startDate: dashboardDate.start.toIso8601String(),
-            endDate: dashboardDate.end.toIso8601String(),
-          );
-      final response2 = await ref
+          .execute(msgParams);
+
+      final metricsResult = await ref
           .read(getMessageMetricsUseCaseProvider)
           .execute(
             startDate: dashboardDate.start.toIso8601String(),
             endDate: dashboardDate.end.toIso8601String(),
           );
+
       return TransactionsState(
-        messagesMetrics: response2,
-        messageTransactions: response1,
+        messagesMetrics: metricsResult,
+        messageTransactions: msgResult.fold((l) => null, (r) => r),
+        error: msgResult.fold((l) => l.message, (r) => null),
       );
     }
   }
@@ -338,25 +343,36 @@ class Transactions extends _$Transactions {
 
       try {
         final dashboardDate = ref.read(dashboardDateProvider);
-        final newResponse = await ref
-            .read(getMessageTransactionsUseCaseProvider)
-            .execute(
-              take: 10,
-              skip: currentList.length,
-              startDate: dashboardDate.start.toIso8601String(),
-              endDate: dashboardDate.end.toIso8601String(),
-            );
-
-        final updatedResponse = MessageTransactionsResponse(
-          totalCount: newResponse.totalCount,
-          transactions: [...currentList, ...newResponse.transactions],
+        final msgParams = TransactionsParams(
+          total: 10,
+          skip: currentList.length,
+          startDate: dashboardDate.start.toIso8601String(),
+          endDate: dashboardDate.end.toIso8601String(),
+          isWallet: "sms",
+          isFilter: false,
         );
 
-        state = AsyncData(
-          current.copyWith(
-            messageTransactions: updatedResponse,
-            isLoadingMore: false,
+        final result = await ref
+            .read(getMessageTransactionsUseCaseProvider)
+            .execute(msgParams);
+
+        result.fold(
+          (l) => state = AsyncData(
+            current.copyWith(isLoadingMore: false, error: l.message),
           ),
+          (r) {
+            final updatedResponse = MessageTransactionsResponse(
+              totalCount: r.totalCount,
+              transactions: [...currentList, ...r.transactions],
+            );
+
+            state = AsyncData(
+              current.copyWith(
+                messageTransactions: updatedResponse,
+                isLoadingMore: false,
+              ),
+            );
+          },
         );
       } catch (e, st) {
         state = AsyncData(

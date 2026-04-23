@@ -13,12 +13,6 @@ final tsJourneyTypeFilterProvider = StateProvider<String?>((ref) => "All");
 
 final tsTxnTypeFilterProvider = StateProvider<String?>((ref) => "All");
 
-class RadioItems {
-  final String displayName;
-  final String value;
-  RadioItems({required this.displayName, required this.value});
-}
-
 
 class SearchState {
   final SearchType type;

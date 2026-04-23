@@ -1,11 +1,19 @@
+import 'package:dartz/dartz.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/errors/failures.dart';
 import 'package:sharkship/features/finance/domain/entities/message_metrics_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/message_transaction_entity.dart';
+import 'package:sharkship/features/finance/domain/entities/remittance_entity.dart';
+import 'package:sharkship/features/finance/domain/entities/shipping_rate_entity.dart';
+import 'package:sharkship/features/finance/domain/entities/calculator_rate_entity.dart';
+import 'package:sharkship/features/finance/domain/entities/transaction_entity.dart';
+import 'package:sharkship/features/finance/domain/repositories/finance_repository.dart';
+import 'package:sharkship/features/finance/data/datasources/finance_datasource.dart';
+import 'package:sharkship/features/finance/data/models/remittance_model.dart';
+import 'package:sharkship/features/finance/data/models/message_transaction_model.dart';
+import 'package:sharkship/features/finance/presentation/state/transactions_notifier.dart';
 
-import '../../domain/entities/shipping_rate_entity.dart';
-import '../../domain/entities/calculator_rate_entity.dart';
-import '../../domain/entities/transaction_entity.dart';
-import '../../domain/repositories/finance_repository.dart';
-import '../datasources/finance_datasource.dart';
+part 'finance_repository_impl.g.dart';
 
 class FinanceRepositoryImpl implements FinanceRepository {
   final FinanceDataSource _dataSource;
@@ -91,17 +99,66 @@ class FinanceRepositoryImpl implements FinanceRepository {
   }
 
   @override
-  Future<MessageTransactionsResponse> getMessageTransactions({
-    required int take,
+  Future<Either<Failure, MessageTransactionsResponse>> getMessageTransactions(
+      TransactionsParams params) async {
+    try {
+      final model = await _dataSource.getMessageTransactions(
+        take: params.total,
+        skip: params.skip,
+        startDate: params.startDate,
+        endDate: params.endDate,
+      );
+      return Right(model);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RemittanceDetails>> getRemittanceDetails() async {
+    try {
+      final response = await _dataSource.getRemittanceDetails();
+      final model = RemittanceDetailsModel.fromJson(
+          response['remittanceDetails'] as Map<String, dynamic>);
+      return Right(model);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RemittanceCycleResponse>> getRemittanceCycles({
+    required int total,
     required int skip,
     required String startDate,
     required String endDate,
-  }) {
-    return _dataSource.getMessageTransactions(
-      take: take,
-      skip: skip,
-      startDate: startDate,
-      endDate: endDate,
-    );
+    String? status,
+    String? businessName,
+    String? remittanceId,
+    String? userId,
+    String? phone,
+  }) async {
+    try {
+      final response = await _dataSource.getRemittanceCycles(
+        total: total,
+        skip: skip,
+        startDate: startDate,
+        endDate: endDate,
+        status: status,
+        businessName: businessName,
+        remittanceId: remittanceId,
+        userId: userId,
+        phone: phone,
+      );
+      return Right(response);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
+}
+
+@riverpod
+FinanceRepository financeRepository(Ref ref) {
+  final dataSource = ref.watch(financeDataSourceProvider);
+  return FinanceRepositoryImpl(dataSource);
 }

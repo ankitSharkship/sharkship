@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:sharkship/features/finance/presentation/screens/invoice_summary.dart';
+import 'package:sharkship/features/finance/presentation/screens/remittance_summary.dart';
 import 'package:sharkship/features/finance/presentation/screens/seller_charges.dart';
 import 'package:sharkship/features/finance/presentation/screens/shipment_rate_calculator.dart';
 import 'package:sharkship/features/finance/presentation/screens/transaction_summary.dart';
@@ -71,5 +73,18 @@ final appRouter = GoRouter(
       path: Routes.TRANSACTION_SUMMARY,
       builder: (context, state) => const TransactionSummary(),
     ),
+    GoRoute(
+      path: Routes.REMITTANCE_SUMMARY,
+      builder: (context, state) => const RemittanceSummary(),
+    ),
+    GoRoute(
+      path: Routes.TRANSACTION_SUMMARY,
+      builder: (context, state) => const RemittanceSummary(),
+    ),
+    GoRoute(
+      path: Routes.INVOICE_SUMMARY,
+      builder: (context, state) => const InvoiceSummary(),
+    ),
+
   ],
 );

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:sharkship/features/finance/presentation/state/selected_ts_notifier.dart';
+import 'package:sharkship/features/finance/presentation/state/remittance_notifier.dart';
+import 'package:sharkship/features/finance/presentation/state/rs_filters_tab_provider.dart';
+import 'package:sharkship/features/finance/presentation/state/selected_rs_notifier.dart';
+
 import 'package:sharkship/features/finance/presentation/state/transactions_notifier.dart';
-import 'package:sharkship/features/finance/presentation/state/ts_filters_tab_provider.dart';
-import 'package:sharkship/features/finance/presentation/state/ts_tab_provider.dart';
+
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/features/home/presentation/widgets/date_range_picker_modal.dart';
 import 'package:sharkship/features/finance/presentation/state/finance_filter_models.dart';
 
-class TsHeader extends ConsumerWidget {
-  const TsHeader({super.key});
+class RsHeader extends ConsumerWidget {
+  const RsHeader({super.key});
 
   void _showDatePicker(BuildContext context) {
     showModalBottomSheet(
@@ -50,10 +52,10 @@ class TsHeader extends ConsumerWidget {
             children: [
               IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back, size: 28),
+                icon: const Icon(Icons.arrow_back, size: 24),
               ),
               const Text(
-                "Transactions Summary",
+                "Remittance Summary",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
               ),
             ],
@@ -133,7 +135,9 @@ class TsHeader extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(24),
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -151,56 +155,7 @@ class TsHeader extends ConsumerWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      final selectedTab = ref.read(tsTabProvider);
-                      final dashboardDate = ref.read(dashboardDateProvider);
-                      final walletType = ref.read(tsWalletTypeFilterProvider);
-                      final orderDesc = ref.read(tsOrderDescTypeFilterProvider);
-                      final journeyType = ref.read(tsJourneyTypeFilterProvider);
-                      final txnType = ref.read(tsTxnTypeFilterProvider);
-                      final searchState = ref.read(tsSearchProvider);
-                      String? orderId;
-                      String? trackingId;
-                      String? paymentGatewayId;
-
-                      if (searchState.active && searchState.value.isNotEmpty) {
-                        if (searchState.type == SearchType.orderId) {
-                          orderId = searchState.value;
-                          trackingId = "";
-                          paymentGatewayId = "";
-                        } else if (searchState.type == SearchType.trackingId) {
-                          trackingId = searchState.value;
-                          orderId = "";
-                          paymentGatewayId = "";
-                        } else if (searchState.type == SearchType.txnId) {
-                          paymentGatewayId = searchState.value;
-                          orderId = "";
-                          trackingId = "";
-                        }
-                      }
-
-                      final params = TransactionsParams(
-                        total: 10,
-                        skip: 0,
-                        startDate: dashboardDate.start.toIso8601String(),
-                        endDate: dashboardDate.end.toIso8601String(),
-                        isWallet: ref
-                            .read(transactionsProvider(selectedTab).notifier)
-                            .getWalletStatus(selectedTab),
-                        isFilter: true,
-                        transactionCategory:
-                            orderDesc == "All" ? null : orderDesc,
-                        journeyType: journeyType == "All" ? null : journeyType,
-                        transactionType: txnType == "All" ? null : txnType,
-                        affectedBalance:
-                            walletType == "All" ? null : walletType,
-                        orderId: orderId,
-                        trackingId: trackingId,
-                        paymentGatewayId: paymentGatewayId,
-                      );
-
-                      ref
-                          .read(transactionsProvider(selectedTab).notifier)
-                          .fetchTransactions(params, selectedTab);
+                      ref.read(remittanceProvider.notifier).applyFilters();
                       Navigator.pop(context);
                     },
                     child: const Text(
@@ -222,9 +177,7 @@ class TsHeader extends ConsumerWidget {
   }
 
   Widget _actionsBottomDrawer(BuildContext context, WidgetRef ref) {
-    final selectedTab = ref.watch(tsTabProvider);
-    final selectedTss = ref.watch(selectedTsProvider(selectedTab));
-
+    final selectedTss = ref.read(selectedRsProvider);
     Future<void> exportOrders(BuildContext context, WidgetRef ref) async {
       Navigator.pop(context);
 
@@ -245,9 +198,7 @@ class TsHeader extends ConsumerWidget {
       );
 
       try {
-        await ref
-            .read(selectedTsProvider(selectedTab).notifier)
-            .exportOrders(selectedTab);
+        await ref.read(selectedRsProvider.notifier).exportOrders();
 
         controller.close();
 
@@ -390,18 +341,18 @@ class ActionButton extends StatelessWidget {
 class _LeftTabs extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedTab = ref.watch(selectedTsFilterTabProvider);
+    final selectedTab = ref.watch(selectedRsFilterTabProvider);
 
     return SingleChildScrollView(
       child: SizedBox(
         width: 140,
         child: Column(
-          children: TsFilterTab.values.map((tab) {
+          children: RsFilterTab.values.map((tab) {
             final isSelected = tab == selectedTab;
 
             return GestureDetector(
               onTap: () {
-                ref.read(selectedTsFilterTabProvider.notifier).state = tab;
+                ref.read(selectedRsFilterTabProvider.notifier).state = tab;
               },
               child: Container(
                 padding: const EdgeInsets.all(16),
@@ -423,16 +374,10 @@ class _LeftTabs extends ConsumerWidget {
     );
   }
 
-  String _getLabel(TsFilterTab tab) {
+  String _getLabel(RsFilterTab tab) {
     switch (tab) {
-      case TsFilterTab.journeyType:
-        return "Journey Type";
-      case TsFilterTab.orderDescType:
-        return "Order Desc";
-      case TsFilterTab.txnType:
-        return "Txn Type";
-      case TsFilterTab.walletType:
-        return "Wallet Type";
+      case RsFilterTab.status:
+        return "Status";
     }
   }
 }
@@ -442,93 +387,28 @@ class _RightContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedTab = ref.watch(selectedTsFilterTabProvider);
+    final selectedTab = ref.watch(selectedRsFilterTabProvider);
 
     switch (selectedTab) {
-      case TsFilterTab.journeyType:
-        return _JourneyTypeView();
-      case TsFilterTab.orderDescType:
-        return _OrderDescView();
-      case TsFilterTab.txnType:
-        return _TxnTypeView();
-      case TsFilterTab.walletType:
-        return _WalletTypeView();
-      default:
-        return SizedBox.shrink();
+      case RsFilterTab.status:
+        return _StatusView();
     }
   }
 }
 
-class _JourneyTypeView extends ConsumerWidget {
+class _StatusView extends ConsumerWidget {
   final items = [
     RadioItems(displayName: "All", value: "All"),
-    RadioItems(displayName: "Forward", value: "FORWARD"),
-    RadioItems(displayName: "Reverse", value: "REVERSE"),
+    RadioItems(displayName: "Active", value: "ACTIVE"),
+    RadioItems(displayName: "Upcoming", value: "UPCOMING"),
+    RadioItems(displayName: "Expired", value: "EXPIRED"),
+    RadioItems(displayName: "Fulfilled", value: "FULFILLED"),
   ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selected = ref.watch(tsJourneyTypeFilterProvider);
-    return _buildRadioList(ref, tsJourneyTypeFilterProvider, items, selected);
-  }
-}
-
-class _OrderDescView extends ConsumerWidget {
-  final items = [
-    RadioItems(displayName: "All", value: "All"),
-    RadioItems(displayName: "Shipping Charge", value: "SHIPPING_CHARGE"),
-    RadioItems(displayName: "Discrepency Charge", value: "DISCREPENCY_CHARGE"),
-    RadioItems(displayName: "Cash Collected", value: "CASH_COLLECTED"),
-    RadioItems(
-      displayName: "Amount Deducted Against Order",
-      value: "AMOUNT_DEDUCTED_AGAINST_ORDER",
-    ),
-    RadioItems(
-      displayName: "Refund Against Order Cancellation",
-      value: "REFUND_AGAINST_ORDER_CANCELLATION",
-    ),
-    RadioItems(
-      displayName: "Amount Deducted Against Return",
-      value: "AMOUNT_DEDUCTED_AGAINST_RETURN",
-    ),
-    RadioItems(
-      displayName: "Amount Deducted Against Weight Dispute",
-      value: "AMOUNT_DEDUCTED_AGAINST_WEIGHT_DISPUTE",
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selected = ref.watch(tsOrderDescTypeFilterProvider);
-    return _buildRadioList(ref, tsOrderDescTypeFilterProvider, items, selected);
-  }
-}
-
-class _TxnTypeView extends ConsumerWidget {
-  final items = [
-    RadioItems(displayName: "All", value: "All"),
-    RadioItems(displayName: "Credit", value: "CREDIT"),
-    RadioItems(displayName: "Debit", value: "DEBIT"),
-  ];
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selected = ref.watch(tsTxnTypeFilterProvider);
-    return _buildRadioList(ref, tsTxnTypeFilterProvider, items, selected);
-  }
-}
-
-class _WalletTypeView extends ConsumerWidget {
-  final items = [
-    RadioItems(displayName: "All", value: "All"),
-    RadioItems(displayName: "Cash", value: "CASH"),
-    RadioItems(displayName: "Credit", value: "CREDIT"),
-  ];
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selected = ref.watch(tsWalletTypeFilterProvider);
-    return _buildRadioList(ref, tsWalletTypeFilterProvider, items, selected);
+    final selected = ref.watch(rsStatusTypeFilterProvider);
+    return _buildRadioList(ref, rsStatusTypeFilterProvider, items, selected);
   }
 }
 

@@ -166,25 +166,25 @@ class TsCard extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              _row("AWB", transaction.trackingId ?? '-'),
-              _row(
+              row("AWB", transaction.trackingId ?? '-'),
+              row(
                 "Date & Time",
                 DateFormat(
                   'dd MMMM yyyy, hh:mm a',
                 ).format(transaction.createdAt),
               ),
-              _row(
+              row(
                 "Wallet Type",
                 transaction.affected.toUpperCase(),
                 valueColor: Colors.blue.shade700,
               ),
-              _row("Shipping Charges", "₹${transaction.amount}"),
-              _row(
+              row("Shipping Charges", "₹${transaction.amount}"),
+              row(
                 "Order Description",
                 transaction.description,
                 isMultiline: true,
               ),
-              _row(
+              row(
                 "Journey Type",
                 transaction.journeyType?.toUpperCase() ?? '-',
                 valueColor:
@@ -192,7 +192,7 @@ class TsCard extends StatelessWidget {
                     ? Colors.green.shade700
                     : Colors.red.shade700,
               ),
-              _row(
+              row(
                 "Txn Type",
                 transaction.type.toUpperCase(),
                 valueColor: Colors.blue.shade700,
@@ -205,40 +205,40 @@ class TsCard extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              _row(
+              row(
                 "Date & Time",
                 DateFormat(
                   'dd MMMM yyyy, hh:mm a',
                 ).format(transaction.createdAt),
               ),
-              _row(
+              row(
                 "Wallet Type",
                 transaction.affected.toUpperCase(),
                 valueColor: Colors.blue.shade700,
               ),
-              _row(
+              row(
                 "Payment Gateway",
                 transaction.paymentGateway ?? '-',
                 valueColor: Colors.blue.shade700,
               ),
-              _row("Amount", "₹ ${transaction.amount}/-" ?? '-'),
+              row("Amount", "₹ ${transaction.amount}/-" ?? '-'),
               if (transaction.couponCode != "") ...[
-                _row("Coupon", transaction.couponCode ?? "Not Used"),
+                row("Coupon", transaction.couponCode ?? "Not Used"),
               ] else ...[
-                _row("Coupon", "NOT USED"),
+                row("Coupon", "NOT USED"),
               ],
-              _row("Order Description", transaction.description ?? '-'),
+              row("Order Description", transaction.description ?? '-'),
 
               if (transaction.remarks != "") ...[
-                _row("Admin Remarks", transaction.remarks ?? "No Remarks"),
+                row("Admin Remarks", transaction.remarks ?? "No Remarks"),
               ] else ...[
-                _row(
+                row(
                   "Admin Remarks",
                   "No Remarks",
                   valueColor: Colors.red.shade700,
                 ),
               ],
-              _row("Txn Type", transaction.type.toUpperCase() ?? '-'),
+              row("Txn Type", transaction.type.toUpperCase() ?? '-'),
             ],
           ),
         );
@@ -247,9 +247,10 @@ class TsCard extends StatelessWidget {
     }
   }
 
-  Widget _row(
+  Widget row(
     String label,
-    String value, {
+    String value, 
+    {
     bool isMultiline = false,
     Color? valueColor,
   }) {
@@ -292,3 +293,4 @@ class TsCard extends StatelessWidget {
     );
   }
 }
+

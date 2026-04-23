@@ -1,9 +1,15 @@
 import 'package:dio/dio.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/providers/app_providers.dart';
+
 import '../models/shipping_rate_model.dart';
 import '../models/calculator_rate_model.dart';
 import '../models/transaction_model.dart';
+import '../models/remittance_model.dart';
 import '../models/message_metrics_model.dart';
 import '../models/message_transaction_model.dart';
+
+part 'finance_datasource.g.dart';
 
 class FinanceDataSource {
   final Dio _dio;
@@ -116,15 +122,10 @@ class FinanceDataSource {
   Future<MessageMetricsModel> getMessageMetrics({
     required String startDate,
     required String endDate,
-
   }) async {
     final response = await _dio.get(
       '/v1/user/message-metrics',
-      queryParameters: {
-        'startDate': startDate,
-        'endDate': endDate,
-
-      },
+      queryParameters: {'startDate': startDate, 'endDate': endDate},
     );
 
     return MessageMetricsModel.fromJson(response.data as Map<String, dynamic>);
@@ -150,4 +151,46 @@ class FinanceDataSource {
       response.data as Map<String, dynamic>,
     );
   }
+
+  Future<Map<String, dynamic>> getRemittanceDetails() async {
+    final response = await _dio.get('/v1/finance/remittance');
+    return response.data as Map<String, dynamic>;
+  }
+
+  Future<RemittanceCycleResponseModel> getRemittanceCycles({
+    required int total,
+    required int skip,
+    required String startDate,
+    required String endDate,
+    String? status,
+    String? businessName,
+    String? remittanceId,
+    String? userId,
+    String? phone,
+  }) async {
+    final response = await _dio.get(
+      '/v1/finance/remittance-Cycle',
+      queryParameters: {
+        'total': total,
+        'skip': skip,
+        'startDate': startDate,
+        'endDate': endDate,
+        if (status != null && status.isNotEmpty && status != 'All')
+          'status': status,
+        if (businessName != null) 'business_name': businessName,
+        if (remittanceId != null) 'remittanceId': remittanceId,
+        if (userId != null) 'userId': userId,
+        if (phone != null) 'phone': phone,
+      },
+    );
+    return RemittanceCycleResponseModel.fromJson(
+      response.data as Map<String, dynamic>,
+    );
+  }
+}
+
+@riverpod
+FinanceDataSource financeDataSource(Ref ref) {
+  final dio = ref.watch(dioClientProvider).dio;
+  return FinanceDataSource(dio);
 }

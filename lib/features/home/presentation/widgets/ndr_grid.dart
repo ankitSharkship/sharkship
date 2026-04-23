@@ -17,7 +17,7 @@ class NDRGrid extends ConsumerWidget {
     final statusState = ref.watch(ndrStatusProvider);
 
     return statusState.when(
-      loading: () => const _NDRGridSkeleton(),
+      loading: () => const NDRGridSkeleton(),
       error: (err, stack) => Center(child: Text('Error: $err')),
       data: (summary) {
         if (summary.countByNDRStatus.isEmpty) {
@@ -92,8 +92,8 @@ class NDRGrid extends ConsumerWidget {
   }
 }
 
-class _NDRGridSkeleton extends StatelessWidget {
-  const _NDRGridSkeleton();
+class NDRGridSkeleton extends StatelessWidget {
+  const NDRGridSkeleton();
 
   @override
   Widget build(BuildContext context) {

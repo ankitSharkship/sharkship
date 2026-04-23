@@ -10,6 +10,9 @@ import '../../domain/usecases/get_transactions_usecase.dart';
 import '../../domain/usecases/get_message_metrics_usecase.dart';
 import '../../domain/usecases/get_message_transactions_usecase.dart';
 
+import '../../domain/usecases/get_remittance_details_usecase.dart';
+import '../../domain/usecases/get_remittance_cycles_usecase.dart';
+
 part 'finance_providers.g.dart';
 
 @riverpod
@@ -52,4 +55,16 @@ GetMessageMetricsUseCase getMessageMetricsUseCase(Ref ref) {
 GetMessageTransactionsUseCase getMessageTransactionsUseCase(Ref ref) {
   final repository = ref.watch(financeRepositoryProvider);
   return GetMessageTransactionsUseCase(repository);
+}
+
+@riverpod
+GetRemittanceDetailsUseCase getRemittanceDetailsUseCase(Ref ref) {
+  final repository = ref.watch(financeRepositoryProvider);
+  return GetRemittanceDetailsUseCase(repository);
+}
+
+@riverpod
+GetRemittanceCyclesUseCase getRemittanceCyclesUseCase(Ref ref) {
+  final repository = ref.watch(financeRepositoryProvider);
+  return GetRemittanceCyclesUseCase(repository);
 }

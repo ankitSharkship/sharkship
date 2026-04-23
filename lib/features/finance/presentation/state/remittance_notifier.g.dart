@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ts_tab_provider.dart';
+part of 'remittance_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,44 @@ part of 'ts_tab_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(TsTab)
-const tsTabProvider = TsTabProvider._();
+@ProviderFor(Remittance)
+const remittanceProvider = RemittanceProvider._();
 
-final class TsTabProvider extends $NotifierProvider<TsTab, int> {
-  const TsTabProvider._()
+final class RemittanceProvider
+    extends $AsyncNotifierProvider<Remittance, RemittanceState> {
+  const RemittanceProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'tsTabProvider',
+        name: r'remittanceProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$tsTabHash();
+  String debugGetCreateSourceHash() => _$remittanceHash();
 
   @$internal
   @override
-  TsTab create() => TsTab();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(int value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<int>(value),
-    );
-  }
+  Remittance create() => Remittance();
 }
 
-String _$tsTabHash() => r'55a66dcd10d1ac08529247819a179363e77237de';
+String _$remittanceHash() => r'74d63f514986c1d3c0719d1a33beeec2a4a4ba27';
 
-abstract class _$TsTab extends $Notifier<int> {
-  int build();
+abstract class _$Remittance extends $AsyncNotifier<RemittanceState> {
+  FutureOr<RemittanceState> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<int, int>;
+    final ref = this.ref as $Ref<AsyncValue<RemittanceState>, RemittanceState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
+              AnyNotifier<AsyncValue<RemittanceState>, RemittanceState>,
+              AsyncValue<RemittanceState>,
               Object?,
               Object?
             >;

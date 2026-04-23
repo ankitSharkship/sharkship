@@ -316,14 +316,14 @@ class MoreScreen extends ConsumerWidget {
                 title: "Remittance Summary",
                 icon: Icons.assignment_return_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  context.push(Routes.REMITTANCE_SUMMARY);
                 },
               ),
               MenuItem(
                 title: "Invoice Summary",
                 icon: Icons.assignment_return_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  context.push(Routes.TRANSACTION_SUMMARY);
                 },
               ),
             ],

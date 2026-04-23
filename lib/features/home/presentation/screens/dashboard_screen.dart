@@ -26,6 +26,34 @@ class DashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedTab = ref.watch(dashboardTabProvider);
+    Future<void> _onRefresh(int selectedTab) async {
+      switch (selectedTab) {
+        case 0:
+          ref.invalidate(todayMetricsProvider);
+          ref.invalidate(orderStatusProvider);
+          ref.invalidate(ndrStatusProvider);
+          ref.invalidate(remittanceOverviewProvider);
+          ref.invalidate(businessOverviewProvider);
+          ref.invalidate(zoneDistributionProvider);
+          ref.invalidate(mapOrdersProvider);
+          break;
+        case 1:
+          ref.invalidate(courierPickupProvider);
+        case 2:
+          ref.invalidate(ndrStatusProvider);
+          ref.invalidate(ndrDataProvider);
+          ref.invalidate(datewiseNdrProvider);
+        case 3:
+          ref.invalidate(topRtoDataProvider);
+          ref.invalidate(datewiseRtoProvider);
+        case 4:
+          ref.invalidate(topDeliveredDataProvider);
+          ref.invalidate(codTrendProvider);
+        case 5:
+          ref.invalidate(orderRevenueProvider);
+        default:
+      }
+    }
 
     return Scaffold(
       backgroundColor: ColorManager.scaffoldBg,
@@ -35,9 +63,12 @@ class DashboardScreen extends ConsumerWidget {
             const DashboardHeader(),
             DashboardTabBar(),
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: _buildTabContent(selectedTab, ref),
+              child: RefreshIndicator(
+                onRefresh: () => _onRefresh(selectedTab),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _buildTabContent(selectedTab, ref),
+                ),
               ),
             ),
           ],
@@ -49,72 +80,88 @@ class DashboardScreen extends ConsumerWidget {
   Widget _buildTabContent(int tab, WidgetRef ref) {
     switch (tab) {
       case 0:
-        return const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TodayMetricsSummaryGrid(),
-            SizedBox(height: 20),
-            SectionTitle("Shipments Details"),
-            SizedBox(height: 12),
-            ShipmentGrid(),
-            SizedBox(height: 20),
-            SectionTitle("NDR Details"),
-            SizedBox(height: 12),
-            NDRGrid(),
-            SizedBox(height: 24),
-            SectionTitle("Remittance"),
-            SizedBox(height: 12),
-            RemittanceSummaryGrid(),
-            SizedBox(height: 24),
-            SectionTitle("Business Trends"),
-            SizedBox(height: 12),
-            BusinessOverviewChart(),
-            SizedBox(height: 24),
-            SectionTitle("Order Geography"),
-            SizedBox(height: 12),
-            ZoneDistributionOverviewChart(),
-            SizedBox(height: 20),
-            StateWiseOrdersTable(),
-            SizedBox(height: 24),
-          ],
+        return SingleChildScrollView(
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TodayMetricsSummaryGrid(),
+              SizedBox(height: 20),
+              SectionTitle("Shipments Details"),
+              SizedBox(height: 12),
+              ShipmentGrid(),
+              SizedBox(height: 20),
+              SectionTitle("NDR Details"),
+              SizedBox(height: 12),
+              NDRGrid(),
+              SizedBox(height: 24),
+              SectionTitle("Remittance"),
+              SizedBox(height: 12),
+              RemittanceSummaryGrid(),
+              SizedBox(height: 24),
+              SectionTitle("Business Trends"),
+              SizedBox(height: 12),
+              BusinessOverviewChart(),
+              SizedBox(height: 24),
+              SectionTitle("Order Geography"),
+              SizedBox(height: 12),
+              ZoneDistributionOverviewChart(),
+              SizedBox(height: 20),
+              StateWiseOrdersTable(),
+              SizedBox(height: 24),
+            ],
+          ),
         );
       case 1:
-        return const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            PickupsSummaryGrid(),
-            SizedBox(height: 20),
-            PickupsCharts(),
-          ],
+        return SingleChildScrollView(
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              PickupsSummaryGrid(),
+              SizedBox(height: 20),
+              PickupsCharts(),
+            ],
+          ),
         );
       case 2:
-        return const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [NDRSummaryGrid(), SizedBox(height: 20), NDRStatsCharts()],
+        return SingleChildScrollView(
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              NDRSummaryGrid(),
+              SizedBox(height: 20),
+              NDRStatsCharts(),
+            ],
+          ),
         );
       case 3:
-        return const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [RtoStatsCharts()],
+        return SingleChildScrollView(
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [RtoStatsCharts()],
+          ),
         );
       case 4:
-        return const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [DeliveredStatsCharts()],
+        return SingleChildScrollView(
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [DeliveredStatsCharts()],
+          ),
         );
       case 5:
         return Consumer(
           builder: (context, ref, child) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const RevenueSummaryGrid(),
-                const SizedBox(height: 20),
-                const RevenueStatsCharts(),
-                const SizedBox(height: 20),
-                const RevenueBreakdownTable(),
-                const SizedBox(height: 20),
-              ],
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const RevenueSummaryGrid(),
+                  const SizedBox(height: 20),
+                  const RevenueStatsCharts(),
+                  const SizedBox(height: 20),
+                  const RevenueBreakdownTable(),
+                  const SizedBox(height: 20),
+                ],
+              ),
             );
           },
         );

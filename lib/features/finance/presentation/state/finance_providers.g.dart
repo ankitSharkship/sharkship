@@ -346,3 +346,101 @@ final class GetMessageTransactionsUseCaseProvider
 
 String _$getMessageTransactionsUseCaseHash() =>
     r'ea4c22936b1dcab3307475ca642b35819d167f31';
+
+@ProviderFor(getRemittanceDetailsUseCase)
+const getRemittanceDetailsUseCaseProvider =
+    GetRemittanceDetailsUseCaseProvider._();
+
+final class GetRemittanceDetailsUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetRemittanceDetailsUseCase,
+          GetRemittanceDetailsUseCase,
+          GetRemittanceDetailsUseCase
+        >
+    with $Provider<GetRemittanceDetailsUseCase> {
+  const GetRemittanceDetailsUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getRemittanceDetailsUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getRemittanceDetailsUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetRemittanceDetailsUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetRemittanceDetailsUseCase create(Ref ref) {
+    return getRemittanceDetailsUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetRemittanceDetailsUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetRemittanceDetailsUseCase>(value),
+    );
+  }
+}
+
+String _$getRemittanceDetailsUseCaseHash() =>
+    r'5d63689a3e38dafdb6cf7b77fa2831373199e935';
+
+@ProviderFor(getRemittanceCyclesUseCase)
+const getRemittanceCyclesUseCaseProvider =
+    GetRemittanceCyclesUseCaseProvider._();
+
+final class GetRemittanceCyclesUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetRemittanceCyclesUseCase,
+          GetRemittanceCyclesUseCase,
+          GetRemittanceCyclesUseCase
+        >
+    with $Provider<GetRemittanceCyclesUseCase> {
+  const GetRemittanceCyclesUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getRemittanceCyclesUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getRemittanceCyclesUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetRemittanceCyclesUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetRemittanceCyclesUseCase create(Ref ref) {
+    return getRemittanceCyclesUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetRemittanceCyclesUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetRemittanceCyclesUseCase>(value),
+    );
+  }
+}
+
+String _$getRemittanceCyclesUseCaseHash() =>
+    r'd53d5cfba090ae21ba6b316dad5807979f293b92';
