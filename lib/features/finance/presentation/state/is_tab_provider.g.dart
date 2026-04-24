@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'remittance_notifier.dart';
+part of 'is_tab_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,44 +9,51 @@ part of 'remittance_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Remittance)
-const remittanceProvider = RemittanceProvider._();
+@ProviderFor(IsTab)
+const isTabProvider = IsTabProvider._();
 
-final class RemittanceProvider
-    extends $AsyncNotifierProvider<Remittance, RemittanceState> {
-  const RemittanceProvider._()
+final class IsTabProvider extends $NotifierProvider<IsTab, int> {
+  const IsTabProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'remittanceProvider',
+        name: r'isTabProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$remittanceHash();
+  String debugGetCreateSourceHash() => _$isTabHash();
 
   @$internal
   @override
-  Remittance create() => Remittance();
+  IsTab create() => IsTab();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
 }
 
-String _$remittanceHash() => r'735e9e8154614c47fd793591531a36c302124cab';
+String _$isTabHash() => r'34a14f0dc105122d76f50296c660d3577b692e8a';
 
-abstract class _$Remittance extends $AsyncNotifier<RemittanceState> {
-  FutureOr<RemittanceState> build();
+abstract class _$IsTab extends $Notifier<int> {
+  int build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AsyncValue<RemittanceState>, RemittanceState>;
+    final ref = this.ref as $Ref<int, int>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<RemittanceState>, RemittanceState>,
-              AsyncValue<RemittanceState>,
+              AnyNotifier<int, int>,
+              int,
               Object?,
               Object?
             >;

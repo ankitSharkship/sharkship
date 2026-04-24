@@ -42,7 +42,7 @@ final class SelectedRsNotifierProvider
 }
 
 String _$selectedRsNotifierHash() =>
-    r'46b984d478f983681f365f29ced5c6f9981d9813';
+    r'129ef899266b11b0b916b33721653012feb166b2';
 
 abstract class _$SelectedRsNotifier extends $Notifier<SelectedRssState> {
   SelectedRssState build();

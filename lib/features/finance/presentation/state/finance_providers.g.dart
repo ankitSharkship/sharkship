@@ -444,3 +444,242 @@ final class GetRemittanceCyclesUseCaseProvider
 
 String _$getRemittanceCyclesUseCaseHash() =>
     r'd53d5cfba090ae21ba6b316dad5807979f293b92';
+
+@ProviderFor(getTaxInvoicesUseCase)
+const getTaxInvoicesUseCaseProvider = GetTaxInvoicesUseCaseProvider._();
+
+final class GetTaxInvoicesUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetTaxInvoicesUseCase,
+          GetTaxInvoicesUseCase,
+          GetTaxInvoicesUseCase
+        >
+    with $Provider<GetTaxInvoicesUseCase> {
+  const GetTaxInvoicesUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getTaxInvoicesUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getTaxInvoicesUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetTaxInvoicesUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetTaxInvoicesUseCase create(Ref ref) {
+    return getTaxInvoicesUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetTaxInvoicesUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetTaxInvoicesUseCase>(value),
+    );
+  }
+}
+
+String _$getTaxInvoicesUseCaseHash() =>
+    r'ad408c0a20f15add8dd74482cdec7cf5e0259049';
+
+@ProviderFor(getCnInvoicesUseCase)
+const getCnInvoicesUseCaseProvider = GetCnInvoicesUseCaseProvider._();
+
+final class GetCnInvoicesUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetCnInvoicesUseCase,
+          GetCnInvoicesUseCase,
+          GetCnInvoicesUseCase
+        >
+    with $Provider<GetCnInvoicesUseCase> {
+  const GetCnInvoicesUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getCnInvoicesUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getCnInvoicesUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetCnInvoicesUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetCnInvoicesUseCase create(Ref ref) {
+    return getCnInvoicesUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetCnInvoicesUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetCnInvoicesUseCase>(value),
+    );
+  }
+}
+
+String _$getCnInvoicesUseCaseHash() =>
+    r'e86f8bdf0e716c1f9bbe8f29395803d0702280d7';
+
+@ProviderFor(initiateInvoiceUseCase)
+const initiateInvoiceUseCaseProvider = InitiateInvoiceUseCaseProvider._();
+
+final class InitiateInvoiceUseCaseProvider
+    extends
+        $FunctionalProvider<
+          InitiateInvoiceUseCase,
+          InitiateInvoiceUseCase,
+          InitiateInvoiceUseCase
+        >
+    with $Provider<InitiateInvoiceUseCase> {
+  const InitiateInvoiceUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'initiateInvoiceUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$initiateInvoiceUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<InitiateInvoiceUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  InitiateInvoiceUseCase create(Ref ref) {
+    return initiateInvoiceUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(InitiateInvoiceUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<InitiateInvoiceUseCase>(value),
+    );
+  }
+}
+
+String _$initiateInvoiceUseCaseHash() =>
+    r'c78511f0ccfe4dbacd50835241400fa845a38533';
+
+@ProviderFor(verifySingleUseCase)
+const verifySingleUseCaseProvider = VerifySingleUseCaseProvider._();
+
+final class VerifySingleUseCaseProvider
+    extends
+        $FunctionalProvider<
+          VerifySingleUseCase,
+          VerifySingleUseCase,
+          VerifySingleUseCase
+        >
+    with $Provider<VerifySingleUseCase> {
+  const VerifySingleUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'verifySingleUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$verifySingleUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<VerifySingleUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  VerifySingleUseCase create(Ref ref) {
+    return verifySingleUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(VerifySingleUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<VerifySingleUseCase>(value),
+    );
+  }
+}
+
+String _$verifySingleUseCaseHash() =>
+    r'64adbdc38486e2c1c4c54290f9fca076798ebd74';
+
+@ProviderFor(verifyBulkUseCase)
+const verifyBulkUseCaseProvider = VerifyBulkUseCaseProvider._();
+
+final class VerifyBulkUseCaseProvider
+    extends
+        $FunctionalProvider<
+          VerifyBulkUseCase,
+          VerifyBulkUseCase,
+          VerifyBulkUseCase
+        >
+    with $Provider<VerifyBulkUseCase> {
+  const VerifyBulkUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'verifyBulkUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$verifyBulkUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<VerifyBulkUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  VerifyBulkUseCase create(Ref ref) {
+    return verifyBulkUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(VerifyBulkUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<VerifyBulkUseCase>(value),
+    );
+  }
+}
+
+String _$verifyBulkUseCaseHash() => r'a339a3ebd4aa8bf32f311346a842bf153aa0e86e';

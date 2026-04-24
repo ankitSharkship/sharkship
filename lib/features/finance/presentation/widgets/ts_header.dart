@@ -322,7 +322,7 @@ class TsHeader extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                   ),
                 ],
@@ -372,7 +372,7 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveColor = enabled ? color : color.withOpacity(0.3);
+    final effectiveColor = enabled ? color : color.withValues(alpha: 0.3);
 
     return OutlinedButton.icon(
       onPressed: enabled ? onTap : null,
@@ -605,7 +605,7 @@ class StatusNotification extends StatelessWidget {
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: themeColor.withOpacity(0.2)),
+        border: Border.all(color: themeColor.withValues(alpha: 0.2)),
       ),
       child: Row(
         children: [

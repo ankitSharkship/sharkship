@@ -1,9 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharkship/core/errors/failures.dart';
+import 'package:sharkship/features/finance/domain/entities/cn_invoice_entity.dart';
+import 'package:sharkship/features/finance/domain/entities/initiate_invoice_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/message_metrics_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/message_transaction_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/remittance_entity.dart';
+import 'package:sharkship/features/finance/domain/entities/tax_invoice_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/shipping_rate_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/calculator_rate_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/transaction_entity.dart';
@@ -151,6 +154,84 @@ class FinanceRepositoryImpl implements FinanceRepository {
         phone: phone,
       );
       return Right(response);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TaxInvoiceResponseEntity>> getTaxInvoices({
+    required int total,
+    required int skip,
+    required String startDate,
+    required String endDate,
+  }) async {
+    try {
+      final response = await _dataSource.getTaxInvoices(
+        total: total,
+        skip: skip,
+        startDate: startDate,
+        endDate: endDate,
+      );
+      return Right(response);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CnInvoiceResponseEntity>> getCnInvoices({
+    required int total,
+    required int skip,
+    required String cnStartDate,
+    required String cnEndDate,
+    String? cnDateRangeStart,
+    String? cnDateRangeEnd,
+    String? state,
+    String? invoiceNo,
+  }) async {
+    try {
+      final response = await _dataSource.getCnInvoices(
+        total: total,
+        skip: skip,
+        cnStartDate: cnStartDate,
+        cnEndDate: cnEndDate,
+        cnDateRangeStart: cnDateRangeStart,
+        cnDateRangeEnd: cnDateRangeEnd,
+        state: state,
+        invoiceNo: invoiceNo,
+      );
+      return Right(response);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, InitiateInvoiceEntity>> initiateInvoice() async {
+    try {
+      final response = await _dataSource.initiateInvoice();
+      return Right(response);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> verifySingle(Map<String, dynamic> data) async {
+    try {
+      await _dataSource.verifySingle(data);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> verifyBulk(Map<String, dynamic> data) async {
+    try {
+      await _dataSource.verifyBulk(data);
+      return const Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

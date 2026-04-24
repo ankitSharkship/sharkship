@@ -323,7 +323,7 @@ class MoreScreen extends ConsumerWidget {
                 title: "Invoice Summary",
                 icon: Icons.assignment_return_outlined,
                 onTap: () {
-                  context.push(Routes.TRANSACTION_SUMMARY);
+                  context.push(Routes.INVOICE_SUMMARY);
                 },
               ),
             ],

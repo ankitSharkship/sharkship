@@ -12,6 +12,11 @@ import '../../domain/usecases/get_message_transactions_usecase.dart';
 
 import '../../domain/usecases/get_remittance_details_usecase.dart';
 import '../../domain/usecases/get_remittance_cycles_usecase.dart';
+import '../../domain/usecases/get_tax_invoices_usecase.dart';
+import '../../domain/usecases/get_cn_invoices_usecase.dart';
+import '../../domain/usecases/initiate_invoice_usecase.dart';
+import '../../domain/usecases/verify_single_usecase.dart';
+import '../../domain/usecases/verify_bulk_usecase.dart';
 
 part 'finance_providers.g.dart';
 
@@ -67,4 +72,34 @@ GetRemittanceDetailsUseCase getRemittanceDetailsUseCase(Ref ref) {
 GetRemittanceCyclesUseCase getRemittanceCyclesUseCase(Ref ref) {
   final repository = ref.watch(financeRepositoryProvider);
   return GetRemittanceCyclesUseCase(repository);
+}
+
+@riverpod
+GetTaxInvoicesUseCase getTaxInvoicesUseCase(Ref ref) {
+  final repository = ref.watch(financeRepositoryProvider);
+  return GetTaxInvoicesUseCase(repository);
+}
+
+@riverpod
+GetCnInvoicesUseCase getCnInvoicesUseCase(Ref ref) {
+  final repository = ref.watch(financeRepositoryProvider);
+  return GetCnInvoicesUseCase(repository);
+}
+
+@riverpod
+InitiateInvoiceUseCase initiateInvoiceUseCase(Ref ref) {
+  final repository = ref.watch(financeRepositoryProvider);
+  return InitiateInvoiceUseCase(repository);
+}
+
+@riverpod
+VerifySingleUseCase verifySingleUseCase(Ref ref) {
+  final repository = ref.watch(financeRepositoryProvider);
+  return VerifySingleUseCase(repository);
+}
+
+@riverpod
+VerifyBulkUseCase verifyBulkUseCase(Ref ref) {
+  final repository = ref.watch(financeRepositoryProvider);
+  return VerifyBulkUseCase(repository);
 }

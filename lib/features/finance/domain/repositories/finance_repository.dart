@@ -7,6 +7,9 @@ import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/message_metrics_entity.dart';
 import '../../domain/entities/message_transaction_entity.dart';
 import '../../domain/entities/remittance_entity.dart';
+import '../../domain/entities/tax_invoice_entity.dart';
+import '../../domain/entities/cn_invoice_entity.dart';
+import '../../domain/entities/initiate_invoice_entity.dart';
 
 abstract class FinanceRepository {
   Future<List<ShippingRateEntity>> getShippingRates({
@@ -63,4 +66,28 @@ abstract class FinanceRepository {
     String? userId,
     String? phone,
   });
+
+  Future<Either<Failure, TaxInvoiceResponseEntity>> getTaxInvoices({
+    required int total,
+    required int skip,
+    required String startDate,
+    required String endDate,
+  });
+
+  Future<Either<Failure, CnInvoiceResponseEntity>> getCnInvoices({
+    required int total,
+    required int skip,
+    required String cnStartDate,
+    required String cnEndDate,
+    String? cnDateRangeStart,
+    String? cnDateRangeEnd,
+    String? state,
+    String? invoiceNo,
+  });
+
+  Future<Either<Failure, InitiateInvoiceEntity>> initiateInvoice();
+
+  Future<Either<Failure, void>> verifySingle(Map<String, dynamic> data);
+
+  Future<Either<Failure, void>> verifyBulk(Map<String, dynamic> data);
 }

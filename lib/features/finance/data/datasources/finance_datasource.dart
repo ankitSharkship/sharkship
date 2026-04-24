@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharkship/core/providers/app_providers.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 
 import '../models/shipping_rate_model.dart';
 import '../models/calculator_rate_model.dart';
@@ -8,6 +12,9 @@ import '../models/transaction_model.dart';
 import '../models/remittance_model.dart';
 import '../models/message_metrics_model.dart';
 import '../models/message_transaction_model.dart';
+import '../models/tax_invoice_model.dart';
+import '../models/cn_invoice_model.dart';
+import '../models/initiate_invoice_model.dart';
 
 part 'finance_datasource.g.dart';
 
@@ -186,6 +193,136 @@ class FinanceDataSource {
     return RemittanceCycleResponseModel.fromJson(
       response.data as Map<String, dynamic>,
     );
+  }
+
+  Future<TaxInvoiceResponseModel> getTaxInvoices({
+    required int total,
+    required int skip,
+    required String startDate,
+    required String endDate,
+  }) async {
+    final response = await _dio.get(
+      '/v1/finance/tax-invoice',
+      queryParameters: {
+        'total': total,
+        'skip': skip,
+        'startDate': startDate,
+        'endDate': endDate,
+      },
+    );
+    return TaxInvoiceResponseModel.fromJson(
+      response.data as Map<String, dynamic>,
+    );
+  }
+
+  Future<CnInvoiceResponseModel> getCnInvoices({
+    required int total,
+    required int skip,
+    required String cnStartDate,
+    required String cnEndDate,
+    String? cnDateRangeStart,
+    String? cnDateRangeEnd,
+    String? state,
+    String? invoiceNo,
+  }) async {
+    final response = await _dio.get(
+      '/v1/finance/cn-invoice',
+      queryParameters: {
+        'total': total,
+        'skip': skip,
+        'cn_start_date': cnStartDate,
+        'cn_end_date': cnEndDate,
+        if (cnDateRangeStart != null) 'cn_date_range_start': cnDateRangeStart,
+        if (cnDateRangeEnd != null) 'cn_date_range_end': cnDateRangeEnd,
+        if (state != null) 'state': state,
+        if (invoiceNo != null) 'invoice_no': invoiceNo,
+      },
+    );
+    return CnInvoiceResponseModel.fromJson(
+      response.data as Map<String, dynamic>,
+    );
+  }
+
+  Future<InitiateInvoiceModel> initiateInvoice() async {
+    final response = await _dio.post('/v1/document/invoice/initiate');
+    return InitiateInvoiceModel.fromJson(response.data as Map<String, dynamic>);
+  }
+
+  Future<void> verifySingle(Map<String, dynamic> data) async {
+    try {
+      Directory? directory;
+      if (Platform.isAndroid) {
+        directory = Directory('/storage/emulated/0/Download');
+        if (!await directory.exists()) {
+          directory = await getExternalStorageDirectory();
+        }
+      } else if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = await getDownloadsDirectory();
+      }
+
+      final String timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
+      final String fileExt = data['fileType'] ?? 'pdf';
+      final String filePath = '${directory!.path}/Invoice_$timestamp.$fileExt';
+
+      final response = await _dio.post(
+        '/v1/document/invoice/verify-single',
+        data: data,
+        options: Options(
+          responseType: ResponseType.bytes,
+          followRedirects: false,
+        ),
+      );
+
+      final File file = File(filePath);
+      await file.writeAsBytes(response.data);
+      final result = await OpenFile.open(filePath);
+      if (result.type != ResultType.done) {
+        print("Could not open file: ${result.message}");
+      }
+    } catch (e) {
+      print('Download Invoice Error: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> verifyBulk(Map<String, dynamic> data) async {
+    try {
+      Directory? directory;
+      if (Platform.isAndroid) {
+        directory = Directory('/storage/emulated/0/Download');
+        if (!await directory.exists()) {
+          directory = await getExternalStorageDirectory();
+        }
+      } else if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = await getDownloadsDirectory();
+      }
+
+      final String timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
+      final String filePath = '${directory!.path}/Invoices_Bulk_$timestamp.zip';
+
+      final response = await _dio.post(
+        '/v1/document/invoice/verify-bulk',
+        data: data,
+        options: Options(
+          responseType: ResponseType.bytes,
+          followRedirects: false,
+        ),
+      );
+
+      final File file = File(filePath);
+      await file.writeAsBytes(response.data);
+      final result = await OpenFile.open(filePath);
+      if (result.type != ResultType.done) {
+        print("Could not open file: ${result.message}");
+      }
+    } catch (e) {
+      print('Download Bulk Invoice Error: $e');
+      rethrow;
+    }
   }
 }
 
