@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:sharkship/features/buyerCommunication/presentation/screens/buyer_communication_screen.dart';
 import 'package:sharkship/features/finance/presentation/screens/invoice_summary.dart';
 import 'package:sharkship/features/finance/presentation/screens/remittance_summary.dart';
 import 'package:sharkship/features/finance/presentation/screens/seller_charges.dart';
@@ -85,6 +86,9 @@ final appRouter = GoRouter(
       path: Routes.INVOICE_SUMMARY,
       builder: (context, state) => const InvoiceSummary(),
     ),
-
+    GoRoute(
+      path: Routes.BUYER_COMMUNICATION,
+      builder: (context, state) => const BuyerCommunicationScreen(),
+    ),
   ],
 );

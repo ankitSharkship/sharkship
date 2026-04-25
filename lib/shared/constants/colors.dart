@@ -6,6 +6,7 @@ class ColorManager {
   static const Color secondaryBlue = Color(0xFF27AAE2); // #27AAE2 (medium blue)
   static const Color lightBlue = Color(0xFF91D3EE); // #91D3EE (light blue)
   static const Color lightBlueBg = Color(0xFFE1EEF4);
+  static const Color lightGreen = Color(0xFFE1FEEC);
   // Common utility colors (add more as needed)
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);

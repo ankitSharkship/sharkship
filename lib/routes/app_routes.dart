@@ -20,6 +20,7 @@ abstract class Routes {
   static const REMITTANCE_SUMMARY = _Paths.REMITTANCE_SUMMARY;
   static const TRANSACTION_SUMMARY = _Paths.TRANSACTION_SUMMARY;
   static const INVOICE_SUMMARY = _Paths.INVOICE_SUMMARY;
+  static const BUYER_COMMUNICATION = _Paths.BUYER_COMMUNICATION;
 }
 
 abstract class _Paths {
@@ -41,6 +42,7 @@ abstract class _Paths {
   static const REMITTANCE_SUMMARY = '/remittance-summary';
   static const INVOICE_SUMMARY = '/invoice-summary';
   static const TRANSACTION_SUMMARY = '/transaction-summary';
+  static const BUYER_COMMUNICATION = '/buyer-communication';
 }
 
 //rate calculator, remittance summary, invoice summary, transaction summary

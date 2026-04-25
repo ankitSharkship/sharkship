@@ -29,6 +29,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
   kam: json['kam'] == null
       ? null
       : KamModel.fromJson(json['kam'] as Map<String, dynamic>),
+  isWhatsappSms: json['isWhatsappSms'] as bool?,
 );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -52,6 +53,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'kam': instance.kam?.toJson(),
   'isKycVerified': instance.isKycVerified,
   'agreement_accept': instance.agreementAccept,
+  'isWhatsappSms': instance.isWhatsappSms,
 };
 
 KamModel _$KamModelFromJson(Map<String, dynamic> json) => KamModel(

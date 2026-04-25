@@ -50,7 +50,7 @@ final class TaxInvoicesProvider
   }
 }
 
-String _$taxInvoicesHash() => r'8d22bd9d57049a02930a18c164f049140976b1a1';
+String _$taxInvoicesHash() => r'41e176ac6766d0193875c87af15527cd4b1b4bdd';
 
 final class TaxInvoicesFamily extends $Family
     with

@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:sharkship/features/auth/presentation/state/auth_notifier.dart';
 import 'package:sharkship/features/more/presentation/widgets/menu_list_item.dart';
 import 'package:sharkship/features/nav/presentation/state/bottom_nav_state.dart';
+import 'package:sharkship/features/orders/presentation/widgets/address_picker_form.dart';
+import 'package:sharkship/features/orders/presentation/widgets/courier_priority_form.dart';
 import 'package:sharkship/features/shipments/presentation/state/shipment_tab_provider.dart';
 import 'package:sharkship/features/user/presentation/state/user_notifier.dart';
 import 'package:sharkship/features/user/presentation/state/user_balance_notifier.dart';
@@ -339,7 +341,7 @@ class MoreScreen extends ConsumerWidget {
                 title: "Buyer Communication",
                 icon: Icons.description_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  context.push(Routes.BUYER_COMMUNICATION);
                 },
               ),
             ],
@@ -355,14 +357,20 @@ class MoreScreen extends ConsumerWidget {
                 title: "Courier Partner Priority",
                 icon: Icons.description_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (_) => CourierPriorityForm(),
+                  );
                 },
               ),
               MenuItem(
                 title: "Manage Pickup Address",
                 icon: Icons.add_box_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (_) => AddressPickerForm(),
+                  );
                 },
               ),
               MenuItem(

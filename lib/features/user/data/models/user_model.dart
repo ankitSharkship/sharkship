@@ -16,6 +16,10 @@ class UserModel extends User {
   @JsonKey(name: 'agreement_accept', defaultValue: false)
   final bool agreementAccept;
 
+  @override
+  @JsonKey(name: 'isWhatsappSms')
+  final bool? isWhatsappSms;
+
   const UserModel({
     required super.id,
     required super.firstName,
@@ -37,10 +41,12 @@ class UserModel extends User {
     super.lastLogin,
     super.createdAt,
     this.kam,
+    this.isWhatsappSms
   }) : super(
          kam: kam,
          isKycVerified: isKycVerified,
          agreementAccept: agreementAccept,
+         isWhatsappSms: isWhatsappSms,
        );
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
