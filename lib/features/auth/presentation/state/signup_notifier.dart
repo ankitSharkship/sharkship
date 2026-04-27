@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharkship/features/auth/presentation/state/signup_state.dart';
+import 'package:sharkship/features/businessTools/presentation/state/manage_address_notifier.dart';
 part 'signup_notifier.g.dart';
 
 @riverpod
@@ -45,13 +46,18 @@ class SignupNotifier extends _$SignupNotifier {
     if (state.loading) return;
     state = state.copyWith(loading: true);
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      final result = await ref
+          .read(manageAddressProvider.notifier)
+          .getPinDetails(pin);
+      if (result != null && result?.city != null && result?.state != null) {
+        final updated = Map<String, String>.from(state.form);
+        updated['city'] = "";
+        updated['state'] = "Delhi";
 
-      final updated = Map<String, String>.from(state.form);
-      updated['city'] = "Delhi";
-      updated['state'] = "Delhi";
-
-      state = state.copyWith(loading: false, form: updated);
+        state = state.copyWith(loading: false, form: updated);
+      } else {
+        state = state.copyWith(loading: false);
+      }
     } catch (e) {
       state = state.copyWith(loading: false);
     }

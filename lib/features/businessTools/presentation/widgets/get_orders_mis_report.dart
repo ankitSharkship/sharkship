@@ -1,0 +1,455 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sharkship/features/businessTools/presentation/state/reports_notifier.dart';
+import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/widgets/gradient_button.dart';
+import 'package:sharkship/shared/widgets/loader.dart';
+
+class GetOrdersMISReport extends ConsumerWidget {
+  const GetOrdersMISReport({super.key});
+
+  final List<String> statusOptions = const [
+    'All Status',
+    'To Be Processed',
+    'Shipped',
+    'Out For Delivery',
+    'Delivered',
+    'Ready To Ship',
+    'Cancelled',
+    'Returned',
+  ];
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final reportsState = ref.watch(reportsProvider);
+
+    return reportsState.when(
+      loading: () => const Center(child: ThreeDotsLoader()),
+      error: (error, stack) => Center(
+        child: Column(
+          children: [
+            Text('Error: $error'),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () => ref.refresh(reportsProvider),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      ),
+      data: (state) => SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.black26),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  children: [
+                    const Text(
+                      'Get Orders MIS Report',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.grey[400]!,
+                          width: 1.5,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'i',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'This report will give you a detailed overview of the orders that have been placed on the your account.',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 32),
+
+                // Start Date
+                _buildDateField(
+                  context,
+                  ref,
+                  label: 'Start Date',
+                  value: state.startDate,
+                  onTap: () => _selectStartDate(context, ref, state.startDate),
+                ),
+                const SizedBox(height: 24),
+
+                // End Date
+                _buildDateField(
+                  context,
+                  ref,
+                  label: 'End Date',
+                  value: state.endDate,
+                  onTap: () => _selectEndDate(context, ref, state.endDate),
+                ),
+                const SizedBox(height: 32),
+
+                // Select Status
+                _buildSectionTitle('Select Status'),
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey, width: 1),
+                  ),
+                  child: _buildStatusChips(ref, state.selectedStatuses),
+                ),
+
+                const SizedBox(height: 32),
+
+                // Select Carrier
+                _buildSectionTitle('Select Carrier'),
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey, width: 1),
+                  ),
+                  child: _buildCarrierChips(
+                    ref,
+                    state.partners,
+                    state.selectedPartners,
+                  ),
+                ),
+                const SizedBox(height: 40),
+
+                // Generate Report Button
+                GradientButton(
+                  text: 'Download Report',
+                  onTap: () => _handleGenerateReport(context, ref),
+                  height: 48,
+                ),
+                const SizedBox(height: 24),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDateField(
+    BuildContext context,
+    WidgetRef ref, {
+    required String label,
+    required DateTime? value,
+    required VoidCallback onTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: label,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+              const TextSpan(
+                text: ' *',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.red,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            height: 46,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey[300]!, width: 1),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    value != null
+                        ? _formatDate(value)
+                        : 'Select ${label.toLowerCase()}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: value != null ? Colors.black : Colors.grey[500],
+                    ),
+                  ),
+                  Icon(Icons.calendar_month, size: 20, color: Colors.grey[600]),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: title,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+          const TextSpan(
+            text: ' *',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Colors.red,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatusChips(WidgetRef ref, List<String> selectedStatuses) {
+    return Wrap(
+      spacing: 4,
+      runSpacing: 7,
+      children: statusOptions.map((status) {
+        final isSelected = selectedStatuses.contains(status);
+        return GestureDetector(
+          onTap: () {
+            ref.read(reportsProvider.notifier).toggleStatus(status);
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected ? Colors.blue[50] : Colors.white,
+              border: Border.all(
+                color: isSelected
+                    ? ColorManager.primaryBlue
+                    : Colors.grey[300]!,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Text(
+              status,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: isSelected ? ColorManager.primaryBlue : Colors.grey[700],
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildCarrierChips(
+    WidgetRef ref,
+    List<String> partners,
+    List<String> selectedPartners,
+  ) {
+    final allPartners = ['All Carriers', ...partners];
+
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: allPartners.map((partner) {
+        final isSelected = selectedPartners.contains(partner);
+        return GestureDetector(
+          onTap: () {
+            ref.read(reportsProvider.notifier).togglePartner(partner);
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected ? Colors.blue[50] : Colors.white,
+              border: Border.all(
+                color: isSelected
+                    ? ColorManager.primaryBlue
+                    : Colors.grey[300]!,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Text(
+              partner,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: isSelected ? ColorManager.primaryBlue : Colors.grey[700],
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Future<void> _selectStartDate(
+    BuildContext context,
+    WidgetRef ref,
+    DateTime? current,
+  ) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: current ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: ColorManager.primaryBlue,
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: Colors.black,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      ref.read(reportsProvider.notifier).setStartDate(picked);
+    }
+  }
+
+  Future<void> _selectEndDate(
+    BuildContext context,
+    WidgetRef ref,
+    DateTime? current,
+  ) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: current ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: ColorManager.primaryBlue,
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: Colors.black,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      ref.read(reportsProvider.notifier).setEndDate(picked);
+    }
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+  }
+
+  void _handleGenerateReport(BuildContext context, WidgetRef ref) async {
+    final state = ref.read(reportsProvider).value;
+    if (state == null) return;
+
+    if (state.startDate == null || state.endDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select both start and end dates'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (state.startDate!.isAfter(state.endDate!)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Start date must be before end date'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Call the notifier to request the report
+    await ref.read(reportsProvider.notifier).requestReport();
+
+    // Check for errors after call
+    final finalState = ref.read(reportsProvider);
+    if (finalState.hasError) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(finalState.error.toString()),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } else {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Report request submitted successfully',
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: ColorManager.lightGreen,
+          ),
+        );
+      }
+    }
+  }
+}

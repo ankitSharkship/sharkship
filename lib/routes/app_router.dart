@@ -1,4 +1,8 @@
 import 'package:go_router/go_router.dart';
+import 'package:sharkship/features/businessTools/presentation/screens/address_screen.dart';
+import 'package:sharkship/features/businessTools/presentation/screens/api_integration.dart';
+import 'package:sharkship/features/businessTools/presentation/screens/reports_screen.dart';
+import 'package:sharkship/features/businessTools/presentation/screens/shipping_label_screen.dart';
 import 'package:sharkship/features/buyerCommunication/presentation/screens/buyer_communication_screen.dart';
 import 'package:sharkship/features/finance/presentation/screens/invoice_summary.dart';
 import 'package:sharkship/features/finance/presentation/screens/remittance_summary.dart';
@@ -89,6 +93,22 @@ final appRouter = GoRouter(
     GoRoute(
       path: Routes.BUYER_COMMUNICATION,
       builder: (context, state) => const BuyerCommunicationScreen(),
+    ),
+    GoRoute(
+      path: Routes.ADDRESS_SCREEN,
+      builder: (context, state) => const AddressScreen(),
+    ),
+    GoRoute(
+      path: Routes.SHIPPING_LABEL,
+      builder: (context, state) => const ShippingLabelDemoPage(),
+    ),
+    GoRoute(
+      path: Routes.API_INTEGRATION,
+      builder: (context, state) => const ApiIntegration(),
+    ),
+    GoRoute(
+      path: Routes.GET_MIS_REPORTS,
+      builder: (context, state) => const ReportsScreen(),
     ),
   ],
 );

@@ -21,6 +21,10 @@ abstract class Routes {
   static const TRANSACTION_SUMMARY = _Paths.TRANSACTION_SUMMARY;
   static const INVOICE_SUMMARY = _Paths.INVOICE_SUMMARY;
   static const BUYER_COMMUNICATION = _Paths.BUYER_COMMUNICATION;
+  static const ADDRESS_SCREEN = _Paths.ADDRESS_SCREEN;
+  static const SHIPPING_LABEL = _Paths.SHIPPING_LABEL;
+  static const API_INTEGRATION = _Paths.API_INTEGRATION;
+  static const GET_MIS_REPORTS = _Paths.GET_MIS_REPORTS;
 }
 
 abstract class _Paths {
@@ -43,6 +47,10 @@ abstract class _Paths {
   static const INVOICE_SUMMARY = '/invoice-summary';
   static const TRANSACTION_SUMMARY = '/transaction-summary';
   static const BUYER_COMMUNICATION = '/buyer-communication';
+  static const ADDRESS_SCREEN = '/address-screen';
+  static const SHIPPING_LABEL = '/shipping-label';
+  static const API_INTEGRATION = '/api-integration';
+  static const GET_MIS_REPORTS = '/reports';
 }
 
 //rate calculator, remittance summary, invoice summary, transaction summary

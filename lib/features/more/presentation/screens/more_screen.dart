@@ -367,40 +367,37 @@ class MoreScreen extends ConsumerWidget {
                 title: "Manage Pickup Address",
                 icon: Icons.add_box_outlined,
                 onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (_) => AddressPickerForm(),
-                  );
+                  context.push(Routes.ADDRESS_SCREEN);
                 },
               ),
               MenuItem(
                 title: "Customize Shipping Label",
                 icon: Icons.local_shipping_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  context.push(Routes.SHIPPING_LABEL);
                 },
               ),
               MenuItem(
                 title: "API Integration",
                 icon: Icons.assignment_return_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  context.push(Routes.API_INTEGRATION);
                 },
               ),
               MenuItem(
                 title: "Reports",
                 icon: Icons.assignment_return_outlined,
                 onTap: () {
-                  _comingSoon(context);
+                  context.push(Routes.GET_MIS_REPORTS);
                 },
               ),
-              MenuItem(
-                title: "Mange Users",
-                icon: Icons.assignment_return_outlined,
-                onTap: () {
-                  _comingSoon(context);
-                },
-              ),
+              // MenuItem(
+              //   title: "Mange Users",
+              //   icon: Icons.assignment_return_outlined,
+              //   onTap: () {
+              //     _comingSoon(context);
+              //   },
+              // ),
             ],
           ),
         ),
@@ -418,7 +415,7 @@ class MoreScreen extends ConsumerWidget {
             title: "Get Support",
             icon: Icons.support_agent,
             onTap: () {
-              _comingSoon(context);
+              ref.read(bottomNavProvider.notifier).state = 3;
             },
           ),
         ),
