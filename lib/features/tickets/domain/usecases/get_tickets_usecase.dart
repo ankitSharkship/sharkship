@@ -1,12 +1,12 @@
-import 'package:sharkship/features/tickets/domain/entities/ticket_entity.dart';
-import 'package:sharkship/features/tickets/domain/repository/ticket_repository.dart';
+import 'package:sharkship/features/tickets/domain/entities/ticket.dart';
+import 'package:sharkship/features/tickets/domain/repositories/tickets_repository.dart';
 
-class GetTickets {
-  final TicketRepository repository;
+class GetTicketsUseCase {
+  final TicketsRepository repository;
 
-  GetTickets(this.repository);
+  GetTicketsUseCase(this.repository);
 
-  Future<TicketListResponse> call(TicketFilter filter) {
-    return repository.getTickets(filter);
+  Future<TicketListResponse> call(TicketFilter filter) async {
+    return await repository.getTickets(filter);
   }
 }

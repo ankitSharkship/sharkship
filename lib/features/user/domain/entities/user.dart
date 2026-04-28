@@ -22,6 +22,15 @@ class User extends Equatable {
   final String? createdAt;
   final Kam? kam;
   final bool? isWhatsappSms;
+  final String? dob;
+  final String? address;
+  final String? profileCompletionStatus;
+  final bool? isLostShow;
+  final bool? isDeleteOrder;
+  final bool? isAir;
+  final int? demoWhatsappSmsCount;
+  final String? sellerType;
+  final String? source;
 
   const User({
     required this.id,
@@ -44,11 +53,20 @@ class User extends Equatable {
     this.lastLogin,
     this.createdAt,
     this.kam,
-    this.isWhatsappSms
+    this.isWhatsappSms,
+    this.dob,
+    this.address,
+    this.profileCompletionStatus,
+    this.isLostShow,
+    this.isDeleteOrder,
+    this.isAir,
+    this.demoWhatsappSmsCount,
+    this.sellerType,
+    this.source,
   });
 
   @override
-  List<Object?> get props => [id, phoneNo, email];
+  List<Object?> get props => [id, phoneNo, email, dob, address];
 }
 
 class Kam extends Equatable {

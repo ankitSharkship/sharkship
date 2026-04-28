@@ -403,10 +403,10 @@ class MoreScreen extends ConsumerWidget {
         ),
         MenuListItem(
           item: MenuItem(
-            title: "KYC Verification",
+            title: "KYC Info",
             icon: Icons.contact_emergency_outlined,
             onTap: () {
-              _comingSoon(context);
+              context.push(Routes.KYC_INFO);
             },
           ),
         ),

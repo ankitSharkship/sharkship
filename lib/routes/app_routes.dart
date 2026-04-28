@@ -25,6 +25,7 @@ abstract class Routes {
   static const SHIPPING_LABEL = _Paths.SHIPPING_LABEL;
   static const API_INTEGRATION = _Paths.API_INTEGRATION;
   static const GET_MIS_REPORTS = _Paths.GET_MIS_REPORTS;
+  static const KYC_INFO = _Paths.KYC_INFO;
 }
 
 abstract class _Paths {
@@ -51,6 +52,7 @@ abstract class _Paths {
   static const SHIPPING_LABEL = '/shipping-label';
   static const API_INTEGRATION = '/api-integration';
   static const GET_MIS_REPORTS = '/reports';
+  static const KYC_INFO = '/kyc-info';
 }
 
 //rate calculator, remittance summary, invoice summary, transaction summary

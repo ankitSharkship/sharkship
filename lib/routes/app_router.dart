@@ -9,6 +9,7 @@ import 'package:sharkship/features/finance/presentation/screens/remittance_summa
 import 'package:sharkship/features/finance/presentation/screens/seller_charges.dart';
 import 'package:sharkship/features/finance/presentation/screens/shipment_rate_calculator.dart';
 import 'package:sharkship/features/finance/presentation/screens/transaction_summary.dart';
+import 'package:sharkship/features/kyc/presentation/screens/kyc_info.dart';
 import 'package:sharkship/features/kyc/presentation/screens/kyc_screen.dart';
 import 'package:sharkship/features/login/presentation/views/get_started.dart';
 import 'package:sharkship/features/auth/presentation/screens/login_screen.dart';
@@ -109,6 +110,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: Routes.GET_MIS_REPORTS,
       builder: (context, state) => const ReportsScreen(),
+    ),
+    GoRoute(
+      path: Routes.KYC_INFO,
+      builder: (context, state) => const KycInfo(),
     ),
   ],
 );

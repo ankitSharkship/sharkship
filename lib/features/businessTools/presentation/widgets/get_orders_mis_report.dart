@@ -41,11 +41,20 @@ class GetOrdersMISReport extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.black26),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  // A negative spreadRadius hides the shadow on the top and sides
+                  spreadRadius: -1,
+                  // Offset(x, y) - positive y moves it down
+                  offset: const Offset(0, 5),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,11 +75,18 @@ class GetOrdersMISReport extends ConsumerWidget {
                       width: 20,
                       height: 20,
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.grey[400]!,
-                          width: 1.5,
-                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            // A negative spreadRadius hides the shadow on the top and sides
+                            spreadRadius: -1,
+                            // Offset(x, y) - positive y moves it down
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
                       ),
                       child: Center(
                         child: Text(
@@ -125,7 +141,16 @@ class GetOrdersMISReport extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey, width: 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 4,
+                        // A negative spreadRadius hides the shadow on the top and sides
+                        spreadRadius: -1,
+                        // Offset(x, y) - positive y moves it down
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
                   ),
                   child: _buildStatusChips(ref, state.selectedStatuses),
                 ),
@@ -141,7 +166,16 @@ class GetOrdersMISReport extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey, width: 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 4,
+                        // A negative spreadRadius hides the shadow on the top and sides
+                        spreadRadius: -1,
+                        // Offset(x, y) - positive y moves it down
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
                   ),
                   child: _buildCarrierChips(
                     ref,
