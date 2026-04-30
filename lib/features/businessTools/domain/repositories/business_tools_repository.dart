@@ -3,6 +3,7 @@ import 'package:sharkship/core/errors/failures.dart';
 import 'package:sharkship/features/businessTools/domain/entities/pickup_address_entity.dart';
 import 'package:sharkship/features/businessTools/domain/entities/pin_details_entity.dart';
 import 'package:sharkship/features/businessTools/domain/entities/retail_api_details_entity.dart';
+import 'package:sharkship/features/businessTools/domain/entities/shipping_label_config_entity.dart';
 
 abstract class BusinessToolsRepository {
   Future<Either<Failure, PickupAddressEntity>> addPickupAddress(
@@ -21,4 +22,8 @@ abstract class BusinessToolsRepository {
     required List<String> statuses,
     required List<String> carriers,
   });
+  Future<Either<Failure, ShippingLabelConfigEntity>> getShippingLabelConfig();
+  Future<Either<Failure, void>> updateShippingLabelConfig(
+    ShippingLabelConfigEntity config,
+  );
 }

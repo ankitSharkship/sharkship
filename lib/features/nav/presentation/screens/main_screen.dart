@@ -8,7 +8,8 @@ import 'package:sharkship/features/nav/presentation/state/bottom_nav_state.dart'
 import 'package:sharkship/features/orders/presentation/screens/orders_screen.dart';
 
 import 'package:sharkship/features/shipments/presentation/screens/shipments_screen.dart';
-import 'package:sharkship/features/support/presentation/screens/support_screen.dart';
+import 'package:sharkship/features/tickets/presentation/screens/tickets_screen.dart';
+
 import 'package:sharkship/shared/constants/colors.dart';
 
 class MainScreen extends ConsumerWidget {
@@ -22,7 +23,7 @@ class MainScreen extends ConsumerWidget {
       const DashboardScreen(),
       const OrdersScreen(),
       ShipmentsScreen(),
-      const SupportScreen(),
+      const TicketsScreen(),
       const MoreScreen(),
     ];
 

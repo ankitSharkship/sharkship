@@ -30,6 +30,15 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       ? null
       : KamModel.fromJson(json['kam'] as Map<String, dynamic>),
   isWhatsappSms: json['isWhatsappSms'] as bool?,
+  dob: json['dob'] as String?,
+  address: json['address'] as String?,
+  profileCompletionStatus: json['profile_completion_status'] as String?,
+  isLostShow: json['is_lost_show'] as bool?,
+  isDeleteOrder: json['is_delete_order'] as bool?,
+  isAir: json['is_air'] as bool?,
+  demoWhatsappSmsCount: (json['demo_whatsapp_sms_count'] as num?)?.toInt(),
+  sellerType: json['seller_type'] as String?,
+  source: json['source'] as String?,
 );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -50,6 +59,15 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'kyc_ticket_status': instance.kycTicketStatus,
   'last_login': instance.lastLogin,
   'created_at': instance.createdAt,
+  'dob': instance.dob,
+  'address': instance.address,
+  'profile_completion_status': instance.profileCompletionStatus,
+  'is_lost_show': instance.isLostShow,
+  'is_delete_order': instance.isDeleteOrder,
+  'is_air': instance.isAir,
+  'demo_whatsapp_sms_count': instance.demoWhatsappSmsCount,
+  'seller_type': instance.sellerType,
+  'source': instance.source,
   'kam': instance.kam?.toJson(),
   'isKycVerified': instance.isKycVerified,
   'agreement_accept': instance.agreementAccept,

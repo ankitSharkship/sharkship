@@ -3,12 +3,14 @@ import 'package:sharkship/features/businessTools/presentation/screens/address_sc
 import 'package:sharkship/features/businessTools/presentation/screens/api_integration.dart';
 import 'package:sharkship/features/businessTools/presentation/screens/reports_screen.dart';
 import 'package:sharkship/features/businessTools/presentation/screens/shipping_label_screen.dart';
+import 'package:sharkship/features/businessTools/presentation/widgets/shipping_label.dart';
 import 'package:sharkship/features/buyerCommunication/presentation/screens/buyer_communication_screen.dart';
 import 'package:sharkship/features/finance/presentation/screens/invoice_summary.dart';
 import 'package:sharkship/features/finance/presentation/screens/remittance_summary.dart';
 import 'package:sharkship/features/finance/presentation/screens/seller_charges.dart';
 import 'package:sharkship/features/finance/presentation/screens/shipment_rate_calculator.dart';
 import 'package:sharkship/features/finance/presentation/screens/transaction_summary.dart';
+import 'package:sharkship/features/kyc/presentation/screens/kyc_info.dart';
 import 'package:sharkship/features/kyc/presentation/screens/kyc_screen.dart';
 import 'package:sharkship/features/login/presentation/views/get_started.dart';
 import 'package:sharkship/features/auth/presentation/screens/login_screen.dart';
@@ -18,6 +20,9 @@ import 'package:sharkship/features/orders/presentation/screens/create_orders.dar
 import 'package:sharkship/features/shipments/presentation/screens/shipment_tracking.dart';
 import 'package:sharkship/features/shipments/presentation/screens/shipments_screen.dart';
 import 'package:sharkship/features/shipments/presentation/screens/tracking_result.dart';
+import 'package:sharkship/features/user/presentation/screens/user_screen.dart';
+import 'package:sharkship/features/wallet/presentation/screens/topUp_wallet.dart';
+import 'package:sharkship/features/wallet/presentation/screens/wallet_screen.dart';
 import 'package:sharkship/features/weightDiscrepency/presentation/screens/weight_discrepency.dart';
 import 'package:sharkship/splash.dart';
 part 'app_routes.dart';
@@ -109,6 +114,25 @@ final appRouter = GoRouter(
     GoRoute(
       path: Routes.GET_MIS_REPORTS,
       builder: (context, state) => const ReportsScreen(),
+    ),
+    GoRoute(
+      path: Routes.KYC_INFO,
+      builder: (context, state) => const KycInfo(),
+    ),
+    GoRoute(
+      path: Routes.SHIPPING_LABEL_PREVIEW,
+      builder: (context, state) {
+        final controller = state.extra as ShippingLabelController;
+        return ShippingLabel(controller: controller);
+      },
+    ),
+    GoRoute(
+      path: Routes.USER_SCREEN,
+      builder: (context, state) => const UserScreen(),
+    ),
+    GoRoute(
+      path: Routes.WALLET,
+      builder: (context, state) => const WalletScreen(),
     ),
   ],
 );

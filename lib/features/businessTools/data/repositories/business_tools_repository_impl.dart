@@ -4,6 +4,8 @@ import 'package:sharkship/features/businessTools/data/datasources/business_tools
 import 'package:sharkship/features/businessTools/domain/entities/pickup_address_entity.dart';
 import 'package:sharkship/features/businessTools/domain/entities/pin_details_entity.dart';
 import 'package:sharkship/features/businessTools/domain/entities/retail_api_details_entity.dart';
+import 'package:sharkship/features/businessTools/domain/entities/shipping_label_config_entity.dart';
+import 'package:sharkship/features/businessTools/data/models/shipping_label_config_model.dart';
 import 'package:sharkship/features/businessTools/domain/repositories/business_tools_repository.dart';
 
 class BusinessToolsRepositoryImpl implements BusinessToolsRepository {
@@ -80,6 +82,44 @@ class BusinessToolsRepositoryImpl implements BusinessToolsRepository {
         statuses: statuses,
         carriers: carriers,
       );
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ShippingLabelConfigEntity>> getShippingLabelConfig() async {
+    try {
+      final result = await remoteDataSource.getShippingLabelConfig();
+      return Right(result);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateShippingLabelConfig(
+    ShippingLabelConfigEntity config,
+  ) async {
+    try {
+      final model = ShippingLabelConfigModel(
+        id: config.id,
+        rtoVisibility: config.rtoVisibility,
+        sharkshipVisibility: config.sharkshipVisibility,
+        logoVisibility: config.logoVisibility,
+        gstVisibility: config.gstVisibility,
+        clientVisibility: config.clientVisibility,
+        skuVisibility: config.skuVisibility,
+        alterName: config.alterName,
+        phoneVisibility: config.phoneVisibility,
+        rtoPhoneVisibility: config.rtoPhoneVisibility,
+        tableVisibility: config.tableVisibility,
+        isAmountVisible: config.isAmountVisible,
+        newName: config.newName,
+        labelSize: config.labelSize,
+      );
+      await remoteDataSource.updateShippingLabelConfig(model.toPutPayload());
       return const Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

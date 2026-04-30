@@ -20,9 +20,6 @@ class UserRepositoryImpl implements UserRepository {
   Future<void> saveUserLocally(User user) async {
     if (user is UserModel) {
       await localDataSource.saveUser(user);
-    } else {
-      // If we got a User entity, we might need a converter or factory to UserModel
-      // For now, assume remote results are UserModel
     }
   }
 
@@ -39,5 +36,53 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<UserBalance> getUserBalance() async {
     return await remoteDataSource.getUserBalance();
+  }
+
+  @override
+  Future<String> generateOtpForPasswordChange(String phoneNo) async {
+    return await remoteDataSource.generateOtpForPasswordChange(phoneNo);
+  }
+
+  @override
+  Future<void> changePassword({
+    required String verifyId,
+    required String otp,
+    required String newPassword,
+  }) async {
+    await remoteDataSource.changePassword(
+      verifyId: verifyId,
+      otp: otp,
+      newPassword: newPassword,
+    );
+  }
+
+  @override
+  Future<void> updatePersonalInfo({
+    required String userId,
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String phoneNo,
+    required String businessName,
+    required String typeOfBusiness,
+    required String otp,
+    required String verifyId,
+  }) async {
+    await remoteDataSource.updatePersonalInfo(
+      userId: userId,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phoneNo: phoneNo,
+      businessName: businessName,
+      typeOfBusiness: typeOfBusiness,
+      otp: otp,
+      verifyId: verifyId,
+    );
+  }
+
+  @override
+  Future<void> uploadLogo(String filePath) async {
+    await remoteDataSource.uploadLogo(filePath);
   }
 }

@@ -41,7 +41,16 @@ class UserModel extends User {
     super.lastLogin,
     super.createdAt,
     this.kam,
-    this.isWhatsappSms
+    this.isWhatsappSms,
+    super.dob,
+    super.address,
+    super.profileCompletionStatus,
+    super.isLostShow,
+    super.isDeleteOrder,
+    super.isAir,
+    super.demoWhatsappSmsCount,
+    super.sellerType,
+    super.source,
   }) : super(
          kam: kam,
          isKycVerified: isKycVerified,

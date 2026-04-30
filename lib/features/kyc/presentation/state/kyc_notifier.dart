@@ -12,8 +12,6 @@ import 'package:sharkship/features/kyc/domain/usecases/init_digilocker_usecase.d
 import 'package:sharkship/features/kyc/domain/usecases/get_digilocker_status_usecase.dart';
 import 'package:sharkship/features/kyc/domain/entities/digilocker_init.dart';
 import 'package:sharkship/features/kyc/presentation/state/kyc_provider.dart';
-import 'package:sharkship/features/tickets/domain/entities/ticket_entity.dart';
-import 'package:sharkship/features/tickets/presentation/state/ticket_provider.dart';
 import 'kyc_state.dart';
 
 // This line is required for code generation

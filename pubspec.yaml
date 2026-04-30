@@ -63,6 +63,8 @@ flutter:
     - assets/images/kyc/
     - assets/images/orders/
     - assets/images/buyerCommunication/
+    - assets/images/tickets/
+    - assets/images/businessTools/
 
 flutter_launcher_icons:
   android: true

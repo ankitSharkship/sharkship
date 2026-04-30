@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:sharkship/features/businessTools/data/models/pickup_address_model.dart';
 import 'package:sharkship/features/businessTools/data/models/pin_details_model.dart';
 import 'package:sharkship/features/businessTools/data/models/retail_api_details_model.dart';
+import 'package:sharkship/features/businessTools/data/models/shipping_label_config_model.dart';
 
 class BusinessToolsRemoteDataSource {
   final Dio _dio;
@@ -45,6 +46,24 @@ class BusinessToolsRemoteDataSource {
         'statuses': statuses,
         'carriers': carriers,
       },
+    );
+  }
+
+  Future<ShippingLabelConfigModel> getShippingLabelConfig() async {
+    final response = await _dio.get(
+      '/v1/b2c/document/shipping_label_configuration',
+    );
+    return ShippingLabelConfigModel.fromJson(
+      response.data as Map<String, dynamic>,
+    );
+  }
+
+  Future<void> updateShippingLabelConfig(
+    Map<String, dynamic> payload,
+  ) async {
+    await _dio.put(
+      '/v1/b2c/document/shipping_label_configuration',
+      data: payload,
     );
   }
 }
