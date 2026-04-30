@@ -89,6 +89,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
@@ -99,6 +100,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
           ),
         ),
         child: FloatingActionButton(
+          heroTag: 'orders_fab',
           onPressed: () => {context.push(Routes.CREATE_ORDER)},
           child: const Icon(Icons.add, size: 35, color: Colors.white),
           backgroundColor: Colors.transparent,
@@ -241,7 +243,6 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
       ],
     );
   }
-
 }
 
 class SingleOrderShipForm extends ConsumerWidget {

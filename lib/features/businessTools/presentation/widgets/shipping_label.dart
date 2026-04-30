@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sharkship/shared/constants/colors.dart';
 
 class ShippingLabelController {
   final TextEditingController newNameController = TextEditingController();
@@ -15,8 +17,7 @@ class ShippingLabelController {
   bool get gstVisibility => true;
   bool get sharkshipVisibility => true;
 
-  String get newName =>
-      newNameController.text.isEmpty ? 'business name' : newNameController.text;
+  String get newName => !alterName ? 'business name' : newNameController.text;
 
   void dispose() {
     newNameController.dispose();
@@ -26,10 +27,7 @@ class ShippingLabelController {
 class ShippingLabel extends StatefulWidget {
   final ShippingLabelController? controller;
 
-  const ShippingLabel({
-    Key? key,
-    this.controller,
-  }) : super(key: key);
+  const ShippingLabel({Key? key, this.controller}) : super(key: key);
 
   @override
   State<ShippingLabel> createState() => _ShippingLabelState();
@@ -55,113 +53,141 @@ class _ShippingLabelState extends State<ShippingLabel> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 600;
-    final containerPadding = isMobile ? 8.0 : 16.0;
-    final contentPadding = isMobile ? 6.0 : 8.0;
-    final maxWidth = isMobile ? screenWidth - 32 : 600.0;
-    final borderWidth = isMobile ? 1.5 : 2.0;
-    final fontSize = isMobile ? 10.0 : 12.0;
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: containerPadding, vertical: containerPadding),
-            constraints: BoxConstraints(maxWidth: maxWidth),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: borderWidth),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              children: [
-                // ═══════════════════════════════════════════════════════
-                // HEADER SECTION
-                // ═══════════════════════════════════════════════════════
-                Container(
-                  padding: EdgeInsets.all(contentPadding),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.black, width: borderWidth),
+    final containerPadding = 8.0;
+    final contentPadding = 6.0;
+    final maxWidth = screenWidth - 32;
+    final borderWidth = 1.0;
+    final fontSize = 10.0;
+
+    return Scaffold(
+      backgroundColor: ColorManager.scaffoldBg,
+      appBar: AppBar(
+        title: Text('Shipping Label Preview'),
+        centerTitle: false,
+        backgroundColor: ColorManager.scaffoldBg,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: containerPadding,
+                vertical: containerPadding,
+              ),
+              constraints: BoxConstraints(maxWidth: maxWidth),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black, width: borderWidth),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  // ═══════════════════════════════════════════════════════
+                  // HEADER SECTION
+                  // ═══════════════════════════════════════════════════════
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      padding: EdgeInsets.all(contentPadding),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.black,
+                            width: borderWidth,
+                          ),
+                        ),
+                      ),
+                      child: _buildMobileHeader(
+                        fontSize,
+                        contentPadding,
+                        _controller.newName,
+                      ),
                     ),
                   ),
-                  child: isMobile
-                      ? _buildMobileHeader(fontSize, contentPadding)
-                      : _buildDesktopHeader(fontSize, contentPadding),
-                ),
 
-                // ═══════════════════════════════════════════════════════
-                // PREPAID SECTION
-                // ═══════════════════════════════════════════════════════
-                Container(
-                  padding: EdgeInsets.all(containerPadding),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.black, width: borderWidth),
-                    ),
-                  ),
-                  child: isMobile
-                      ? _buildMobilePrepaid(fontSize, borderWidth)
-                      : _buildDesktopPrepaid(fontSize, borderWidth),
-                ),
-
-                // ═══════════════════════════════════════════════════════
-                // TABLE SECTION
-                // ═══════════════════════════════════════════════════════
-                if (_controller.tableVisibility)
+                  // ═══════════════════════════════════════════════════════
+                  // PREPAID SECTION
+                  // ═══════════════════════════════════════════════════════
                   Container(
                     padding: EdgeInsets.all(containerPadding),
                     decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(color: Colors.black, width: borderWidth),
+                        bottom: BorderSide(
+                          color: Colors.black,
+                          width: borderWidth,
+                        ),
                       ),
                     ),
-                    child: _buildTable(fontSize, borderWidth),
+                    child: _buildMobilePrepaid(fontSize, borderWidth),
                   ),
 
-                // ═══════════════════════════════════════════════════════
-                // FOOTER SECTION
-                // ═══════════════════════════════════════════════════════
-                Container(
-                  padding: EdgeInsets.all(containerPadding),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: containerPadding),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.black, width: borderWidth),
+                  // ═══════════════════════════════════════════════════════
+                  // TABLE SECTION
+                  // ═══════════════════════════════════════════════════════
+                  if (_controller.tableVisibility)
+                    Container(
+                      padding: EdgeInsets.all(containerPadding),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.black,
+                            width: borderWidth,
                           ),
                         ),
-                        child: isMobile
-                            ? _buildMobileFooter(fontSize)
-                            : _buildDesktopFooter(fontSize),
                       ),
-                      SizedBox(height: containerPadding),
-                      _buildLegalText(fontSize),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+                      child: _buildTable(fontSize, borderWidth),
+                    ),
 
-          // Powered by Sharkship
-          if (_controller.sharkshipVisibility)
-            Padding(
-              padding: EdgeInsets.only(bottom: containerPadding, right: containerPadding),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Text(
-                  'powered By Sharkship',
-                  style: TextStyle(
-                    fontSize: fontSize - 2,
-                    color: Colors.grey[600],
+                  // ═══════════════════════════════════════════════════════
+                  // FOOTER SECTION
+                  // ═══════════════════════════════════════════════════════
+                  Container(
+                    padding: EdgeInsets.all(containerPadding),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(bottom: containerPadding),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.black,
+                                width: borderWidth,
+                              ),
+                            ),
+                          ),
+                          child: _buildMobileFooter(fontSize),
+                        ),
+                        SizedBox(height: containerPadding),
+                        _buildLegalText(fontSize),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Powered by Sharkship
+            if (_controller.sharkshipVisibility)
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: containerPadding,
+                  right: containerPadding,
+                ),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    'powered By Sharkship',
+                    style: TextStyle(
+                      fontSize: fontSize - 2,
+                      color: Colors.grey[600],
+                    ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -170,151 +196,79 @@ class _ShippingLabelState extends State<ShippingLabel> {
   // HEADER BUILDERS
   // ═══════════════════════════════════════════════════════════════════════
 
-  Widget _buildMobileHeader(double fontSize, double padding) {
+  Widget _buildMobileHeader(double fontSize, double padding, String newName) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Logo
-        if (_controller.logoVisibility)
-          Center(
-            child: Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Center(
-                child: Text(
-                  'LOGO',
-                  style: TextStyle(fontSize: fontSize - 2, color: Colors.grey[400]),
-                ),
-              ),
-            ),
-          ),
-        if (_controller.logoVisibility) SizedBox(height: padding * 2),
-
-        // Business Name
-        if (_controller.alterName)
-          Text(
-            _controller.newName,
-            style: TextStyle(fontSize: fontSize + 1, fontWeight: FontWeight.w600),
-          )
-        else
-          Text(
-            'business name',
-            style: TextStyle(fontSize: fontSize + 1, color: Colors.blue),
-          ),
-        SizedBox(height: padding * 2),
-
-        // Address
-        Text(
-          'To,',
-          style: TextStyle(
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            height: 1.2,
-          ),
-        ),
-        Text(
-          'xyz, ground floor, Janick Villa Gate number 4',
-          style: TextStyle(fontSize: fontSize, height: 1.2),
-        ),
-        Text(
-          'Near Community center',
-          style: TextStyle(fontSize: fontSize, height: 1.2),
-        ),
-        Text(
-          'Thane (west), New delhi - 110034',
-          style: TextStyle(fontSize: fontSize, height: 1.2),
-        ),
-        if (_controller.phoneVisibility)
-          Text(
-            'Contact No : 91-9958939238',
-            style: TextStyle(fontSize: fontSize, height: 1.2),
-          ),
-      ],
-    );
-  }
-
-  Widget _buildDesktopHeader(double fontSize, double padding) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Address
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'To,',
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                  height: 1.2,
-                ),
-              ),
-              Text(
-                'xyz, ground floor, Janick Villa Gate number 4',
-                style: TextStyle(fontSize: fontSize, height: 1.2),
-              ),
-              Text(
-                'Near Community center',
-                style: TextStyle(fontSize: fontSize, height: 1.2),
-              ),
-              Text(
-                'Thane (west), New delhi - 110034',
-                style: TextStyle(fontSize: fontSize, height: 1.2),
-              ),
-              if (_controller.phoneVisibility)
-                Text(
-                  'Contact No : 91-9958939238',
-                  style: TextStyle(fontSize: fontSize, height: 1.2),
-                ),
-            ],
-          ),
-        ),
-        SizedBox(width: padding * 2),
-
-        // Logo & Name
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            if (_controller.logoVisibility)
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Center(
-                  child: Text(
-                    'LOGO',
-                    style: TextStyle(fontSize: fontSize - 2, color: Colors.grey[400]),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'To,',
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.bold,
+                    height: 1.2,
                   ),
                 ),
-              ),
-            SizedBox(height: padding),
-            if (_controller.alterName)
-              Text(
-                _controller.newName,
-                style: TextStyle(
-                  fontSize: fontSize + 1,
-                  fontWeight: FontWeight.w600,
+                Text(
+                  'xyz, ground floor, Janick Villa Gate number 4',
+                  style: TextStyle(fontSize: fontSize, height: 1.2),
                 ),
-              )
-            else
-              Text(
-                'business name',
-                style: TextStyle(fontSize: fontSize + 1, color: Colors.blue),
+                Text(
+                  'Near Community center',
+                  style: TextStyle(fontSize: fontSize, height: 1.2),
+                ),
+                Text(
+                  'Thane (west), New delhi - 110034',
+                  style: TextStyle(fontSize: fontSize, height: 1.2),
+                ),
+                if (_controller.phoneVisibility)
+                  Text(
+                    'Contact No : 91-9958939238',
+                    style: TextStyle(fontSize: fontSize, height: 1.2),
+                  ),
+              ],
+            ),
+            if (_controller.logoVisibility)
+              Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(),
+                      child: Center(
+                        child: Row(
+                          children: [
+                            Text('{', style: TextStyle(fontSize: 40)),
+                            Text(
+                              'YOUR\nLOGO\nHERE',
+                              style: TextStyle(
+                                fontSize: fontSize - 2,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text('}', style: TextStyle(fontSize: 40)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Text(newName, style: TextStyle(fontSize: 14)),
+                  ],
+                ),
               ),
+            if (_controller.logoVisibility) SizedBox(height: padding * 2),
           ],
         ),
+        if (_controller.alterName) Text(newName),
+        // Address
       ],
     );
   }
@@ -324,45 +278,44 @@ class _ShippingLabelState extends State<ShippingLabel> {
   // ═══════════════════════════════════════════════════════════════════════
 
   Widget _buildMobilePrepaid(double fontSize, double borderWidth) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.min,
       children: [
         // Amount
-        Row(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'PREPAID',
               style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
             ),
             if (_controller.isAmountVisible)
-              Padding(
-                padding: const EdgeInsets.only(left: 12),
-                child: Text(
-                  'Rs. 10450',
-                  style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+              Text(
+                'Rs. 10450',
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
+            const SizedBox(height: 8),
+
+            // Details
+            Text(
+              'Dimension: 10 cm x 10 cm x 10 cm',
+              style: TextStyle(fontSize: fontSize - 1),
+            ),
+            Text('Weight: 0.5kg', style: TextStyle(fontSize: fontSize - 1)),
+            if (_controller.clientVisibility)
+              Text(
+                'ClientId: MH0712224',
+                style: TextStyle(fontSize: fontSize - 1),
+              ),
+
+            const SizedBox(height: 12),
           ],
         ),
-        const SizedBox(height: 8),
-
-        // Details
-        Text(
-          'Dimension: 10 cm x 10 cm x 10 cm',
-          style: TextStyle(fontSize: fontSize - 1),
-        ),
-        Text(
-          'Weight: 0.5kg',
-          style: TextStyle(fontSize: fontSize - 1),
-        ),
-        if (_controller.clientVisibility)
-          Text(
-            'ClientId: MH0712224',
-            style: TextStyle(fontSize: fontSize - 1),
-          ),
-
-        const SizedBox(height: 12),
 
         // Barcode Section
         Center(
@@ -371,108 +324,31 @@ class _ShippingLabelState extends State<ShippingLabel> {
             children: [
               Text(
                 'DELHIVERY',
-                style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Colors.green[500],
-                  border: Border.all(color: Colors.black, width: borderWidth),
-                ),
-                child: Center(
-                  child: Text(
-                    'BARCODE',
-                    style: TextStyle(fontSize: fontSize - 2, color: Colors.white),
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset(
+                  'assets/images/businessTools/barcode.svg',
+                  height: 40,
+                  width: 120,
+                  fit: BoxFit.contain,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
                 'AWB : #3373289772123034584759',
-                style: TextStyle(fontSize: fontSize - 1, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: fontSize - 1,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDesktopPrepaid(double fontSize, double borderWidth) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // Details
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Text(
-                  'PREPAID',
-                  style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
-                ),
-                if (_controller.isAmountVisible)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Text(
-                      'Rs. 10450',
-                      style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Dimension: 10 cm x 10 cm x 10 cm',
-              style: TextStyle(fontSize: fontSize),
-            ),
-            Text(
-              'Weight: 0.5kg',
-              style: TextStyle(fontSize: fontSize),
-            ),
-            if (_controller.clientVisibility)
-              Text(
-                'ClientId: MH0712224',
-                style: TextStyle(fontSize: fontSize),
-              ),
-          ],
-        ),
-
-        // Barcode
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'DELHIVERY',
-              style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                color: Colors.green[500],
-                border: Border.all(color: Colors.black, width: borderWidth),
-              ),
-              child: Center(
-                child: Text(
-                  'BARCODE',
-                  style: TextStyle(fontSize: fontSize - 2, color: Colors.white),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'AWB : #3373289772123034584759',
-              style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
-            ),
-          ],
         ),
       ],
     );
@@ -495,28 +371,40 @@ class _ShippingLabelState extends State<ShippingLabel> {
                 padding: const EdgeInsets.all(6),
                 child: Text(
                   'SKU',
-                  style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             Padding(
               padding: const EdgeInsets.all(6),
               child: Text(
                 'ITEM',
-                style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(6),
               child: Text(
                 'QTY',
-                style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(6),
               child: Text(
                 'AMT',
-                style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -527,11 +415,17 @@ class _ShippingLabelState extends State<ShippingLabel> {
             if (_controller.skuVisibility)
               Padding(
                 padding: const EdgeInsets.all(6),
-                child: Text('Sample SKU', style: TextStyle(fontSize: fontSize - 1)),
+                child: Text(
+                  'Sample SKU',
+                  style: TextStyle(fontSize: fontSize - 1),
+                ),
               ),
             Padding(
               padding: const EdgeInsets.all(6),
-              child: Text('Jewellery', style: TextStyle(fontSize: fontSize - 1)),
+              child: Text(
+                'Jewellery',
+                style: TextStyle(fontSize: fontSize - 1),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(6),
@@ -549,7 +443,10 @@ class _ShippingLabelState extends State<ShippingLabel> {
             if (_controller.skuVisibility)
               Padding(
                 padding: const EdgeInsets.all(6),
-                child: Text('Sample SKU', style: TextStyle(fontSize: fontSize - 1)),
+                child: Text(
+                  'Sample SKU',
+                  style: TextStyle(fontSize: fontSize - 1),
+                ),
               ),
             Padding(
               padding: const EdgeInsets.all(6),
@@ -569,46 +466,57 @@ class _ShippingLabelState extends State<ShippingLabel> {
     );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════
-  // FOOTER BUILDERS
-  // ═══════════════════════════════════════════════════════════════════════
-
   Widget _buildMobileFooter(double fontSize) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    bool isQrCenter =
+        !_controller.rtoVisibility &&
+        !_controller.rtoPhoneVisibility &&
+        !_controller.gstVisibility;
+    return Row(
+      mainAxisAlignment: isQrCenter
+          ? MainAxisAlignment.center
+          : MainAxisAlignment.spaceBetween,
       children: [
-        if (_controller.rtoVisibility) ...[
-          Text(
-            'Pickup & Return Address:',
-            style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+        if (isQrCenter) ...[
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (_controller.rtoVisibility) ...[
+                Text(
+                  'Pickup & Return Address:',
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'xyz, ground floor, Janick Villa Gate number 4',
+                  style: TextStyle(fontSize: fontSize - 1),
+                ),
+                Text(
+                  'Near Community center',
+                  style: TextStyle(fontSize: fontSize - 1),
+                ),
+                Text(
+                  'Thane (west), New Delhi - 110034',
+                  style: TextStyle(fontSize: fontSize - 1),
+                ),
+                const SizedBox(height: 6),
+              ],
+              if (_controller.rtoPhoneVisibility)
+                Text(
+                  'Contact No : 91-9958939238',
+                  style: TextStyle(fontSize: fontSize - 1),
+                ),
+              if (_controller.gstVisibility)
+                Text(
+                  'GST : 237JS7347',
+                  style: TextStyle(fontSize: fontSize - 1),
+                ),
+              const SizedBox(height: 12),
+            ],
           ),
-          Text(
-            'xyz, ground floor, Janick Villa Gate number 4',
-            style: TextStyle(fontSize: fontSize - 1),
-          ),
-          Text(
-            'Near Community center',
-            style: TextStyle(fontSize: fontSize - 1),
-          ),
-          Text(
-            'Thane (west), New Delhi - 110034',
-            style: TextStyle(fontSize: fontSize - 1),
-          ),
-          const SizedBox(height: 6),
         ],
-        if (_controller.rtoPhoneVisibility)
-          Text(
-            'Contact No : 91-9958939238',
-            style: TextStyle(fontSize: fontSize - 1),
-          ),
-        if (_controller.gstVisibility)
-          Text(
-            'GST : 237JS7347',
-            style: TextStyle(fontSize: fontSize - 1),
-          ),
-        const SizedBox(height: 12),
-
         // Order & QR
         Center(
           child: Column(
@@ -616,23 +524,13 @@ class _ShippingLabelState extends State<ShippingLabel> {
             children: [
               Text(
                 'Order #764123',
-                style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
-              Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  color: Colors.green[500],
-                  border: Border.all(color: Colors.black),
-                ),
-                child: Center(
-                  child: Text(
-                    'QR',
-                    style: TextStyle(fontSize: fontSize - 2, color: Colors.white),
-                  ),
-                ),
-              ),
+              const Icon(Icons.qr_code_2_outlined, size: 70),
               const SizedBox(height: 6),
               Text(
                 'Date: Nov 22, 2024',
@@ -640,79 +538,6 @@ class _ShippingLabelState extends State<ShippingLabel> {
               ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDesktopFooter(double fontSize) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (_controller.rtoVisibility) ...[
-              Text(
-                'Pickup & Return Address:',
-                style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'xyz, ground floor, Janick Villa Gate number 4',
-                style: TextStyle(fontSize: fontSize - 1),
-              ),
-              Text(
-                'Near Community center',
-                style: TextStyle(fontSize: fontSize - 1),
-              ),
-              Text(
-                'Thane (west), New Delhi - 110034',
-                style: TextStyle(fontSize: fontSize - 1),
-              ),
-            ],
-            if (_controller.rtoPhoneVisibility)
-              Text(
-                'Contact No : 91-9958939238',
-                style: TextStyle(fontSize: fontSize - 1),
-              ),
-            if (_controller.gstVisibility)
-              Text(
-                'GST : 237JS7347',
-                style: TextStyle(fontSize: fontSize - 1),
-              ),
-          ],
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Order #764123',
-              style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.green[500],
-                border: Border.all(color: Colors.black),
-              ),
-              child: Center(
-                child: Text(
-                  'QR',
-                  style: TextStyle(fontSize: fontSize - 2, color: Colors.white),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Date: Nov 22, 2024',
-              style: TextStyle(fontSize: fontSize - 1),
-            ),
-          ],
         ),
       ],
     );
@@ -739,10 +564,7 @@ class _ShippingLabelState extends State<ShippingLabel> {
         const SizedBox(height: 4),
         Text(
           '* THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED ANY SIGNATURE.',
-          style: TextStyle(
-            fontSize: fontSize - 2,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: fontSize - 3, fontWeight: FontWeight.bold),
         ),
       ],
     );

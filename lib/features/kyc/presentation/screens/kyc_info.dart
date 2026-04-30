@@ -50,6 +50,9 @@ class _KycInfoState extends ConsumerState<KycInfo> {
                 /// Profile Section
                 _buildProfileSection(kyc),
                 const SizedBox(height: 16),
+                if (kyc.pan?.isVerified != null && kyc.pan?.isVerified != false)
+                  _buildPanDetails(kyc.pan!),
+                const SizedBox(height: 16),
 
                 /// Bank Details Section
                 if (kyc.bank?.isVerified != null &&
@@ -101,6 +104,46 @@ class _KycInfoState extends ConsumerState<KycInfo> {
       email: kyc.user?.email,
       mobile: kyc.user!.phoneNo,
       address: kyc.user?.address,
+    );
+  }
+
+  Widget _buildPanDetails(PanData pan) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Pan Details',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF2F7DBA),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          _infoRow('PAN Number:', pan.panNumber),
+          _infoRow('PAN Name:', pan.panName ?? ""),
+          _infoRow('PAN Type:', pan.panType ?? "N/A"),
+        ],
+      ),
     );
   }
 

@@ -9,6 +9,8 @@ import 'package:sharkship/features/businessTools/domain/usecases/delete_pickup_a
 import 'package:sharkship/features/businessTools/domain/usecases/get_pin_details_usecase.dart';
 import 'package:sharkship/features/businessTools/domain/usecases/get_retail_api_details_usecase.dart';
 import 'package:sharkship/features/businessTools/domain/usecases/request_mis_report_usecase.dart';
+import 'package:sharkship/features/businessTools/domain/usecases/get_shipping_label_config_usecase.dart';
+import 'package:sharkship/features/businessTools/domain/usecases/update_shipping_label_config_usecase.dart';
 
 part 'business_tools_providers.g.dart';
 
@@ -58,4 +60,16 @@ GetRetailApiDetailsUseCase getRetailApiDetailsUseCase(Ref ref) {
 RequestMisReportUseCase requestMisReportUseCase(Ref ref) {
   final repository = ref.watch(businessToolsRepositoryProvider);
   return RequestMisReportUseCase(repository);
+}
+
+@riverpod
+GetShippingLabelConfigUseCase getShippingLabelConfigUseCase(Ref ref) {
+  final repository = ref.watch(businessToolsRepositoryProvider);
+  return GetShippingLabelConfigUseCase(repository);
+}
+
+@riverpod
+UpdateShippingLabelConfigUseCase updateShippingLabelConfigUseCase(Ref ref) {
+  final repository = ref.watch(businessToolsRepositoryProvider);
+  return UpdateShippingLabelConfigUseCase(repository);
 }

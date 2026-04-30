@@ -398,3 +398,105 @@ final class RequestMisReportUseCaseProvider
 
 String _$requestMisReportUseCaseHash() =>
     r'1c908619fe2eea33780164ac5aab6172ca6e4f02';
+
+@ProviderFor(getShippingLabelConfigUseCase)
+const getShippingLabelConfigUseCaseProvider =
+    GetShippingLabelConfigUseCaseProvider._();
+
+final class GetShippingLabelConfigUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetShippingLabelConfigUseCase,
+          GetShippingLabelConfigUseCase,
+          GetShippingLabelConfigUseCase
+        >
+    with $Provider<GetShippingLabelConfigUseCase> {
+  const GetShippingLabelConfigUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getShippingLabelConfigUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getShippingLabelConfigUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetShippingLabelConfigUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetShippingLabelConfigUseCase create(Ref ref) {
+    return getShippingLabelConfigUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetShippingLabelConfigUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetShippingLabelConfigUseCase>(
+        value,
+      ),
+    );
+  }
+}
+
+String _$getShippingLabelConfigUseCaseHash() =>
+    r'284805be67d685a2f3d1eda223af320fd915d345';
+
+@ProviderFor(updateShippingLabelConfigUseCase)
+const updateShippingLabelConfigUseCaseProvider =
+    UpdateShippingLabelConfigUseCaseProvider._();
+
+final class UpdateShippingLabelConfigUseCaseProvider
+    extends
+        $FunctionalProvider<
+          UpdateShippingLabelConfigUseCase,
+          UpdateShippingLabelConfigUseCase,
+          UpdateShippingLabelConfigUseCase
+        >
+    with $Provider<UpdateShippingLabelConfigUseCase> {
+  const UpdateShippingLabelConfigUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'updateShippingLabelConfigUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$updateShippingLabelConfigUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<UpdateShippingLabelConfigUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  UpdateShippingLabelConfigUseCase create(Ref ref) {
+    return updateShippingLabelConfigUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(UpdateShippingLabelConfigUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<UpdateShippingLabelConfigUseCase>(
+        value,
+      ),
+    );
+  }
+}
+
+String _$updateShippingLabelConfigUseCaseHash() =>
+    r'79d228dd3441f444d8c16b1aaab71a3d5fc25e95';

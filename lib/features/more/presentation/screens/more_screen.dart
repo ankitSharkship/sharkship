@@ -20,6 +20,11 @@ class MoreScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userAsync = ref.watch(userProvider);
+    final balanceState = ref.watch(userBalanceProvider);
+    Future<void> _onRefresh() async {
+      ref.invalidate(userProvider);
+      ref.invalidate(userBalanceProvider);
+    }
 
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
@@ -33,15 +38,20 @@ class MoreScreen extends ConsumerWidget {
           }
 
           return SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildProfileCard(context, user, ref),
-                  const SizedBox(height: 32),
-                  _buildItems(context, ref),
-                ],
+            child: RefreshIndicator(
+              onRefresh: () => _onRefresh(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _buildProfileCard(context, user, ref, balanceState),
+                      const SizedBox(height: 32),
+                      _buildItems(context, ref),
+                    ],
+                  ),
+                ),
               ),
             ),
           );
@@ -50,8 +60,12 @@ class MoreScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildProfileCard(BuildContext context, dynamic user, WidgetRef ref) {
-    final balanceState = ref.watch(userBalanceProvider);
+  Widget _buildProfileCard(
+    BuildContext context,
+    dynamic user,
+    WidgetRef ref,
+    dynamic balanceState,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -117,7 +131,7 @@ class MoreScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 12),
                       GestureDetector(
-                        onTap: () => _comingSoon(context),
+                        onTap: () => context.push(Routes.USER_SCREEN),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: const [
@@ -149,62 +163,69 @@ class MoreScreen extends ConsumerWidget {
           _DashedDivider(),
 
           /// Balance Section
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF2D7FB8).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(
-                    Icons.account_balance_wallet_outlined,
-                    color: Color(0xFF2D7FB8),
-                    size: 19,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                if (balanceState.value?.activeWallet != "POSTPAID") ...[
-                  const Text(
-                    "Total Balance",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
+          GestureDetector(
+            onTap: () {
+              balanceState.value?.activeWallet != 'POSTPAID'
+                  ? context.push(Routes.WALLET)
+                  : null;
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF2D7FB8).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.account_balance_wallet_outlined,
                       color: Color(0xFF2D7FB8),
+                      size: 19,
                     ),
                   ),
-                  const Spacer(),
-                  ref
-                      .watch(userBalanceProvider)
-                      .when(
-                        data: (balance) => Text(
-                          "₹${balance?.balance ?? '0.00'}",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
-                            color: Color(0xFF5AB6E5),
-                          ),
-                        ),
-                        loading: () => const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                        error: (_, __) => const Text("₹0.00"),
+                  const SizedBox(width: 16),
+                  if (balanceState.value?.activeWallet != "POSTPAID") ...[
+                    const Text(
+                      "Total Balance",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF2D7FB8),
                       ),
-                ] else ...[
-                  const Text(
-                    "POSTPAID",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF2D7FB8),
                     ),
-                  ),
+                    const Spacer(),
+                    ref
+                        .watch(userBalanceProvider)
+                        .when(
+                          data: (balance) => Text(
+                            "₹${balance?.balance ?? '0.00'}",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFF5AB6E5),
+                            ),
+                          ),
+                          loading: () => const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                          error: (_, __) => const Text("₹0.00"),
+                        ),
+                  ] else ...[
+                    const Text(
+                      "POSTPAID",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF2D7FB8),
+                      ),
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ],

@@ -7,6 +7,10 @@ import '../../data/repositories/user_repository_impl.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../../domain/usecases/get_user_details_usecase.dart';
 import '../../domain/usecases/get_user_balance_usecase.dart';
+import '../../domain/usecases/change_password_usecase.dart';
+import '../../domain/usecases/generate_otp_for_password_usecase.dart';
+import '../../domain/usecases/update_personal_info_usecase.dart';
+import '../../domain/usecases/upload_logo_usecase.dart';
 
 part 'user_providers.g.dart';
 
@@ -44,4 +48,28 @@ GetUserDetailsUseCase getUserDetailsUseCase(Ref ref) {
 GetUserBalanceUseCase getUserBalanceUseCase(Ref ref) {
   final repository = ref.watch(userRepositoryProvider);
   return GetUserBalanceUseCase(repository);
+}
+
+@riverpod
+GenerateOtpForPasswordUseCase generateOtpForPasswordUseCase(Ref ref) {
+  final repository = ref.watch(userRepositoryProvider);
+  return GenerateOtpForPasswordUseCase(repository);
+}
+
+@riverpod
+ChangePasswordUseCase changePasswordUseCase(Ref ref) {
+  final repository = ref.watch(userRepositoryProvider);
+  return ChangePasswordUseCase(repository);
+}
+
+@riverpod
+UpdatePersonalInfoUseCase updatePersonalInfoUseCase(Ref ref) {
+  final repository = ref.watch(userRepositoryProvider);
+  return UpdatePersonalInfoUseCase(repository);
+}
+
+@riverpod
+UploadLogoUseCase uploadLogoUseCase(Ref ref) {
+  final repository = ref.watch(userRepositoryProvider);
+  return UploadLogoUseCase(repository);
 }

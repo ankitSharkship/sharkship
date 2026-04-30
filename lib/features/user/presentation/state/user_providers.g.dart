@@ -282,3 +282,197 @@ final class GetUserBalanceUseCaseProvider
 
 String _$getUserBalanceUseCaseHash() =>
     r'964057df060983a74b3db62d8dd3a68c7bbf3391';
+
+@ProviderFor(generateOtpForPasswordUseCase)
+const generateOtpForPasswordUseCaseProvider =
+    GenerateOtpForPasswordUseCaseProvider._();
+
+final class GenerateOtpForPasswordUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GenerateOtpForPasswordUseCase,
+          GenerateOtpForPasswordUseCase,
+          GenerateOtpForPasswordUseCase
+        >
+    with $Provider<GenerateOtpForPasswordUseCase> {
+  const GenerateOtpForPasswordUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'generateOtpForPasswordUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$generateOtpForPasswordUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GenerateOtpForPasswordUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GenerateOtpForPasswordUseCase create(Ref ref) {
+    return generateOtpForPasswordUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GenerateOtpForPasswordUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GenerateOtpForPasswordUseCase>(
+        value,
+      ),
+    );
+  }
+}
+
+String _$generateOtpForPasswordUseCaseHash() =>
+    r'f3f96afd69ba6c90ce517fc4752bb308b0a48e8c';
+
+@ProviderFor(changePasswordUseCase)
+const changePasswordUseCaseProvider = ChangePasswordUseCaseProvider._();
+
+final class ChangePasswordUseCaseProvider
+    extends
+        $FunctionalProvider<
+          ChangePasswordUseCase,
+          ChangePasswordUseCase,
+          ChangePasswordUseCase
+        >
+    with $Provider<ChangePasswordUseCase> {
+  const ChangePasswordUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'changePasswordUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$changePasswordUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<ChangePasswordUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ChangePasswordUseCase create(Ref ref) {
+    return changePasswordUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ChangePasswordUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ChangePasswordUseCase>(value),
+    );
+  }
+}
+
+String _$changePasswordUseCaseHash() =>
+    r'e811710553f9a7bcf25f23e510bc6588c7fbdd21';
+
+@ProviderFor(updatePersonalInfoUseCase)
+const updatePersonalInfoUseCaseProvider = UpdatePersonalInfoUseCaseProvider._();
+
+final class UpdatePersonalInfoUseCaseProvider
+    extends
+        $FunctionalProvider<
+          UpdatePersonalInfoUseCase,
+          UpdatePersonalInfoUseCase,
+          UpdatePersonalInfoUseCase
+        >
+    with $Provider<UpdatePersonalInfoUseCase> {
+  const UpdatePersonalInfoUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'updatePersonalInfoUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$updatePersonalInfoUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<UpdatePersonalInfoUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  UpdatePersonalInfoUseCase create(Ref ref) {
+    return updatePersonalInfoUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(UpdatePersonalInfoUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<UpdatePersonalInfoUseCase>(value),
+    );
+  }
+}
+
+String _$updatePersonalInfoUseCaseHash() =>
+    r'fbf83792821905226f413b83a62655a14e211971';
+
+@ProviderFor(uploadLogoUseCase)
+const uploadLogoUseCaseProvider = UploadLogoUseCaseProvider._();
+
+final class UploadLogoUseCaseProvider
+    extends
+        $FunctionalProvider<
+          UploadLogoUseCase,
+          UploadLogoUseCase,
+          UploadLogoUseCase
+        >
+    with $Provider<UploadLogoUseCase> {
+  const UploadLogoUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'uploadLogoUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$uploadLogoUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<UploadLogoUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  UploadLogoUseCase create(Ref ref) {
+    return uploadLogoUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(UploadLogoUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<UploadLogoUseCase>(value),
+    );
+  }
+}
+
+String _$uploadLogoUseCaseHash() => r'70a54cfad27b105d375f78d6ecd8c81d3ce055c2';

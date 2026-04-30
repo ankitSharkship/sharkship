@@ -76,6 +76,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen> {
           ),
         ),
         child: FloatingActionButton(
+          heroTag: 'tickets_fab',
           onPressed: () => showRaiseTicketSheet(context),
           backgroundColor: Colors.transparent,
           child: const Icon(Icons.add, size: 35, color: Colors.white),

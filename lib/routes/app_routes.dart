@@ -26,6 +26,9 @@ abstract class Routes {
   static const API_INTEGRATION = _Paths.API_INTEGRATION;
   static const GET_MIS_REPORTS = _Paths.GET_MIS_REPORTS;
   static const KYC_INFO = _Paths.KYC_INFO;
+  static const SHIPPING_LABEL_PREVIEW = _Paths.SHIPPING_LABEL_PREVIEW;
+  static const USER_SCREEN = _Paths.USER_SCREEN;
+  static const WALLET = _Paths.WALLET;
 }
 
 abstract class _Paths {
@@ -50,9 +53,12 @@ abstract class _Paths {
   static const BUYER_COMMUNICATION = '/buyer-communication';
   static const ADDRESS_SCREEN = '/address-screen';
   static const SHIPPING_LABEL = '/shipping-label';
+  static const SHIPPING_LABEL_PREVIEW = '/shipping-label/preview';
   static const API_INTEGRATION = '/api-integration';
   static const GET_MIS_REPORTS = '/reports';
   static const KYC_INFO = '/kyc-info';
+  static const USER_SCREEN = '/profile';
+  static const WALLET = '/wallet';
 }
 
 //rate calculator, remittance summary, invoice summary, transaction summary

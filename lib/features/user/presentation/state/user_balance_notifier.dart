@@ -4,11 +4,11 @@ import 'user_providers.dart';
 
 part 'user_balance_notifier.g.dart';
 
-
 @Riverpod(keepAlive: true)
 class UserBalanceNotifier extends _$UserBalanceNotifier {
   @override
   AsyncValue<UserBalance?> build() {
+    fetchBalance();
     return const AsyncValue.data(null);
   }
 
