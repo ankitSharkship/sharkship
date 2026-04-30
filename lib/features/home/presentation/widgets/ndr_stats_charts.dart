@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sharkship/core/charts/bar/app_bar_chart.dart';
 import 'package:sharkship/core/charts/bar/app_horizontal_bar_chart.dart';
 import 'package:sharkship/core/charts/line/app_line_chart.dart';
@@ -28,9 +29,23 @@ class NDRStatsCharts extends ConsumerWidget {
           error: (err, _) => Center(child: Text("Error: $err")),
           data: (data) {
             if (data.ndrDataByCourier.isEmpty) {
-              return const BaseChartCard(
+              return BaseChartCard(
                 title: "NDR By Courier",
-                child: Center(child: Text("No courier data available")),
+                child: Column(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/images/home/no_orders.svg',
+                      width: 200,
+                      fit: BoxFit.fitWidth,
+                    ),
+                    Center(
+                      child: Text(
+                        'No Data Available\nPlace some orders to view the data',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
 
@@ -72,9 +87,23 @@ class NDRStatsCharts extends ConsumerWidget {
           error: (err, _) => Center(child: Text("Error: $err")),
           data: (trend) {
             if (trend.isEmpty) {
-              return const BaseChartCard(
+              return BaseChartCard(
                 title: "NDR Daily Trend",
-                child: Center(child: Text("No datewise data available")),
+                child: Column(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/images/home/no_orders.svg',
+                      width: 200,
+                      fit: BoxFit.fitWidth,
+                    ),
+                    Center(
+                      child: Text(
+                        'No Data Available\nPlace some orders to view the data',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
 

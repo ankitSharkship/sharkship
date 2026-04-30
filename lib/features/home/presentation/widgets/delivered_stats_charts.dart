@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:sharkship/core/charts/bar/app_bar_chart.dart';
 import 'package:sharkship/core/charts/bar/app_horizontal_bar_chart.dart';
@@ -60,28 +61,104 @@ class DeliveredStatsCharts extends ConsumerWidget {
                 // 1. Top Delivered City (Bar)
                 BaseChartCard(
                   title: "Top Delivered City",
-                  child: AppBarChart(data: cityPoints),
+                  child: cityPoints.isNotEmpty
+                      ? AppBarChart(data: cityPoints)
+                      : SizedBox(
+                          width: double.maxFinite,
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/home/no_orders.svg',
+                                width: 200,
+                                fit: BoxFit.fitWidth,
+                              ),
+                              Center(
+                                child: Text(
+                                  'No Data Available\nPlace some orders to view the data',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                 ),
                 const SizedBox(height: 20),
 
                 // 2. Top Delivered Pincode (Pie)
                 BaseChartCard(
                   title: "Top Delivered Pincode",
-                  child: AppPieChart(data: pinPoints),
+                  child: pinPoints.isNotEmpty
+                      ? AppPieChart(data: pinPoints)
+                      : SizedBox(
+                          width: double.maxFinite,
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/home/no_orders.svg',
+                                width: 200,
+                                fit: BoxFit.fitWidth,
+                              ),
+                              Center(
+                                child: Text(
+                                  'No Data Available\nPlace some orders to view the data',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                 ),
                 const SizedBox(height: 20),
 
                 // 3. Top Delivered State (Bar)
                 BaseChartCard(
                   title: "Top Delivered State",
-                  child: AppBarChart(data: statePoints),
+                  child: statePoints.isNotEmpty
+                      ? AppBarChart(data: statePoints)
+                      : SizedBox(
+                          width: double.maxFinite,
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/home/no_orders.svg',
+                                width: 200,
+                                fit: BoxFit.fitWidth,
+                              ),
+                              Center(
+                                child: Text(
+                                  'No Data Available\nPlace some orders to view the data',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                 ),
                 const SizedBox(height: 20),
 
                 // 4. Top Delivered Courier (Horizontal Bar)
                 BaseChartCard(
                   title: "Top Delivered Courier",
-                  child: AppHorizontalBarChart(data: courierPoints),
+                  child: courierPoints.isNotEmpty
+                      ? AppHorizontalBarChart(data: courierPoints)
+                      : SizedBox(
+                          width: double.maxFinite,
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/home/no_orders.svg',
+                                width: 200,
+                                fit: BoxFit.fitWidth,
+                              ),
+                              Center(
+                                child: Text(
+                                  'No Data Available\nPlace some orders to view the data',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                 ),
                 const SizedBox(height: 20),
 
@@ -94,9 +171,23 @@ class DeliveredStatsCharts extends ConsumerWidget {
                   error: (err, _) => Center(child: Text("Error: $err")),
                   data: (codTrend) {
                     if (codTrend.isEmpty) {
-                      return const BaseChartCard(
+                      return BaseChartCard(
                         title: "COD Collection Trend",
-                        child: Center(child: Text("No COD data available")),
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/home/no_orders.svg',
+                              width: 200,
+                              fit: BoxFit.fitWidth,
+                            ),
+                            Center(
+                              child: Text(
+                                'No Data Available\nPlace some orders to view the data',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
                       );
                     }
 
@@ -120,7 +211,26 @@ class DeliveredStatsCharts extends ConsumerWidget {
                           title: "COD Collection Trend",
                           child: Container(
                             padding: const EdgeInsets.only(right: 12),
-                            child: AppLineChart(data: collectionPoints),
+                            child: collectionPoints.isNotEmpty
+                                ? AppLineChart(data: collectionPoints)
+                                : SizedBox(
+                                    width: double.maxFinite,
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/images/home/no_orders.svg',
+                                          width: 200,
+                                          fit: BoxFit.fitWidth,
+                                        ),
+                                        Center(
+                                          child: Text(
+                                            'No Data Available\nPlace some orders to view the data',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -128,7 +238,26 @@ class DeliveredStatsCharts extends ConsumerWidget {
                           title: "COD Order Count Trend",
                           child: Container(
                             padding: const EdgeInsets.only(right: 12),
-                            child: AppLineChart(data: countPoints),
+                            child: countPoints.isNotEmpty
+                                ? AppLineChart(data: countPoints)
+                                : SizedBox(
+                                    width: double.maxFinite,
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/images/home/no_orders.svg',
+                                          width: 200,
+                                          fit: BoxFit.fitWidth,
+                                        ),
+                                        Center(
+                                          child: Text(
+                                            'No Data Available\nPlace some orders to view the data',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                           ),
                         ),
                       ],

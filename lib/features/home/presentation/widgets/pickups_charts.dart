@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sharkship/core/charts/bar/app_stacked_bar_chart.dart';
 import 'package:sharkship/core/charts/models/stacked_chart_point.dart';
 import 'package:sharkship/core/charts/theme/chart_theme.dart';
@@ -21,9 +22,23 @@ class PickupsCharts extends ConsumerWidget {
       error: (err, stack) => Center(child: Text('Error: $err')),
       data: (summary) {
         if (summary.items.isEmpty) {
-          return const BaseChartCard(
+          return BaseChartCard(
             title: "Pickups By Courier",
-            child: Center(child: Text("No pickup data available")),
+            child: Column(
+              children: [
+                SvgPicture.asset(
+                  'assets/images/home/no_orders.svg',
+                  width: 200,
+                  fit: BoxFit.fitWidth,
+                ),
+                Center(
+                  child: Text(
+                    'No Data Available\nSelect a different date range',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
           );
         }
 

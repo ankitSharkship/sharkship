@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sharkship/core/charts/bar/app_bar_chart.dart';
 import 'package:sharkship/core/charts/models/chart_point.dart';
 import 'package:sharkship/core/charts/pie/app_pie_chart.dart';
@@ -47,12 +48,32 @@ class BusinessOverviewChart extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Business Trends (Datewise)",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              Expanded(child: AppBarChart(data: chartData)),
+              // const Text(
+              //   "Business Trends (Datewise)",
+              //   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              // ),
+              // const SizedBox(height: 20),
+              if (data.isEmpty)
+                Expanded(
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/home/no_orders.svg',
+                        width: 200,
+                        fit: BoxFit.fitWidth,
+                      ),
+                      Center(
+                        child: Text(
+                          'No Data Available\nSelect a different date range',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              else ...[
+                Expanded(child: AppBarChart(data: chartData)),
+              ],
             ],
           ),
         );
@@ -101,12 +122,32 @@ class ZoneDistributionOverviewChart extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Order Distribution by Zone",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              Expanded(child: AppPieChart(data: chartItems)),
+              // const Text(
+              //   "Order Distribution by Zone",
+              //   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              // ),
+              // const SizedBox(height: 20),
+              if (data.isEmpty)
+                Expanded(
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/home/no_orders.svg',
+                        width: 200,
+                        fit: BoxFit.fitWidth,
+                      ),
+                      Center(
+                        child: Text(
+                          'No Data Available\nSelect a different date range',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              else ...[
+                Expanded(child: AppPieChart(data: chartItems)),
+              ],
             ],
           ),
         );
@@ -142,6 +183,10 @@ class StateWiseOrdersTable extends ConsumerWidget {
           grouped[e.state]![e.status] =
               (grouped[e.state]![e.status] ?? 0) + e.count;
         }
+        if (data.isEmpty) {
+          return SizedBox.shrink();
+        }
+
         return Container(
           decoration: BoxDecoration(
             color: Colors.white,
