@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/finance/domain/entities/message_metrics_entity.dart';
 import 'package:sharkship/features/finance/presentation/state/selected_ts_notifier.dart';
@@ -72,7 +73,7 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
 
     final searchState = ref.watch(tsSearchProvider);
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F7F9),
+      backgroundColor: AppColors.scaffoldBg,
       body: SafeArea(
         child: Column(
           children: [
@@ -112,13 +113,16 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
                                       : searchState.type),
                             icon: const Icon(
                               Icons.keyboard_arrow_down_rounded,
-                              color: Color(0xFF0084FF),
+                              color: AppColors.primaryBlue,
                             ),
-                            style: const TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                ),
                             items: selectedTab == 0
                                 ? const [
                                     DropdownMenuItem(
@@ -187,10 +191,13 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
                                   : (searchState.type == SearchType.orderId
                                         ? 'Enter Order ID'
                                         : 'Enter Tracking ID'),
-                              hintStyle: TextStyle(
-                                color: Colors.grey.shade400,
-                                fontSize: 14,
-                              ),
+                              hintStyle: Theme.of(context)
+                                   .textTheme
+                                   .bodySmall
+                                   ?.copyWith(
+                                     color: Colors.grey.shade400,
+                                     fontSize: 14,
+                                   ),
                               border: InputBorder.none,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
@@ -215,7 +222,7 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
                                     )
                                   : const Icon(
                                       Icons.search_rounded,
-                                      color: Color(0xFF0084FF),
+                                      color: AppColors.primaryBlue,
                                     ),
                             ),
                           ),
@@ -290,10 +297,11 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
                         ),
                         Text(
                           isAllSelected ? "Unselect All" : "Select All",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
                         ),
                         const Spacer(),
                         Text(
@@ -379,10 +387,11 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
                         ),
                         Text(
                           isAllSelected ? "Unselect All" : "Select All",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
                         ),
                         const Spacer(),
                         Text(

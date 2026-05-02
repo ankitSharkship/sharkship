@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:sharkship/features/finance/domain/entities/message_transaction_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/remittance_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/transaction_entity.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class RsCard extends StatefulWidget {
   final RemittanceCycle remittance;
@@ -63,7 +63,7 @@ class _RsCardCardState extends State<RsCard> {
                 Checkbox(
                   value: widget.isSelected,
                   onChanged: widget.onSelected,
-                  activeColor: const Color(0xFF0084FF),
+                  activeColor: AppColors.primaryBlue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4),
                   ),
@@ -81,10 +81,11 @@ class _RsCardCardState extends State<RsCard> {
                     children: [
                       Text(
                         "Order Id: ${short(widget.remittance.id) ?? '-'}",
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
                       ),
                       const SizedBox(width: 8),
                       GestureDetector(
@@ -96,11 +97,14 @@ class _RsCardCardState extends State<RsCard> {
                               ),
                             );
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
+                              SnackBar(
                                 backgroundColor: Colors.white,
                                 content: Text(
                                   'Order ID copied to clipboard',
-                                  style: TextStyle(color: Colors.black),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(color: Colors.black),
                                 ),
                               ),
                             );
@@ -253,14 +257,20 @@ class _RsCardCardState extends State<RsCard> {
                       children: [
                         Text(
                           isExpanded ? "Show Less" : "Show More",
-                          style: const TextStyle(color: Colors.blue),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                color: AppColors.primaryBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                         const SizedBox(width: 6),
                         Icon(
                           isExpanded
                               ? Icons.keyboard_arrow_up
                               : Icons.keyboard_arrow_down,
-                          color: Colors.blue,
+                          color: AppColors.primaryBlue,
                         ),
                       ],
                     ),
@@ -291,24 +301,23 @@ class _RsCardCardState extends State<RsCard> {
             flex: 2,
             child: Text(
               label,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
             ),
           ),
           Expanded(
             flex: 3,
             child: Text(
               value,
-              style: TextStyle(
-                fontSize: 14,
-                color: valueColor ?? Colors.grey.shade600,
-                fontWeight: valueColor != null
-                    ? FontWeight.bold
-                    : FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: 14,
+                    color: valueColor ?? Colors.grey.shade600,
+                    fontWeight:
+                        valueColor != null ? FontWeight.bold : FontWeight.w500,
+                  ),
               textAlign: TextAlign.end,
               maxLines: isMultiline ? 3 : 1,
               overflow: TextOverflow.ellipsis,

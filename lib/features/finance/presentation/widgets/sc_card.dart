@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import '../../domain/entities/shipping_rate_entity.dart';
 import '../../domain/entities/calculator_rate_entity.dart';
 
@@ -62,10 +63,11 @@ class _ScCardState extends State<ScCard> {
             const SizedBox(height: 16),
             Text(
               '${rate.carrier} ${rate.baseWeight}Kg (${rate.courierType})',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
             ),
             const SizedBox(height: 12),
             _RateRow(
@@ -129,23 +131,29 @@ class _ScCardState extends State<ScCard> {
                 // Title
                 Text(
                   '${rate.carrierName} ${rate.baseWeight}Kg (${rate.carrierType})',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                 ),
                 const SizedBox(height: 12),
 
                 // Base Rates
-                const Row(
+                 Row(
                   children: [
-                    Text('📦 ', style: TextStyle(fontSize: 16)),
+                    Text('📦 ',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(fontSize: 16)),
                     Text(
                       'Rates:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                     ),
                   ],
                 ),
@@ -165,10 +173,11 @@ class _ScCardState extends State<ScCard> {
                       const SizedBox(width: 4),
                       Text(
                         'Additional (${rate.additionalWeight}Kg):',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                       ),
                     ],
                   ),
@@ -229,10 +238,10 @@ class _ScCardState extends State<ScCard> {
                   children: [
                     Text(
                       _isExpanded ? 'Show Less' : 'Show More',
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.primaryBlue,
+                            fontWeight: FontWeight.w600,
+                          ),
                     ),
                     const SizedBox(width: 4),
                     Icon(
@@ -273,17 +282,19 @@ class _RateRow extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            ),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 14,
+                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                  color: Colors.black,
+                ),
           ),
           Text(
             value,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            ),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 14,
+                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                  color: Colors.black,
+                ),
           ),
         ],
       ),

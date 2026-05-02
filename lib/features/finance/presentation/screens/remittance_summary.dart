@@ -5,7 +5,7 @@ import 'package:sharkship/features/finance/presentation/state/selected_rs_notifi
 import 'package:sharkship/features/finance/presentation/widgets/rs_card.dart';
 import 'package:sharkship/features/finance/presentation/widgets/rs_header.dart';
 import 'package:sharkship/features/home/presentation/widgets/shipment_stat_card.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 class RemittanceSummary extends ConsumerStatefulWidget {
@@ -19,7 +19,7 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       body: SafeArea(child: Column(children: [RsHeader(), _buildBody()])),
     );
   }
@@ -100,7 +100,7 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
                       const SizedBox(height: 20),
                       Container(
                         decoration: BoxDecoration(
-                          color: ColorManager.lightBlueBg,
+                          color: AppColors.lightBlueBg,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Column(
@@ -141,13 +141,15 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
                   ),
                 )
               else if (cycles.isEmpty)
-                const SliverToBoxAdapter(
+                SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.all(20.0),
                     child: Center(
                       child: Text(
                         "No records found",
-                        style: TextStyle(color: Colors.grey),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                   ),
@@ -166,26 +168,33 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
                           onChanged: (val) {
                             ref.read(selectedRsProvider.notifier).toggleAll();
                           },
-                          activeColor: const Color(0xFF0084FF),
+                          activeColor: AppColors.primaryBlue,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
                         Text(
                           isAllSelected ? "Unselect All" : "Select All",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
                         ),
                         const Spacer(),
                         Text(
                           "${selectedRs.selectedIds.length} Selected",
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Color(0xFF0084FF),
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                fontSize: 12,
+                                color: AppColors.primaryBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                       ],
                     ),
@@ -256,24 +265,23 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
             flex: 2,
             child: Text(
               label,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
             ),
           ),
           Expanded(
             flex: 3,
             child: Text(
               value,
-              style: TextStyle(
-                fontSize: 14,
-                color: valueColor ?? Colors.grey.shade600,
-                fontWeight: valueColor != null
-                    ? FontWeight.bold
-                    : FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: 14,
+                    color: valueColor ?? Colors.grey.shade600,
+                    fontWeight:
+                        valueColor != null ? FontWeight.bold : FontWeight.w500,
+                  ),
               textAlign: TextAlign.end,
               maxLines: isMultiline ? 3 : 1,
               overflow: TextOverflow.ellipsis,

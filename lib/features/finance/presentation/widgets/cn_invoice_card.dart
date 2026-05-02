@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:flutter/services.dart';
 import '../../domain/entities/cn_invoice_entity.dart';
 import 'package:intl/intl.dart';
@@ -40,7 +40,7 @@ class CnInvoiceCard extends StatelessWidget {
         children: [
           _buildHeader(context),
           const Divider(height: 1, color: Colors.black12),
-          _buildBody(),
+          _buildBody(context),
         ],
       ),
     );
@@ -65,7 +65,7 @@ class CnInvoiceCard extends StatelessWidget {
                 child: Checkbox(
                   value: isSelected,
                   onChanged: onSelected,
-                  activeColor: const Color(0xFF0084FF),
+                  activeColor: AppColors.primaryBlue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4),
                   ),
@@ -88,11 +88,12 @@ class CnInvoiceCard extends StatelessWidget {
                       children: [
                         Text(
                           invoice.invoiceNo,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: ColorManager.black,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                         ),
 
                         const SizedBox(width: 8),
@@ -105,11 +106,12 @@ class CnInvoiceCard extends StatelessWidget {
                                 ),
                               );
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                SnackBar(
                                   backgroundColor: Colors.white,
                                   content: Text(
-                                    'Order ID copied to clipboard',
-                                    style: TextStyle(color: Colors.black),
+                                    'Invoice Number copied to clipboard',
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(color: Colors.black),
                                   ),
                                 ),
                               );
@@ -179,7 +181,7 @@ class CnInvoiceCard extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
-                  icon: const Icon(Icons.upload, color: ColorManager.black),
+                  icon: const Icon(Icons.upload, color: Colors.black),
                   onPressed: onPdfTap,
                   iconSize: 20,
                 ),
@@ -191,7 +193,7 @@ class CnInvoiceCard extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -200,6 +202,7 @@ class CnInvoiceCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: _row(
               'Invoice Date',
+              context,
               '${DateFormat('dd/MM/yyyy, hh:mm a').format(invoice.createdAt)}',
             ),
           ),
@@ -207,6 +210,7 @@ class CnInvoiceCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: _row(
               'Invoice Period',
+              context,
               'From: ${DateFormat('dd/MM/yyyy, hh:mm a').format(invoice.cnStartDate)}\n To: ${DateFormat('dd/MM/yyyy, hh:mm a').format(invoice.cnEndDate)}',
               isMultiline: true,
             ),
@@ -215,19 +219,21 @@ class CnInvoiceCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: _row(
               'CN Date',
+              context,
               '${DateFormat('dd/MM/yyyy, hh:mm a').format(invoice.cnDate)}',
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: _row('State', '${invoice.state}'),
+            child: _row('State', context, '${invoice.state}'),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: _row(
               'Total Amount',
+              context,
               '₹ ${invoice.totalAmount}',
-              valueColor: ColorManager.primaryBlue,
+              valueColor: AppColors.primaryBlue,
             ),
           ),
         ],
@@ -237,6 +243,7 @@ class CnInvoiceCard extends StatelessWidget {
 
   Widget _row(
     String label,
+    BuildContext context,
     String value, {
     bool isMultiline = false,
     Color? valueColor,
@@ -252,7 +259,7 @@ class CnInvoiceCard extends StatelessWidget {
             flex: 2,
             child: Text(
               label,
-              style: const TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -263,7 +270,7 @@ class CnInvoiceCard extends StatelessWidget {
             flex: 3,
             child: Text(
               value,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 12,
                 color: valueColor ?? Colors.grey.shade600,
                 fontWeight: valueColor != null

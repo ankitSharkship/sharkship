@@ -5,7 +5,7 @@ import 'package:sharkship/features/finance/presentation/state/is_tab_provider.da
 import 'package:sharkship/features/finance/presentation/state/selected_is_notifier.dart';
 import 'package:sharkship/features/finance/presentation/widgets/otp_bottom_sheet.dart';
 import 'package:sharkship/features/home/presentation/widgets/date_range_picker_modal.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class IsHeader extends ConsumerWidget {
   const IsHeader({super.key});
@@ -41,9 +41,13 @@ class IsHeader extends ConsumerWidget {
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(Icons.arrow_back, size: 24),
               ),
-              const Text(
+              Text(
                 "Invoice Summary",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black,
+                    ),
               ),
             ],
           ),
@@ -139,7 +143,7 @@ class IsHeader extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 24),
       decoration: const BoxDecoration(
-        color: Color(0xFFDCE6ED),
+        color: AppColors.lightBlueBg,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SafeArea(
@@ -160,12 +164,16 @@ class IsHeader extends ConsumerWidget {
 
             // title
             Row(
-              children: const [
-                Icon(Icons.build, size: 23),
-                SizedBox(width: 8),
+              children: [
+                const Icon(Icons.build, size: 23),
+                const SizedBox(width: 8),
                 Text(
                   "Actions",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
                 ),
               ],
             ),
@@ -176,7 +184,7 @@ class IsHeader extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: const Color(0xFFF5F5F5),
+                color: AppColors.scaffoldBg,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
@@ -193,7 +201,7 @@ class IsHeader extends ConsumerWidget {
                         child: ActionButton(
                           label: "Download Bulk",
                           icon: Icons.download,
-                          color: ColorManager.primaryBlue,
+                          color: AppColors.primaryBlue,
                           enabled: selectedTss.selectedIds.isNotEmpty,
                           onTap: () {
                             initiateOtp(context, true);
@@ -245,7 +253,10 @@ class ActionButton extends StatelessWidget {
     return OutlinedButton.icon(
       onPressed: enabled ? onTap : null,
       icon: Icon(icon, color: color),
-      label: Text(label, style: TextStyle(color: color)),
+      label: Text(
+        label,
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: color),
+      ),
       style: OutlinedButton.styleFrom(
         side: BorderSide(color: color, width: 1.5),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -311,11 +322,11 @@ class StatusNotification extends StatelessWidget {
           Expanded(
             child: Text(
               message,
-              style: TextStyle(
-                color: themeColor,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: themeColor,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  ),
             ),
           ),
         ],

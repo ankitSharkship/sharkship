@@ -6,7 +6,7 @@ import 'package:sharkship/features/finance/presentation/widgets/sc_card.dart';
 import 'package:sharkship/features/finance/presentation/widgets/sc_header.dart';
 import 'package:sharkship/features/finance/presentation/widgets/sc_tabbar.dart';
 import 'package:sharkship/features/orders/presentation/widgets/order_skeleton.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class SellerChargesScreen extends ConsumerStatefulWidget {
   const SellerChargesScreen({super.key});
@@ -18,9 +18,9 @@ class SellerChargesScreen extends ConsumerStatefulWidget {
 class _SellerChargesScreenState extends ConsumerState<SellerChargesScreen>
     with SingleTickerProviderStateMixin {
   final colors = [
-    ColorManager.primaryBlue,
-    ColorManager.secondaryBlue,
-    ColorManager.lightBlue,
+    AppColors.primaryBlue,
+    AppColors.secondaryBlue,
+    AppColors.lightBlue,
   ];
   late TabController _controller;
   @override
@@ -44,7 +44,7 @@ class _SellerChargesScreenState extends ConsumerState<SellerChargesScreen>
     }
 
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       body: SafeArea(
         child: Column(
           children: [

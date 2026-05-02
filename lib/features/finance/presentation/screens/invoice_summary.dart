@@ -4,7 +4,7 @@ import 'package:sharkship/features/finance/presentation/state/is_tab_provider.da
 import 'package:sharkship/features/finance/presentation/widgets/is_header.dart';
 import 'package:sharkship/features/finance/presentation/widgets/is_tabbar.dart';
 import 'package:sharkship/features/finance/presentation/widgets/otp_bottom_sheet.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/features/finance/presentation/state/invoices_summary_notifier.dart';
 import 'package:sharkship/features/finance/presentation/state/selected_is_notifier.dart';
 import 'package:sharkship/features/finance/presentation/widgets/invoice_card.dart';
@@ -66,7 +66,7 @@ class _InvoiceSummaryState extends ConsumerState<InvoiceSummary> {
 
       showModalBottomSheet(
         context: context,
-        backgroundColor: ColorManager.scaffoldBg,
+        backgroundColor: AppColors.scaffoldBg,
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -105,7 +105,7 @@ class _InvoiceSummaryState extends ConsumerState<InvoiceSummary> {
     final selectedInvoices = ref.watch(selectedIsProvider(selectedTab));
 
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       body: SafeArea(
         child: Column(
           children: [
@@ -159,20 +159,27 @@ class _InvoiceSummaryState extends ConsumerState<InvoiceSummary> {
                                 ),
                                 Text(
                                   isAllSelected ? "Unselect All" : "Select All",
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
                                 ),
                                 const Spacer(),
 
                                 Text(
                                   "${selectedInvoices.selectedIds.length} Selected",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF0084FF),
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        fontSize: 12,
+                                        color: const Color(0xFF0084FF),
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
                               ],
                             ),

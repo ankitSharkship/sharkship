@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../state/calculator_notifier.dart';
@@ -77,11 +77,14 @@ class _ShipmentRateCalculatorState
     final state = ref.watch(calculatorProvider);
 
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
-        title: const Text(
+        title:  Text(
           'Shipping Rate Calculator',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -210,7 +213,9 @@ class _ShipmentRateCalculatorState
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
                     'Error: ${state.error}',
-                    style: const TextStyle(color: Colors.red),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.red,
+                        ),
                   ),
                 ),
             ],
@@ -227,9 +232,18 @@ class _ShipmentRateCalculatorState
         children: [
           Text(
             text,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
           ),
-          const Text(' *', style: TextStyle(color: Colors.orange)),
+          Text(
+            ' *',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Colors.orange,
+                ),
+          ),
         ],
       ),
     );
@@ -254,7 +268,9 @@ class _ShipmentRateCalculatorState
             : TextInputType.text,
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: TextStyle(color: Colors.grey.shade400),
+          hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.grey.shade400,
+              ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -291,7 +307,9 @@ class _ShipmentRateCalculatorState
               ),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: TextStyle(color: Colors.grey.shade400),
+                hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.grey.shade400,
+                    ),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -307,7 +325,7 @@ class _ShipmentRateCalculatorState
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: const BoxDecoration(
-              color: ColorManager.primaryBlue,
+              color: AppColors.primaryBlue,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(12),
                 bottomRight: Radius.circular(12),
@@ -315,10 +333,10 @@ class _ShipmentRateCalculatorState
             ),
             child: Text(
               unit,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
           ),
         ],
@@ -339,7 +357,7 @@ class _ShipmentRateCalculatorState
           value: value,
           groupValue: groupValue,
           onChanged: onChanged,
-          activeColor: ColorManager.primaryBlue,
+          activeColor: AppColors.primaryBlue,
         ),
         Text(label),
       ],

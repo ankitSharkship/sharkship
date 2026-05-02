@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import '../../domain/entities/calculator_rate_entity.dart';
 import '../widgets/sc_card.dart'; // I will modify ScCard to handle this
 
@@ -15,9 +16,15 @@ class ShippingRateResultScreen extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF5F5F5),
+        backgroundColor: AppColors.scaffoldBg,
         appBar: AppBar(
-          title: const Text('Shipping Rate', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+          title: Text(
+            'Shipping Rate',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
           backgroundColor: Colors.white,
           elevation: 0,
           leading: const BackButton(color: Colors.black),

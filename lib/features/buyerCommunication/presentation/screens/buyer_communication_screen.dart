@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:sharkship/features/buyerCommunication/domain/entities/whatsapp_config_entity.dart';
 import 'package:sharkship/features/buyerCommunication/presentation/state/buyer_communication_notifier.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 class BuyerCommunicationScreen extends ConsumerStatefulWidget {
@@ -75,14 +75,14 @@ class _BuyerCommunicationScreenState
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: ColorManager.lightGreen,
+          backgroundColor: AppColors.lightGreen,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.pop(context),
           ),
-          title: const Text(
+          title: Text(
             'Buyer Communication',
-            style: TextStyle(
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -156,7 +156,7 @@ class _BuyerCommunicationScreenState
       children: [
         Text(
           'Supercharge Your Customer Communication',
-          style: TextStyle(
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.w700,
             height: 1.2,
@@ -167,7 +167,7 @@ class _BuyerCommunicationScreenState
         const SizedBox(height: 12),
         Text(
           "Leverage WhatsApp's 94% read rate for instant,\neffective updates",
-          style: TextStyle(
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontSize: 13,
             fontWeight: FontWeight.w400,
             height: 1.5,
@@ -202,7 +202,7 @@ class _BuyerCommunicationScreenState
                 children: [
                   Text(
                     'Read Rate',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
                       color: Colors.grey[700],
@@ -212,7 +212,7 @@ class _BuyerCommunicationScreenState
                   const SizedBox(height: 8),
                   Text(
                     '94%',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 17,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF00A651),
@@ -222,7 +222,7 @@ class _BuyerCommunicationScreenState
                   const SizedBox(height: 8),
                   Text(
                     'Unparalleled message visibility',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 11,
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[600],
@@ -242,7 +242,7 @@ class _BuyerCommunicationScreenState
                   children: [
                     Text(
                       'Cost per Message',
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
                         color: Colors.grey[700],
@@ -252,7 +252,7 @@ class _BuyerCommunicationScreenState
                     const SizedBox(height: 8),
                     Text(
                       '₹$cost*',
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF5B5BFF),
@@ -262,7 +262,7 @@ class _BuyerCommunicationScreenState
                     const SizedBox(height: 8),
                     Text(
                       'Affordable, high-impact communication',
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 11,
                         fontWeight: FontWeight.w400,
                         color: Colors.grey[600],
@@ -302,7 +302,7 @@ class _BuyerCommunicationScreenState
               children: [
                 Text(
                   'Try It Now',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
@@ -323,7 +323,7 @@ class _BuyerCommunicationScreenState
               controller: _whatsappController,
               decoration: InputDecoration(
                 hintText: 'Your Whatsapp Number',
-                hintStyle: TextStyle(
+                hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Colors.grey[400],
                   fontSize: 16,
                   letterSpacing: -0.2,
@@ -427,7 +427,7 @@ class _BuyerCommunicationScreenState
                       )
                     : Text(
                         'Get Demo Message',
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
@@ -462,7 +462,7 @@ class _BuyerCommunicationScreenState
           children: [
             Text(
               'How is WhatsApp Communication helping you?',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Colors.black,
@@ -525,7 +525,7 @@ class _BuyerCommunicationScreenState
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF00A651),
@@ -535,7 +535,7 @@ class _BuyerCommunicationScreenState
               const SizedBox(height: 4),
               Text(
                 description,
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[600],
@@ -575,7 +575,7 @@ class _BuyerCommunicationScreenState
           children: [
             Text(
               'Pricing Details',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Colors.black,
@@ -594,7 +594,7 @@ class _BuyerCommunicationScreenState
                 children: [
                   Text(
                     'Cost per message',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Colors.grey[700],
@@ -603,7 +603,7 @@ class _BuyerCommunicationScreenState
                   ),
                   Text(
                     '₹$costStr*',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF00A651),
@@ -616,7 +616,7 @@ class _BuyerCommunicationScreenState
             const SizedBox(height: 24),
             Text(
               'Estimated Monthly Volume',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
@@ -654,7 +654,7 @@ class _BuyerCommunicationScreenState
               children: [
                 Text(
                   '0',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[600],
@@ -662,7 +662,7 @@ class _BuyerCommunicationScreenState
                 ),
                 Text(
                   '${volume.toInt()} messages',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[600],
@@ -670,7 +670,7 @@ class _BuyerCommunicationScreenState
                 ),
                 Text(
                   '10,000',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[600],
@@ -691,7 +691,7 @@ class _BuyerCommunicationScreenState
             const SizedBox(height: 8),
             Text(
               '₹${monthlyCost.toStringAsFixed(2)}',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF00A651),
@@ -717,9 +717,9 @@ class _BuyerCommunicationScreenState
                 child: SizedBox(
                   width: double.infinity,
                   child: Text(
-                    active! ? 'Deactivate' : "Activate",
+                    (active ?? false) ? 'Deactivate' : 'Activate',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF0277BD),
@@ -732,7 +732,7 @@ class _BuyerCommunicationScreenState
             const SizedBox(height: 16),
             Text(
               '*NOTE: Customise real time tracking update to share with your buyers, per status just @ ₹$costStr. To avail all statuses, pay just ₹912* per order. By Default all statuses will be selected. (Prices are exclusive of GST & Non refundable)\n*NOTE: There is a seperate charge for Channel\'s Order Confirmation notifications.',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
                 color: Colors.grey[600],
@@ -770,7 +770,7 @@ class _BuyerCommunicationScreenState
           children: [
             Text(
               'WhatsApp Notifications',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Colors.black,
@@ -780,7 +780,7 @@ class _BuyerCommunicationScreenState
             const SizedBox(height: 8),
             Text(
               'Configure which status updates you want to receive on WhatsApp',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: Colors.grey[600],
@@ -876,7 +876,7 @@ class _BuyerCommunicationScreenState
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
@@ -886,7 +886,7 @@ class _BuyerCommunicationScreenState
               const SizedBox(height: 4),
               Text(
                 description,
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[600],

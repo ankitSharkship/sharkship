@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:sharkship/features/finance/domain/entities/transaction_entity.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class TsCard extends StatelessWidget {
   final TransactionEntity transaction;
@@ -51,7 +51,7 @@ class TsCard extends StatelessWidget {
                     Checkbox(
                       value: isSelected,
                       onChanged: onSelected,
-                      activeColor: const Color(0xFF0084FF),
+                      activeColor: AppColors.primaryBlue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
@@ -70,18 +70,22 @@ class TsCard extends StatelessWidget {
                           if (selectedTab == 0) ...[
                             Text(
                               "Order Id: ${transaction.orderId ?? 'N/A'}",
-                              style: const TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
                             ),
                           ] else ...[
                             Text(
                               "Txn Id: ${short(transaction.txnId) ?? 'N/A'}",
-                              style: const TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
                             ),
                           ],
                           const SizedBox(width: 8),
@@ -93,11 +97,14 @@ class TsCard extends StatelessWidget {
                                     ClipboardData(text: transaction.orderId!),
                                   );
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
+                                    SnackBar(
                                       backgroundColor: Colors.white,
                                       content: Text(
                                         'Order ID copied to clipboard',
-                                        style: TextStyle(color: Colors.black),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(color: Colors.black),
                                       ),
                                     ),
                                   );
@@ -108,11 +115,14 @@ class TsCard extends StatelessWidget {
                                   ClipboardData(text: transaction.txnId!),
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
+                                  SnackBar(
                                     backgroundColor: Colors.white,
                                     content: Text(
                                       'Txn ID copied to clipboard',
-                                      style: TextStyle(color: Colors.black),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(color: Colors.black),
                                     ),
                                   ),
                                 );
@@ -136,13 +146,15 @@ class TsCard extends StatelessWidget {
                       color: const Color.fromARGB(255, 209, 242, 255),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: ColorManager.primaryBlue,
+                        color: AppColors.primaryBlue,
                         width: 2,
                       ),
                     ),
                     child: Text(
                       transaction.status ?? "",
-                      style: TextStyle(fontSize: 12),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(fontSize: 12),
                     ),
                   ),
                 ],
@@ -153,39 +165,43 @@ class TsCard extends StatelessWidget {
           const Divider(height: 1),
 
           // BODY
-          _body(selectedTab),
+          _body(selectedTab, context),
         ],
       ),
     );
   }
 
-  Widget _body(int tab) {
+  Widget _body(int tab, BuildContext context) {
     switch (tab) {
       case 0:
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              row("AWB", transaction.trackingId ?? '-'),
+              row("AWB", context, transaction.trackingId ?? '-'),
               row(
                 "Date & Time",
+                context,
                 DateFormat(
                   'dd MMMM yyyy, hh:mm a',
                 ).format(transaction.createdAt),
               ),
               row(
                 "Wallet Type",
+                context,
                 transaction.affected.toUpperCase(),
                 valueColor: Colors.blue.shade700,
               ),
-              row("Shipping Charges", "₹${transaction.amount}"),
+              row("Shipping Charges", context, "₹${transaction.amount}"),
               row(
                 "Order Description",
+                context,
                 transaction.description,
                 isMultiline: true,
               ),
               row(
                 "Journey Type",
+                context,
                 transaction.journeyType?.toUpperCase() ?? '-',
                 valueColor:
                     (transaction.journeyType?.toUpperCase() == 'FORWARD')
@@ -194,6 +210,7 @@ class TsCard extends StatelessWidget {
               ),
               row(
                 "Txn Type",
+                context,
                 transaction.type.toUpperCase(),
                 valueColor: Colors.blue.shade700,
               ),
@@ -207,38 +224,46 @@ class TsCard extends StatelessWidget {
             children: [
               row(
                 "Date & Time",
+                context,
                 DateFormat(
                   'dd MMMM yyyy, hh:mm a',
                 ).format(transaction.createdAt),
               ),
               row(
                 "Wallet Type",
+                context,
                 transaction.affected.toUpperCase(),
                 valueColor: Colors.blue.shade700,
               ),
               row(
                 "Payment Gateway",
+                context,
                 transaction.paymentGateway ?? '-',
                 valueColor: Colors.blue.shade700,
               ),
-              row("Amount", "₹ ${transaction.amount}/-" ?? '-'),
+              row("Amount", context, "₹ ${transaction.amount}/-" ?? '-'),
               if (transaction.couponCode != "") ...[
-                row("Coupon", transaction.couponCode ?? "Not Used"),
+                row("Coupon", context, transaction.couponCode ?? "Not Used"),
               ] else ...[
-                row("Coupon", "NOT USED"),
+                row("Coupon", context, "NOT USED"),
               ],
-              row("Order Description", transaction.description ?? '-'),
+              row("Order Description", context, transaction.description ?? '-'),
 
               if (transaction.remarks != "") ...[
-                row("Admin Remarks", transaction.remarks ?? "No Remarks"),
+                row(
+                  "Admin Remarks",
+                  context,
+                  transaction.remarks ?? "No Remarks",
+                ),
               ] else ...[
                 row(
                   "Admin Remarks",
+                  context,
                   "No Remarks",
                   valueColor: Colors.red.shade700,
                 ),
               ],
-              row("Txn Type", transaction.type.toUpperCase() ?? '-'),
+              row("Txn Type", context, transaction.type.toUpperCase() ?? '-'),
             ],
           ),
         );
@@ -249,8 +274,8 @@ class TsCard extends StatelessWidget {
 
   Widget row(
     String label,
-    String value, 
-    {
+    BuildContext context,
+    String value, {
     bool isMultiline = false,
     Color? valueColor,
   }) {
@@ -265,7 +290,7 @@ class TsCard extends StatelessWidget {
             flex: 2,
             child: Text(
               label,
-              style: const TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -276,7 +301,7 @@ class TsCard extends StatelessWidget {
             flex: 3,
             child: Text(
               value,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 14,
                 color: valueColor ?? Colors.grey.shade600,
                 fontWeight: valueColor != null
@@ -293,4 +318,3 @@ class TsCard extends StatelessWidget {
     );
   }
 }
-
