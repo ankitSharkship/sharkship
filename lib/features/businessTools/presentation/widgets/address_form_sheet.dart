@@ -76,12 +76,18 @@ class AddressFormSheetState extends ConsumerState<AddressFormSheet> {
         Text.rich(
           TextSpan(
             text: label,
-            style: const TextStyle(fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
             children: required
-                ? const [
+                ?  [
                     TextSpan(
                       text: ' *',
-                      style: TextStyle(color: Colors.orange),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w600,
+                          ),
                     ),
                   ]
                 : [],
@@ -130,7 +136,10 @@ class AddressFormSheetState extends ConsumerState<AddressFormSheet> {
               const SizedBox(width: 8),
               Text(
                 isEdit ? "Edit Address" : "Add New Address",
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
             ],
           ),
@@ -138,8 +147,12 @@ class AddressFormSheetState extends ConsumerState<AddressFormSheet> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              isEdit ? "Update your Warehouse Location" : "Set Up a New Warehouse Location",
-              style: const TextStyle(color: Colors.grey),
+              isEdit
+                  ? "Update your Warehouse Location"
+                  : "Set Up a New Warehouse Location",
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Colors.grey,
+                  ),
             ),
           ),
 

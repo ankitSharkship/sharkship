@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/businessTools/presentation/state/reports_notifier.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
@@ -62,9 +62,9 @@ class GetOrdersMISReport extends ConsumerWidget {
                 // Header
                 Row(
                   children: [
-                    const Text(
+                    Text(
                       'Get Orders MIS Report',
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
@@ -91,11 +91,12 @@ class GetOrdersMISReport extends ConsumerWidget {
                       child: Center(
                         child: Text(
                           'i',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey[600],
-                          ),
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey[600],
+                              ),
                         ),
                       ),
                     ),
@@ -103,8 +104,8 @@ class GetOrdersMISReport extends ConsumerWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'This report will give you a detailed overview of the orders that have been placed on the your account.',
-                  style: TextStyle(
+                  'This report will give you a detailed overview of the orders that have been placed on your account.',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[600],
@@ -133,7 +134,7 @@ class GetOrdersMISReport extends ConsumerWidget {
                 const SizedBox(height: 32),
 
                 // Select Status
-                _buildSectionTitle('Select Status'),
+                _buildSectionTitle('Select Status', context),
                 const SizedBox(height: 16),
                 Container(
                   width: double.infinity,
@@ -152,13 +153,17 @@ class GetOrdersMISReport extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  child: _buildStatusChips(ref, state.selectedStatuses),
+                  child: _buildStatusChips(
+                    ref,
+                    state.selectedStatuses,
+                    context,
+                  ),
                 ),
 
                 const SizedBox(height: 32),
 
                 // Select Carrier
-                _buildSectionTitle('Select Carrier'),
+                _buildSectionTitle('Select Carrier', context),
                 const SizedBox(height: 16),
                 Container(
                   width: double.infinity,
@@ -181,6 +186,7 @@ class GetOrdersMISReport extends ConsumerWidget {
                     ref,
                     state.partners,
                     state.selectedPartners,
+                    context,
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -215,15 +221,15 @@ class GetOrdersMISReport extends ConsumerWidget {
             children: [
               TextSpan(
                 text: label,
-                style: const TextStyle(
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
               ),
-              const TextSpan(
+              TextSpan(
                 text: ' *',
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Colors.red,
@@ -251,7 +257,7 @@ class GetOrdersMISReport extends ConsumerWidget {
                     value != null
                         ? _formatDate(value)
                         : 'Select ${label.toLowerCase()}',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: value != null ? Colors.black : Colors.grey[500],
@@ -267,21 +273,21 @@ class GetOrdersMISReport extends ConsumerWidget {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(String title, BuildContext context) {
     return RichText(
       text: TextSpan(
         children: [
           TextSpan(
             text: title,
-            style: const TextStyle(
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: Colors.black,
             ),
           ),
-          const TextSpan(
+          TextSpan(
             text: ' *',
-            style: TextStyle(
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: Colors.red,
@@ -292,7 +298,11 @@ class GetOrdersMISReport extends ConsumerWidget {
     );
   }
 
-  Widget _buildStatusChips(WidgetRef ref, List<String> selectedStatuses) {
+  Widget _buildStatusChips(
+    WidgetRef ref,
+    List<String> selectedStatuses,
+    BuildContext context,
+  ) {
     return Wrap(
       spacing: 4,
       runSpacing: 7,
@@ -307,19 +317,17 @@ class GetOrdersMISReport extends ConsumerWidget {
             decoration: BoxDecoration(
               color: isSelected ? Colors.blue[50] : Colors.white,
               border: Border.all(
-                color: isSelected
-                    ? ColorManager.primaryBlue
-                    : Colors.grey[300]!,
+                color: isSelected ? AppColors.primaryBlue : Colors.grey[300]!,
                 width: 2,
               ),
               borderRadius: BorderRadius.circular(24),
             ),
             child: Text(
               status,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: isSelected ? ColorManager.primaryBlue : Colors.grey[700],
+                color: isSelected ? AppColors.primaryBlue : Colors.grey[700],
               ),
             ),
           ),
@@ -332,6 +340,7 @@ class GetOrdersMISReport extends ConsumerWidget {
     WidgetRef ref,
     List<String> partners,
     List<String> selectedPartners,
+    BuildContext context,
   ) {
     final allPartners = ['All Carriers', ...partners];
 
@@ -349,19 +358,17 @@ class GetOrdersMISReport extends ConsumerWidget {
             decoration: BoxDecoration(
               color: isSelected ? Colors.blue[50] : Colors.white,
               border: Border.all(
-                color: isSelected
-                    ? ColorManager.primaryBlue
-                    : Colors.grey[300]!,
+                color: isSelected ? AppColors.primaryBlue : Colors.grey[300]!,
                 width: 2,
               ),
               borderRadius: BorderRadius.circular(24),
             ),
             child: Text(
               partner,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: isSelected ? ColorManager.primaryBlue : Colors.grey[700],
+                color: isSelected ? AppColors.primaryBlue : Colors.grey[700],
               ),
             ),
           ),
@@ -384,7 +391,7 @@ class GetOrdersMISReport extends ConsumerWidget {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: ColorManager.primaryBlue,
+              primary: AppColors.primaryBlue,
               onPrimary: Colors.white,
               surface: Colors.white,
               onSurface: Colors.black,
@@ -414,7 +421,7 @@ class GetOrdersMISReport extends ConsumerWidget {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: ColorManager.primaryBlue,
+              primary: AppColors.primaryBlue,
               onPrimary: Colors.white,
               surface: Colors.white,
               onSurface: Colors.black,
@@ -480,7 +487,7 @@ class GetOrdersMISReport extends ConsumerWidget {
               'Report request submitted successfully',
               style: TextStyle(color: Colors.black),
             ),
-            backgroundColor: ColorManager.lightGreen,
+            backgroundColor: AppColors.lightGreen,
           ),
         );
       }

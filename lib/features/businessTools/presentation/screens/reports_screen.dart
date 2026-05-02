@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/businessTools/presentation/state/reports_notifier.dart';
 import 'package:sharkship/features/businessTools/presentation/widgets/get_orders_mis_report.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class ReportsScreen extends ConsumerStatefulWidget {
   const ReportsScreen({super.key});
@@ -22,10 +22,10 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
         title: Text('Manage Reports'),
-        backgroundColor: ColorManager.scaffoldBg,
+        backgroundColor: AppColors.scaffoldBg,
         centerTitle: false,
       ),
       body: SafeArea(

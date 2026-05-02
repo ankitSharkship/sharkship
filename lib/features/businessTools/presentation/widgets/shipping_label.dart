@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class ShippingLabelController {
   final TextEditingController newNameController = TextEditingController();
@@ -61,11 +61,11 @@ class _ShippingLabelState extends State<ShippingLabel> {
     final fontSize = 10.0;
 
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
         title: Text('Shipping Label Preview'),
         centerTitle: false,
-        backgroundColor: ColorManager.scaffoldBg,
+        backgroundColor: AppColors.scaffoldBg,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -179,10 +179,10 @@ class _ShippingLabelState extends State<ShippingLabel> {
                   alignment: Alignment.bottomRight,
                   child: Text(
                     'powered By Sharkship',
-                    style: TextStyle(
-                      fontSize: fontSize - 2,
-                      color: Colors.grey[600],
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontSize: fontSize - 2,
+                          color: Colors.grey[600],
+                        ),
                   ),
                 ),
               ),
@@ -209,28 +209,45 @@ class _ShippingLabelState extends State<ShippingLabel> {
               children: [
                 Text(
                   'To,',
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.bold,
-                    height: 1.2,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.bold,
+                        height: 1.2,
+                        color: Colors.black,
+                      ),
                 ),
                 Text(
                   'xyz, ground floor, Janick Villa Gate number 4',
-                  style: TextStyle(fontSize: fontSize, height: 1.2),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize,
+                        height: 1.2,
+                        color: Colors.black,
+                      ),
                 ),
                 Text(
                   'Near Community center',
-                  style: TextStyle(fontSize: fontSize, height: 1.2),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize,
+                        height: 1.2,
+                        color: Colors.black,
+                      ),
                 ),
                 Text(
                   'Thane (west), New delhi - 110034',
-                  style: TextStyle(fontSize: fontSize, height: 1.2),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize,
+                        height: 1.2,
+                        color: Colors.black,
+                      ),
                 ),
                 if (_controller.phoneVisibility)
                   Text(
                     'Contact No : 91-9958939238',
-                    style: TextStyle(fontSize: fontSize, height: 1.2),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontSize: fontSize,
+                          height: 1.2,
+                          color: Colors.black,
+                        ),
                   ),
               ],
             ),
@@ -247,20 +264,38 @@ class _ShippingLabelState extends State<ShippingLabel> {
                       child: Center(
                         child: Row(
                           children: [
-                            Text('{', style: TextStyle(fontSize: 40)),
+                            Text(
+                              '{',
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    fontSize: 40,
+                                    color: Colors.black,
+                                  ),
+                            ),
                             Text(
                               'YOUR\nLOGO\nHERE',
-                              style: TextStyle(
-                                fontSize: fontSize - 2,
-                                color: Colors.black,
-                              ),
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    fontSize: fontSize - 2,
+                                    color: Colors.black,
+                                  ),
                             ),
-                            Text('}', style: TextStyle(fontSize: 40)),
+                            Text(
+                              '}',
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    fontSize: 40,
+                                    color: Colors.black,
+                                  ),
+                            ),
                           ],
                         ),
                       ),
                     ),
-                    Text(newName, style: TextStyle(fontSize: 14)),
+                    Text(
+                      newName,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                    ),
                   ],
                 ),
               ),
@@ -289,28 +324,45 @@ class _ShippingLabelState extends State<ShippingLabel> {
           children: [
             Text(
               'PREPAID',
-              style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
             ),
             if (_controller.isAmountVisible)
               Text(
                 'Rs. 10450',
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
               ),
             const SizedBox(height: 8),
 
             // Details
             Text(
               'Dimension: 10 cm x 10 cm x 10 cm',
-              style: TextStyle(fontSize: fontSize - 1),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: fontSize - 1,
+                    color: Colors.black,
+                  ),
             ),
-            Text('Weight: 0.5kg', style: TextStyle(fontSize: fontSize - 1)),
+            Text(
+              'Weight: 0.5kg',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: fontSize - 1,
+                    color: Colors.black,
+                  ),
+            ),
             if (_controller.clientVisibility)
               Text(
                 'ClientId: MH0712224',
-                style: TextStyle(fontSize: fontSize - 1),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: fontSize - 1,
+                      color: Colors.black,
+                    ),
               ),
 
             const SizedBox(height: 12),
@@ -324,10 +376,11 @@ class _ShippingLabelState extends State<ShippingLabel> {
             children: [
               Text(
                 'DELHIVERY',
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
               ),
               const SizedBox(height: 8),
               Padding(
@@ -342,10 +395,11 @@ class _ShippingLabelState extends State<ShippingLabel> {
               const SizedBox(height: 8),
               Text(
                 'AWB : #3373289772123034584759',
-                style: TextStyle(
-                  fontSize: fontSize - 1,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: fontSize - 1,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
               ),
             ],
           ),
@@ -371,10 +425,11 @@ class _ShippingLabelState extends State<ShippingLabel> {
                 padding: const EdgeInsets.all(6),
                 child: Text(
                   'SKU',
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                 ),
               ),
             Padding(
@@ -391,20 +446,22 @@ class _ShippingLabelState extends State<ShippingLabel> {
               padding: const EdgeInsets.all(6),
               child: Text(
                 'QTY',
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(6),
               child: Text(
                 'AMT',
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
               ),
             ),
           ],
@@ -429,11 +486,23 @@ class _ShippingLabelState extends State<ShippingLabel> {
             ),
             Padding(
               padding: const EdgeInsets.all(6),
-              child: Text('1', style: TextStyle(fontSize: fontSize - 1)),
+              child: Text(
+                '1',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: fontSize - 1,
+                      color: Colors.black,
+                    ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(6),
-              child: Text('9999', style: TextStyle(fontSize: fontSize - 1)),
+              child: Text(
+                '9999',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: fontSize - 1,
+                      color: Colors.black,
+                    ),
+              ),
             ),
           ],
         ),
@@ -484,34 +553,50 @@ class _ShippingLabelState extends State<ShippingLabel> {
               if (_controller.rtoVisibility) ...[
                 Text(
                   'Pickup & Return Address:',
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                 ),
                 Text(
                   'xyz, ground floor, Janick Villa Gate number 4',
-                  style: TextStyle(fontSize: fontSize - 1),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize - 1,
+                        color: Colors.black,
+                      ),
                 ),
                 Text(
                   'Near Community center',
-                  style: TextStyle(fontSize: fontSize - 1),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize - 1,
+                        color: Colors.black,
+                      ),
                 ),
                 Text(
                   'Thane (west), New Delhi - 110034',
-                  style: TextStyle(fontSize: fontSize - 1),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize - 1,
+                        color: Colors.black,
+                      ),
                 ),
                 const SizedBox(height: 6),
               ],
               if (_controller.rtoPhoneVisibility)
                 Text(
                   'Contact No : 91-9958939238',
-                  style: TextStyle(fontSize: fontSize - 1),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize - 1,
+                        color: Colors.black,
+                      ),
                 ),
               if (_controller.gstVisibility)
                 Text(
                   'GST : 237JS7347',
-                  style: TextStyle(fontSize: fontSize - 1),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: fontSize - 1,
+                        color: Colors.black,
+                      ),
                 ),
               const SizedBox(height: 12),
             ],
@@ -524,17 +609,21 @@ class _ShippingLabelState extends State<ShippingLabel> {
             children: [
               Text(
                 'Order #764123',
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
               ),
               const SizedBox(height: 8),
               const Icon(Icons.qr_code_2_outlined, size: 70),
               const SizedBox(height: 6),
               Text(
                 'Date: Nov 22, 2024',
-                style: TextStyle(fontSize: fontSize - 2),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: fontSize - 2,
+                      color: Colors.black,
+                    ),
               ),
             ],
           ),
@@ -554,17 +643,27 @@ class _ShippingLabelState extends State<ShippingLabel> {
       children: [
         Text(
           '* Customer service working label is closed temporarily/damaged do not accept parcel. All disputes are subject to Delhi jurisdiction only.',
-          style: TextStyle(fontSize: fontSize - 2),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontSize: fontSize - 2,
+                color: Colors.black,
+              ),
         ),
         const SizedBox(height: 4),
         Text(
           '* Please check the delivery value while opening the parcel. This sales is mandatory for raising any disputes on wrong products.',
-          style: TextStyle(fontSize: fontSize - 2),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontSize: fontSize - 2,
+                color: Colors.black,
+              ),
         ),
         const SizedBox(height: 4),
         Text(
           '* THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED ANY SIGNATURE.',
-          style: TextStyle(fontSize: fontSize - 3, fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontSize: fontSize - 3,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
         ),
       ],
     );
