@@ -19,7 +19,7 @@ class QuickActionItem extends StatelessWidget {
     final lightColor = color.withOpacity(0.12); // controlled light shade
 
     return GestureDetector(
-      onTap: () => _comingSoon(context),
+      onTap: () {},
       child: Container(
         width: 100,
         padding: const EdgeInsets.all(10),
@@ -54,13 +54,5 @@ class QuickActionItem extends StatelessWidget {
     );
   }
 
-  void _comingSoon(BuildContext context) {
-    GlobalPopups.showAlert(
-      context: context,
-      title: "Coming Soon",
-      body: "This feature is coming soon",
-      confirmText: "OK",
-      onConfirm: () => Navigator.pop(context),
-    );
-  }
+
 }

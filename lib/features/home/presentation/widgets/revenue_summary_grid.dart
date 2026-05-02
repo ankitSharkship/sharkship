@@ -51,6 +51,7 @@ class RevenueSummaryGrid extends ConsumerWidget {
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
             childAspectRatio: 1.4,
+            mainAxisExtent: 160,
           ),
           itemCount: items.length,
           itemBuilder: (context, index) {
@@ -89,7 +90,7 @@ class _RevenueSummaryGridSkeleton extends StatelessWidget {
         itemCount: fakeItems.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisExtent: 120,
+          mainAxisExtent: 160,
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
         ),

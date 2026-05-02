@@ -77,13 +77,5 @@ class ShipmentStatCard extends StatelessWidget {
     );
   }
 
-  void _comingSoon(BuildContext context) {
-    GlobalPopups.showAlert(
-      context: context,
-      title: "Category Details",
-      body: "Shipments in '$title' will be shown here in the next update.",
-      confirmText: "Understood",
-      onConfirm: () => Navigator.pop(context),
-    );
-  }
+
 }

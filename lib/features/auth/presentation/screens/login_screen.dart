@@ -6,6 +6,7 @@ import 'package:sharkship/features/auth/data/models/register_user_request_model.
 import 'package:sharkship/features/auth/presentation/state/signup_notifier.dart';
 import 'package:sharkship/features/auth/presentation/state/signup_state.dart';
 import 'package:sharkship/routes/app_router.dart';
+import 'package:sharkship/shared/constants/colors.dart';
 import '../../../../shared/widgets/custom_error_widget.dart';
 import '../../../../shared/widgets/loader.dart';
 import '../../../../utlis/validators.dart';
@@ -230,13 +231,21 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     final authState = ref.watch(authProvider);
     return Scaffold(
       resizeToAvoidBottomInset: true,
+
       body: Stack(
         children: [
-          Column(
-            children: [
-              Expanded(flex: 3, child: _buildTopSection()),
-              Expanded(flex: 8, child: _buildBottomSheet()),
-            ],
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF1E88C8), Color(0xFF6EC1E4)],
+              ),
+            ),
+            child: Column(
+              children: [
+                Expanded(flex: 3, child: _buildTopSection()),
+                Expanded(flex: 8, child: _buildBottomSheet()),
+              ],
+            ),
           ),
           if (authState.isLoading)
             Container(
@@ -259,37 +268,42 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         ),
       ),
       child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Image.asset(
-                  "assets/images/login/login_logo.png",
-                  height: 28,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Image.asset(
+                    "assets/images/login/login_logo.png",
+                    height: 28,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              "Get Started Now",
-              style: TextStyle(
-                fontSize: 38,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+              const SizedBox(height: 20),
+              const Text(
+                "Get Started Now",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Create an account or log in to explore about our app",
-              style: TextStyle(
-                color: Color.fromARGB(179, 255, 255, 255),
-                fontSize: 15,
+              const SizedBox(height: 10),
+              const Text(
+                "Create an account or log in to explore about our app",
+                style: TextStyle(
+                  color: Color.fromARGB(179, 255, 255, 255),
+                  fontSize: 14,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -300,7 +314,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
-        color: Color(0xFFF5F5F5),
+        color: ColorManager.scaffoldBg,
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       child: SingleChildScrollView(
@@ -314,11 +328,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               isLogin ? _buildLoginForm() : _buildSignupForm(),
 
             const SizedBox(height: 20),
-            _buildDivider(),
-            const SizedBox(height: 20),
-            _socialButton("Continue With Google"),
-            const SizedBox(height: 12),
-            if (isLogin)
+            if (isLogin) ...[
+              _buildDivider(),
+              const SizedBox(height: 20),
+
+              // _socialButton("Continue With Google"),
+              // const SizedBox(height: 12),
               _socialButton(
                 isPasswordLogin ? "Login With OTP" : "Login With Password",
                 onTap: () {
@@ -327,6 +342,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   });
                 },
               ),
+            ],
           ],
         ),
       ),

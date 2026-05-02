@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sharkship/shared/widgets/global_popups.dart';
+
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 
 class HeroCardData {
@@ -91,7 +91,7 @@ class HeroCard extends StatelessWidget {
                   text: data.buttonText,
                   height: 42,
                   borderRadius: BorderRadius.circular(10),
-                  onTap: () => _comingSoon(context),
+                  onTap: () {},
                 ),
               ),
             ],
@@ -101,13 +101,5 @@ class HeroCard extends StatelessWidget {
     );
   }
 
-  void _comingSoon(BuildContext context) {
-    GlobalPopups.showAlert(
-      context: context,
-      title: "Coming Soon",
-      body: "This feature is coming soon",
-      confirmText: "OK",
-      onConfirm: () => Navigator.pop(context),
-    );
-  }
+
 }

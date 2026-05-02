@@ -83,7 +83,7 @@ class WdHeader extends ConsumerWidget {
   Widget _filterBottomDrawer(BuildContext context, WidgetRef ref) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.7,
-      padding: const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 0),
+
       decoration: const BoxDecoration(
         color: Color(0xFFDCE6ED),
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
@@ -92,6 +92,7 @@ class WdHeader extends ConsumerWidget {
         top: false,
         child: Column(
           children: [
+            const SizedBox(height: 10),
             Container(
               width: 60,
               height: 6,
@@ -103,15 +104,23 @@ class WdHeader extends ConsumerWidget {
             ),
 
             // title
-            Row(
-              children: const [
-                Icon(Icons.filter_alt, size: 24),
-                SizedBox(width: 12),
-                Text(
-                  "Filter Options",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 8,
+                left: 20,
+                right: 16,
+                bottom: 0,
+              ),
+              child: Row(
+                children: const [
+                  Icon(Icons.filter_alt, size: 24),
+                  SizedBox(width: 12),
+                  Text(
+                    "Filter Options",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
 
             const SizedBox(height: 20),
@@ -417,7 +426,7 @@ class _LeftTabs extends ConsumerWidget {
 
     return SingleChildScrollView(
       child: SizedBox(
-        width: 120,
+        width: 140,
         child: Column(
           children: WdFilterTab.values.map((tab) {
             final isSelected = tab == selectedTab;
@@ -427,6 +436,7 @@ class _LeftTabs extends ConsumerWidget {
                 ref.read(selectedWdFilterTabProvider.notifier).state = tab;
               },
               child: Container(
+                width: double.maxFinite,
                 padding: const EdgeInsets.all(16),
                 color: isSelected ? Colors.blue.shade50 : Colors.transparent,
                 child: Text(

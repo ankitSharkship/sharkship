@@ -27,7 +27,7 @@ class SummaryStatCard extends StatelessWidget {
     final iconColor = Colors.blueAccent;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -45,6 +45,7 @@ class SummaryStatCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 20),
           Row(
             children: [
               Container(
@@ -100,18 +101,9 @@ class SummaryStatCard extends StatelessWidget {
               ],
             ),
           ],
+          const SizedBox(height: 20),
         ],
       ),
-    );
-  }
-
-  void _comingSoon(BuildContext context) {
-    GlobalPopups.showAlert(
-      context: context,
-      title: "Detail Info",
-      body: "Full details for '$title' are coming soon in next update.",
-      confirmText: "Cool",
-      onConfirm: () => Navigator.pop(context),
     );
   }
 }

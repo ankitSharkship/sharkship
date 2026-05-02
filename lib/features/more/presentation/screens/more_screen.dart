@@ -311,7 +311,6 @@ class MoreScreen extends ConsumerWidget {
               //   title: "Shipping Charges",
               //   icon: Icons.description_outlined,
               //   onTap: () {
-              //     _comingSoon(context);
               //   },
               // ),
               MenuItem(
@@ -416,7 +415,7 @@ class MoreScreen extends ConsumerWidget {
               //   title: "Mange Users",
               //   icon: Icons.assignment_return_outlined,
               //   onTap: () {
-              //     _comingSoon(context);
+
               //   },
               // ),
             ],
@@ -445,7 +444,7 @@ class MoreScreen extends ConsumerWidget {
             title: "Channel Integrations",
             icon: Icons.settings_input_composite_outlined,
             onTap: () {
-              _comingSoon(context);
+
             },
           ),
         ),
@@ -485,15 +484,6 @@ class MoreScreen extends ConsumerWidget {
     );
   }
 
-  void _comingSoon(BuildContext context) {
-    GlobalPopups.showAlert(
-      context: context,
-      title: "Coming Soon",
-      body: "Profile details will be available in the next update.",
-      confirmText: "Got it",
-      onConfirm: () => Navigator.pop(context),
-    );
-  }
 }
 
 class _DashedDivider extends StatelessWidget {

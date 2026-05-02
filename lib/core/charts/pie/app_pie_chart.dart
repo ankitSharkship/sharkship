@@ -12,18 +12,18 @@ class AppPieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // ✅ Pie Chart
         Expanded(
           flex: 2,
           child: PieChart(
+            curve: Curves.easeInOutQuart,
             PieChartData(centerSpaceRadius: 40, sections: _sections()),
           ),
         ),
 
         const SizedBox(width: 16),
 
-        // ✅ Legends
         Expanded(flex: 1, child: _legend()),
       ],
     );
@@ -36,8 +36,10 @@ class AppPieChart extends StatelessWidget {
       return PieChartSectionData(
         value: data[i].value,
         title: '${data[i].value}',
-        radius: 50,
+        radius: 70,
         color: color,
+        cornerRadius: 6,
+        titleStyle: TextStyle(color: Colors.white),
       );
     });
   }
@@ -65,10 +67,7 @@ class AppPieChart extends StatelessWidget {
 
               // label
               Expanded(
-                child: Text(
-                  data[i].label,
-                  style: const TextStyle(fontSize: 12),
-                ),
+                child: Text(data[i].label, style: const TextStyle(fontSize: 8)),
               ),
             ],
           ),
@@ -80,14 +79,15 @@ class AppPieChart extends StatelessWidget {
   // simple color palette
   Color _getColor(int i) {
     const colors = [
-      AppChartTheme.primaryBlue,
-      AppChartTheme.secondaryBlue,
-      AppChartTheme.lightBlue,
-      Colors.orange,
-      Colors.green,
-      Colors.red,
-      Colors.purple,
-      Colors.teal,
+      AppChartTheme.blue900,
+      AppChartTheme.blue800,
+      AppChartTheme.blue700,
+      AppChartTheme.blue600,
+      AppChartTheme.blue500,
+      AppChartTheme.blue400,
+      AppChartTheme.blue300,
+      AppChartTheme.blue200,
+      AppChartTheme.blue100,
     ];
     return colors[i % colors.length];
   }

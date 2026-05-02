@@ -1191,7 +1191,7 @@ class ElevatedFormCard extends StatelessWidget {
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 17,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF2D3436),
                 ),

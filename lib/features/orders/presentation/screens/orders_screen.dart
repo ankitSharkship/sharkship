@@ -135,7 +135,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
           return ListView(
             controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
-            children: [SizedBox(height: 100), _emptyState()],
+            children: [_emptyState()],
           );
         }
 

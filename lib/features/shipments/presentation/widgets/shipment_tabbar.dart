@@ -21,6 +21,7 @@ class ShipmentTabbar extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               alignment: Alignment.center,
               decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 194, 238, 255),
                 border: Border(
                   bottom: BorderSide(
                     color: isActive ? Colors.blue : Colors.transparent,

@@ -63,11 +63,17 @@ class AppHorizontalBarChart extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 8),
                                 child: Text(
                                   point.label,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF444444),
-                                  ),
+                                  // style: const TextStyle(
+                                  //   fontSize: 12,
+                                  //   fontWeight: FontWeight.w500,
+                                  //   color: Color(0xFF444444),
+                                  // ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium
+                                      ?.copyWith(
+                                        color: Color(0xFF444444),
+                                      ),
                                   textAlign: TextAlign.right,
                                   softWrap: true,
                                 ),

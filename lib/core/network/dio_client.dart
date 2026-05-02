@@ -16,12 +16,10 @@ class DioClient {
         receiveTimeout: const Duration(seconds: 30),
       ),
     );
-
     dio.interceptors.addAll([
       AuthInterceptor(authService),
       LogInterceptor(responseBody: true, requestBody: true),
     ]);
-
     return DioClient(dio);
   }
 }

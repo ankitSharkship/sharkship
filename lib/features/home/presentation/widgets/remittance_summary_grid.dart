@@ -63,25 +63,13 @@ class RemittanceSummaryGrid extends ConsumerWidget {
                   title: item.$1,
                   value: item.$2,
                   icon: item.$3,
-                  onTap: () {
-                    _comingSoon(context);
-                  },
+                  onTap: () {},
                 );
               },
             );
           },
         );
       },
-    );
-  }
-
-  void _comingSoon(BuildContext context) {
-    GlobalPopups.showAlert(
-      context: context,
-      title: "Coming Soon",
-      body: "This feature is coming soon",
-      confirmText: "OK",
-      onConfirm: () => Navigator.pop(context),
     );
   }
 }

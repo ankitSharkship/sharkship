@@ -105,7 +105,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen> {
                       return ListView(
                         controller: _scrollController,
                         physics: const AlwaysScrollableScrollPhysics(),
-                        children: [const SizedBox(height: 50), _emptyState()],
+                        children: [_emptyState()],
                       );
                     }
 

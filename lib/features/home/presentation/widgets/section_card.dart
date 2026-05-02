@@ -110,7 +110,7 @@ class SectionCard extends StatelessWidget {
                     height: isCompact ? 32 : 36,
                     borderRadius: BorderRadius.circular(8),
                     gradientColors: buttonGradient,
-                    onTap: () => _comingSoon(context),
+                    onTap: (){},
                   ),
                 ),
               ],
@@ -133,13 +133,5 @@ class SectionCard extends StatelessWidget {
     return Icon(icon, color: iconColor, size: 26);
   }
 
-  void _comingSoon(BuildContext context) {
-    GlobalPopups.showAlert(
-      context: context,
-      title: "Coming Soon",
-      body: "This feature is coming soon",
-      confirmText: "OK",
-      onConfirm: () => Navigator.pop(context),
-    );
-  }
+ 
 }

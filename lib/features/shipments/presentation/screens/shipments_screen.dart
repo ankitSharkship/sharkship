@@ -167,7 +167,7 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
           return ListView(
             controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
-            children: [SizedBox(height: 100), _emptyState()],
+            children: [_emptyState()],
           );
         }
 
@@ -203,7 +203,7 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
 
             return RepaintBoundary(
               child: ShipmentCard(
-                tab:tab,
+                tab: tab,
                 order: order,
                 isSelected: isSelected,
                 onCheckboxChanged: (_) {

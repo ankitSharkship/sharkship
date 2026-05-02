@@ -81,15 +81,7 @@ class NDRGrid extends ConsumerWidget {
     );
   }
 
-  void _comingSoon(BuildContext context) {
-    GlobalPopups.showAlert(
-      context: context,
-      title: "Coming Soon",
-      body: "This feature is coming soon",
-      confirmText: "OK",
-      onConfirm: () => Navigator.pop(context),
-    );
-  }
+
 }
 
 class NDRGridSkeleton extends StatelessWidget {

@@ -4,8 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sharkship/core/charts/bar/app_bar_chart.dart';
 import 'package:sharkship/core/charts/models/chart_point.dart';
 import 'package:sharkship/core/charts/pie/app_pie_chart.dart';
-import 'package:sharkship/core/charts/pie/multi_ring_chart.dart';
-import 'package:sharkship/core/charts/theme/chart_theme.dart';
 import 'package:sharkship/shared/constants/colors.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../state/dashboard_notifier.dart';
@@ -48,11 +46,11 @@ class BusinessOverviewChart extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // const Text(
-              //   "Business Trends (Datewise)",
-              //   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              // ),
-              // const SizedBox(height: 20),
+              const Text(
+                "Business Trends",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
               if (data.isEmpty)
                 Expanded(
                   child: Column(
@@ -122,13 +120,14 @@ class ZoneDistributionOverviewChart extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // const Text(
-              //   "Order Distribution by Zone",
-              //   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              // ),
-              // const SizedBox(height: 20),
+              const Text(
+                "Order Distribution by Zone",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
               if (data.isEmpty)
                 Expanded(
+                  
                   child: Column(
                     children: [
                       SvgPicture.asset(
@@ -191,7 +190,7 @@ class StateWiseOrdersTable extends ConsumerWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppChartTheme.black),
+            // border: Border.all(color: AppChartTheme.black),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

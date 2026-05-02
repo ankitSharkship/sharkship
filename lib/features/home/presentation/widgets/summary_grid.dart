@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sharkship/shared/widgets/loader.dart';
+
 import '../state/dashboard_notifier.dart';
 import 'package:sharkship/features/home/presentation/widgets/summary_stat_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -43,7 +43,7 @@ class TodayMetricsSummaryGrid extends ConsumerWidget {
               itemCount: items.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
-                mainAxisExtent: 120,
+                mainAxisExtent: 160,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
               ),
@@ -108,7 +108,7 @@ class PickupsSummaryGrid extends ConsumerWidget {
               itemCount: items.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
-                mainAxisExtent: 120,
+                mainAxisExtent: 160,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
               ),
@@ -171,7 +171,7 @@ class NDRSummaryGrid extends ConsumerWidget {
               itemCount: items.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
-                mainAxisExtent: 120,
+                mainAxisExtent: 160,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
               ),
@@ -209,7 +209,7 @@ class _TodayMetricsSkeleton extends StatelessWidget {
         itemCount: fakeItems.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisExtent: 120,
+          mainAxisExtent: 160,
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
         ),

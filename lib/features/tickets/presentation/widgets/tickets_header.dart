@@ -66,7 +66,7 @@ class TicketsHeader extends ConsumerWidget {
   Widget _filterBottomDrawer(BuildContext context, WidgetRef ref) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.7,
-      padding: const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 0),
+      // padding: const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 0),
       decoration: const BoxDecoration(
         color: Color(0xFFDCE6ED),
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
@@ -75,6 +75,7 @@ class TicketsHeader extends ConsumerWidget {
         top: false,
         child: Column(
           children: [
+            const SizedBox(height: 10),
             Container(
               width: 60,
               height: 6,
@@ -84,15 +85,18 @@ class TicketsHeader extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
-            Row(
-              children: const [
-                Icon(Icons.filter_alt, size: 24),
-                SizedBox(width: 12),
-                Text(
-                  "Filter Options",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, left: 20),
+              child: Row(
+                children: const [
+                  Icon(Icons.filter_alt, size: 24),
+                  SizedBox(width: 12),
+                  Text(
+                    "Filter Options",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 20),
             const Divider(height: 1),
@@ -170,8 +174,14 @@ class _LeftTabs extends ConsumerWidget {
                 ref.read(selectedTicketsFilterTabProvider.notifier).state = tab;
               },
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.only(
+                  top: 12,
+                  bottom: 12,
+                  right: 5,
+                  left: 20,
+                ),
                 color: isSelected ? Colors.blue.shade50 : Colors.transparent,
+                width: double.maxFinite,
                 child: Text(
                   _getLabel(tab),
                   style: TextStyle(

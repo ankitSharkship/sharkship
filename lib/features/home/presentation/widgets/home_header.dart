@@ -40,7 +40,7 @@ class HomeHeader extends StatelessWidget {
         Stack(
           children: [
             IconButton(
-              onPressed: () => _comingSoon(context),
+              onPressed: () {},
               icon: const Icon(Icons.notifications_none),
             ),
             const Positioned(
@@ -53,7 +53,7 @@ class HomeHeader extends StatelessWidget {
 
         /// Wallet Badge
         GestureDetector(
-          onTap: () => _comingSoon(context),
+          onTap: () {},
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
@@ -80,16 +80,6 @@ class HomeHeader extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  void _comingSoon(BuildContext context) {
-    GlobalPopups.showAlert(
-      context: context,
-      title: "Coming Soon",
-      body: "This feature is coming soon",
-      confirmText: "OK",
-      onConfirm: () => Navigator.pop(context),
     );
   }
 }
