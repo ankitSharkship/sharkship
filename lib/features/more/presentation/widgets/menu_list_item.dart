@@ -59,8 +59,7 @@ class _MenuListItemState extends State<MenuListItem> {
                 Expanded(
                   child: Text(
                     item.title,
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: Colors.black87,
                     ),
                   ),
@@ -111,7 +110,7 @@ class _MenuListItemState extends State<MenuListItem> {
                           const SizedBox(width: 10),
                           Text(
                             child.title,
-                            style: const TextStyle(fontSize: 14),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       ),

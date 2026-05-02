@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/ndr/domain/entity/ndr_order_entity.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 import 'package:sharkship/shared/constants/colors.dart';
 
@@ -116,6 +117,7 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
                       child: Text(
                         "Order Id: ${order.id}",
                         overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -151,10 +153,8 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
                               ),
                               Text(
                                 'Re Attempt',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
@@ -192,15 +192,13 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
                         children: [
                           Text(
                             "${order.channel}",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.titleSmall
+                                ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             "Channel Id: ${order.channelOrderId ?? '-'}",
-                            style: TextStyle(fontSize: 12),
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(height: 8),
                           Row(
@@ -230,10 +228,8 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
                           children: [
                             Text(
                               "₹ ${order.productPrice}/-",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 3),
                             Container(
@@ -247,7 +243,7 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
                               ),
                               child: Text(
                                 order.paymentMode.toUpperCase(),
-                                style: TextStyle(fontSize: 11),
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             ),
                           ],
@@ -315,7 +311,9 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
                   children: [
                     Text(
                       isExpanded ? "Show Less" : "Show More",
-                      style: const TextStyle(color: Colors.blue),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.primaryBlue,
+                      ),
                     ),
                     const SizedBox(width: 6),
                     Icon(
@@ -339,45 +337,40 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
       case 0:
         return Text(
           "NDR",
-          style: const TextStyle(
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: Colors.black,
-            fontSize: 11,
             fontWeight: FontWeight.w600,
           ),
         );
       case 1:
         return Text(
           "Re Attempt",
-          style: const TextStyle(
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: Colors.blueAccent,
-            fontSize: 11,
             fontWeight: FontWeight.w600,
           ),
         );
       case 2:
         return Text(
           "Delivered",
-          style: const TextStyle(
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: Colors.green,
-            fontSize: 11,
             fontWeight: FontWeight.w600,
           ),
         );
       case 3:
         return Text(
           "RTO",
-          style: const TextStyle(
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: Colors.red,
-            fontSize: 11,
             fontWeight: FontWeight.w600,
           ),
         );
       default:
         return Text(
           !widget.isFailed ? "No RTO Risk" : "Failed Due to",
-          style: const TextStyle(
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: Colors.white,
-            fontSize: 11,
             fontWeight: FontWeight.w600,
           ),
         );
@@ -865,9 +858,9 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
             width: 130,
             child: Text(
               title,
-              style: const TextStyle(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: ColorManager.black,
+                color: AppColors.black,
               ),
             ),
           ),
@@ -878,7 +871,9 @@ class _NdrOrderCardState extends ConsumerState<NdrCard> {
               overflow: isMultiline
                   ? TextOverflow.visible
                   : TextOverflow.ellipsis,
-              style: TextStyle(color: const Color.fromARGB(255, 101, 101, 101)),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: const Color.fromARGB(255, 101, 101, 101),
+              ),
             ),
           ),
         ],

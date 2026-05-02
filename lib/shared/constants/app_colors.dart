@@ -14,7 +14,7 @@ class AppColors {
   static const Color loginGradientEnd = Color(0xFF6EC1E4);
 
   static const Color scaffoldBg = Color(0xFFF5F5F5);
-
+  static const Color black = Colors.black;
   static const ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.light,
 

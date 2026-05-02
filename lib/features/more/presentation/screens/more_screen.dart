@@ -114,8 +114,7 @@ class MoreScreen extends ConsumerWidget {
                     children: [
                       Text(
                         "${user.firstName} ${user.lastName ?? ""}",
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.w800,
                           letterSpacing: -0.5,
                         ),
@@ -123,8 +122,7 @@ class MoreScreen extends ConsumerWidget {
                       const SizedBox(height: 4),
                       Text(
                         user.email,
-                        style: TextStyle(
-                          fontSize: 14,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
                         ),
@@ -134,13 +132,12 @@ class MoreScreen extends ConsumerWidget {
                         onTap: () => context.push(Routes.USER_SCREEN),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
+                          children:  [
                             Text(
                               "View Profile",
-                              style: TextStyle(
-                                color: Color(0xFF2D7FB8),
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: const Color(0xFF2D7FB8),
                                 fontWeight: FontWeight.w700,
-                                fontSize: 14,
                               ),
                             ),
                             SizedBox(width: 4),
@@ -187,12 +184,11 @@ class MoreScreen extends ConsumerWidget {
                   ),
                   const SizedBox(width: 16),
                   if (balanceState.value?.activeWallet != "POSTPAID") ...[
-                    const Text(
+                    Text(
                       "Total Balance",
-                      style: TextStyle(
-                        fontSize: 14,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF2D7FB8),
+                        color: const Color(0xFF2D7FB8),
                       ),
                     ),
                     const Spacer(),
@@ -201,10 +197,9 @@ class MoreScreen extends ConsumerWidget {
                         .when(
                           data: (balance) => Text(
                             "₹${balance?.balance ?? '0.00'}",
-                            style: const TextStyle(
-                              fontSize: 14,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w800,
-                              color: Color(0xFF5AB6E5),
+                              color: const Color(0xFF5AB6E5),
                             ),
                           ),
                           loading: () => const SizedBox(
@@ -215,12 +210,11 @@ class MoreScreen extends ConsumerWidget {
                           error: (_, __) => const Text("₹0.00"),
                         ),
                   ] else ...[
-                    const Text(
+                    Text(
                       "POSTPAID",
-                      style: TextStyle(
-                        fontSize: 14,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF2D7FB8),
+                        color: const Color(0xFF2D7FB8),
                       ),
                     ),
                   ],
@@ -463,12 +457,12 @@ class MoreScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Logout"),
-        content: const Text("Are you sure you want to log out?"),
+        title: Text("Logout", style: Theme.of(context).textTheme.titleLarge),
+        content: Text("Are you sure you want to log out?", style: Theme.of(context).textTheme.bodyMedium),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
+            child: Text("Cancel", style: Theme.of(context).textTheme.bodyLarge),
           ),
           TextButton(
             onPressed: () {
@@ -477,7 +471,7 @@ class MoreScreen extends ConsumerWidget {
                 context.go('/splash');
               });
             },
-            child: const Text("Logout", style: TextStyle(color: Colors.red)),
+            child: Text("Logout", style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.red)),
           ),
         ],
       ),

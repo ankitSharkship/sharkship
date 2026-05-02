@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/kyc/domain/entities/kyc.dart';
 import 'package:sharkship/features/kyc/presentation/state/kyc_info_notifier.dart';
 import 'package:sharkship/features/kyc/presentation/widgets/profile_card.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 class KycInfo extends ConsumerStatefulWidget {
@@ -27,18 +27,21 @@ class _KycInfoState extends ConsumerState<KycInfo> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: const Text(
+        title: Text(
           'KYC Info',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
         ),
-        backgroundColor: ColorManager.scaffoldBg,
+        backgroundColor: AppColors.scaffoldBg,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       body: kycAsync.when(
         data: (kyc) => RefreshIndicator(
           onRefresh: () => ref.read(kycInfo.notifier).refresh(),
@@ -128,13 +131,12 @@ class _KycInfoState extends ConsumerState<KycInfo> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Pan Details',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF2F7DBA),
-                ),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primaryBlue,
+                    ),
               ),
             ],
           ),
@@ -168,13 +170,12 @@ class _KycInfoState extends ConsumerState<KycInfo> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Bank Details',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF2F7DBA),
-                ),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primaryBlue,
+                    ),
               ),
               if (bank.cancelledCheque != null &&
                   bank.cancelledCheque != false) ...[
@@ -182,17 +183,16 @@ class _KycInfoState extends ConsumerState<KycInfo> {
                   children: [
                     Icon(
                       Icons.check_circle,
-                      color: ColorManager.lightGreen,
+                      color: AppColors.lightGreen,
                       size: 20,
                     ),
                     const SizedBox(width: 4),
-                    const Text(
+                    Text(
                       'Cancelled Cheque',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
                     ),
                   ],
                 ),
@@ -231,13 +231,12 @@ class _KycInfoState extends ConsumerState<KycInfo> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'GST Details',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF2F7DBA),
-                ),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primaryBlue,
+                    ),
               ),
             ],
           ),
@@ -274,13 +273,12 @@ class _KycInfoState extends ConsumerState<KycInfo> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Documents',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF2F7DBA),
-            ),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primaryBlue,
+                ),
           ),
           const SizedBox(height: 16),
           _docRow('Aadhar Front:', 'Aadhar_Front.Doc', kyc.aadhaar != null),
@@ -307,21 +305,19 @@ class _KycInfoState extends ConsumerState<KycInfo> {
             width: 130,
             child: Text(
               label,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                  ),
             ),
           ),
         ],
@@ -340,25 +336,23 @@ class _KycInfoState extends ConsumerState<KycInfo> {
               children: [
                 TextSpan(
                   text: '$label ',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
                 ),
                 TextSpan(
                   text: fileName,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black87,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black87,
+                      ),
                 ),
               ],
             ),
           ),
           if (isUploaded)
-            Icon(Icons.check_circle, color: ColorManager.lightGreen, size: 20)
+            Icon(Icons.check_circle, color: AppColors.lightGreen, size: 20)
           else
             const Icon(Icons.error_outline, color: Colors.red, size: 20),
         ],

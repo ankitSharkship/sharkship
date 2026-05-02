@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharkship/features/kyc/domain/entities/kyc.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class ProfileCard extends StatelessWidget {
   final String? name;
@@ -49,7 +49,7 @@ class ProfileCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.blue.withOpacity(0.2),
+                    color: AppColors.primaryBlue.withOpacity(0.2),
                     width: 4,
                   ),
                 ),
@@ -65,7 +65,7 @@ class ProfileCard extends StatelessWidget {
                         child: Icon(
                           Icons.person,
                           size: 40,
-                          color: ColorManager.primaryBlue,
+                          color: AppColors.primaryBlue,
                         ),
                       ),
               ),
@@ -80,24 +80,24 @@ class ProfileCard extends StatelessWidget {
                     /// Name
                     Text(
                       name ?? "User",
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF2F7DBA),
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryBlue,
+                          ),
                     ),
 
                     const SizedBox(height: 6),
-                    _row("Mobile Number:", mobile),
-                    if (email != null && email != "") _row("Email:", email!),
-                    if (dob != null && dob != "") _row("D.O.B:", dob!),
+                    _row(context, "Mobile Number:", mobile),
+                    if (email != null && email != "")
+                      _row(context, "Email:", email!),
+                    if (dob != null && dob != "") _row(context, "D.O.B:", dob!),
 
                     if (aadhar?.aadharNumber != null &&
                         aadhar?.aadharNumber != "")
-                      _row("Aadhar:", aadhar!.aadharNumber!),
+                      _row(context, "Aadhar:", aadhar!.aadharNumber!),
 
                     if (udyam?.udyamNumber != null && udyam?.udyamNumber != "")
-                      _row("Udyam:", udyam!.udyamNumber!),
+                      _row(context, "Udyam:", udyam!.udyamNumber!),
                   ],
                 ),
               ),
@@ -110,11 +110,11 @@ class ProfileCard extends StatelessWidget {
 
               /// Priority Address display: Aadhaar -> Udyam -> User Address
               if (aadhar?.address != null && aadhar?.address != "")
-                _addressDisplay(aadhar!.address!)
+                _addressDisplay(context, aadhar!.address!)
               else if (udyam?.udyamAddress != null && udyam?.udyamAddress != "")
-                _addressDisplay(udyam!.udyamAddress!)
+                _addressDisplay(context, udyam!.udyamAddress!)
               else if (address != null && address != "")
-                _addressDisplay(address!),
+                _addressDisplay(context, address!),
             ],
           ),
         ],
@@ -122,48 +122,50 @@ class ProfileCard extends StatelessWidget {
     );
   }
 
-  Widget _addressDisplay(String addressValue) {
+  Widget _addressDisplay(BuildContext context, String addressValue) {
     return RichText(
       text: TextSpan(
         children: [
-          const TextSpan(
+          TextSpan(
             text: "Address: ",
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-              fontSize: 14,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
           ),
           TextSpan(
             text: addressValue,
-            style: const TextStyle(color: Colors.black87, fontSize: 14),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.black87,
+                ),
           ),
         ],
       ),
     );
   }
-}
 
-Widget _row(String label, String value) {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 2),
-    child: RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: "$label ",
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-              fontSize: 14,
+  Widget _row(BuildContext context, String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: "$label ",
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
             ),
-          ),
-          TextSpan(
-            text: value,
-            style: const TextStyle(color: Colors.black87, fontSize: 14),
-          ),
-        ],
+            TextSpan(
+              text: value,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.black87,
+                  ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

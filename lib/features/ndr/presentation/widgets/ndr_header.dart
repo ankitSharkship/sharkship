@@ -49,9 +49,11 @@ class NdrHeader extends ConsumerWidget {
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(Icons.arrow_back, size: 28),
               ),
-              const Text(
+              Text(
                 "NDR Overview",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
               ),
             ],
           ),
@@ -104,12 +106,14 @@ class NdrHeader extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 0),
               child: Row(
-                children: const [
+                children: [
                   Icon(Icons.filter_alt, size: 24),
                   SizedBox(width: 12),
                   Text(
                     "Filter Options",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -140,11 +144,10 @@ class NdrHeader extends ConsumerWidget {
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: const Text(
+                    child: Text(
                       "Cancel",
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Colors.black,
-                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -157,11 +160,10 @@ class NdrHeader extends ConsumerWidget {
                           .applyFilters();
                       Navigator.pop(context);
                     },
-                    child: const Text(
+                    child: Text(
                       "Apply",
-                      style: TextStyle(
-                        color: Color(0xFF0084FF),
-                        fontSize: 18,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: const Color(0xFF0084FF),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -330,12 +332,14 @@ class NdrHeader extends ConsumerWidget {
 
             // title
             Row(
-              children: const [
+              children: [
                 Icon(Icons.build, size: 23),
                 SizedBox(width: 8),
                 Text(
                   "Actions",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ],
             ),
@@ -416,7 +420,12 @@ class ActionButton extends StatelessWidget {
     return OutlinedButton.icon(
       onPressed: enabled ? onTap : null,
       icon: Icon(icon, color: effectiveColor),
-      label: Text(label, style: TextStyle(color: effectiveColor)),
+      label: Text(
+        label,
+        style: Theme.of(
+          context,
+        ).textTheme.bodyMedium?.copyWith(color: effectiveColor),
+      ),
       style: OutlinedButton.styleFrom(
         side: BorderSide(color: effectiveColor, width: 1.5),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -483,9 +492,8 @@ class StatusNotification extends StatelessWidget {
           Expanded(
             child: Text(
               message,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: themeColor,
-                fontSize: 15,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -518,7 +526,7 @@ class _LeftTabs extends ConsumerWidget {
                 color: isSelected ? Colors.blue.shade50 : Colors.transparent,
                 child: Text(
                   _getLabel(tab),
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: isSelected ? Colors.blue : Colors.black,
                     fontWeight: isSelected
                         ? FontWeight.bold
@@ -587,7 +595,7 @@ class _CarrierView extends ConsumerWidget {
           groupValue: selected ?? "All",
           title: Text(
             channel.displayName,
-            style: const TextStyle(fontSize: 14),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           dense: true,
           controlAffinity: ListTileControlAffinity.leading,
@@ -621,7 +629,10 @@ class _PaymentTypeView extends ConsumerWidget {
         return RadioListTile<String>(
           value: type.value,
           groupValue: selected ?? "All",
-          title: Text(type.displayName, style: const TextStyle(fontSize: 14)),
+          title: Text(
+            type.displayName,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           dense: true,
           controlAffinity: ListTileControlAffinity.leading,
           activeColor: Colors.blue,

@@ -31,7 +31,7 @@ class NdrTabbar extends ConsumerWidget {
               ),
               child: Text(
                 ndrTabs[i],
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: isActive ? Colors.blue : Colors.black54,
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                 ),

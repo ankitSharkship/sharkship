@@ -30,24 +30,22 @@ class SuccessDialog extends StatelessWidget {
               child: const Icon(Icons.check, color: Colors.white, size: 70),
             ),
             const SizedBox(height: 24),
-            const Text(
+            Text(
               "Success!",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF34C759),
-              ),
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: const Color(0xFF34C759),
+                  ),
             ),
             const SizedBox(height: 12),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
-                height: 1.4,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                    height: 1.4,
+                  ),
             ),
             const SizedBox(height: 28),
             SizedBox(
@@ -62,9 +60,12 @@ class SuccessDialog extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "OK",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
             ),
@@ -105,24 +106,22 @@ class ErrorDialog extends StatelessWidget {
               child: const Icon(Icons.close, color: Colors.white, size: 70),
             ),
             const SizedBox(height: 24),
-            const Text(
+            Text(
               "Sorry :(",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFFFF0000),
-              ),
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: const Color(0xFFFF0000),
+                  ),
             ),
             const SizedBox(height: 12),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
-                height: 1.4,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                    height: 1.4,
+                  ),
             ),
             const SizedBox(height: 28),
             SizedBox(
@@ -137,9 +136,12 @@ class ErrorDialog extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "TRY AGAIN",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
             ),

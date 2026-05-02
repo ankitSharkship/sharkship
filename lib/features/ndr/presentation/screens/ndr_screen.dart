@@ -8,6 +8,7 @@ import 'package:sharkship/features/ndr/presentation/widgets/ndr_card.dart';
 import 'package:sharkship/features/ndr/presentation/widgets/ndr_header.dart';
 import 'package:sharkship/features/ndr/presentation/widgets/ndr_tabbar.dart';
 import 'package:sharkship/features/orders/presentation/widgets/order_skeleton.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/constants/colors.dart';
 
 class NdrScreen extends ConsumerStatefulWidget {
@@ -53,7 +54,7 @@ class _NdrScreenState extends ConsumerState<NdrScreen> {
   Widget build(BuildContext context) {
     final selectedTab = ref.watch(ndrTabProvider);
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       body: SafeArea(
         child: Column(
           children: [
@@ -62,7 +63,7 @@ class _NdrScreenState extends ConsumerState<NdrScreen> {
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () => _onRefresh(selectedTab),
-                backgroundColor: ColorManager.lightBlue,
+                backgroundColor: AppColors.lightBlue,
                 color: Colors.white,
                 child: _buildTabContent(selectedTab),
               ),
@@ -234,7 +235,7 @@ class _NdrScreenState extends ConsumerState<NdrScreen> {
           !selectedNdrNNotifier.isAllSelected(data)
               ? "Select All"
               : "Unselect All",
-          style: const TextStyle(fontSize: 14),
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );
@@ -248,17 +249,16 @@ class _NdrScreenState extends ConsumerState<NdrScreen> {
         const SizedBox(height: 16),
         Text(
           'No NDR Orders',
-          style: TextStyle(
-            fontSize: 20,
-            color: ColorManager.secondaryBlue,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: AppColors.secondaryBlue,
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 8),
-        const Text(
+        Text(
           'All shipments are on track.',
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.grey),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),
         ),
       ],
     );

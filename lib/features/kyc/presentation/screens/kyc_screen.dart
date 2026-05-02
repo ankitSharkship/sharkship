@@ -8,7 +8,7 @@ import 'package:sharkship/features/auth/presentation/state/auth_notifier.dart';
 import 'package:sharkship/features/kyc/presentation/screens/digi_locker_screen.dart';
 import 'package:sharkship/features/kyc/presentation/state/kyc_notifier.dart';
 import 'package:sharkship/features/kyc/presentation/state/kyc_state.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import 'package:sharkship/shared/widgets/kyc_dialogs.dart';
 import 'package:sharkship/features/kyc/domain/entities/kyc.dart';
@@ -55,6 +55,8 @@ class KycScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.scaffoldBg,
+        elevation: 0,
         actions: [
           IconButton(
             onPressed: () {
@@ -62,11 +64,11 @@ class KycScreen extends ConsumerWidget {
                 context.go('/splash');
               });
             },
-            icon: Icon(Icons.logout),
+            icon: Icon(Icons.logout, color: Colors.black),
           ),
         ],
       ),
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: AppColors.scaffoldBg,
       body: SafeArea(
         child: Column(
           children: [
@@ -175,9 +177,9 @@ class KycScreen extends ConsumerWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _thumbnail(state.kyc.aadhaar!.frontImage!, "Front"),
+                _thumbnail(state.kyc.aadhaar!.frontImage!, "Front",context),
                 const SizedBox(width: 12),
-                _thumbnail(state.kyc.aadhaar!.backImage!, "Back"),
+                _thumbnail(state.kyc.aadhaar!.backImage!, "Back",context),
               ],
             ),
           ] else
@@ -209,14 +211,18 @@ class KycScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             "Review Your Details",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             "Verify all your information before final submission.",
-            style: TextStyle(color: Colors.black54),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.black54,
+                ),
           ),
           const SizedBox(height: 32),
           _ReviewItem(label: "PAN NUMBER", value: kyc.pan?.panNumber ?? "N/A"),
@@ -239,13 +245,12 @@ class KycScreen extends ConsumerWidget {
             _AadhaarCardWidget(aadhaar: state.kyc.aadhaar!),
           ] else if (kyc.aadhaar?.frontImage != null) ...[
             const SizedBox(height: 24),
-            const Text(
+            Text(
               "AADHAAR IMAGES",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black54,
-                fontSize: 13,
-              ),
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                  ),
             ),
             const SizedBox(height: 12),
             Row(
@@ -287,10 +292,12 @@ class KycScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 32),
-            const Text(
+            Text(
               "KYC Verification Under Review",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 8),
             Container(
@@ -301,18 +308,20 @@ class KycScreen extends ConsumerWidget {
               ),
               child: Text(
                 "Reviewing your documents",
-                style: TextStyle(
-                  color: Colors.orange.shade800,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: Colors.orange.shade800,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
+            Text(
               "Our team is reviewing your details and will get back within 1-2 business days.",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black54, height: 1.5),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.black54,
+                    height: 1.5,
+                  ),
             ),
             const SizedBox(height: 48),
             const _StatusRow(
@@ -391,7 +400,7 @@ class KycScreen extends ConsumerWidget {
     );
   }
 
-  Widget _thumbnail(String url, String label) {
+  Widget _thumbnail(String url, String label, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -399,11 +408,10 @@ class KycScreen extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 8.0, left: 4.0),
           child: Text(
             label,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-              color: Colors.grey,
-            ),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
           ),
         ),
         Container(
@@ -487,11 +495,10 @@ class _KycStepper extends StatelessWidget {
                   child: Center(
                     child: Text(
                       "${index + 1}",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                   ),
                 ),
@@ -648,13 +655,12 @@ class _BottomActionButton extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "Previous",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E5BB1),
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryBlue,
+                      ),
                 ),
               ),
             ),
@@ -710,6 +716,7 @@ class _PanStepContentState extends ConsumerState<_PanStepContent> {
 
             _inputHelper(
               label: "PAN Card Number",
+              context: context,
               hint: "",
               controller: controller,
               onChanged: (val) =>
@@ -749,7 +756,7 @@ class VerifiedBadge extends StatelessWidget {
             ),
           ],
         ),
-        child: const Row(
+        child:  Row(
           mainAxisSize: MainAxisSize.min, // Takes minimal space
           children: [
             Icon(
@@ -760,12 +767,11 @@ class VerifiedBadge extends StatelessWidget {
             SizedBox(width: 6), // Spacing between icon and text
             Text(
               'Verified',
-              style: TextStyle(
-                color: textColor,
-                fontSize: 12,
-                fontWeight: FontWeight.w600, // Semi-bold for clarity
-                letterSpacing: 0.5,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: textColor,
+                    fontWeight: FontWeight.w600, // Semi-bold for clarity
+                    letterSpacing: 0.5,
+                  ),
             ),
           ],
         ),
@@ -816,6 +822,7 @@ class _BankStepContentState extends ConsumerState<_BankStepContent> {
             const SizedBox(height: 20),
             _inputHelper(
               label: "Account Holder Name",
+              context: context,
               hint: "Enter Name",
               controller: holder,
               onChanged: (_) => _saveDraft(notifier),
@@ -823,6 +830,7 @@ class _BankStepContentState extends ConsumerState<_BankStepContent> {
             const SizedBox(height: 12),
             _inputHelper(
               label: "Account Number",
+              context:context,
               hint: "Enter Account Number",
               controller: acc,
               onChanged: (_) => _saveDraft(notifier),
@@ -831,6 +839,7 @@ class _BankStepContentState extends ConsumerState<_BankStepContent> {
             const SizedBox(height: 12),
             _inputHelper(
               label: "IFSC Code",
+              context: context,
               hint: "Enter IFSC",
               controller: ifsc,
               onChanged: (_) => _saveDraft(notifier),
@@ -914,6 +923,7 @@ class _GstStepContentState extends ConsumerState<_GstStepContent> {
             const SizedBox(height: 24),
             _inputHelper(
               label: "GST Number",
+              context: context,
               hint: "",
               controller: controller,
               onChanged: (val) => _saveDraft(notifier),
@@ -972,9 +982,11 @@ class _TermsStepContent extends ConsumerWidget {
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
-          const Text(
+          Text(
             "Terms & Conditions",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -988,10 +1000,9 @@ class _TermsStepContent extends ConsumerWidget {
               child: SingleChildScrollView(
                 child: HtmlWidget(
                   htmlContent,
-                  textStyle: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black87,
-                  ),
+                  textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.black87,
+                      ),
                   renderMode: RenderMode.column,
                 ),
               ),
@@ -1019,6 +1030,7 @@ class _TermsStepContent extends ConsumerWidget {
 
 Widget _inputHelper({
   required String label,
+  required BuildContext context,
   required String hint,
   required TextEditingController controller,
   TextInputType keyboard = TextInputType.text,
@@ -1029,11 +1041,10 @@ Widget _inputHelper({
     children: [
       Text(
         label,
-        style: const TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 13,
-          color: Colors.black54,
-        ),
+        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: Colors.black54,
+            ),
       ),
       const SizedBox(height: 6),
       TextField(
@@ -1098,16 +1109,17 @@ class _StatusRow extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: isLocked ? Colors.black38 : Colors.black,
-                ),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: isLocked ? Colors.black38 : Colors.black,
+                    ),
               ),
               const SizedBox(height: 2),
               Text(
                 subtitle,
-                style: const TextStyle(fontSize: 12, color: Colors.black54),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.black54,
+                    ),
               ),
             ],
           ),
@@ -1178,13 +1190,18 @@ class _MiddleSection extends StatelessWidget {
         const SizedBox(height: 24),
         Text(
           title,
-          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 12),
         Text(
           subtitle,
-          style: const TextStyle(color: Colors.black54, height: 1.4),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Colors.black54,
+                height: 1.4,
+              ),
           textAlign: TextAlign.center,
         ),
       ],
@@ -1211,11 +1228,10 @@ class _Dropdown extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 13,
-            color: Colors.black54,
-          ),
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Colors.black54,
+              ),
         ),
         const SizedBox(height: 6),
         Container(
@@ -1254,17 +1270,18 @@ class _ReviewItem extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade500,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5,
-            ),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                ),
           ),
           const SizedBox(height: 6),
           Text(
             value,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
           ),
         ],
       ),
@@ -1384,18 +1401,16 @@ class _ActionButton extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                      color: textColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      color: textColor.withOpacity(0.7),
-                      fontSize: 12,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          color: textColor.withOpacity(0.7),
+                        ),
                   ),
                 ],
               ),
@@ -1448,9 +1463,11 @@ class _AadhaarUploadSheetState extends ConsumerState<_AadhaarUploadSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
+          Text(
             "Upload Aadhaar Card",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           const SizedBox(height: 24),
           _UploadCard(
@@ -1610,18 +1627,17 @@ class _AadhaarCardWidget extends StatelessWidget {
                   children: [
                     Text(
                       aadhaar.aadharName ?? "Verified User",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       aadhaar.aadharNumber ?? "XXXX XXXX XXXX",
-                      style: const TextStyle(
-                        color: Colors.black54,
-                        letterSpacing: 1.2,
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Colors.black54,
+                            letterSpacing: 1.2,
+                          ),
                     ),
                   ],
                 ),
