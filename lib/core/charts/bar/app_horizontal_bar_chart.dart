@@ -63,17 +63,9 @@ class AppHorizontalBarChart extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 8),
                                 child: Text(
                                   point.label,
-                                  // style: const TextStyle(
-                                  //   fontSize: 12,
-                                  //   fontWeight: FontWeight.w500,
-                                  //   color: Color(0xFF444444),
-                                  // ),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelMedium
-                                      ?.copyWith(
-                                        color: Color(0xFF444444),
-                                      ),
+
+                                  style: Theme.of(context).textTheme.labelMedium
+                                      ?.copyWith(color: Color(0xFF444444)),
                                   textAlign: TextAlign.right,
                                   softWrap: true,
                                 ),
@@ -152,6 +144,7 @@ class _HorizontalBarPainter extends CustomPainter {
       ..strokeWidth = 1;
 
     final tickStyle = const TextStyle(fontSize: 11, color: Color(0xFF999999));
+
     final interval = _niceInterval(maxVal);
 
     double tick = 0;

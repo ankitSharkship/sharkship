@@ -6,7 +6,7 @@ import 'package:sharkship/features/auth/data/models/register_user_request_model.
 import 'package:sharkship/features/auth/presentation/state/signup_notifier.dart';
 import 'package:sharkship/features/auth/presentation/state/signup_state.dart';
 import 'package:sharkship/routes/app_router.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import '../../../../shared/widgets/custom_error_widget.dart';
 import '../../../../shared/widgets/loader.dart';
 import '../../../../utlis/validators.dart';
@@ -237,7 +237,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF1E88C8), Color(0xFF6EC1E4)],
+                colors: [
+                  AppColors.loginGradientStart,
+                  AppColors.loginGradientEnd,
+                ],
               ),
             ),
             child: Column(
@@ -264,7 +267,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF1E88C8), Color(0xFF6EC1E4)],
+          colors: [AppColors.loginGradientStart, AppColors.loginGradientEnd],
         ),
       ),
       child: SafeArea(
@@ -286,20 +289,18 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
+              Text(
                 "Get Started Now",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.displayLarge?.copyWith(color: Colors.white),
               ),
               const SizedBox(height: 10),
-              const Text(
+              Text(
                 "Create an account or log in to explore about our app",
-                style: TextStyle(
+
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Color.fromARGB(179, 255, 255, 255),
-                  fontSize: 14,
                 ),
               ),
             ],
@@ -314,7 +315,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
-        color: ColorManager.scaffoldBg,
+        color: AppColors.scaffoldBg,
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       child: SingleChildScrollView(
@@ -376,9 +377,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           alignment: Alignment.center,
           child: Text(
             text,
-            style: TextStyle(
-              color: selected ? const Color(0xFF1E88C8) : Colors.black54,
-              fontWeight: FontWeight.w600,
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              color: selected ? AppColors.loginGradientStart : Colors.black54,
             ),
           ),
         ),
@@ -392,22 +392,21 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Verify OTP",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        Text("Verify OTP", style: Theme.of(context).textTheme.bodyLarge),
         const SizedBox(height: 8),
-        const Text(
+        Text(
           "Enter the 4 digit OTP sent to Phone Number / Email",
-          style: TextStyle(color: Colors.black54),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.black54),
         ),
         const SizedBox(height: 12),
         Row(
           children: [
             Text(
               "+91 ${phoneController.text}",
-              style: const TextStyle(
-                color: Color(0xFF1E88C8),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: AppColors.loginGradientStart,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -441,7 +440,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
             maxLength: 1,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.displayMedium?.copyWith(fontSize: 24),
             decoration: InputDecoration(
               counterText: "",
               filled: true,
@@ -475,11 +476,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             _secondsRemaining == 0
                 ? "Resend"
                 : "Resent in 0:${_secondsRemaining.toString().padLeft(2, '0')}",
-            style: TextStyle(
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: _secondsRemaining == 0
-                  ? const Color(0xFF1E88C8)
+                  ? AppColors.loginGradientStart
                   : Colors.grey,
-              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -778,9 +778,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Confirm Details:",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 22),
         ),
         const SizedBox(height: 20),
 
@@ -835,14 +835,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           children: [
             Text(
               title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontSize: 18),
             ),
             GestureDetector(
               onTap: onEdit,
               child: Container(
                 padding: const EdgeInsets.all(6),
                 decoration: const BoxDecoration(
-                  color: Color(0xFF1E88C8),
+                  color: AppColors.loginGradientStart,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(Icons.edit, color: Colors.white, size: 16),
@@ -856,7 +858,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Text(
               "${entry.key}: ${entry.value}",
-              style: const TextStyle(fontSize: 16, color: Colors.black87),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: Colors.black87),
             ),
           ),
         ),
@@ -874,7 +878,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           child: Checkbox(
             value: state.acceptedTerms,
             onChanged: (val) => notifier.toggleTerms(val ?? false),
-            activeColor: const Color(0xFF1E88C8),
+            activeColor: AppColors.loginGradientStart,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4),
             ),
@@ -884,23 +888,23 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         Expanded(
           child: RichText(
             text: TextSpan(
-              style: const TextStyle(color: Colors.black, fontSize: 14),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.black),
               children: [
                 const TextSpan(text: "I agree to the "),
                 TextSpan(
                   text: "Terms of Service",
-                  style: const TextStyle(
-                    color: Color(0xFF1E88C8),
-                    fontWeight: FontWeight.w600,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: AppColors.loginGradientStart,
                   ),
                   // Add recognizer: TapGestureRecognizer()..onTap = () => ...
                 ),
                 const TextSpan(text: " and "),
                 TextSpan(
                   text: "Privacy Policy",
-                  style: const TextStyle(
-                    color: Color(0xFF1E88C8),
-                    fontWeight: FontWeight.w600,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: AppColors.loginGradientStart,
                   ),
                 ),
               ],
@@ -924,7 +928,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
+        Text(
+          label,
+          style: Theme.of(
+            context,
+          ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w500),
+        ),
         const SizedBox(height: 8),
         TextFormField(
           controller: controller,
@@ -967,13 +976,20 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
+        Text(
+          label,
+          style: Theme.of(
+            context,
+          ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w500),
+        ),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
           value: value,
           hint: Text(
             hint,
-            style: const TextStyle(color: Colors.black54),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.black54),
             overflow: TextOverflow.ellipsis, // Added for hint overflow
           ),
           isExpanded: true,
@@ -1003,7 +1019,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   Expanded(
                     child: Text(
                       item,
-                      style: const TextStyle(fontSize: 16),
+                      style: Theme.of(context).textTheme.bodyLarge,
                       // 2. Set overflow to ellipsis (...)
                       overflow: TextOverflow.ellipsis,
                       // 3. Prevent text from wrapping to a second line
@@ -1012,7 +1028,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   ),
                   if (value == item) ...[
                     const SizedBox(width: 8),
-                    const Icon(Icons.check, color: Color(0xFF1E88C8), size: 20),
+                    const Icon(
+                      Icons.check,
+                      color: AppColors.loginGradientStart,
+                      size: 20,
+                    ),
                   ],
                 ],
               ),
@@ -1038,7 +1058,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       height: 52,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF6EC1E4), Color(0xFF1E88C8)],
+          colors: [AppColors.loginGradientEnd, AppColors.loginGradientStart],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
@@ -1055,7 +1075,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         onPressed: isLogin ? (isOtpMode ? _verifyOtp : _submit) : _nextStep,
         child: Text(
           text,
-          style: const TextStyle(color: Colors.white, fontSize: 18),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: Colors.white, fontSize: 18),
         ),
       ),
     );
@@ -1116,7 +1138,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         gradient: LinearGradient(
           // Tip: Maybe use a grey gradient for "Previous" to distinguish it?
           colors: isNextOrSubmit
-              ? [const Color(0xFF6EC1E4), const Color(0xFF1E88C8)]
+              ? [AppColors.loginGradientEnd, AppColors.loginGradientStart]
               : [Colors.grey.shade400, Colors.grey.shade600],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
@@ -1134,7 +1156,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         onPressed: getOnPressed(),
         child: Text(
           text,
-          style: const TextStyle(color: Colors.white, fontSize: 18),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: Colors.white, fontSize: 18),
         ),
       ),
     );
@@ -1142,11 +1166,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   Widget _buildDivider() {
     return Row(
-      children: const [
+      children: [
         Expanded(child: Divider()),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Text("Or"),
+          child: Text("Or", style: Theme.of(context).textTheme.bodyMedium),
         ),
         Expanded(child: Divider()),
       ],
@@ -1165,7 +1189,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           borderRadius: BorderRadius.circular(14),
         ),
         alignment: Alignment.center,
-        child: Text(text, style: const TextStyle(fontWeight: FontWeight.w500)),
+        child: Text(
+          text,
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w500),
+        ),
       ),
     );
   }
