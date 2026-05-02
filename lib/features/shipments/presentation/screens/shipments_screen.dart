@@ -10,7 +10,7 @@ import 'package:sharkship/features/shipments/presentation/state/shipment_notifie
 import 'package:sharkship/features/shipments/presentation/state/shipment_tab_provider.dart';
 import 'package:sharkship/features/shipments/presentation/widgets/shipment_header.dart';
 import 'package:sharkship/features/shipments/presentation/widgets/shipment_tabbar.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../widgets/shipment_card.dart';
 
@@ -66,7 +66,7 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
     }
 
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       body: SafeArea(
         child: Column(
           children: [
@@ -75,7 +75,7 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () => _onRefresh(selectedTab),
-                backgroundColor: ColorManager.lightBlue,
+                backgroundColor: AppColors.lightBlue,
                 color: Colors.white,
                 child: _buildTabContent(selectedTab, ref, context),
               ),
@@ -244,7 +244,7 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
           !selectedSihpmentsNotifier.isAllSelected(data)
               ? "Select All"
               : "Unselect All",
-          style: const TextStyle(fontSize: 14),
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );
@@ -267,11 +267,10 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
         const SizedBox(height: 10),
         Text(
           'No Orders Found',
-          style: TextStyle(
-            fontSize: 20,
-            color: ColorManager.secondaryBlue,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AppColors.secondaryBlue,
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ],
     );

@@ -4,7 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:sharkship/features/shipments/presentation/state/tracking_notifier.dart';
 import 'package:sharkship/features/shipments/presentation/widgets/feature_card.dart';
 import 'package:sharkship/routes/app_router.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/constants/app_text_styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ShipmentTracking extends ConsumerStatefulWidget {
@@ -72,9 +73,9 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F4FA),
+      backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
-        backgroundColor: ColorManager.lightBlueBg,
+        backgroundColor: AppColors.lightBlueBg,
         title: Text('Shipment Tracking'),
       ),
       body: SafeArea(
@@ -88,7 +89,7 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
                 padding: EdgeInsets.only(bottom: 20),
                 width: double.infinity,
                 decoration: const BoxDecoration(
-                  color: ColorManager.lightBlueBg,
+                  color: AppColors.lightBlueBg,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(28),
                     bottomRight: Radius.circular(28),
@@ -102,24 +103,22 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
                       padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children:  [
                           Text(
                             "Let's Track your package",
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFF111827),
-                              height: 1.2,
-                            ),
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  color: const Color(0xFF111827),
+                                  height: 1.2,
+                                ),
                           ),
                           SizedBox(height: 6),
                           Text(
                             'Please Enter AWB Number to track your order.',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xFF6B7280),
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color(0xFF6B7280),
+                                ),
                           ),
                         ],
                       ),
@@ -165,11 +164,10 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
                             Expanded(
                               child: TextField(
                                 controller: _awbController,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   hintText: 'Enter AWB Number',
-                                  hintStyle: TextStyle(
-                                    color: Color(0xFFB0B8C5),
-                                    fontSize: 14,
+                                  hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: const Color(0xFFB0B8C5),
                                     fontWeight: FontWeight.w400,
                                   ),
                                   border: InputBorder.none,
@@ -178,9 +176,8 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
                                     vertical: 2,
                                   ),
                                 ),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFF111827),
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: const Color(0xFF111827),
                                 ),
                                 keyboardType: TextInputType.text,
                               ),
@@ -209,14 +206,13 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
                                   ),
                                 ),
                                 alignment: Alignment.center,
-                                child: const Text(
+                                child: Text(
                                   'Track',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0.3,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.3,
+                                      ),
                                 ),
                               ),
                             ),
@@ -247,25 +243,23 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
-                  children: const [
+                  children:  [
                     Text(
                       'What are you looking for?',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF111827),
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: const Color(0xFF111827),
+                          ),
                     ),
                     SizedBox(height: 4),
                     Text(
                       'Here are best features',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9CA3AF),
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF9CA3AF),
+                          ),
                     ),
                   ],
                 ),

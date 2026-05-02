@@ -168,20 +168,21 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                     padding: const EdgeInsets.fromLTRB(24, 16, 16, 8),
                     child: Row(
                       children: [
-                        const Expanded(
+                         Expanded(
                           child: Text(
                             "Select Couriers",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                         ),
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text(
+                          child: Text(
                             "Done",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                         ),
                       ],
@@ -225,10 +226,13 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                           ),
                           title: Text(
                             "${p.carrier} (${p.courierType})",
-                            style: const TextStyle(fontWeight: FontWeight.w600),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
                           ),
                           subtitle: Text(
                             "${p.baseWeight}kg | ${p.serviceType}",
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                           value: isSelected,
                           activeColor: const Color(0xFF1E56A0),
@@ -364,15 +368,14 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                 padding: const EdgeInsets.fromLTRB(24, 24, 16, 16),
                 child: Row(
                   children: [
-                    const Expanded(
+                     Expanded(
                       child: Center(
                         child: Text(
                           "Select Courier Priority",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFF1A1A1A),
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.w900,
+                                color: const Color(0xFF1A1A1A),
+                              ),
                         ),
                       ),
                     ),
@@ -414,7 +417,7 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children:  [
                             Icon(
                               Icons.tune,
                               size: 20,
@@ -423,11 +426,10 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                             SizedBox(width: 8),
                             Text(
                               "More Courier Option",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF4A4A4A),
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFF4A4A4A),
+                                  ),
                             ),
                           ],
                         ),
@@ -503,11 +505,10 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
               Expanded(
                 child: Text(
                   "$index) ${p.carrier} ${p.baseWeight}Kg (${p.courierType})",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF4A4A4A),
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF4A4A4A),
+                      ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -521,14 +522,13 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: const Color(0xFF1E56A0), width: 1),
                 ),
-                child: Text(
-                  p.serviceType,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E56A0),
+                  child: Text(
+                    p.serviceType,
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF1E56A0),
+                        ),
                   ),
-                ),
               ),
               const SizedBox(width: 8),
               GestureDetector(

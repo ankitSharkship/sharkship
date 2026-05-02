@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/shipments/presentation/state/shipment_tab_provider.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class ShipmentTabbar extends ConsumerWidget {
   @override
@@ -21,7 +22,7 @@ class ShipmentTabbar extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 194, 238, 255),
+                color: AppColors.lightBlueBg,
                 border: Border(
                   bottom: BorderSide(
                     color: isActive ? Colors.blue : Colors.transparent,
@@ -31,10 +32,10 @@ class ShipmentTabbar extends ConsumerWidget {
               ),
               child: Text(
                 shipmentTabs[i],
-                style: TextStyle(
-                  color: isActive ? Colors.blue : Colors.black54,
-                  fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: isActive ? Colors.blue : Colors.black54,
+                      fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+                    ),
               ),
             ),
           );

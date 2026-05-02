@@ -1,15 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sharkship/features/orders/domain/entities/courier_rate_entity.dart';
-import 'package:sharkship/features/orders/domain/entities/order_address_entity.dart';
 import 'package:sharkship/features/orders/presentation/state/bulk_orders_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/create_orders_tab_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/create_single_order_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/create_single_order_state.dart';
 import 'package:sharkship/features/orders/presentation/widgets/create_order_tabbar.dart';
 import 'package:sharkship/features/orders/presentation/widgets/create_orders_header.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 class CreateOrders extends ConsumerStatefulWidget {
@@ -72,7 +70,7 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
     final state = ref.watch(createSingleOrderProvider);
 
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       body: SafeArea(
         child: Stack(
           children: [
@@ -141,9 +139,12 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       onPressed: () => notifier.prevStep(),
-      child: const Text(
+      child: Text(
         'Previous',
-        style: TextStyle(color: Color(0xFF1E88C8), fontWeight: FontWeight.bold),
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+          color: const Color(0xFF1E88C8),
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -209,15 +210,14 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
           const SizedBox(height: 10),
           RichText(
             text: TextSpan(
-              style: const TextStyle(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Colors.black,
-                fontSize: 16,
               ), // Default style
               children: [
                 const TextSpan(text: 'Note: Please refer to this '),
                 TextSpan(
                   text: 'template',
-                  style: const TextStyle(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.blue,
                     decoration: TextDecoration.underline,
                     fontWeight: FontWeight.bold,
@@ -251,9 +251,8 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                 onPressed: state.isLoading ? null : notifier.pickFile,
                 child: Text(
                   'Select File',
-                  style: const TextStyle(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Colors.white,
-                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -304,9 +303,8 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                     },
               child: Text(
                 "Create Order",
-                style: const TextStyle(
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.black,
-                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -486,9 +484,11 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Pickup Address *',
-          style: TextStyle(fontWeight: FontWeight.w500),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 8),
         InkWell(
@@ -507,7 +507,7 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                     selected != null
                         ? "${selected.name} - ${selected.addressLane1}, ${selected.city}"
                         : "Select Pickup Address",
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: selected != null ? Colors.black : Colors.black54,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -558,11 +558,15 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     subtitle,
-                    style: const TextStyle(fontSize: 12, color: Colors.black54),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.black54),
                   ),
                 ],
               ),
@@ -592,7 +596,12 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
-          title: const Text('Select Pickup Address'),
+          title: Text(
+            'Select Pickup Address',
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          ),
           content: SizedBox(
             width: double.maxFinite,
             child: state.availablePickupAddresses.isEmpty
@@ -623,19 +632,16 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                               children: [
                                 Text(
                                   addr.name ?? 'Unnamed',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyLarge
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   "${addr.addressLane1}, ${addr.city}, ${addr.state} - ${addr.pin}",
                                 ),
                                 Text(
                                   "Ph: ${addr.phoneNo ?? 'N/A'}",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(color: Colors.grey),
                                 ),
                               ],
                             ),
@@ -667,7 +673,9 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
             children: [
               Text(
                 'Product #${index + 1}',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               if (_products.length > 1)
                 IconButton(
@@ -836,15 +844,19 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                     : const Icon(Icons.local_shipping),
                 title: Text(
                   rate.carrier,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text("${rate.courierType} | ${rate.serviceType}"),
+                subtitle: Text(
+                  "${rate.courierType} | ${rate.serviceType}",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
                 trailing: Text(
                   "₹${rate.rate}",
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E88C8),
+                    color: const Color(0xFF1E88C8),
                   ),
                 ),
               ),
@@ -869,9 +881,8 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w500,
-            fontSize: 13,
             color: Colors.black87,
           ),
         ),
@@ -882,10 +893,12 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
           keyboardType: keyboard,
           obscureText: obscureText,
           onChanged: onChanged,
-          style: const TextStyle(fontSize: 14),
+          style: Theme.of(context).textTheme.bodyMedium,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+            hintStyle: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade400),
             filled: true,
             fillColor: Colors.white,
             contentPadding: const EdgeInsets.symmetric(
@@ -972,9 +985,8 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
               },
         child: Text(
           state.step == 3 ? 'Confirm Order' : 'Next',
-          style: const TextStyle(
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: Colors.white,
-            fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -998,15 +1010,19 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
               size: 80,
             ),
             const SizedBox(height: 24),
-            const Text(
+            Text(
               'Order Created!',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            const Text(
+            Text(
               'Your order has been successfully placed.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
             ),
             const SizedBox(height: 32),
             ElevatedButton(
@@ -1021,9 +1037,9 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                 Navigator.pop(context); // Close dialog
                 Navigator.pop(context); // Go back from CreateOrders
               },
-              child: const Text(
+              child: Text(
                 'Back to Home',
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
@@ -1098,9 +1114,8 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w500,
-            fontSize: 13,
             color: Colors.black87,
           ),
         ),
@@ -1109,7 +1124,9 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
           value: value,
           hint: Text(
             hint,
-            style: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade400),
           ),
           isExpanded: true,
           validator: validator,
@@ -1135,7 +1152,7 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
           items: items.map((String item) {
             return DropdownMenuItem<String>(
               value: item,
-              child: Text(item, style: const TextStyle(fontSize: 14)),
+              child: Text(item, style: Theme.of(context).textTheme.bodyMedium),
             );
           }).toList(),
           onChanged: onChanged,
@@ -1190,10 +1207,9 @@ class ElevatedFormCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 16,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF2D3436),
+                  color: const Color(0xFF2D3436),
                 ),
               ),
             ],

@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sharkship/features/shipments/domain/entities/tracking_event_entity.dart';
 import 'package:sharkship/features/shipments/presentation/state/tracking_notifier.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/constants/app_text_styles.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 class TrackingResult extends ConsumerStatefulWidget {
@@ -34,10 +35,10 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
   Widget build(BuildContext context) {
     final trackingState = ref.watch(trackingProvider);
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
         title: Text('Shipment Tracking'),
-        backgroundColor: ColorManager.lightBlueBg,
+        backgroundColor: AppColors.lightBlueBg,
       ),
       body: trackingState.when(
         data: (data) {
@@ -56,7 +57,9 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                   ),
                   child: Text(
                     "Let's Track your package",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                 ),
 
@@ -98,20 +101,18 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                         Expanded(
                           child: TextField(
                             controller: _awbController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               hintText: 'Enter AWB Number',
-                              hintStyle: TextStyle(
-                                color: Color(0xFFB0B8C5),
-                                fontSize: 14,
+                              hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: const Color(0xFFB0B8C5),
                                 fontWeight: FontWeight.w400,
                               ),
                               border: InputBorder.none,
                               isDense: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 2),
                             ),
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF111827),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: const Color(0xFF111827),
                             ),
                             keyboardType: TextInputType.text,
                           ),
@@ -136,11 +137,10 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                               ),
                             ),
                             alignment: Alignment.center,
-                            child: const Text(
+                            child: Text(
                               'Track',
-                              style: TextStyle(
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: Colors.white,
-                                fontSize: 15,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 0.3,
                               ),
@@ -185,7 +185,7 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: ColorManager.white,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
@@ -202,10 +202,9 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 20),
-                        const Text(
+                        Text(
                           'Tracking History',
-                          style: TextStyle(
-                            fontSize: 18,
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -253,7 +252,7 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: ColorManager.white,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -279,14 +278,16 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                   children: [
                     Text(
                       item.label,
-                      style: const TextStyle(
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
-                        fontSize: 16,
                         color: Colors.grey,
                       ),
                       softWrap: true,
                     ),
-                    Text(item.value, style: TextStyle(fontSize: 18)),
+                    Text(
+                      item.value,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
                   ],
                 ),
               ),
@@ -304,7 +305,7 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: ColorManager.white,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -326,15 +327,14 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
-                    color: ColorManager.secondaryBlue,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: AppColors.secondaryBlue,
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
                   ),
                 ),
                 Text(
                   'Track Every Step, Stay Informed',
-                  style: TextStyle(color: ColorManager.black, fontSize: 20),
+                  style: Theme.of(context).textTheme.titleLarge,
                   softWrap: true,
                 ),
               ],
@@ -352,14 +352,16 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                       children: [
                         Text(
                           item.label,
-                          style: const TextStyle(
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w500,
-                            fontSize: 16,
                             color: Colors.grey,
                           ),
                           softWrap: true,
                         ),
-                        Text(item.value, style: TextStyle(fontSize: 14)),
+                        Text(
+                          item.value,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                       ],
                     ),
                   ),
@@ -434,7 +436,7 @@ class _TimelineItem extends StatelessWidget {
             child: Text(
               formatDate(event.dateTime.toString()),
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.grey,
               ),
@@ -490,17 +492,23 @@ class _TimelineItem extends StatelessWidget {
                 children: [
                   Text(
                     event.location.toString(),
-                    style: const TextStyle(fontWeight: FontWeight.w600),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     formatTime(event.dateTime.toString()),
-                    style: const TextStyle(color: Colors.grey),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                        ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'Remark: ${event.remark}',
-                    style: const TextStyle(color: Colors.grey),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                        ),
                     softWrap: true,
                   ),
                 ],

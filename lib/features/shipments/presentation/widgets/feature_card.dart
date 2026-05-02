@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class FeatureCardData {
   final IconData icon;
@@ -25,7 +26,7 @@ class FeatureCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isPrimary ? const Color(0xFF2B6FD4) : Colors.white,
+        color: isPrimary ? AppColors.primaryBlue : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: isPrimary
             ? null
@@ -33,7 +34,7 @@ class FeatureCard extends StatelessWidget {
         boxShadow: isPrimary
             ? [
                 BoxShadow(
-                  color: const Color(0xFF2B6FD4).withOpacity(0.30),
+                  color: AppColors.primaryBlue.withOpacity(0.30),
                   blurRadius: 16,
                   offset: const Offset(0, 6),
                 ),
@@ -57,13 +58,13 @@ class FeatureCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: isPrimary
                   ? Colors.white.withOpacity(0.18)
-                  : const Color(0xFFE8F0FB),
+                  : AppColors.lightBlueBg,
               shape: BoxShape.circle,
             ),
             child: Icon(
               cardData.icon,
               size: 26,
-              color: isPrimary ? Colors.white : const Color(0xFF2B6FD4),
+              color: isPrimary ? Colors.white : AppColors.primaryBlue,
             ),
           ),
           const SizedBox(height: 16),
@@ -71,26 +72,24 @@ class FeatureCard extends StatelessWidget {
           // Title
           Text(
             cardData.title,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: isPrimary ? Colors.white : const Color(0xFF2B6FD4),
-              height: 1.3,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: isPrimary ? Colors.white : AppColors.primaryBlue,
+                  height: 1.3,
+                ),
           ),
           const SizedBox(height: 8),
 
           // Description
           Text(
             cardData.description,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w400,
-              color: isPrimary
-                  ? Colors.white.withOpacity(0.88)
-                  : const Color(0xFF6B7280),
-              height: 1.5,
-            ),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w400,
+                  color: isPrimary
+                      ? Colors.white.withOpacity(0.88)
+                      : const Color(0xFF6B7280),
+                  height: 1.5,
+                ),
           ),
         ],
       ),

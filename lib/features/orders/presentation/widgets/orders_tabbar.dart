@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import '../state/orders_tab_provider.dart';
 
 class OrdersTabbar extends ConsumerWidget {
@@ -31,10 +31,10 @@ class OrdersTabbar extends ConsumerWidget {
                 ),
                 child: Text(
                   orderTabs[i],
-                  style: TextStyle(
-                    color: isActive ? Colors.blue : Colors.black54,
-                    fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: isActive ? Colors.blue : Colors.black54,
+                        fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+                      ),
                 ),
               ),
             ),

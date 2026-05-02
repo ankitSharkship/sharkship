@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_provider.dart';
 import 'package:sharkship/features/orders/presentation/widgets/orders_header.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
+
 
 class DownloadInvoiceModal extends ConsumerStatefulWidget {
   final List<int> orderIds;
@@ -73,7 +74,7 @@ class _DownloadInvoiceModalState extends ConsumerState<DownloadInvoiceModal> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(18.0),
@@ -84,9 +85,11 @@ class _DownloadInvoiceModalState extends ConsumerState<DownloadInvoiceModal> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Download Order Invoice',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 IconButton(
                   onPressed: () => Navigator.pop(context),
@@ -97,9 +100,11 @@ class _DownloadInvoiceModalState extends ConsumerState<DownloadInvoiceModal> {
               ],
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Download the order invoice for the selected orders.',
-              style: TextStyle(color: Colors.grey, fontSize: 14),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey,
+                  ),
             ),
             const SizedBox(height: 24),
             Row(
@@ -133,7 +138,7 @@ class _DownloadInvoiceModalState extends ConsumerState<DownloadInvoiceModal> {
                 ElevatedButton(
                   onPressed: _isLoading ? null : _handleDownload,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorManager.primaryBlue,
+                    backgroundColor: AppColors.primaryBlue,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 24,
@@ -187,11 +192,11 @@ class _FormatOptionCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? ColorManager.primaryBlue : Colors.grey.shade200,
+            color: isSelected ? AppColors.primaryBlue : Colors.grey.shade200,
             width: 2,
           ),
           color: isSelected
-              ? ColorManager.primaryBlue.withOpacity(0.05)
+              ? AppColors.primaryBlue.withOpacity(0.05)
               : Colors.white,
         ),
         child: Column(
@@ -200,34 +205,33 @@ class _FormatOptionCard extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? ColorManager.primaryBlue.withOpacity(0.1)
+                    ? AppColors.primaryBlue.withOpacity(0.1)
                     : Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
                 size: 32,
-                color: isSelected ? ColorManager.primaryBlue : Colors.grey,
+                color: isSelected ? AppColors.primaryBlue : Colors.grey,
               ),
             ),
             const SizedBox(height: 12),
             Text(
               title,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: isSelected ? ColorManager.primaryBlue : Colors.black,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: isSelected ? AppColors.primaryBlue : Colors.black,
+                  ),
             ),
             const SizedBox(height: 4),
             Text(
               subtitle,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-                color: isSelected
-                    ? ColorManager.primaryBlue.withOpacity(0.7)
-                    : Colors.grey,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: isSelected
+                        ? AppColors.primaryBlue.withOpacity(0.7)
+                        : Colors.grey,
+                  ),
             ),
           ],
         ),

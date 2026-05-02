@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/orders/domain/entities/order_entity.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/constants/app_text_styles.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_provider.dart';
 import 'package:sharkship/features/orders/presentation/widgets/orders_header.dart';
 import 'package:sharkship/features/shipments/presentation/state/shipment_notifier.dart';
@@ -103,6 +104,7 @@ class _OrderCardState extends ConsumerState<ShipmentCard> {
                       ),
                       child: Text(
                         "Order Id: ${order.id}",
+                        style: Theme.of(context).textTheme.bodyMedium,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -170,7 +172,7 @@ class _OrderCardState extends ConsumerState<ShipmentCard> {
                             padding: EdgeInsets.zero,
                             icon: const Icon(
                               Icons.more_horiz,
-                              color: ColorManager.lightBlue,
+                                color: AppColors.primaryBlue,
                             ),
 
                             position: PopupMenuPosition.under,
@@ -325,7 +327,7 @@ class _OrderCardState extends ConsumerState<ShipmentCard> {
                                 PopupMenuItem(
                                   value: 'cancel',
                                   child: Row(
-                                    children: const [
+                                    children:  [
                                       Icon(
                                         Icons.cancel_sharp,
                                         size: 18,
@@ -334,7 +336,9 @@ class _OrderCardState extends ConsumerState<ShipmentCard> {
                                       SizedBox(width: 10),
                                       Text(
                                         'Cancel Order',
-                                        style: TextStyle(color: Colors.red),
+                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                              color: Colors.red,
+                                            ),
                                       ),
                                     ],
                                   ),
@@ -376,15 +380,14 @@ class _OrderCardState extends ConsumerState<ShipmentCard> {
                         children: [
                           Text(
                             "${order.channel}",
-                            style: TextStyle(
-                              fontSize: 14,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             "Channel Id: ${order.channelOrderId ?? '-'}",
-                            style: TextStyle(fontSize: 12),
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(height: 8),
                           Row(
@@ -414,8 +417,7 @@ class _OrderCardState extends ConsumerState<ShipmentCard> {
                           children: [
                             Text(
                               "₹ ${order.productPrice}/-",
-                              style: const TextStyle(
-                                fontSize: 16,
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -431,7 +433,7 @@ class _OrderCardState extends ConsumerState<ShipmentCard> {
                               ),
                               child: Text(
                                 order.paymentMode.toUpperCase(),
-                                style: TextStyle(fontSize: 11),
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             ),
                           ],
@@ -532,7 +534,9 @@ class _OrderCardState extends ConsumerState<ShipmentCard> {
                   children: [
                     Text(
                       isExpanded ? "Show Less" : "Show More",
-                      style: const TextStyle(color: Colors.blue),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Colors.blue,
+                          ),
                     ),
                     const SizedBox(width: 6),
                     Icon(
@@ -1036,9 +1040,8 @@ class _OrderCardState extends ConsumerState<ShipmentCard> {
             width: 130,
             child: Text(
               title,
-              style: const TextStyle(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: ColorManager.black,
               ),
             ),
           ),
@@ -1049,7 +1052,9 @@ class _OrderCardState extends ConsumerState<ShipmentCard> {
               overflow: isMultiline
                   ? TextOverflow.visible
                   : TextOverflow.ellipsis,
-              style: TextStyle(color: const Color.fromARGB(255, 101, 101, 101)),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: const Color.fromARGB(255, 101, 101, 101),
+                  ),
             ),
           ),
         ],

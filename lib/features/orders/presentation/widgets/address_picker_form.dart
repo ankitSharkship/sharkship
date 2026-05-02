@@ -132,14 +132,13 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
                 padding: const EdgeInsets.fromLTRB(24, 24, 16, 16),
                 child: Row(
                   children: [
-                    const Expanded(
+                     Expanded(
                       child: Text(
                         "Select Address",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF1A1A1A),
-                        ),
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w900,
+                              color: const Color(0xFF1A1A1A),
+                            ),
                       ),
                     ),
                     IconButton(
@@ -188,13 +187,12 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
                           ),
                         ),
 
-                        child: const Text(
+                        child: Text(
                           "Cancel",
-                          style: TextStyle(
-                            color: Color(0xFF0EA5E9),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                color: const Color(0xFF0EA5E9),
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                       ),
                     ),
@@ -286,11 +284,10 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
                 Expanded(
                   child: Text(
                     addr.name ?? "",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF1A1A1A),
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF1A1A1A),
+                        ),
                   ),
                 ),
                 if (addr.isDefault)
@@ -303,13 +300,12 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
                       color: const Color(0xFF22C55E),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text(
+                    child: Text(
                       "Default",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                   ),
               ],
@@ -317,36 +313,32 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
             const SizedBox(height: 12),
             Text(
               "${addr.addressLane1}, ${addr.addressLane2}",
-              style: const TextStyle(
-                fontSize: 15,
-                color: Color(0xFF64748B),
-                height: 1.4,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: const Color(0xFF64748B),
+                    height: 1.4,
+                  ),
             ),
             if (addr.landmark != null && addr.landmark!.isNotEmpty)
               Text(
                 addr.landmark!,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: Color(0xFF64748B),
-                  height: 1.4,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: const Color(0xFF64748B),
+                      height: 1.4,
+                    ),
               ),
             Text(
               "${addr.city}, ${addr.state}",
-              style: const TextStyle(
-                fontSize: 15,
-                color: Color(0xFF64748B),
-                height: 1.4,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: const Color(0xFF64748B),
+                    height: 1.4,
+                  ),
             ),
             Text(
               "Pincode: ${addr.pin}",
-              style: const TextStyle(
-                fontSize: 15,
-                color: Color(0xFF64748B),
-                height: 1.4,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: const Color(0xFF64748B),
+                    height: 1.4,
+                  ),
             ),
           ],
         ),

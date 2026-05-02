@@ -16,7 +16,7 @@ import 'package:sharkship/features/orders/presentation/widgets/order_skeleton.da
 import 'package:sharkship/features/orders/presentation/widgets/orders_header.dart';
 import 'package:sharkship/features/orders/presentation/widgets/orders_tabbar.dart';
 import 'package:sharkship/routes/app_router.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
@@ -74,7 +74,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
     final courierSettings = ref.watch(courierSettingsProvider);
 
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       body: SafeArea(
         child: Column(
           children: [
@@ -94,7 +94,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           gradient: LinearGradient(
-            colors: [ColorManager.primaryBlue, ColorManager.secondaryBlue],
+            colors: [AppColors.primaryBlue, AppColors.secondaryBlue],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -208,7 +208,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
           !selectedOrdersNotifer.isAllSelected(data)
               ? "Select All"
               : "Unselect All",
-          style: const TextStyle(fontSize: 14),
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );
@@ -230,15 +230,15 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
         const SizedBox(height: 10),
         Text(
           'No Orders Found',
-          style: TextStyle(
-            fontSize: 20,
-            color: ColorManager.secondaryBlue,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: AppColors.secondaryBlue,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const Text(
+        Text(
           'Start by creating a new order to manage and\n track it easily from this dashboard',
           textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );
@@ -295,14 +295,11 @@ class SingleOrderShipForm extends ConsumerWidget {
           padding: const EdgeInsets.fromLTRB(24, 24, 16, 16),
           child: Row(
             children: [
-              const Expanded(
-                child: Text(
-                  "Change Shipment Details",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w900,
-                    color: Color(0xFF1A1A1A),
-                  ),
+              Text(
+                "Change Shipment Details",
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w900,
+                  color: const Color(0xFF1A1A1A),
                 ),
               ),
               IconButton(
@@ -319,6 +316,7 @@ class SingleOrderShipForm extends ConsumerWidget {
               child: Column(
                 children: [
                   _input(
+                    context,
                     key: ValueKey('len_${state.isEditMode}'),
                     label: 'Length (cm)*',
                     hint: "",
@@ -327,6 +325,7 @@ class SingleOrderShipForm extends ConsumerWidget {
                     isEnabled: state.isEditMode,
                   ),
                   _input(
+                    context,
                     key: ValueKey('wid_${state.isEditMode}'),
                     label: 'Width (cm)*',
                     hint: "",
@@ -335,6 +334,7 @@ class SingleOrderShipForm extends ConsumerWidget {
                     isEnabled: state.isEditMode,
                   ),
                   _input(
+                    context,
                     key: ValueKey('hei_${state.isEditMode}'),
                     label: 'Height (cm)*',
                     hint: "",
@@ -343,6 +343,7 @@ class SingleOrderShipForm extends ConsumerWidget {
                     isEnabled: state.isEditMode,
                   ),
                   _input(
+                    context,
                     key: ValueKey('wei_${state.isEditMode}'),
                     label: 'Weight (kg)*',
                     hint: "",
@@ -370,11 +371,11 @@ class SingleOrderShipForm extends ConsumerWidget {
                           ),
                           child: Text(
                             !state.isEditMode ? "Edit" : "Cancel",
-                            style: const TextStyle(
-                              color: Color(0xFF0EA5E9),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
+                            style: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(
+                                  color: const Color(0xFF0EA5E9),
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                         ),
                       ),
@@ -429,7 +430,8 @@ class SingleOrderShipForm extends ConsumerWidget {
     );
   }
 
-  Widget _input({
+  Widget _input(
+    BuildContext context, {
     Key? key,
     required String label,
     required String hint,
@@ -446,9 +448,8 @@ class SingleOrderShipForm extends ConsumerWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w500,
-            fontSize: 13,
             color: Colors.black87,
           ),
         ),
@@ -460,10 +461,12 @@ class SingleOrderShipForm extends ConsumerWidget {
           obscureText: obscureText,
           onChanged: onChanged,
           readOnly: !isEnabled,
-          style: const TextStyle(fontSize: 14),
+          style: Theme.of(context).textTheme.bodyMedium,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+            hintStyle: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: Colors.grey.shade400),
             filled: true,
             fillColor: Colors.white,
             contentPadding: const EdgeInsets.symmetric(
