@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class ShipmentStatCard extends StatelessWidget {
   final String title;
@@ -17,7 +18,7 @@ class ShipmentStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const iconColor = Colors.blueAccent;
+    final iconColor = AppColors.primaryBlue;
 
     return GestureDetector(
       onTap: onTap,
@@ -54,19 +55,17 @@ class ShipmentStatCard extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w500,
+                        ),
                   ),
                   Text(
                     value,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 14,
-                      color: Colors.black,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black,
+                        ),
                   ),
                 ],
               ),

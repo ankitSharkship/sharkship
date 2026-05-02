@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -28,7 +29,10 @@ class HomeHeader extends StatelessWidget {
               Expanded(
                 child: Text(
                   name ?? "User",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -57,23 +61,23 @@ class HomeHeader extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFF2D7FB8),
+              color: AppColors.primaryBlue,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
-              children: const [
-                Icon(
+              children: [
+                const Icon(
                   Icons.account_balance_wallet,
                   color: Colors.white,
                   size: 16,
                 ),
-                SizedBox(width: 6),
+                const SizedBox(width: 6),
                 Text(
                   "₹ 12000.99",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ],
             ),

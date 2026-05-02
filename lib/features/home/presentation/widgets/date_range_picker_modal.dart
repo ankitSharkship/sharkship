@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_providers.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class DateRangePickerModal extends ConsumerStatefulWidget {
   const DateRangePickerModal({super.key});
@@ -42,9 +42,9 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: ColorManager.primaryBlue,
+              primary: AppColors.primaryBlue,
               onPrimary: Colors.white,
-              onSurface: ColorManager.black,
+              onSurface: Colors.black,
             ),
           ),
           child: child!,
@@ -77,9 +77,9 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      decoration: const BoxDecoration(
-        color: Color(0xFFE8F4F8), // Light bluish background from image
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.lightBlueBg, // Light bluish background from image
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -100,24 +100,22 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
             children: [
               const Icon(Icons.calendar_month, color: Colors.black, size: 24),
               const SizedBox(width: 12),
-              const Text(
+              Text(
                 'Select Date Range',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
               ),
             ],
           ),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'Start Date',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
           ),
           const SizedBox(height: 8),
           _buildDateField(
@@ -125,13 +123,12 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
             () => _selectDate(context, true),
           ),
           const SizedBox(height: 20),
-          const Text(
+          Text(
             'End Date',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
           ),
           const SizedBox(height: 8),
           _buildDateField(
@@ -173,13 +170,12 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              child: const Text(
+              child: Text(
                 'Apply',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
               ),
             ),
           ),
@@ -204,11 +200,10 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
           children: [
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Color(0xFF7C86A2),
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: const Color(0xFF7C86A2),
+                    fontWeight: FontWeight.w500,
+                  ),
             ),
             const Icon(
               Icons.calendar_today_outlined,

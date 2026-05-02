@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:sharkship/shared/widgets/gradient_button.dart';
@@ -60,11 +61,10 @@ class HeroCard extends StatelessWidget {
               /// Title
               Text(
                 data.title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF1E88C8),
-                ),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primaryBlue,
+                    ),
               ),
 
               const SizedBox(height: 8),
@@ -74,11 +74,10 @@ class HeroCard extends StatelessWidget {
                 width: 220, // prevents overlap with SVG
                 child: Text(
                   data.description,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.black54,
-                    height: 1.4,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.black54,
+                        height: 1.4,
+                      ),
                 ),
               ),
 

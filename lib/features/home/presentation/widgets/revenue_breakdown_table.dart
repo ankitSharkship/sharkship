@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/core/charts/theme/chart_theme.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../../domain/entities/order_revenue.dart';
 
@@ -27,13 +27,13 @@ class RevenueBreakdownTable extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(16.0),
                       child: Text(
                         "Detailed Revenue Breakdown",
-                        style: TextStyle(
-                          fontSize: 16,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -42,7 +42,7 @@ class RevenueBreakdownTable extends ConsumerWidget {
                       child: DataTable(
                         columnSpacing: 24,
                         headingRowColor: WidgetStateProperty.all(
-                          ColorManager.primaryBlue.withOpacity(0.05),
+                          AppColors.primaryBlue.withOpacity(0.05),
                         ),
                         columns: const [
                           DataColumn(label: Text('Carrier')),

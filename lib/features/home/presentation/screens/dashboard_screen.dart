@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/widgets/ndr_grid.dart';
 import 'package:sharkship/features/home/presentation/widgets/pickups_charts.dart';
@@ -11,8 +12,6 @@ import 'package:sharkship/features/home/presentation/widgets/revenue_stats_chart
 import 'package:sharkship/features/home/presentation/widgets/shipment_grid.dart';
 import 'package:sharkship/features/home/presentation/widgets/remittance_summary_grid.dart';
 import 'package:sharkship/features/home/presentation/widgets/business_overview_widgets.dart';
-import 'package:sharkship/shared/constants/colors.dart';
-import 'package:sharkship/shared/widgets/loader.dart';
 import '../providers/dashboard_tab_provider.dart';
 import '../state/dashboard_notifier.dart';
 import '../widgets/dashboard_header.dart';
@@ -56,7 +55,7 @@ class DashboardScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: ColorManager.scaffoldBg,
+      backgroundColor: AppColors.scaffoldBg,
       body: SafeArea(
         child: Column(
           children: [
@@ -67,7 +66,7 @@ class DashboardScreen extends ConsumerWidget {
                 onRefresh: () => _onRefresh(selectedTab),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: _buildTabContent(selectedTab, ref),
+                  child: _buildTabContent(selectedTab, ref, context),
                 ),
               ),
             ),
@@ -77,7 +76,7 @@ class DashboardScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildTabContent(int tab, WidgetRef ref) {
+  Widget _buildTabContent(int tab, WidgetRef ref, BuildContext context) {
     switch (tab) {
       case 0:
         return SingleChildScrollView(
@@ -166,7 +165,12 @@ class DashboardScreen extends ConsumerWidget {
           },
         );
       default:
-        return const Center(child: Text('Coming Soon'));
+        return Center(
+          child: Text(
+            'Coming Soon',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+        );
     }
   }
 }

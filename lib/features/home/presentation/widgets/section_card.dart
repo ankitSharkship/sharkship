@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
@@ -31,8 +32,8 @@ class SectionCard extends StatelessWidget {
     this.icon,
     this.svgAsset,
 
-    this.iconColor = const Color(0xFF1E88C8),
-    this.iconBackgroundColor = const Color(0xFFEAF3FB),
+    this.iconColor = AppColors.primaryBlue,
+    this.iconBackgroundColor = AppColors.lightBlueBg,
     this.buttonGradient,
 
     this.variant = SectionCardVariant.standard,
@@ -82,10 +83,10 @@ class SectionCard extends StatelessWidget {
                 /// TITLE
                 Text(
                   title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: isCompact ? 13 : 14,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
                 ),
 
                 const SizedBox(height: 4),
@@ -93,11 +94,10 @@ class SectionCard extends StatelessWidget {
                 /// DESCRIPTION
                 Text(
                   description,
-                  style: TextStyle(
-                    fontSize: isCompact ? 11 : 12,
-                    color: Colors.black54,
-                    height: 1.4,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.black54,
+                        height: 1.4,
+                      ),
                 ),
 
                 const SizedBox(height: 10),

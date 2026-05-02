@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sharkship/shared/constants/colors.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 
 class QuickActionItem extends StatelessWidget {
@@ -24,7 +23,7 @@ class QuickActionItem extends StatelessWidget {
         width: 100,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: ColorManager.white,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -46,7 +45,10 @@ class QuickActionItem extends StatelessWidget {
             Text(
               label,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 11),
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall
+                  ?.copyWith(color: Colors.black),
             ),
           ],
         ),

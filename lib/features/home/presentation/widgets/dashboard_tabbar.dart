@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/dashboard_tab_provider.dart';
 
@@ -21,18 +22,18 @@ class DashboardTabBar extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 194, 238, 255),
+                color: AppColors.lightBlueBg,
                 border: Border(
                   bottom: BorderSide(
-                    color: isActive ? Colors.blue : Colors.transparent,
+                    color: isActive ? AppColors.primaryBlue : Colors.transparent,
                     width: 2,
                   ),
                 ),
               ),
               child: Text(
                 dashboardTabs[i],
-                style: TextStyle(
-                  color: isActive ? Colors.blue : Colors.black54,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: isActive ? AppColors.primaryBlue : Colors.black54,
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                 ),
               ),

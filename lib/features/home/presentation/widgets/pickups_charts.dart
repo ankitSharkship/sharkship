@@ -19,7 +19,8 @@ class PickupsCharts extends ConsumerWidget {
       loading: () => const Center(
         child: Padding(padding: EdgeInsets.all(20.0), child: ThreeDotsLoader()),
       ),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (err, stack) =>
+          Center(child: Text('Error: $err', style: Theme.of(context).textTheme.bodySmall)),
       data: (summary) {
         if (summary.items.isEmpty) {
           return BaseChartCard(
@@ -35,6 +36,7 @@ class PickupsCharts extends ConsumerWidget {
                   child: Text(
                     'No Data Available\nSelect a different date range',
                     textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ],

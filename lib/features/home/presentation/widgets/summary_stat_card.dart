@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class SummaryStatCard extends StatelessWidget {
   final String title;
@@ -24,7 +25,7 @@ class SummaryStatCard extends StatelessWidget {
         ? (increase! >= 0 ? Colors.green : Colors.red)
         : Colors.grey;
     final sign = increase != null ? (increase! >= 0 ? "+" : "") : "";
-    final iconColor = Colors.blueAccent;
+    final iconColor = AppColors.primaryBlue;
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -32,7 +33,7 @@ class SummaryStatCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border(
-          bottom: BorderSide(color: Colors.blue.shade700, width: 4),
+          bottom: BorderSide(color: AppColors.primaryBlue, width: 4),
         ),
         boxShadow: [
           BoxShadow(
@@ -62,11 +63,10 @@ class SummaryStatCard extends StatelessWidget {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                    color: Colors.black54,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black54,
+                      ),
                 ),
               ),
             ],
@@ -74,11 +74,10 @@ class SummaryStatCard extends StatelessWidget {
           const Spacer(),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
-            ),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
           ),
           if (showGrowth) ...[
             const SizedBox(height: 6),
@@ -92,11 +91,10 @@ class SummaryStatCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   "$sign${increase!.toStringAsFixed(1)}% vs yesterday",
-                  style: TextStyle(
-                    color: color,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: color,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ],
             ),

@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sharkship/core/charts/bar/app_bar_chart.dart';
 import 'package:sharkship/core/charts/models/chart_point.dart';
 import 'package:sharkship/core/charts/pie/app_pie_chart.dart';
-import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../state/dashboard_notifier.dart';
 import 'package:intl/intl.dart';
@@ -46,9 +46,12 @@ class BusinessOverviewChart extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 "Business Trends",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
               ),
               const SizedBox(height: 20),
               if (data.isEmpty)
@@ -64,6 +67,7 @@ class BusinessOverviewChart extends ConsumerWidget {
                         child: Text(
                           'No Data Available\nSelect a different date range',
                           textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
                     ],
@@ -120,9 +124,12 @@ class ZoneDistributionOverviewChart extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 "Order Distribution by Zone",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
               ),
               const SizedBox(height: 20),
               if (data.isEmpty)
@@ -139,6 +146,7 @@ class ZoneDistributionOverviewChart extends ConsumerWidget {
                         child: Text(
                           'No Data Available\nSelect a different date range',
                           textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
                     ],
@@ -195,11 +203,14 @@ class StateWiseOrdersTable extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text(
                   "State-wise Order Status",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                 ),
               ),
               SingleChildScrollView(
@@ -207,7 +218,7 @@ class StateWiseOrdersTable extends ConsumerWidget {
                 child: DataTable(
                   columnSpacing: 24,
                   headingRowColor: WidgetStateProperty.all(
-                    ColorManager.primaryBlue.withOpacity(0.05),
+                    AppColors.primaryBlue.withOpacity(0.05),
                   ),
                   columns: const [
                     DataColumn(label: Text('State')),
