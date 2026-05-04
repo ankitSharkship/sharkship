@@ -42,7 +42,7 @@ final class UserBalanceNotifierProvider
 }
 
 String _$userBalanceNotifierHash() =>
-    r'db89ff40e0d0b4eb4e585731355ca369879c02a8';
+    r'aa76c09f5632e15c519db42cdd5674ff4c5b61b8';
 
 abstract class _$UserBalanceNotifier
     extends $Notifier<AsyncValue<UserBalance?>> {

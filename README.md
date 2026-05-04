@@ -36,3 +36,14 @@ features/
  ├── services/    (gps, storage, auth)
  ├── errors/
  └── utils/# sharkship
+
+
+<!-- Add this in the proguard files when creating t -->
+<!-- proguard rules ->
+-keepattributes *Annotation*
+-dontwarn com.razorpay.**
+-keep class com.razorpay.** {*;}
+-optimizations !method/inlining/
+-keepclasseswithmembers class * {
+ public void onPayment*(...);
+} -->
