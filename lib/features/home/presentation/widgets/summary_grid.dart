@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 
 import '../state/dashboard_notifier.dart';
 import 'package:sharkship/features/home/presentation/widgets/summary_stat_card.dart';
@@ -14,7 +15,14 @@ class TodayMetricsSummaryGrid extends ConsumerWidget {
 
     return metricsState.when(
       loading: () => _TodayMetricsSkeleton(),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (err, stack) => Center(
+        child: ErrorCard(
+          errMssg: "Failed to Load",
+          onRetry: () {
+            ref.invalidate(todayMetricsProvider);
+          },
+        ),
+      ),
       data: (metrics) {
         final items = [
           (
@@ -71,7 +79,12 @@ class PickupsSummaryGrid extends ConsumerWidget {
 
     return metricsState.when(
       loading: () => _TodayMetricsSkeleton(),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (err, stack) => ErrorCard(
+        errMssg: "Failed to Load",
+        onRetry: () {
+          ref.invalidate(courierPickupProvider);
+        },
+      ),
       data: (metrics) {
         // Correctly access items through metrics.items
         final totalPending = metrics.items.fold<int>(
@@ -135,7 +148,12 @@ class NDRSummaryGrid extends ConsumerWidget {
 
     return ndrStatusAsync.when(
       loading: () => _TodayMetricsSkeleton(),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (err, stack) =>  ErrorCard(
+        errMssg: "Failed to Load",
+        onRetry: () {
+          ref.invalidate(ndrStatusProvider);
+        },
+      ),
       data: (metrics) {
         // Correctly access items through metrics.items
         if (metrics.countByNDRStatus.isEmpty) {

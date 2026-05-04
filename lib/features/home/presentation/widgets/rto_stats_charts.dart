@@ -8,6 +8,7 @@ import 'package:sharkship/core/charts/line/app_line_chart.dart';
 import 'package:sharkship/core/charts/models/chart_point.dart';
 import 'package:sharkship/core/charts/pie/app_pie_chart.dart';
 import 'package:sharkship/core/charts/widgets/base_chart_card.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 import '../state/dashboard_notifier.dart';
@@ -39,7 +40,13 @@ class RtoStatsCharts extends ConsumerWidget {
               ),
             ],
           ),
-          error: (err, _) => Center(child: Text("Error: $err")),
+          error: (err, _) => ErrorCard(
+            errMssg: "Failed to Load",
+            onRetry: () {
+              ref.invalidate(topRtoDataProvider);
+              ref.invalidate(datewiseRtoProvider);
+            },
+          ),
           data: (data) {
             final pinPoints = data.topRtoPincode
                 .take(5)

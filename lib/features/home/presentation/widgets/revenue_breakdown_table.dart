@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/core/charts/theme/chart_theme.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../../domain/entities/order_revenue.dart';
 
@@ -14,7 +15,13 @@ class RevenueBreakdownTable extends ConsumerWidget {
     final revenueState = ref.watch(orderRevenueProvider);
     return revenueState.when(
       loading: () => ThreeDotsLoader(),
-      error: (error, stackTrace) => ErrorWidget(error),
+      error: (error, stackTrace) =>  ErrorCard(
+            errMssg: "Failed to Load",
+            onRetry: () {
+              ref.invalidate(orderRevenueProvider);
+
+            },
+          ),
       data: (revenue) {
         final data = revenue.courierRevenues;
         return data.isNotEmpty

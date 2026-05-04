@@ -6,6 +6,7 @@ import 'package:sharkship/features/nav/presentation/state/bottom_nav_state.dart'
 import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
 import 'package:sharkship/features/shipments/presentation/state/shipment_tab_provider.dart';
 import 'package:sharkship/routes/app_router.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'shipment_stat_card.dart';
@@ -19,7 +20,12 @@ class ShipmentGrid extends ConsumerWidget {
 
     return statusState.when(
       loading: () => const _ShipmentGridSkeleton(),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (err, stack) => ErrorCard(
+        errMssg: "Failed to Load",
+        onRetry: () {
+          ref.invalidate(orderStatusProvider);
+        },
+      ),
       data: (summary) {
         final items = [
           (

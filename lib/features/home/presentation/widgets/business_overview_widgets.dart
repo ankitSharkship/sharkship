@@ -5,6 +5,7 @@ import 'package:sharkship/core/charts/bar/app_bar_chart.dart';
 import 'package:sharkship/core/charts/models/chart_point.dart';
 import 'package:sharkship/core/charts/pie/app_pie_chart.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../state/dashboard_notifier.dart';
 import 'package:intl/intl.dart';
@@ -18,7 +19,12 @@ class BusinessOverviewChart extends ConsumerWidget {
 
     return businessState.when(
       loading: () => const Center(child: ThreeDotsLoader()),
-      error: (e, _) => Center(child: Text("Error: $e")),
+      error: (e, _) => ErrorCard(
+        errMssg: "Failed to Load",
+        onRetry: () {
+          ref.invalidate(businessOverviewProvider);
+        },
+      ),
       data: (data) {
         final chartData = data
             .map(
@@ -49,9 +55,9 @@ class BusinessOverviewChart extends ConsumerWidget {
               Text(
                 "Business Trends",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
               const SizedBox(height: 20),
               if (data.isEmpty)
@@ -93,7 +99,12 @@ class ZoneDistributionOverviewChart extends ConsumerWidget {
 
     return zoneState.when(
       loading: () => const Center(child: ThreeDotsLoader()),
-      error: (e, _) => Center(child: Text("Error: $e")),
+      error: (e, _) => ErrorCard(
+        errMssg: "Failed to Load",
+        onRetry: () {
+          ref.invalidate(zoneDistributionProvider);
+        },
+      ),
       data: (data) {
         final total = data.fold<int>(0, (sum, item) => sum + item.count);
         final chartItems = data
@@ -127,14 +138,13 @@ class ZoneDistributionOverviewChart extends ConsumerWidget {
               Text(
                 "Order Distribution by Zone",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
               const SizedBox(height: 20),
               if (data.isEmpty)
                 Expanded(
-                  
                   child: Column(
                     children: [
                       SvgPicture.asset(
@@ -172,7 +182,12 @@ class StateWiseOrdersTable extends ConsumerWidget {
 
     return mapState.when(
       loading: () => const Center(child: ThreeDotsLoader()),
-      error: (e, _) => Center(child: Text("Error: $e")),
+      error: (e, _) => ErrorCard(
+        errMssg: "Failed to Load",
+        onRetry: () {
+          ref.invalidate(mapOrdersProvider);
+        },
+      ),
       data: (data) {
         final Map<String, Map<String, int>> grouped = {};
 
@@ -203,14 +218,14 @@ class StateWiseOrdersTable extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text(
                   "State-wise Order Status",
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               SingleChildScrollView(

@@ -12,5 +12,5 @@ AuthService authService(Ref ref) {
 @riverpod
 DioClient dioClient(Ref ref) {
   final auth = ref.watch(authServiceProvider);
-  return DioClient.create(auth);
+  return DioClient.create(auth, ref);
 }

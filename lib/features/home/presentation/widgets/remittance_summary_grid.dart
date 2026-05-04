@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/widgets/shipment_stat_card.dart';
 import 'package:sharkship/features/home/presentation/widgets/summary_stat_card.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -16,7 +17,12 @@ class RemittanceSummaryGrid extends ConsumerWidget {
 
     return remittanceState.when(
       loading: () => const Center(child: _RemittanceSummaryGridSkeleton()),
-      error: (error, _) => Center(child: Text('Error: $error')),
+      error: (error, _) => ErrorCard(
+        errMssg: "Failed to Load",
+        onRetry: () {
+          ref.invalidate(remittanceOverviewProvider);
+        },
+      ),
       data: (data) {
         final items = [
           (

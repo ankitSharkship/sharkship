@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sharkship/core/charts/models/chart_point.dart';
 import 'package:sharkship/core/charts/pie/app_pie_chart.dart';
 import 'package:sharkship/core/charts/widgets/base_chart_card.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../state/dashboard_notifier.dart';
 
@@ -19,7 +20,13 @@ class RevenueStatsCharts extends ConsumerWidget {
         title: "Order Distribution",
         child: Center(child: ThreeDotsLoader()),
       ),
-      error: (err, _) => Center(child: Text("Error: $err")),
+      error: (err, _) =>  ErrorCard(
+            errMssg: "Failed to Load",
+            onRetry: () {
+              ref.invalidate(orderRevenueProvider);
+
+            },
+          ),
       data: (data) {
         final orderDistribution = data.courierRevenues.map((e) {
           return ChartPoint(e.carrierName, e.numberOfOrders.toDouble());

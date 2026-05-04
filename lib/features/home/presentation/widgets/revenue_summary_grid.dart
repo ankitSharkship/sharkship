@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/widgets/summary_stat_card.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 
 import 'package:skeletonizer/skeletonizer.dart';
 import '../state/dashboard_notifier.dart';
@@ -14,7 +15,13 @@ class RevenueSummaryGrid extends ConsumerWidget {
 
     return revenueState.when(
       loading: () => const Center(child: _RevenueSummaryGridSkeleton()),
-      error: (error, _) => Center(child: Text('Error: $error')),
+      error: (error, _) =>  ErrorCard(
+            errMssg: "Failed to Load",
+            onRetry: () {
+              ref.invalidate(orderRevenueProvider);
+
+            },
+          ),
       data: (revenue) {
         final items = [
           (

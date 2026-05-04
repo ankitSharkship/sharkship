@@ -7,6 +7,7 @@ import 'package:sharkship/core/charts/line/app_line_chart.dart';
 import 'package:sharkship/core/charts/models/chart_point.dart';
 import 'package:sharkship/core/charts/widgets/base_chart_card.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import 'package:intl/intl.dart';
 
@@ -26,7 +27,13 @@ class NDRStatsCharts extends ConsumerWidget {
             title: "NDR By Courier",
             child: Center(child: ThreeDotsLoader()),
           ),
-          error: (err, _) => Center(child: Text("Error: $err")),
+          error: (err, _) => ErrorCard(
+            errMssg: "Failed to Load",
+            onRetry: () {
+              ref.invalidate(ndrDataProvider);
+              ref.invalidate(datewiseNdrProvider);
+            },
+          ),
           data: (data) {
             if (data.ndrDataByCourier.isEmpty) {
               return BaseChartCard(

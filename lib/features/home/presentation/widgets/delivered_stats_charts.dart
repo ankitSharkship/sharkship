@@ -8,6 +8,7 @@ import 'package:sharkship/core/charts/line/app_line_chart.dart';
 import 'package:sharkship/core/charts/models/chart_point.dart';
 import 'package:sharkship/core/charts/pie/app_pie_chart.dart';
 import 'package:sharkship/core/charts/widgets/base_chart_card.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
@@ -37,7 +38,13 @@ class DeliveredStatsCharts extends ConsumerWidget {
               ),
             ],
           ),
-          error: (err, _) => Center(child: Text("Error: $err")),
+          error: (err, _) => ErrorCard(
+            errMssg: "Failed to Load",
+            onRetry: () {
+              ref.invalidate(topDeliveredDataProvider);
+              ref.invalidate(codTrendProvider);
+            },
+          ),
           data: (data) {
             final cityPoints = data.topDeliveredCity
                 .take(5)

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/features/ndr/presentation/state/ndr_tab_provider.dart';
 import 'package:sharkship/routes/app_router.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 // import 'package:sharkship/shared/widgets/loader.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -18,7 +19,12 @@ class NDRGrid extends ConsumerWidget {
 
     return statusState.when(
       loading: () => const NDRGridSkeleton(),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (err, stack) => ErrorCard(
+        errMssg: "Failed to Load",
+        onRetry: () {
+          ref.invalidate(ndrStatusProvider);
+        },
+      ),
       data: (summary) {
         if (summary.countByNDRStatus.isEmpty) {
           return const SizedBox.shrink();

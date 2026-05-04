@@ -6,6 +6,7 @@ import 'package:sharkship/core/charts/models/stacked_chart_point.dart';
 import 'package:sharkship/core/charts/theme/chart_theme.dart';
 import 'package:sharkship/core/charts/widgets/base_chart_card.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 class PickupsCharts extends ConsumerWidget {
@@ -20,7 +21,12 @@ class PickupsCharts extends ConsumerWidget {
         child: Padding(padding: EdgeInsets.all(20.0), child: ThreeDotsLoader()),
       ),
       error: (err, stack) =>
-          Center(child: Text('Error: $err', style: Theme.of(context).textTheme.bodySmall)),
+         ErrorCard(
+        errMssg: "Failed to Load",
+        onRetry: () {
+          ref.invalidate(courierPickupProvider);
+        },
+      ),
       data: (summary) {
         if (summary.items.isEmpty) {
           return BaseChartCard(
