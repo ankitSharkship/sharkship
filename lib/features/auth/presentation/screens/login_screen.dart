@@ -7,6 +7,7 @@ import 'package:sharkship/features/auth/presentation/state/signup_notifier.dart'
 import 'package:sharkship/features/auth/presentation/state/signup_state.dart';
 import 'package:sharkship/routes/app_router.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/widgets/error_popup.dart';
 import '../../../../shared/widgets/custom_error_widget.dart';
 import '../../../../shared/widgets/loader.dart';
 import '../../../../utlis/validators.dart';
@@ -211,9 +212,18 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    void showErrorPopup(BuildContext context, String message) {
+      showDialog(
+        context: context,
+        barrierDismissible: true, // allow tap outside
+        builder: (_) => ErrorPopup(message: message),
+      );
+    }
+
     ref.listen<AsyncValue<void>>(authProvider, (_, next) {
       if (next.hasError && !next.isLoading) {
-        CustomErrorWidget.show(context, errorMessage: next.error.toString());
+        // CustomErrorWidget.show(context, errorMessage: next.error.toString());
+        showErrorPopup(context, next.error.toString());
       }
     });
     // Inside your build method in AuthScreen

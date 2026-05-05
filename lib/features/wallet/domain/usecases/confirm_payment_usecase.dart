@@ -8,13 +8,13 @@ class ConfirmPaymentUseCase {
 
   Future<PaymentConfirmEntity> call({
     required String orderId,
-    required String paymentId,
-    required String signature,
+     String? paymentId,
+     String? signature,
     String paymentGateway = 'RAZORPAY',
   }) {
     return repository.confirmPayment(
       orderId: orderId,
-      paymentId: paymentId,
+       paymentId: paymentId,
       signature: signature,
       paymentGateway: paymentGateway,
     );

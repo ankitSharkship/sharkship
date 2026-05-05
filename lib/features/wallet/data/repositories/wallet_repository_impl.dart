@@ -39,8 +39,8 @@ class WalletRepositoryImpl implements WalletRepository {
   @override
   Future<PaymentConfirmEntity> confirmPayment({
     required String orderId,
-    required String paymentId,
-    required String signature,
+    String? paymentId,
+     String? signature,
     required String paymentGateway,
   }) async {
     return await remoteDataSource.confirmPayment(

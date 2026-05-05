@@ -7,6 +7,7 @@
     </intent>
     <package android:name="com.digilocker.android"/>
   </queries>
+ 
     <application
         android:label="sharkship"
         android:name="${applicationName}"
@@ -36,6 +37,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
+         <package android:name="com.phonepe.app"/>
         <data
           android:scheme="sharkship"
           android:host="digilocker"/>

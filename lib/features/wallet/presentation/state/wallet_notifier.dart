@@ -4,11 +4,15 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharkship/features/user/presentation/state/user_notifier.dart';
 import 'package:sharkship/features/user/presentation/state/user_providers.dart';
+import 'package:sharkship/features/wallet/data/datasources/phonepe_datasource.dart';
 import 'package:sharkship/features/wallet/data/datasources/razorpay_datasource.dart';
 import 'package:sharkship/features/wallet/data/repositories/payment_repository_impl.dart';
+import 'package:sharkship/features/wallet/data/repositories/phonepe_reository_impl.dart';
 import 'package:sharkship/features/wallet/domain/entities/coupon_entity.dart';
 import 'package:sharkship/features/wallet/domain/entities/payment_request.dart';
+import 'package:sharkship/features/wallet/domain/repositories/phonepe_repository.dart';
 import 'package:sharkship/features/wallet/domain/usecases/start_payment_usecase.dart';
+import 'package:sharkship/features/wallet/domain/usecases/start_phonepe_payment_usecase.dart';
 import 'package:sharkship/features/wallet/domain/repositories/payment_repository.dart';
 import 'wallet_providers.dart';
 
@@ -29,6 +33,22 @@ final startPaymentUseCaseProvider = Provider<StartPaymentUseCase>((ref) {
   final repo = ref.watch(razorpayRepositoryProvider);
   return StartPaymentUseCase(repo);
 });
+
+final phonePeDataSourceProvider = Provider<PhonePeDataSource>((ref) {
+  return PhonePeDataSource();
+});
+
+final phonePeRepositoryProvider = Provider<PhonePeRepository>((ref) {
+  final ds = ref.watch(phonePeDataSourceProvider);
+  return PhonePeRepositoryImpl(ds);
+});
+
+final startPhonePePaymentUseCaseProvider = Provider<StartPhonePePaymentUseCase>(
+  (ref) {
+    final repo = ref.watch(phonePeRepositoryProvider);
+    return StartPhonePePaymentUseCase(repo);
+  },
+);
 
 class WalletState {
   final double amount;
@@ -183,13 +203,23 @@ class WalletNotifier extends _$WalletNotifier {
     state = state.copyWith(isLoading: true, errorMessage: () => null);
     try {
       final useCase = ref.read(initiatePaymentUseCaseProvider);
- 
+
       final result = await useCase(
         amount: state.amount,
         couponCode: state.selectedCoupon?.couponCode,
         paymentGateway: state.selectedPaymentGateway,
       );
       final mobileNumber = ref.read(userProvider).value?.phoneNo;
+      // if (state.selectedPaymentGateway == 'PHONEPE') {
+      //   final request = result.phonePeRequest;
+      //   final flowId = result.orderId; // or userId
+
+      //   final response = await ref
+      //       .read(startPhonePePaymentUseCaseProvider)
+      //       .call(request: request, flowId: flowId);
+
+      //   await _handlePhonePeResponse(response, result.orderId);
+      // }
 
       // CRITICAL FIX: Use 'result.id' (the Razorpay order ID) instead of 'result.orderId' (internal UUID)
       await ref
@@ -212,6 +242,31 @@ class WalletNotifier extends _$WalletNotifier {
       state = state.copyWith(
         isLoading: false,
         errorMessage: () => 'Failed to initiate payment',
+      );
+    }
+  }
+
+  Future<void> _handlePhonePeResponse(
+    Map<String, dynamic>? response,
+    String orderId,
+  ) async {
+    if (response == null) {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: () => 'Payment cancelled',
+      );
+      return;
+    }
+
+    final status = response['status'];
+
+    if (status == 'SUCCESS') {
+      // ⚠️ DO NOT trust this
+      await _verifyPhonePePayment(orderId);
+    } else {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: () => 'Payment failed: $status',
       );
     }
   }
@@ -248,5 +303,29 @@ class WalletNotifier extends _$WalletNotifier {
       isLoading: false,
       errorMessage: () => response.message ?? 'Payment Failed',
     );
+  }
+
+  Future<void> _verifyPhonePePayment(String orderId) async {
+    try {
+      final useCase = ref.read(confirmPaymentUseCaseProvider);
+
+      await ref
+          .read(confirmPaymentUseCaseProvider)
+          .call(orderId: orderId, paymentGateway: 'PHONEPE');
+
+      state = state.copyWith(
+        isLoading: false,
+        amount: 0,
+        selectedCoupon: () => null,
+        cashback: () => null,
+      );
+
+      refreshBalance();
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: () => 'Verification failed',
+      );
+    }
   }
 }

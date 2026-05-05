@@ -17,8 +17,8 @@ abstract class WalletRemoteDataSource {
   });
   Future<PaymentConfirmModel> confirmPayment({
     required String orderId,
-    required String paymentId,
-    required String signature,
+    String? paymentId,
+     String? signature,
     required String paymentGateway,
   });
 }
@@ -44,10 +44,7 @@ class WalletRemoteDataSourceImpl implements WalletRemoteDataSource {
   ) async {
     final response = await dio.post(
       '/v1/user/validate-coupon',
-      data: {
-        'coupon_code': couponCode,
-        'amount': amount,
-      },
+      data: {'coupon_code': couponCode, 'amount': amount},
     );
 
     return CouponValidationModel.fromJson(response.data);
@@ -75,16 +72,16 @@ class WalletRemoteDataSourceImpl implements WalletRemoteDataSource {
   @override
   Future<PaymentConfirmModel> confirmPayment({
     required String orderId,
-    required String paymentId,
-    required String signature,
+    String? paymentId,
+     String? signature,
     required String paymentGateway,
   }) async {
     final response = await dio.post(
       '/v1/finance/payment-gateway-confirm',
       data: {
         'orderId': orderId,
-        'paymentId': paymentId,
-        'signature': signature,
+        if (paymentId != null) 'paymentId': paymentId,
+        if (signature != null) 'signature': signature,
         'paymentGateway': paymentGateway,
       },
     );

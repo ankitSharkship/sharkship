@@ -61,6 +61,10 @@ PODS:
     - Flutter
   - permission_handler_apple (9.3.0):
     - Flutter
+  - phonepe_payment_sdk (3.0.2):
+    - Flutter
+    - PhonePePayment (= 4.0.0)
+  - PhonePePayment (4.0.0)
   - razorpay-core-pod (1.0.6)
   - razorpay-pod (1.5.3):
     - razorpay-core-pod (= 1.0.6)
@@ -97,6 +101,7 @@ DEPENDENCIES:
   - open_file_ios (from `.symlinks/plugins/open_file_ios/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - phonepe_payment_sdk (from `.symlinks/plugins/phonepe_payment_sdk/ios`)
   - razorpay_flutter (from `.symlinks/plugins/razorpay_flutter/ios`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
@@ -109,6 +114,7 @@ SPEC REPOS:
     - DKImagePickerController
     - DKPhotoGallery
     - OrderedSet
+    - PhonePePayment
     - razorpay-core-pod
     - razorpay-pod
     - SDWebImage
@@ -137,6 +143,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info_plus/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  phonepe_payment_sdk:
+    :path: ".symlinks/plugins/phonepe_payment_sdk/ios"
   razorpay_flutter:
     :path: ".symlinks/plugins/razorpay_flutter/ios"
   sqflite_darwin:
@@ -165,6 +173,8 @@ SPEC CHECKSUMS:
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
+  phonepe_payment_sdk: cac980d0deb0d024b091e207207fea9418b2a391
+  PhonePePayment: c720ada91c0976d6888a44571ced348ed8cd7d83
   razorpay-core-pod: 6da5fb4ed280279d665507fdb50e213d793a5fe2
   razorpay-pod: 4385cf844aa29389313b741e20c72fe668970d49
   razorpay_flutter: 0e98e4fcaae27ad50e011d85f66d85e0a008754a

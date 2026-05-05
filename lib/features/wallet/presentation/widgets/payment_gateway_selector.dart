@@ -17,7 +17,8 @@ class _PaymentGatewaySelectorState
   Widget build(BuildContext context) {
     final state = ref.watch(walletProvider);
     final notifier = ref.read(walletProvider.notifier);
-    final gateways = ["CASHFREE", "RAZORPAY", "PHONEPE", "PAYU"];
+    // final gateways = ["CASHFREE", "RAZORPAY", "PHONEPE", "PAYU"];
+    final gateways = ["RAZORPAY"];
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
