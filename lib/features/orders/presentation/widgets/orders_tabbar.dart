@@ -21,7 +21,7 @@ class OrdersTabbar extends ConsumerWidget {
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 194, 238, 255),
+                  color: AppColors.lightBlueBg,
                   border: Border(
                     bottom: BorderSide(
                       color: isActive ? Colors.blue : Colors.transparent,
@@ -32,9 +32,9 @@ class OrdersTabbar extends ConsumerWidget {
                 child: Text(
                   orderTabs[i],
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: isActive ? Colors.blue : Colors.black54,
-                        fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-                      ),
+                    color: isActive ? Colors.blue : Colors.black54,
+                    fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+                  ),
                 ),
               ),
             ),

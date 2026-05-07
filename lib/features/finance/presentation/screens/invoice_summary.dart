@@ -12,6 +12,7 @@ import 'package:sharkship/features/finance/presentation/widgets/cn_invoice_card.
 import 'package:sharkship/features/orders/presentation/widgets/order_skeleton.dart';
 import 'package:sharkship/features/finance/domain/entities/tax_invoice_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/cn_invoice_entity.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 
 class InvoiceSummary extends ConsumerStatefulWidget {
   const InvoiceSummary({super.key});
@@ -116,7 +117,12 @@ class _InvoiceSummaryState extends ConsumerState<InvoiceSummary> {
                 onRefresh: _onRefresh,
                 child: stateAsync.when(
                   loading: () => const OrdersSkeletonList(),
-                  error: (err, st) => Center(child: Text('Error: $err')),
+                  error: (err, st) => Center(
+                    child: ErrorCard(
+                      onRetry: () =>
+                          ref.invalidate(taxInvoicesProvider(selectedTab)),
+                    ),
+                  ),
                   data: (state) {
                     final invoices = selectedTab == 0
                         ? (state.taxInvoices ?? [])
@@ -159,9 +165,7 @@ class _InvoiceSummaryState extends ConsumerState<InvoiceSummary> {
                                 ),
                                 Text(
                                   isAllSelected ? "Unselect All" : "Select All",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
+                                  style: Theme.of(context).textTheme.bodySmall
                                       ?.copyWith(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
@@ -172,9 +176,7 @@ class _InvoiceSummaryState extends ConsumerState<InvoiceSummary> {
 
                                 Text(
                                   "${selectedInvoices.selectedIds.length} Selected",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
+                                  style: Theme.of(context).textTheme.bodySmall
                                       ?.copyWith(
                                         fontSize: 12,
                                         color: const Color(0xFF0084FF),

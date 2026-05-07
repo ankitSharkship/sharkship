@@ -9,6 +9,7 @@ import 'package:sharkship/features/tickets/presentation/widgets/ticket_card.dart
 import 'package:sharkship/features/tickets/presentation/widgets/tickets_header.dart';
 import 'package:sharkship/features/tickets/presentation/widgets/tickets_tabbar.dart';
 import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 
 class TicketsScreen extends ConsumerStatefulWidget {
   const TicketsScreen({super.key});
@@ -139,15 +140,12 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen> {
                       },
                     );
                   },
-                  error: (err, st) => ListView(
-                    controller: _scrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(32.0),
-                        child: Center(child: Text("Error: ${err.toString()}")),
-                      ),
-                    ],
+                  error: (err, st) => Center(
+                    child: ErrorCard(
+                      errMssg: "Failed to load Tickets",
+                      onRetry: () =>
+                          ref.invalidate(ticketsProvider(selectedTab)),
+                    ),
                   ),
                   loading: () => const OrdersSkeletonList(),
                 ),

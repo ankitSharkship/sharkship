@@ -14,6 +14,7 @@ import 'package:sharkship/features/wallet/domain/repositories/phonepe_repository
 import 'package:sharkship/features/wallet/domain/usecases/start_payment_usecase.dart';
 import 'package:sharkship/features/wallet/domain/usecases/start_phonepe_payment_usecase.dart';
 import 'package:sharkship/features/wallet/domain/repositories/payment_repository.dart';
+import 'package:sharkship/core/network/dio_exception_handler.dart';
 import 'wallet_providers.dart';
 
 part 'wallet_notifier.g.dart';
@@ -175,7 +176,7 @@ class WalletNotifier extends _$WalletNotifier {
     } catch (e) {
       state = state.copyWith(
         isApplyingCoupon: false,
-        errorMessage: () => 'Failed to apply coupon',
+        errorMessage: () => DioExceptionHandler.handle(e),
       );
     }
   }
@@ -241,7 +242,7 @@ class WalletNotifier extends _$WalletNotifier {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        errorMessage: () => 'Failed to initiate payment',
+        errorMessage: () => DioExceptionHandler.handle(e),
       );
     }
   }
@@ -292,8 +293,7 @@ class WalletNotifier extends _$WalletNotifier {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        errorMessage: () =>
-            'Payment confirmation failed. Please contact support.',
+        errorMessage: () => DioExceptionHandler.handle(e),
       );
     }
   }
@@ -324,7 +324,7 @@ class WalletNotifier extends _$WalletNotifier {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        errorMessage: () => 'Verification failed',
+        errorMessage: () => DioExceptionHandler.handle(e),
       );
     }
   }

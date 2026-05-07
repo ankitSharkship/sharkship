@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/user/presentation/state/user_notifier.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../widgets/home_header.dart';
 import '../widgets/hero_carousel.dart';
@@ -16,7 +17,9 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       body: userState.when(
         loading: () => const Center(child: ThreeDotsLoader()),
-        error: (err, _) => Center(child: Text(err.toString())),
+        error: (err, _) => Center(
+          child: ErrorCard(onRetry: () => ref.invalidate(userProvider)),
+        ),
         data: (user) {
           final userName = user?.firstName;
           final profileUrl = user?.profileImageUrl;
@@ -25,7 +28,7 @@ class HomeScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children:  [
+                children: [
                   SizedBox(height: 10),
                   HomeHeader(name: userName, profileUrl: profileUrl),
                   SizedBox(height: 20),

@@ -6,6 +6,7 @@ import 'package:sharkship/features/finance/presentation/widgets/rs_card.dart';
 import 'package:sharkship/features/finance/presentation/widgets/rs_header.dart';
 import 'package:sharkship/features/home/presentation/widgets/shipment_stat_card.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 class RemittanceSummary extends ConsumerStatefulWidget {
@@ -147,9 +148,9 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
                     child: Center(
                       child: Text(
                         "No records found",
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
-                        ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                       ),
                     ),
                   ),
@@ -175,9 +176,7 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
                         ),
                         Text(
                           isAllSelected ? "Unselect All" : "Select All",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
+                          style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -187,9 +186,7 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
                         const Spacer(),
                         Text(
                           "${selectedRs.selectedIds.length} Selected",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
+                          style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
                                 fontSize: 12,
                                 color: AppColors.primaryBlue,
@@ -242,8 +239,11 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
           ),
         );
       },
-      error: (err, stack) =>
-          Expanded(child: Center(child: Text(err.toString()))),
+      error: (err, stack) => Expanded(
+        child: Center(
+          child: ErrorCard(onRetry: () => ref.invalidate(remittanceProvider)),
+        ),
+      ),
       loading: () => const Expanded(child: Center(child: ThreeDotsLoader())),
     );
   }
@@ -266,10 +266,10 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
             child: Text(
               label,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
           ),
           Expanded(
@@ -277,11 +277,12 @@ class _RemittanceSummaryState extends ConsumerState<RemittanceSummary> {
             child: Text(
               value,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontSize: 14,
-                    color: valueColor ?? Colors.grey.shade600,
-                    fontWeight:
-                        valueColor != null ? FontWeight.bold : FontWeight.w500,
-                  ),
+                fontSize: 14,
+                color: valueColor ?? Colors.grey.shade600,
+                fontWeight: valueColor != null
+                    ? FontWeight.bold
+                    : FontWeight.w500,
+              ),
               textAlign: TextAlign.end,
               maxLines: isMultiline ? 3 : 1,
               overflow: TextOverflow.ellipsis,

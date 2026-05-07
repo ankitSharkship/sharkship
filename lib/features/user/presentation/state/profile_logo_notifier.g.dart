@@ -42,7 +42,7 @@ final class ProfileLogoNotifierProvider
 }
 
 String _$profileLogoNotifierHash() =>
-    r'236fc80070f3abce9e1acef89314d1f22ea431bd';
+    r'522107292202a966433772060b01b8fd96abfebd';
 
 abstract class _$ProfileLogoNotifier extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();

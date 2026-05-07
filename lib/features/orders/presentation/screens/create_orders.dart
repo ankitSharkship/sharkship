@@ -84,6 +84,7 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                       left: 16,
                       right: 16,
                       bottom: 100,
+                      top: 20,
                     ),
                     child: _buildTabContent(selectedTab, ref),
                   ),
@@ -223,8 +224,8 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                     fontWeight: FontWeight.bold,
                   ),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      notifier.downloadTemplate();
+                    ..onTap = () async {
+                      await notifier.downloadTemplate(context);
                     },
                 ),
                 const TextSpan(text: ' before uploading'),
@@ -251,7 +252,7 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                 onPressed: state.isLoading ? null : notifier.pickFile,
                 child: Text(
                   'Select File',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -303,7 +304,7 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                     },
               child: Text(
                 "Create Order",
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),

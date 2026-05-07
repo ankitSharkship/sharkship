@@ -47,7 +47,7 @@ final class CalculatorNotifierProvider
 }
 
 String _$calculatorNotifierHash() =>
-    r'ccaabe853608b97af3ba18d12619e1548d3fa598';
+    r'78fb84b1f098629272a5b27e49fcc1ce199130ad';
 
 abstract class _$CalculatorNotifier
     extends $Notifier<AsyncValue<List<CalculatorRateEntity>>> {

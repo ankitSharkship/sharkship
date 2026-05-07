@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/network/dio_exception_handler.dart';
 import 'package:sharkship/features/finance/presentation/state/sc_tab_provider.dart';
 import '../../domain/entities/shipping_rate_entity.dart';
 import 'finance_providers.dart';
@@ -23,7 +24,7 @@ class ShippingRatesNotifier extends _$ShippingRatesNotifier {
       state = AsyncValue.data(rates);
       return rates;
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+     state = AsyncValue.error(DioExceptionHandler.handle(e), st);
       rethrow;
     }
   }

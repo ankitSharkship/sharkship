@@ -14,7 +14,9 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final token = await authService.getToken();
 
     if (token != null) {
@@ -29,13 +31,19 @@ class AuthInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       final path = err.requestOptions.path;
       // Exclude login and registration paths from auto-logout logic
-      final isAuthPath = path.contains('/v1/auth/login') ||
+      final isAuthPath =
+          path.contains('/v1/auth/login') ||
           path.contains('/v1/auth/otp-login') ||
           path.contains('/v1/auth/generate-otp') ||
           path.contains('/v1/user/register') ||
           path.contains('/v1/user/authenticateUser');
 
       if (!isAuthPath) {
+        // Only trigger logout if we actually have a token to clear.
+        // This prevents the infinite 401 loop when UserNotifier tries to re-fetch.
+        final token = await authService.getToken();
+        if (token == null) return;
+
         // 1. Clear Secure Storage (tokens and user data)
         await authService.logout();
 
@@ -46,6 +54,8 @@ class AuthInterceptor extends Interceptor {
         } catch (_) {}
 
         // 3. Reset Riverpod State
+        // Use refresh instead of invalidate to force an immediate reset if needed,
+        // but avoid circular dependencies.
         ref.invalidate(userProvider);
         ref.invalidate(userBalanceProvider);
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/orders/presentation/widgets/courier_priority_form.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../state/courier_settings_notifier.dart';
@@ -132,13 +133,13 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
                 padding: const EdgeInsets.fromLTRB(24, 24, 16, 16),
                 child: Row(
                   children: [
-                     Expanded(
+                    Expanded(
                       child: Text(
                         "Select Address",
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w900,
-                              color: const Color(0xFF1A1A1A),
-                            ),
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF1A1A1A),
+                        ),
                       ),
                     ),
                     IconButton(
@@ -189,7 +190,8 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
 
                         child: Text(
                           "Cancel",
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
                                 color: const Color(0xFF0EA5E9),
                                 fontWeight: FontWeight.bold,
                               ),
@@ -241,10 +243,14 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
         loading: () => const Center(
           child: Padding(padding: EdgeInsets.all(50), child: ThreeDotsLoader()),
         ),
-        error: (e, _) => Center(child: Text("Error: $e")),
+        error: (e, _) => Center(
+          child: ErrorCard(
+            onRetry: () => ref.invalidate(courierSettingsProvider),
+            errMssg: "Something went wrong",
+          ),
+        ),
       ),
     );
-  
   }
 
   Widget _buildAddressCard(OrderAddressEntity addr) {
@@ -285,9 +291,9 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
                   child: Text(
                     addr.name ?? "",
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF1A1A1A),
-                        ),
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF1A1A1A),
+                    ),
                   ),
                 ),
                 if (addr.isDefault)
@@ -303,9 +309,9 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
                     child: Text(
                       "Default",
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
               ],
@@ -314,36 +320,35 @@ class _AddressPickerFormState extends ConsumerState<AddressPickerForm> {
             Text(
               "${addr.addressLane1}, ${addr.addressLane2}",
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFF64748B),
-                    height: 1.4,
-                  ),
+                color: const Color(0xFF64748B),
+                height: 1.4,
+              ),
             ),
             if (addr.landmark != null && addr.landmark!.isNotEmpty)
               Text(
                 addr.landmark!,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: const Color(0xFF64748B),
-                      height: 1.4,
-                    ),
+                  color: const Color(0xFF64748B),
+                  height: 1.4,
+                ),
               ),
             Text(
               "${addr.city}, ${addr.state}",
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFF64748B),
-                    height: 1.4,
-                  ),
+                color: const Color(0xFF64748B),
+                height: 1.4,
+              ),
             ),
             Text(
               "Pincode: ${addr.pin}",
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFF64748B),
-                    height: 1.4,
-                  ),
+                color: const Color(0xFF64748B),
+                height: 1.4,
+              ),
             ),
           ],
         ),
       ),
     );
   }
-
 }

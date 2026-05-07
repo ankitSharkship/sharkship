@@ -30,9 +30,9 @@ class _KycInfoState extends ConsumerState<KycInfo> {
         title: Text(
           'KYC Info',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: AppColors.scaffoldBg,
         elevation: 0,
@@ -80,7 +80,7 @@ class _KycInfoState extends ConsumerState<KycInfo> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Error: $error'),
+              Text('Something went wrong'),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () => ref.read(kycInfo.notifier).refresh(),
@@ -134,9 +134,9 @@ class _KycInfoState extends ConsumerState<KycInfo> {
               Text(
                 'Pan Details',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primaryBlue,
-                    ),
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primaryBlue,
+                ),
               ),
             ],
           ),
@@ -173,9 +173,9 @@ class _KycInfoState extends ConsumerState<KycInfo> {
               Text(
                 'Bank Details',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primaryBlue,
-                    ),
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primaryBlue,
+                ),
               ),
               if (bank.cancelledCheque != null &&
                   bank.cancelledCheque != false) ...[
@@ -190,9 +190,9 @@ class _KycInfoState extends ConsumerState<KycInfo> {
                     Text(
                       'Cancelled Cheque',
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),
@@ -234,9 +234,9 @@ class _KycInfoState extends ConsumerState<KycInfo> {
               Text(
                 'GST Details',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primaryBlue,
-                    ),
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primaryBlue,
+                ),
               ),
             ],
           ),
@@ -276,9 +276,9 @@ class _KycInfoState extends ConsumerState<KycInfo> {
           Text(
             'Documents',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primaryBlue,
-                ),
+              fontWeight: FontWeight.w700,
+              color: AppColors.primaryBlue,
+            ),
           ),
           const SizedBox(height: 16),
           _docRow('Aadhar Front:', 'Aadhar_Front.Doc', kyc.aadhaar != null),
@@ -306,18 +306,18 @@ class _KycInfoState extends ConsumerState<KycInfo> {
             child: Text(
               label,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
             ),
           ),
           Expanded(
             child: Text(
               value,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black87,
-                  ),
+                fontWeight: FontWeight.w500,
+                color: Colors.black87,
+              ),
             ),
           ),
         ],
@@ -337,16 +337,16 @@ class _KycInfoState extends ConsumerState<KycInfo> {
                 TextSpan(
                   text: '$label ',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
                 ),
                 TextSpan(
                   text: fileName,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black87,
-                      ),
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black87,
+                  ),
                 ),
               ],
             ),

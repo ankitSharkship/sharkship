@@ -41,7 +41,7 @@ final class DashboardDateProvider
   }
 }
 
-String _$dashboardDateHash() => r'b9471bc21d0ca8ac1526f5d4590face35d3a648b';
+String _$dashboardDateHash() => r'662908153c4e4154d522f61e45422612b76eb04b';
 
 abstract class _$DashboardDate extends $Notifier<DateTimeRange<DateTime>> {
   DateTimeRange<DateTime> build();

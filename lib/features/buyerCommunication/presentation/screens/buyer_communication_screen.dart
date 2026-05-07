@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/buyerCommunication/domain/entities/whatsapp_config_entity.dart';
 import 'package:sharkship/features/buyerCommunication/presentation/state/buyer_communication_notifier.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 class BuyerCommunicationScreen extends ConsumerStatefulWidget {
@@ -93,7 +94,7 @@ class _BuyerCommunicationScreenState
         ),
         body: state.when(
           loading: () => const Center(child: ThreeDotsLoader()),
-          error: (error, _) => Center(child: Text(error.toString())),
+          error: (error, _) => Center(child: ErrorCard(onRetry: () => ref.invalidate(buyerCommunicationProvider))),
           data: (data) => SingleChildScrollView(
             child: Container(
               color: const Color(0xFFF8F8F8),

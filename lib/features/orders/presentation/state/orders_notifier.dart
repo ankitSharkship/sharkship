@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/network/dio_exception_handler.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/filters_tab_provider.dart';
 import 'orders_provider.dart';
@@ -45,6 +46,7 @@ class OrdersState {
 class OrdersNotifier extends _$OrdersNotifier {
   @override
   Future<OrdersState> build(int tabIndex) async {
+    print('DEBUG: OrdersNotifier.build($tabIndex) called');
     final channel = ref.read(orderChannelFilterProvider);
     final serviceType = ref.read(orderCourierServiceTypeFilterProvider);
     final pickupAddressId = ref.read(orderPickupAddressFilterProvider);
@@ -69,9 +71,14 @@ class OrdersNotifier extends _$OrdersNotifier {
       whatsappRemark: whatsappRemark,
     );
 
-    final response = await _fetchOrders(params);
-
-    return OrdersState(data: response);
+    try {
+      final response = await _fetchOrders(params);
+      return OrdersState(data: response);
+    } catch (e, st) {
+      print('DEBUG: OrdersNotifier.build($tabIndex) error: $e');
+      final errorMssg = DioExceptionHandler.handle(e);
+      throw errorMssg; // Re-throw the user-friendly message
+    }
   }
 
   Future<OrdersResponseEntity> _fetchOrders(OrderListParams params) async {
@@ -82,7 +89,6 @@ class OrdersNotifier extends _$OrdersNotifier {
     final current = state.value;
     if (current == null) return;
 
-    // ✅ Overlay loading (keep old data)
     state = AsyncData(current.copyWith(isFiltering: true));
 
     try {
@@ -91,13 +97,15 @@ class OrdersNotifier extends _$OrdersNotifier {
 
       state = AsyncData(OrdersState(data: response));
     } catch (e, st) {
-      state = AsyncError(e, st);
+      final errorMssg = DioExceptionHandler.handle(e);
+      state = AsyncError(errorMssg, st);
     }
   }
 
   Future<void> loadMore() async {
     final current = state.value;
-    if (current == null || current.isLoadingMore || current.data == null) return;
+    if (current == null || current.isLoadingMore || current.data == null)
+      return;
 
     final totalCount = current.data!.totalCount;
     final currentCount = current.data!.orders.length;
@@ -107,10 +115,7 @@ class OrdersNotifier extends _$OrdersNotifier {
     state = AsyncData(current.copyWith(isLoadingMore: true));
 
     try {
-      final params = _buildParams().copyWith(
-        skip: currentCount,
-        total: 10,
-      );
+      final params = _buildParams().copyWith(skip: currentCount, total: 10);
 
       final newResponse = await _fetchOrders(params);
 
@@ -121,7 +126,10 @@ class OrdersNotifier extends _$OrdersNotifier {
 
       state = AsyncData(current.copyWith(data: updated, isLoadingMore: false));
     } catch (e, st) {
-      state = AsyncData(current.copyWith(isLoadingMore: false, error: e));
+      final errorMssg = DioExceptionHandler.handle(e);
+      state = AsyncData(
+        current.copyWith(isLoadingMore: false, error: errorMssg),
+      );
     }
   }
 

@@ -79,12 +79,12 @@ class _ShipmentRateCalculatorState
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
-        title:  Text(
+        centerTitle: false,
+        title: Text(
           'Shipping Rate Calculator',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -213,9 +213,9 @@ class _ShipmentRateCalculatorState
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
                     'Error: ${state.error}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.red,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.red),
                   ),
                 ),
             ],
@@ -233,16 +233,16 @@ class _ShipmentRateCalculatorState
           Text(
             text,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
           Text(
             ' *',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.orange,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: Colors.orange),
           ),
         ],
       ),
@@ -268,9 +268,9 @@ class _ShipmentRateCalculatorState
             : TextInputType.text,
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.grey.shade400,
-              ),
+          hintStyle: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: Colors.grey.shade400),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -307,9 +307,9 @@ class _ShipmentRateCalculatorState
               ),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey.shade400,
-                    ),
+                hintStyle: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.grey.shade400),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -334,9 +334,9 @@ class _ShipmentRateCalculatorState
             child: Text(
               unit,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],

@@ -6,6 +6,7 @@ import 'package:sharkship/features/user/presentation/state/user_notifier.dart';
 import 'package:sharkship/features/user/presentation/widget/user_profile_card.dart';
 import 'package:sharkship/features/user/presentation/widget/edit_profile_sheet.dart';
 import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 import 'package:sharkship/features/user/presentation/state/profile_logo_notifier.dart';
@@ -86,12 +87,17 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                     todayMetrics: metricsState,
                   );
                 },
-                error: (err, st) => ErrorWidget(err),
+                error: (err, st) => Center(
+                  child: ErrorCard(
+                    onRetry: () => ref.invalidate(userProvider),
+                    errMssg: "Something went wrong",
+                  ),
+                ),
                 loading: () {
                   return Skeletonizer(
                     enabled: true,
                     child: UserProfileCard(
-                      user: _dummyUser, 
+                      user: _dummyUser,
                       todayMetrics: null,
                     ),
                   );

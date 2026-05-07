@@ -38,7 +38,7 @@ final class BuyerCommunicationNotifierProvider
 }
 
 String _$buyerCommunicationNotifierHash() =>
-    r'cd73d6176d214b538659ee97487437b39c98c8d5';
+    r'bfb19c9be458c63bf7f662f0cc8a502b9caac156';
 
 abstract class _$BuyerCommunicationNotifier
     extends $AsyncNotifier<BuyerCommunicationData> {

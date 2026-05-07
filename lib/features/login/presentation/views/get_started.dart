@@ -124,12 +124,15 @@ class GetStartedScreen extends StatelessWidget {
               Positioned(
                 top: size.height * 0.04,
                 left: 0,
-                right: 0,
+                right: -100,
                 child: Center(
-                  child: Image.asset(
-                    "assets/images/login/scooter.png",
-                    width: size.width * 0.88,
-                    fit: BoxFit.contain,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Image.asset(
+                      "assets/images/login/scooter.png",
+                      width: size.width * 0.78,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),

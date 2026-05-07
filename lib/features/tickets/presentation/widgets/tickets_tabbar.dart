@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/tickets/presentation/state/tickets_tab_provider.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class TicketsTabbar extends ConsumerWidget {
   const TicketsTabbar({super.key});
@@ -22,7 +23,7 @@ class TicketsTabbar extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 194, 238, 255),
+                  color: AppColors.lightBlueBg,
                   border: Border(
                     bottom: BorderSide(
                       color: isActive ? Colors.blue : Colors.transparent,

@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/network/dio_exception_handler.dart';
 import '../../domain/entities/calculator_rate_entity.dart';
 import 'finance_providers.dart';
 
@@ -39,7 +40,7 @@ class CalculatorNotifier extends _$CalculatorNotifier {
           );
       state = AsyncValue.data(rates);
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+     state = AsyncValue.error(DioExceptionHandler.handle(e), st);
     }
   }
 }

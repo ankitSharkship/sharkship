@@ -1,7 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/providers/app_providers.dart';
 import '../../domain/entities/user.dart';
 import 'user_providers.dart';
-import 'user_balance_notifier.dart';
+import 'package:sharkship/core/network/dio_exception_handler.dart';
 
 part 'user_notifier.g.dart';
 
@@ -15,26 +16,27 @@ class UserNotifier extends _$UserNotifier {
 
   Future<void> _init() async {
     final repository = ref.read(userRepositoryProvider);
+    final authService = ref.read(authServiceProvider);
 
     try {
-      final localUser = await repository.getUserFromLocalStorage();
+      final token = await authService.getToken();
+      if (token == null || token.isEmpty) {
+        state = const AsyncValue.data(null);
+        return;
+      }
 
+      final localUser = await repository.getUserFromLocalStorage();
       if (!ref.mounted) return;
 
       if (localUser != null) {
         state = AsyncValue.data(localUser);
-
-        // Fire API in background (no await)
         _fetchAndUpdate();
-        fetchUserBalance();
       } else {
-        // No local → fetch normally
         await fetchUserDetails();
-        await fetchUserBalance();
       }
     } catch (_) {
-      await fetchUserDetails();
-      await fetchUserBalance();
+      // If even token check fails, assume logged out
+      state = const AsyncValue.data(null);
     }
   }
 
@@ -60,15 +62,7 @@ class UserNotifier extends _$UserNotifier {
       state = AsyncValue.data(user);
     } catch (e, st) {
       if (!ref.mounted) return;
-      state = AsyncValue.error(e, st);
-    }
-  }
-
-  Future<void> fetchUserBalance() async {
-    try {
-      await ref.read(userBalanceProvider.notifier).fetchBalance();
-    } catch (_) {
-      // handled in balance notifier state
+      state = AsyncValue.error(DioExceptionHandler.handle(e), st);
     }
   }
 

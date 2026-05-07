@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:sharkship/core/services/shared_preferences_service.dart';
 import 'package:sharkship/features/businessTools/presentation/screens/address_screen.dart';
 import 'package:sharkship/features/businessTools/presentation/screens/api_integration.dart';
 import 'package:sharkship/features/businessTools/presentation/screens/reports_screen.dart';
@@ -20,16 +21,41 @@ import 'package:sharkship/features/orders/presentation/screens/create_orders.dar
 import 'package:sharkship/features/shipments/presentation/screens/shipment_tracking.dart';
 import 'package:sharkship/features/shipments/presentation/screens/shipments_screen.dart';
 import 'package:sharkship/features/shipments/presentation/screens/tracking_result.dart';
+import 'package:sharkship/features/intro/presentation/screens/intro_screen.dart';
 import 'package:sharkship/features/user/presentation/screens/user_screen.dart';
 import 'package:sharkship/features/wallet/presentation/screens/topUp_wallet.dart';
 import 'package:sharkship/features/wallet/presentation/screens/wallet_screen.dart';
 import 'package:sharkship/features/weightDiscrepency/presentation/screens/weight_discrepency.dart';
 import 'package:sharkship/splash.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 part 'app_routes.dart';
 
 final appRouter = GoRouter(
   initialLocation: Routes.SPLASH,
+  redirect: (context, state) {
+    try {
+      final hasSeenIntro = SharedPreferencesService.getHasSeenIntro();
+
+      final isIntroRoute = state.matchedLocation == Routes.INTRO;
+      FlutterNativeSplash.remove();
+      // Case 1: First launch → force intro
+      if (!hasSeenIntro && !isIntroRoute) {
+        return Routes.INTRO;
+      }
+
+      // Case 2: Already seen → block intro
+      if (hasSeenIntro && isIntroRoute) {
+        return Routes.SPLASH; // or HOME based on your flow
+      }
+    } catch (e) {
+      print('[Router] Redirect error: $e');
+      // On error, stay on the current route to avoid recursion loops
+    }
+
+    return null;
+  },
   routes: [
+    GoRoute(path: Routes.INTRO, builder: (context, state) => IntroScreen()),
     GoRoute(
       path: Routes.SPLASH,
       builder: (context, state) => const SplashScreen(),
@@ -87,10 +113,10 @@ final appRouter = GoRouter(
       path: Routes.REMITTANCE_SUMMARY,
       builder: (context, state) => const RemittanceSummary(),
     ),
-    GoRoute(
-      path: Routes.TRANSACTION_SUMMARY,
-      builder: (context, state) => const RemittanceSummary(),
-    ),
+    // GoRoute(
+    //   path: Routes.TRANSACTION_SUMMARY,
+    //   builder: (context, state) => const RemittanceSummary(),
+    // ),
     GoRoute(
       path: Routes.INVOICE_SUMMARY,
       builder: (context, state) => const InvoiceSummary(),

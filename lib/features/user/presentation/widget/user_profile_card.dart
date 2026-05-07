@@ -209,7 +209,7 @@ class UserProfileCard extends ConsumerWidget {
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
-                      ref.read(bottomNavProvider.notifier).state = 0;
+                      ref.read(bottomNavProvider.notifier).setIndex(0);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(

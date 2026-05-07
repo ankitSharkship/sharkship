@@ -1,11 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/network/dio_exception_handler.dart';
+import 'package:sharkship/core/providers/app_providers.dart';
 import 'package:sharkship/features/auth/data/models/register_user_request_model.dart';
+import 'package:sharkship/features/nav/presentation/state/bottom_nav_state.dart';
+import 'package:sharkship/features/user/presentation/state/user_balance_notifier.dart';
 import 'auth_providers.dart';
 import '../../../user/presentation/state/user_notifier.dart';
 
 part 'auth_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AuthNotifier extends _$AuthNotifier {
   @override
   AsyncValue<void> build() {
@@ -23,7 +28,7 @@ class AuthNotifier extends _$AuthNotifier {
       state = const AsyncValue.data(null);
       onSuccess(response.verifyId);
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+      state = AsyncValue.error(DioExceptionHandler.handle(e), st);
     }
   }
 
@@ -42,7 +47,7 @@ class AuthNotifier extends _$AuthNotifier {
       state = const AsyncValue.data(null);
       onSuccess();
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+      state = AsyncValue.error(DioExceptionHandler.handle(e), st);
     }
   }
 
@@ -59,7 +64,7 @@ class AuthNotifier extends _$AuthNotifier {
       state = const AsyncValue.data(null);
       onSuccess();
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+      state = AsyncValue.error(DioExceptionHandler.handle(e), st);
     }
   }
 
@@ -69,8 +74,19 @@ class AuthNotifier extends _$AuthNotifier {
   }) async {
     final useCase = ref.read(logoutUseCaseProvider);
     try {
+      // 1. Call logout API while token is still present
       await useCase(allSession: allSession);
-    } catch (_) {}
+    } catch (_) {
+      // Ignore API failure and proceed with local logout
+    }
+
+    // 2. Reset relevant providers before navigating
+    // ref.invalidate(userProvider);
+    // ref.invalidate(userBalanceProvider);
+    // ref.invalidate(bottomNavProvider);
+    ref.read(appContainerKeyProvider.notifier).state = UniqueKey();
+
+    // 3. Trigger navigation
     onSuccess();
   }
 
@@ -88,7 +104,7 @@ class AuthNotifier extends _$AuthNotifier {
 
       onSuccess(response.verifyId);
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+      state = AsyncValue.error(DioExceptionHandler.handle(e), st);
     }
   }
 
@@ -110,7 +126,7 @@ class AuthNotifier extends _$AuthNotifier {
 
       onSuccess();
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+      state = AsyncValue.error(DioExceptionHandler.handle(e), st);
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/businessTools/presentation/state/retail_api_notifier.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 import 'package:sharkship/shared/widgets/in_app_webview.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
@@ -44,7 +45,11 @@ class _ApiIntegrationState extends ConsumerState<ApiIntegration> {
                   ),
                 );
               },
-              error: (err, st) => ErrorWidget(err),
+              error: (err, st) => Center(
+                child: ErrorCard(
+                  onRetry: () => ref.invalidate(retailApiProvider),
+                ),
+              ),
               loading: () => ThreeDotsLoader(),
             ),
             Padding(
@@ -150,9 +155,9 @@ class _ApiCredentialCardState extends State<ApiCredentialCard> {
                 child: Text(
                   widget.isActive,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: const Color(0xFF1B7F5F),
-                        fontWeight: FontWeight.w600,
-                      ),
+                    color: const Color(0xFF1B7F5F),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
@@ -200,16 +205,16 @@ class _ApiCredentialCardState extends State<ApiCredentialCard> {
                 TextSpan(
                   text: '$label: ',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
                 ),
                 TextSpan(
                   text: visible ? value : _masked(value),
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),

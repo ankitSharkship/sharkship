@@ -36,7 +36,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     if (!mounted) return;
 
-    print('[Splash] Token: ${token != null ? "exists" : "null"}');
+    print(
+      '[Splash] Token: ${(token != null || token?.isEmpty == true) ? "exists" : "null"}',
+    );
 
     if (token == null || token.isEmpty) {
       print('[Splash] No token → GET_STARTED');
@@ -44,25 +46,25 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       return;
     }
 
-    _subscription = ref.listenManual(
-      userProvider,
-      (prev, next) {
-        final isLoading = next is AsyncLoading;
-        print('[Splash] userProvider changed: isLoading=$isLoading, value=${next.value}');
-        if (!isLoading && !_hasNavigated) {
-          _hasNavigated = true;
-          _subscription?.close();
-          if (!mounted) return;
-          _navigateBasedOnUser(next);
-        }
-      },
-      fireImmediately: true,
-    );
+    _subscription = ref.listenManual(userProvider, (prev, next) {
+      final isLoading = next is AsyncLoading;
+      print(
+        '[Splash] userProvider changed: isLoading=$isLoading, value=${next.value}',
+      );
+      if (!isLoading && !_hasNavigated) {
+        _hasNavigated = true;
+        _subscription?.close();
+        if (!mounted) return;
+        _navigateBasedOnUser(next);
+      }
+    }, fireImmediately: true);
   }
 
   void _navigateBasedOnUser(AsyncValue userState) {
     final user = userState.value;
-    print('[Splash] Navigating: user=${user != null}, isKycVerified=${user?.isKycVerified}, agreementAccept=${user?.agreementAccept}');
+    print(
+      '[Splash] Navigating: user=${user != null}, isKycVerified=${user?.isKycVerified}, agreementAccept=${user?.agreementAccept}',
+    );
 
     if (user != null &&
         user.isKycVerified == true &&
@@ -77,6 +79,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: ThreeDotsLoader()));
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Center(child: ThreeDotsLoader()),
+          const Positioned(
+            bottom: 50,
+            left: 0,
+            right: 0,
+            child: Center(child: ThreeDotsLoader()),
+          ),
+        ],
+      ),
+    );
   }
 }

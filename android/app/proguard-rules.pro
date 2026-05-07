@@ -1,0 +1,26 @@
+-keep class com.payu.** { *; }
+-keep class com.phonepe.** { *; }
+-keep class com.google.android.gms.wallet.** { *; }
+-keep class com.google.android.gms.auth.api.credentials.** { *; }
+-keep class com.google.android.apps.nbu.paisa.** { *; }
+-keep class javax.xml.stream.** { *; }
+-keepattributes *Annotation*# Please add these rules to your existing keep rules in order to suppress warnings.
+# This is generated automatically by the Android Gradle plugin.
+-dontwarn com.google.android.apps.nbu.paisa.inapp.client.api.PaymentsClient
+-dontwarn com.google.android.apps.nbu.paisa.inapp.client.api.Wallet
+-dontwarn com.google.android.apps.nbu.paisa.inapp.client.api.WalletUtils
+-dontwarn com.google.android.gms.auth.api.credentials.Credential
+-dontwarn com.google.android.gms.auth.api.credentials.Credentials
+-dontwarn com.google.android.gms.auth.api.credentials.CredentialsClient
+-dontwarn com.google.android.gms.auth.api.credentials.CredentialsOptions$Builder
+-dontwarn com.google.android.gms.auth.api.credentials.CredentialsOptions
+-dontwarn com.google.android.gms.auth.api.credentials.HintRequest$Builder
+-dontwarn com.google.android.gms.auth.api.credentials.HintRequest
+-dontwarn com.payu.cardscanner.model.PUCardRecognizer
+-dontwarn com.payu.cardscanner.model.PUError
+-dontwarn com.payu.cardscanner.model.PUTextRecognizer
+-dontwarn com.payu.ppiscanner.interfaces.ScannerHashGeneratedListener
+-dontwarn com.payu.ppiscanner.model.OutletTxnDetails
+-dontwarn com.phonepe.intent.sdk.api.TransactionRequest
+-dontwarn com.phonepe.intent.sdk.api.TransactionRequestBuilder
+-dontwarn javax.xml.stream.XMLStreamException

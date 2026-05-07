@@ -1,22 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:phonepe_payment_sdk/phonepe_payment_sdk.dart';
+import 'package:sharkship/core/providers/app_providers.dart';
+
+// import 'package:phonepe_payment_sdk/phonepe_payment_sdk.dart';
+import 'package:sharkship/core/services/shared_preferences_service.dart';
 // import 'package:sharkship/features/kyc/presentation/servieces/digilocker_deep_link_service.dart';
 import 'app.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+  );
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // DigilockerDeepLinkService().init();
   await Hive.initFlutter();
   await Hive.openBox('user_box');
-  //   await PhonePePaymentSdk.init(
-  //   environment: Environment.sandbox,
-  //   merchantId: "YOUR_MERCHANT_ID",
-  //   appId: "",
-  //   enableLogging: true,
-  // );
-  await PhonePePaymentSdk.init("sandbox", "", "", true);
-  runApp(const ProviderScope(child: MyApp()));
+  await SharedPreferencesService.init();
+  // await PhonePePaymentSdk.init("sandbox", "", "", true);
+  runApp(const ProviderScope(child: AppBootstrap()));
 }
-// 7847635647
+
+class AppBootstrap extends ConsumerWidget {
+  const AppBootstrap({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final key = ref.watch(appContainerKeyProvider);
+
+    return ProviderScope(key: key, child: const MyApp());
+  }
+}

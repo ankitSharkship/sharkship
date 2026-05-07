@@ -17,5 +17,5 @@ final dashboardTabs = [
   "RTO",
   "Delivered",
   "Revenue",
-  "SMS",
+  // "SMS",
 ];

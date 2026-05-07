@@ -21,9 +21,9 @@ class ShippingLabelDemoPage extends ConsumerWidget {
         title: Text(
           'Shipping Label Customization',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-              ),
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         centerTitle: false,
         elevation: 1,
@@ -40,11 +40,11 @@ class ShippingLabelDemoPage extends ConsumerWidget {
                 const Icon(Icons.error_outline, size: 48, color: Colors.red),
                 const SizedBox(height: 16),
                 Text(
-                  err.toString(),
+                  "Something went wrong",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.red,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.red),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
@@ -259,9 +259,9 @@ class _ShippingLabelBody extends ConsumerWidget {
                 Text(
                   label,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -269,8 +269,8 @@ class _ShippingLabelBody extends ConsumerWidget {
                   softWrap: true,
                   maxLines: 3,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: const Color.fromARGB(255, 114, 114, 114),
-                      ),
+                    color: const Color.fromARGB(255, 114, 114, 114),
+                  ),
                 ),
               ],
             ),
@@ -340,16 +340,16 @@ class _ShippingLabelBody extends ConsumerWidget {
                     Text(
                       label,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                          ),
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Text(
                       description,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: const Color.fromARGB(255, 114, 114, 114),
-                          ),
+                        color: const Color.fromARGB(255, 114, 114, 114),
+                      ),
                     ),
                   ],
                 ),
@@ -370,9 +370,9 @@ class _ShippingLabelBody extends ConsumerWidget {
                       value: opt['value'],
                       child: Text(
                         opt['label']!,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              fontSize: 13,
-                            ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(fontSize: 13),
                       ),
                     );
                   }).toList(),

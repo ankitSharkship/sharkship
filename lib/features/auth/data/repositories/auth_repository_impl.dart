@@ -65,8 +65,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> logout({bool allSession = false}) async {
+    await remoteDataSource.logout(allSession: allSession);
     await localDataSource.clearAuthData();
-    remoteDataSource.logout(allSession: allSession).ignore();
   }
 
   @override

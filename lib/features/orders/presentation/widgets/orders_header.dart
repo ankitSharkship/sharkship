@@ -9,6 +9,7 @@ import 'package:sharkship/features/orders/presentation/state/orders_tab_provider
 import 'package:sharkship/features/orders/presentation/state/selected_orders_notifier.dart';
 import 'package:sharkship/features/orders/presentation/widgets/courier_priority_form.dart';
 import 'package:sharkship/features/orders/presentation/widgets/address_picker_form.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 
@@ -53,7 +54,7 @@ class OrdersHeader extends ConsumerWidget {
             "Orders",
             style: Theme.of(
               context,
-            ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -873,7 +874,12 @@ class _PickupAddressView extends ConsumerWidget {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) => Center(child: Text("Error: $err")),
+      error: (err, stack) => Center(
+        child: ErrorCard(
+          onRetry: () => ref.invalidate(courierSettingsProvider),
+          errMssg: "Something went wrong",
+        ),
+      ),
     );
   }
 }

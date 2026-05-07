@@ -1,5 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/network/dio_exception_handler.dart';
 import 'user_notifier.dart';
 import 'user_providers.dart';
 
@@ -27,7 +28,7 @@ class ProfileLogoNotifier extends _$ProfileLogoNotifier {
       await ref.read(userProvider.notifier).fetchUserDetails();
       state = const AsyncValue.data(null);
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+     state = AsyncValue.error(DioExceptionHandler.handle(e), st);
     }
   }
 }

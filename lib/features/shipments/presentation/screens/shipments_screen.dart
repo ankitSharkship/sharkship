@@ -11,6 +11,7 @@ import 'package:sharkship/features/shipments/presentation/state/shipment_tab_pro
 import 'package:sharkship/features/shipments/presentation/widgets/shipment_header.dart';
 import 'package:sharkship/features/shipments/presentation/widgets/shipment_tabbar.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../widgets/shipment_card.dart';
 
@@ -219,7 +220,12 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
           },
         );
       },
-      error: (err, stack) => ErrorWidget(err),
+      error: (err, stack) => Center(
+        child: ErrorCard(
+          errMssg: "Failed to load Shipment",
+          onRetry: () => ref.invalidate(shipmentProvider(tab)),
+        ),
+      ),
       loading: () => const OrdersSkeletonList(),
     );
   }
@@ -268,9 +274,9 @@ class _ShipmentsScreenState extends ConsumerState<ShipmentsScreen> {
         Text(
           'No Orders Found',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppColors.secondaryBlue,
-                fontWeight: FontWeight.bold,
-              ),
+            color: AppColors.secondaryBlue,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

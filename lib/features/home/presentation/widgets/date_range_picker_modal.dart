@@ -102,10 +102,10 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
               const SizedBox(width: 12),
               Text(
                 'Select Date Range',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ],
           ),
@@ -113,9 +113,9 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
           Text(
             'Start Date',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
           ),
           const SizedBox(height: 8),
           _buildDateField(
@@ -126,9 +126,9 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
           Text(
             'End Date',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
           ),
           const SizedBox(height: 8),
           _buildDateField(
@@ -173,9 +173,9 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
               child: Text(
                 'Apply',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -201,9 +201,9 @@ class _DateRangePickerModalState extends ConsumerState<DateRangePickerModal> {
             Text(
               value,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: const Color(0xFF7C86A2),
-                    fontWeight: FontWeight.w500,
-                  ),
+                color: const Color(0xFF7C86A2),
+                fontWeight: FontWeight.w500,
+              ),
             ),
             const Icon(
               Icons.calendar_today_outlined,

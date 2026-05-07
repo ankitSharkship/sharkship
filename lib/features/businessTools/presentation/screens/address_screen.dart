@@ -64,13 +64,13 @@ class _AddressScreenState extends ConsumerState<AddressScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Padding(
+            Padding(
               padding: EdgeInsets.only(left: 22.0, top: 10),
               child: Text(
                 'Review and manage your warehouse Address',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.black,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.black),
               ),
             ),
             GestureDetector(
@@ -91,9 +91,9 @@ class _AddressScreenState extends ConsumerState<AddressScreen>
                     Text(
                       ' Add New Address',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: AppColors.primaryBlue,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        color: AppColors.primaryBlue,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -112,19 +112,20 @@ class _AddressScreenState extends ConsumerState<AddressScreen>
                         itemBuilder: (context, index) {
                           final addr = state.addresses[index];
                           return _buildAddressCard(
-                              addr, state.defaultAddressId);
+                            addr,
+                            state.defaultAddressId,
+                          );
                         },
                       ),
                     ),
-              loading: () => const Expanded(
-                child: Center(child: ThreeDotsLoader()),
-              ),
+              loading: () =>
+                  const Expanded(child: Center(child: ThreeDotsLoader())),
               error: (error, _) => Expanded(
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Error: $error"),
+                      Text("Something went wrong"),
                       TextButton(
                         onPressed: () =>
                             ref.invalidate(courierSettingsProvider),
@@ -171,9 +172,9 @@ class _AddressScreenState extends ConsumerState<AddressScreen>
                 child: Text(
                   addr.name ?? "",
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF1A1A1A),
-                      ),
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF1A1A1A),
+                  ),
                 ),
               ),
               Row(
@@ -201,9 +202,9 @@ class _AddressScreenState extends ConsumerState<AddressScreen>
                       child: Text(
                         "Default",
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     )
                   else
@@ -218,13 +219,13 @@ class _AddressScreenState extends ConsumerState<AddressScreen>
                         if (success) {
                           ref.invalidate(manageAddressProvider);
                           ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            backgroundColor: AppColors.lightGreen,
-                            content: Text(
-                              "Default address changed successfully!",
-                              style: TextStyle(color: Colors.black),
+                            const SnackBar(
+                              backgroundColor: AppColors.lightGreen,
+                              content: Text(
+                                "Default address changed successfully!",
+                                style: TextStyle(color: Colors.black),
+                              ),
                             ),
-                          ),
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -245,7 +246,8 @@ class _AddressScreenState extends ConsumerState<AddressScreen>
                         ),
                         child: Text(
                           "Set Default",
-                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(
                                 color: AppColors.primaryBlue,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -260,31 +262,31 @@ class _AddressScreenState extends ConsumerState<AddressScreen>
           Text(
             "${addr.addressLane1}, ${addr.addressLane2}",
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: const Color(0xFF64748B),
-                  height: 1.4,
-                ),
+              color: const Color(0xFF64748B),
+              height: 1.4,
+            ),
           ),
           if (addr.landmark != null && addr.landmark!.isNotEmpty)
             Text(
               addr.landmark!,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: const Color(0xFF64748B),
-                    height: 1.4,
-                  ),
+                color: const Color(0xFF64748B),
+                height: 1.4,
+              ),
             ),
           Text(
             "${addr.city}, ${addr.state}",
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: const Color(0xFF64748B),
-                  height: 1.4,
-                ),
+              color: const Color(0xFF64748B),
+              height: 1.4,
+            ),
           ),
           Text(
             "Pincode: ${addr.pin}",
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: const Color(0xFF64748B),
-                  height: 1.4,
-                ),
+              color: const Color(0xFF64748B),
+              height: 1.4,
+            ),
           ),
         ],
       ),

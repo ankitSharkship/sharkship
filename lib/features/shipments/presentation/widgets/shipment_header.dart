@@ -11,6 +11,7 @@ import 'package:sharkship/features/shipments/presentation/state/shipment_filters
 import 'package:sharkship/features/shipments/presentation/state/shipment_notifier.dart';
 import 'package:sharkship/features/shipments/presentation/state/shipment_tab_provider.dart';
 import 'package:sharkship/features/shipments/presentation/widgets/download_invoice_modal.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 
 class ShipmentHeader extends ConsumerWidget {
@@ -53,7 +54,7 @@ class ShipmentHeader extends ConsumerWidget {
             "Shipment",
             style: Theme.of(
               context,
-            ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -901,7 +902,12 @@ class _PickupAddressView extends ConsumerWidget {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) => Center(child: Text("Error: $err")),
+      error: (err, stack) => Center(
+        child: ErrorCard(
+          onRetry: () => ref.read(courierSettingsProvider),
+          errMssg: "Something went wrong",
+        ),
+      ),
     );
   }
 }

@@ -12,6 +12,7 @@ import 'package:sharkship/features/finance/presentation/widgets/ts_header.dart';
 import 'package:sharkship/features/finance/presentation/widgets/ts_mssg_card.dart';
 import 'package:sharkship/features/finance/presentation/widgets/ts_tabbar.dart';
 import 'package:sharkship/features/orders/presentation/widgets/order_skeleton.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 class TransactionSummary extends ConsumerStatefulWidget {
@@ -115,9 +116,7 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
                               Icons.keyboard_arrow_down_rounded,
                               color: AppColors.primaryBlue,
                             ),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
+                            style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(
                                   color: Colors.black87,
                                   fontWeight: FontWeight.w600,
@@ -191,13 +190,11 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
                                   : (searchState.type == SearchType.orderId
                                         ? 'Enter Order ID'
                                         : 'Enter Tracking ID'),
-                              hintStyle: Theme.of(context)
-                                   .textTheme
-                                   .bodySmall
-                                   ?.copyWith(
-                                     color: Colors.grey.shade400,
-                                     fontSize: 14,
-                                   ),
+                              hintStyle: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: Colors.grey.shade400,
+                                    fontSize: 14,
+                                  ),
                               border: InputBorder.none,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
@@ -253,7 +250,11 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
 
     return tsAsync.when(
       loading: () => const OrdersSkeletonList(),
-      error: (err, st) => Center(child: Text('Error: ${err.toString()}')),
+      error: (err, st) => Center(
+        child: ErrorCard(
+          onRetry: () => ref.invalidate(transactionsProvider(selectedTab)),
+        ),
+      ),
       data: (state) {
         switch (selectedTab) {
           case 0 || 1:
@@ -297,7 +298,8 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
                         ),
                         Text(
                           isAllSelected ? "Unselect All" : "Select All",
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
@@ -387,7 +389,8 @@ class _TransactionSummaryState extends ConsumerState<TransactionSummary> {
                         ),
                         Text(
                           isAllSelected ? "Unselect All" : "Select All",
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,

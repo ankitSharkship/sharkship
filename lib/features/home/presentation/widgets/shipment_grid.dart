@@ -82,26 +82,26 @@ class ShipmentGrid extends ConsumerWidget {
                   switch (i) {
                     case 0:
                       ref.read(ordersTabProvider.notifier).setTab(0);
-                      ref.read(bottomNavProvider.notifier).state = 1;
+                      ref.read(bottomNavProvider.notifier).setIndex(1);
                       break;
                     case 1:
                       ref.read(shipmentTabProvider.notifier).setTab(0);
-                      ref.read(bottomNavProvider.notifier).state = 2;
+                      ref.read(bottomNavProvider.notifier).setIndex(2);
                     case 2:
                       ref.read(shipmentTabProvider.notifier).setTab(1);
-                      ref.read(bottomNavProvider.notifier).state = 2;
+                      ref.read(bottomNavProvider.notifier).setIndex(2);
                     case 3:
                       ref.read(shipmentTabProvider.notifier).setTab(2);
-                      ref.read(bottomNavProvider.notifier).state = 2;
+                      ref.read(bottomNavProvider.notifier).setIndex(2);
                     case 4:
                       ref.read(shipmentTabProvider.notifier).setTab(3);
-                      ref.read(bottomNavProvider.notifier).state = 2;
+                      ref.read(bottomNavProvider.notifier).setIndex(2);
                     case 5:
                       ref.read(shipmentTabProvider.notifier).setTab(4);
-                      ref.read(bottomNavProvider.notifier).state = 2;
+                      ref.read(bottomNavProvider.notifier).setIndex(2);
                     case 6:
                       ref.read(shipmentTabProvider.notifier).setTab(5);
-                      ref.read(bottomNavProvider.notifier).state = 2;
+                      ref.read(bottomNavProvider.notifier).setIndex(2);
                     default:
                   }
                 },

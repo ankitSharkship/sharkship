@@ -27,6 +27,7 @@ part 'dashboard_notifier.g.dart';
 class DashboardDate extends _$DashboardDate {
   @override
   DateTimeRange build() {
+    print('DEBUG: DashboardDate.build called');
     final now = DateTime.now();
     final endOfDay = DateTime(
       now.year,

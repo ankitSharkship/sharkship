@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/network/dio_exception_handler.dart';
 
 import 'package:sharkship/features/user/presentation/state/user_providers.dart';
 import '../../domain/entities/sms_charge_entity.dart';
@@ -70,7 +71,7 @@ class BuyerCommunicationNotifier extends _$BuyerCommunicationNotifier {
       await ref.read(toggleWhatsappSmsUsecaseProvider).execute();
       state = await AsyncValue.guard(() => _fetchData());
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+      state = AsyncValue.error(DioExceptionHandler.handle(e), st);
     }
   }
 

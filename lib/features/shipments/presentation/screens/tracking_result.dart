@@ -5,6 +5,7 @@ import 'package:sharkship/features/shipments/domain/entities/tracking_event_enti
 import 'package:sharkship/features/shipments/presentation/state/tracking_notifier.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/constants/app_text_styles.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
 class TrackingResult extends ConsumerStatefulWidget {
@@ -58,8 +59,8 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                   child: Text(
                     "Let's Track your package",
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
 
@@ -103,17 +104,17 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                             controller: _awbController,
                             decoration: InputDecoration(
                               hintText: 'Enter AWB Number',
-                              hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: const Color(0xFFB0B8C5),
-                                fontWeight: FontWeight.w400,
-                              ),
+                              hintStyle: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: const Color(0xFFB0B8C5),
+                                    fontWeight: FontWeight.w400,
+                                  ),
                               border: InputBorder.none,
                               isDense: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 2),
                             ),
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: const Color(0xFF111827),
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(color: const Color(0xFF111827)),
                             keyboardType: TextInputType.text,
                           ),
                         ),
@@ -139,11 +140,12 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                             alignment: Alignment.center,
                             child: Text(
                               'Track',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.3,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.3,
+                                  ),
                             ),
                           ),
                         ),
@@ -204,9 +206,8 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                         const SizedBox(height: 20),
                         Text(
                           'Tracking History',
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 12),
                         if (data.trackingInfo.isEmpty)
@@ -239,7 +240,12 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
             ),
           );
         },
-        error: (err, stacktrace) => Center(child: Text('Error: $err')),
+        error: (err, stacktrace) => Center(
+          child: ErrorCard(
+            onRetry: () => ref.invalidate(trackingProvider),
+            errMssg: "Something went wrong",
+          ),
+        ),
         loading: () => Center(child: ThreeDotsLoader()),
       ),
     );
@@ -352,10 +358,11 @@ class _TrackingResultState extends ConsumerState<TrackingResult> {
                       children: [
                         Text(
                           item.label,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey,
+                              ),
                           softWrap: true,
                         ),
                         Text(
@@ -493,22 +500,22 @@ class _TimelineItem extends StatelessWidget {
                   Text(
                     event.location.toString(),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     formatTime(event.dateTime.toString()),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'Remark: ${event.remark}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                     softWrap: true,
                   ),
                 ],

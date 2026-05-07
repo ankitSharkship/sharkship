@@ -29,7 +29,9 @@ class CreateOrdersHeader extends StatelessWidget {
           const SizedBox(width: 10),
           Text(
             "Create Orders",
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
           ),
           // Row(
           //   mainAxisAlignment: MainAxisAlignment.end,

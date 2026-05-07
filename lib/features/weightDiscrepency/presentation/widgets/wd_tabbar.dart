@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/weightDiscrepency/presentation/state/wd_tab_provider.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class WdTabbar extends ConsumerWidget {
   @override
@@ -21,7 +22,7 @@ class WdTabbar extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 194, 238, 255),
+                color: AppColors.lightBlueBg,
                 border: Border(
                   bottom: BorderSide(
                     color: isActive ? Colors.blue : Colors.transparent,
@@ -43,4 +44,3 @@ class WdTabbar extends ConsumerWidget {
     );
   }
 }
-

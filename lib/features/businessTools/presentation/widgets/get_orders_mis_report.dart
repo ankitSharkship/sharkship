@@ -28,7 +28,7 @@ class GetOrdersMISReport extends ConsumerWidget {
       error: (error, stack) => Center(
         child: Column(
           children: [
-            Text('Error: $error'),
+            Text('Something went wrong'),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () => ref.refresh(reportsProvider),

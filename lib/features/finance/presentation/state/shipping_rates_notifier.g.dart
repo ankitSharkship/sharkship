@@ -38,7 +38,7 @@ final class ShippingRatesNotifierProvider
 }
 
 String _$shippingRatesNotifierHash() =>
-    r'26b31dea3a355d6313b0695e3423b58305b0978a';
+    r'00162203c7400d4736378bf7ab704585daa7082a';
 
 abstract class _$ShippingRatesNotifier
     extends $AsyncNotifier<List<ShippingRateEntity>> {

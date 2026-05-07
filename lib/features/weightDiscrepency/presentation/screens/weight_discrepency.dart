@@ -10,6 +10,7 @@ import 'package:sharkship/features/weightDiscrepency/presentation/widgets/wd_car
 import 'package:sharkship/features/weightDiscrepency/presentation/widgets/wd_header.dart';
 import 'package:sharkship/features/weightDiscrepency/presentation/widgets/wd_tabbar.dart';
 import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 
 class WeightDiscrepancy extends ConsumerStatefulWidget {
   const WeightDiscrepancy({super.key});
@@ -74,7 +75,9 @@ class _WeightDiscrepancyState extends ConsumerState<WeightDiscrepancy> {
     final selectedWdNotifier = ref.read(selectedWdProvider(tab).notifier);
     return wdAsync.when(
       loading: () => const OrdersSkeletonList(itemCount: 6),
-      error: (err, _) => Center(child: Text('Error: $err')),
+      error: (err, _) => Center(
+        child: ErrorCard(onRetry: () => ref.invalidate(wdProvider(tab))),
+      ),
       data: (state) {
         final data = state.data;
 

@@ -7,6 +7,7 @@ import 'package:sharkship/features/finance/presentation/widgets/sc_header.dart';
 import 'package:sharkship/features/finance/presentation/widgets/sc_tabbar.dart';
 import 'package:sharkship/features/orders/presentation/widgets/order_skeleton.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 
 class SellerChargesScreen extends ConsumerStatefulWidget {
   const SellerChargesScreen({super.key});
@@ -137,7 +138,11 @@ class _SellerChargesScreenState extends ConsumerState<SellerChargesScreen>
                 },
                 loading: () =>
                     const Center(child: OrdersSkeletonList(itemCount: 4)),
-                error: (error, stack) => Center(child: Text('Error: $error')),
+                error: (error, stack) => Center(
+                  child: ErrorCard(
+                    onRetry: () => ref.invalidate(shippingRatesProvider),
+                  ),
+                ),
               ),
             ),
           ],

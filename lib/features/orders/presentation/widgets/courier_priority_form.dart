@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/selected_orders_notifier.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import '../state/courier_settings_notifier.dart';
@@ -168,21 +169,19 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                     padding: const EdgeInsets.fromLTRB(24, 16, 16, 8),
                     child: Row(
                       children: [
-                         Expanded(
+                        Expanded(
                           child: Text(
                             "Select Couriers",
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
                         TextButton(
                           onPressed: () => Navigator.pop(context),
                           child: Text(
                             "Done",
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -226,9 +225,8 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                           ),
                           title: Text(
                             "${p.carrier} (${p.courierType})",
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.w600),
                           ),
                           subtitle: Text(
                             "${p.baseWeight}kg | ${p.serviceType}",
@@ -368,11 +366,12 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                 padding: const EdgeInsets.fromLTRB(24, 24, 16, 16),
                 child: Row(
                   children: [
-                     Expanded(
+                    Expanded(
                       child: Center(
                         child: Text(
                           "Select Courier Priority",
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
                                 fontWeight: FontWeight.w900,
                                 color: const Color(0xFF1A1A1A),
                               ),
@@ -417,7 +416,7 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children:  [
+                          children: [
                             Icon(
                               Icons.tune,
                               size: 20,
@@ -426,7 +425,8 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                             SizedBox(width: 8),
                             Text(
                               "More Courier Option",
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
                                     fontWeight: FontWeight.w600,
                                     color: const Color(0xFF4A4A4A),
                                   ),
@@ -477,7 +477,12 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
       loading: () => const Center(
         child: Padding(padding: EdgeInsets.all(50), child: ThreeDotsLoader()),
       ),
-      error: (e, _) => Center(child: Text("Error: $e")),
+      error: (e, _) => Center(
+        child: ErrorCard(
+          onRetry: () => ref.invalidate(courierSettingsProvider),
+          errMssg: "Something went wrong",
+        ),
+      ),
     );
   }
 
@@ -506,9 +511,9 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                 child: Text(
                   "$index) ${p.carrier} ${p.baseWeight}Kg (${p.courierType})",
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF4A4A4A),
-                      ),
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF4A4A4A),
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -522,13 +527,13 @@ class _CourierPriorityFormState extends ConsumerState<CourierPriorityForm> {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: const Color(0xFF1E56A0), width: 1),
                 ),
-                  child: Text(
-                    p.serviceType,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF1E56A0),
-                        ),
+                child: Text(
+                  p.serviceType,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF1E56A0),
                   ),
+                ),
               ),
               const SizedBox(width: 8),
               GestureDetector(

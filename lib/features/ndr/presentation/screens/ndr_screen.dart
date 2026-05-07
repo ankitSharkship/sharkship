@@ -10,6 +10,7 @@ import 'package:sharkship/features/ndr/presentation/widgets/ndr_tabbar.dart';
 import 'package:sharkship/features/orders/presentation/widgets/order_skeleton.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/constants/colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 
 class NdrScreen extends ConsumerStatefulWidget {
   const NdrScreen({super.key});
@@ -80,7 +81,12 @@ class _NdrScreenState extends ConsumerState<NdrScreen> {
     final selectedNdrNotifier = ref.read(selectedNdrProvider(tab).notifier);
     return ndrAsync.when(
       loading: () => const OrdersSkeletonList(itemCount: 6),
-      error: (err, _) => Center(child: Text('Error: $err')),
+      error: (err, _) => Center(
+        child: ErrorCard(
+          onRetry: () => ref.invalidate(ndrProvider(tab)),
+          errMssg: "Failed to load NDRs",
+        ),
+      ),
       data: (state) {
         final data = state.data ?? NdrResponseEntity(totalCount: 0, orders: []);
 
@@ -258,7 +264,9 @@ class _NdrScreenState extends ConsumerState<NdrScreen> {
         Text(
           'All shipments are on track.',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
         ),
       ],
     );

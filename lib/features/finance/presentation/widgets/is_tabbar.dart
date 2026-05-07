@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/finance/presentation/state/is_tab_provider.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class IsTabbar extends ConsumerWidget {
   @override
@@ -20,7 +21,7 @@ class IsTabbar extends ConsumerWidget {
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 194, 238, 255),
+                   color: AppColors.lightBlueBg,
                   border: Border(
                     bottom: BorderSide(
                       color: isActive ? Colors.blue : Colors.transparent,

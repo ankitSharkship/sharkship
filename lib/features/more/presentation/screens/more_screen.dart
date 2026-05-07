@@ -11,6 +11,7 @@ import 'package:sharkship/features/shipments/presentation/state/shipment_tab_pro
 import 'package:sharkship/features/user/presentation/state/user_notifier.dart';
 import 'package:sharkship/features/user/presentation/state/user_balance_notifier.dart';
 import 'package:sharkship/routes/app_router.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
@@ -31,7 +32,15 @@ class MoreScreen extends ConsumerWidget {
 
       body: userAsync.when(
         loading: () => const Center(child: ThreeDotsLoader()),
-        error: (err, st) => Center(child: Text("Error: $err")),
+        error: (err, st) => Center(
+          child: ErrorCard(
+            onRetry: () {
+              ref.invalidate(userProvider);
+              ref.invalidate(userBalanceProvider);
+            },
+            errMssg: "Something went wrong",
+          ),
+        ),
         data: (user) {
           if (user == null) {
             return const Center(child: Text("User not logged in"));
@@ -132,13 +141,14 @@ class MoreScreen extends ConsumerWidget {
                         onTap: () => context.push(Routes.USER_SCREEN),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children:  [
+                          children: [
                             Text(
                               "View Profile",
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: const Color(0xFF2D7FB8),
-                                fontWeight: FontWeight.w700,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: const Color(0xFF2D7FB8),
+                                    fontWeight: FontWeight.w700,
+                                  ),
                             ),
                             SizedBox(width: 4),
                             Icon(
@@ -197,10 +207,11 @@ class MoreScreen extends ConsumerWidget {
                         .when(
                           data: (balance) => Text(
                             "₹${balance?.balance ?? '0.00'}",
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w800,
-                              color: const Color(0xFF5AB6E5),
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  color: const Color(0xFF5AB6E5),
+                                ),
                           ),
                           loading: () => const SizedBox(
                             width: 20,
@@ -235,7 +246,7 @@ class MoreScreen extends ConsumerWidget {
             title: "Dashboard",
             icon: Icons.dashboard_outlined,
             onTap: () {
-              ref.read(bottomNavProvider.notifier).state = 0;
+              ref.read(bottomNavProvider.notifier).setIndex(0);
             },
           ),
         ),
@@ -249,7 +260,7 @@ class MoreScreen extends ConsumerWidget {
                 title: "Manage Orders",
                 icon: Icons.description_outlined,
                 onTap: () {
-                  ref.read(bottomNavProvider.notifier).state = 1;
+                  ref.read(bottomNavProvider.notifier).setIndex(1);
                 },
               ),
               MenuItem(
@@ -271,7 +282,7 @@ class MoreScreen extends ConsumerWidget {
                 icon: Icons.assignment_return_outlined,
                 onTap: () {
                   ref.read(shipmentTabProvider.notifier).state = 4;
-                  ref.read(bottomNavProvider.notifier).state = 2;
+                  ref.read(bottomNavProvider.notifier).setIndex(2);
                 },
               ),
             ],
@@ -429,7 +440,7 @@ class MoreScreen extends ConsumerWidget {
             title: "Get Support",
             icon: Icons.support_agent,
             onTap: () {
-              ref.read(bottomNavProvider.notifier).state = 3;
+              ref.read(bottomNavProvider.notifier).setIndex(3);
             },
           ),
         ),
@@ -437,9 +448,7 @@ class MoreScreen extends ConsumerWidget {
           item: MenuItem(
             title: "Channel Integrations",
             icon: Icons.settings_input_composite_outlined,
-            onTap: () {
-
-            },
+            onTap: () {},
           ),
         ),
         MenuListItem(
@@ -458,7 +467,10 @@ class MoreScreen extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: Text("Logout", style: Theme.of(context).textTheme.titleLarge),
-        content: Text("Are you sure you want to log out?", style: Theme.of(context).textTheme.bodyMedium),
+        content: Text(
+          "Are you sure you want to log out?",
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -471,13 +483,17 @@ class MoreScreen extends ConsumerWidget {
                 context.go('/splash');
               });
             },
-            child: Text("Logout", style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.red)),
+            child: Text(
+              "Logout",
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: Colors.red),
+            ),
           ),
         ],
       ),
     );
   }
-
 }
 
 class _DashedDivider extends StatelessWidget {

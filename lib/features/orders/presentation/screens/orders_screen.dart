@@ -17,6 +17,7 @@ import 'package:sharkship/features/orders/presentation/widgets/orders_header.dar
 import 'package:sharkship/features/orders/presentation/widgets/orders_tabbar.dart';
 import 'package:sharkship/routes/app_router.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
+import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
@@ -102,6 +103,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
         child: FloatingActionButton(
           heroTag: 'orders_fab',
           onPressed: () => {context.push(Routes.CREATE_ORDER)},
+
           child: const Icon(Icons.add, size: 35, color: Colors.white),
           backgroundColor: Colors.transparent,
         ),
@@ -140,6 +142,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
         }
 
         return ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
           addAutomaticKeepAlives: false,
           addRepaintBoundaries: true,
           cacheExtent: 300,
@@ -184,7 +187,15 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
           },
         );
       },
-      error: (err, stack) => ErrorWidget(err),
+      error: (err, stack) {
+        print('DEBUG: OrdersScreen - AsyncError: $err');
+        return Center(
+          child: ErrorCard(
+            errMssg: "Failed to load Orders",
+            onRetry: () => ref.invalidate(ordersProvider(tab)),
+          ),
+        );
+      },
       loading: () => const OrdersSkeletonList(itemCount: 2),
     );
   }

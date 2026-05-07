@@ -1,5 +1,13 @@
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// enum BottomTab { home, orders, shipments, support, more }
+part 'bottom_nav_state.g.dart';
 
-final bottomNavProvider = StateProvider<int>((ref) => 0);
+@riverpod
+class BottomNav extends _$BottomNav {
+  @override
+  int build() => 0;
+
+  void setIndex(int index) {
+    state = index;
+  }
+}
