@@ -18,7 +18,7 @@ class _PaymentGatewaySelectorState
     final state = ref.watch(walletProvider);
     final notifier = ref.read(walletProvider.notifier);
     // final gateways = ["CASHFREE", "RAZORPAY", "PHONEPE", "PAYU"];
-    final gateways = ["RAZORPAY"];
+    final gateways = ["RAZORPAY", "CASHFREE"];
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,

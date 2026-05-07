@@ -6,9 +6,11 @@ class CouponTicketCard extends StatelessWidget {
   final CouponEntity coupon;
   final bool isSelected;
   final VoidCallback onApply;
+  final bool isValid;
 
   const CouponTicketCard({
     super.key,
+    required this.isValid,
     required this.coupon,
     required this.isSelected,
     required this.onApply,
@@ -61,7 +63,7 @@ class CouponTicketCard extends StatelessWidget {
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: isValid ? Colors.white : Colors.grey,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -95,18 +97,18 @@ class CouponTicketCard extends StatelessWidget {
                         ).textTheme.bodySmall?.copyWith(color: Colors.white),
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    // const SizedBox(height: 6),
 
-                    /// Min/Max
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Text(
-                        "Min amount: ₹${coupon.minAmount.toInt()} | Max discount: ₹${coupon.maxCashbackAmount.toInt()}",
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodySmall?.copyWith(color: Colors.white),
-                      ),
-                    ),
+                    // /// Min/Max
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    //   child: Text(
+                    //     "Min amount: ₹${coupon.minAmount.toInt()} | Max discount: ₹${coupon.maxCashbackAmount.toInt()}",
+                    //     style: Theme.of(
+                    //       context,
+                    //     ).textTheme.bodySmall?.copyWith(color: Colors.white),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

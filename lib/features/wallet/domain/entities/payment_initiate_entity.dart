@@ -1,31 +1,40 @@
-class PaymentInitiateEntity {
-  final String orderId;
-  final int amount;
-  final int amountDue;
-  final int amountPaid;
-  final int attempts;
-  final int createdAt;
-  final String currency;
-  final String entity;
-  final String id;
-  final List<dynamic> notes;
-  final String? offerId;
-  final String receipt;
-  final String status;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const PaymentInitiateEntity({
-    required this.orderId,
-    required this.amount,
-    required this.amountDue,
-    required this.amountPaid,
-    required this.attempts,
-    required this.createdAt,
-    required this.currency,
-    required this.entity,
-    required this.id,
-    required this.notes,
-    this.offerId,
-    required this.receipt,
-    required this.status,
-  });
+part 'payment_initiate_entity.freezed.dart';
+
+@freezed
+sealed class PaymentInitiateEntity with _$PaymentInitiateEntity {
+  const factory PaymentInitiateEntity.cashfree({
+    required String orderId,
+    required String cfOrderId,
+    required String paymentSessionId,
+    required num amount,
+    required DateTime createdAt,
+    required String status,
+  }) = CashfreeInitiateEntity;
+
+  const factory PaymentInitiateEntity.razorpay({
+    required String orderId,
+    required String id,
+    required num amount,
+    required num amountDue,
+    required num amountPaid,
+    required String currency,
+    required DateTime createdAt,
+    required String status,
+  }) = RazorpayInitiateEntity;
+
+  const factory PaymentInitiateEntity.payu({
+    required String orderId,
+    required String key,
+    required String txnid,
+    required num amount,
+    required String hash,
+    required String surl,
+    required String furl,
+    required String productInfo,
+    required String firstName,
+    required String email,
+    required String phone,
+  }) = PayUInitiateEntity;
 }

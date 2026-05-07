@@ -23,7 +23,10 @@ class BaseChartCard extends StatelessWidget {
         children: [
           Text(title, style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 12),
-          SizedBox(height: 220, child: child),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.30,
+            child: child,
+          ),
         ],
       ),
     );

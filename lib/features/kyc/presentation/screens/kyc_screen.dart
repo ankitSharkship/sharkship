@@ -61,7 +61,7 @@ class KycScreen extends ConsumerWidget {
           IconButton(
             onPressed: () {
               ref.read(authProvider.notifier).logout(() {
-                context.go('/splash');
+                appRouter.go(Routes.SPLASH);
               });
             },
             icon: Icon(Icons.logout, color: Colors.black),

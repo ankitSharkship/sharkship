@@ -47,7 +47,7 @@ class FeatureCard extends StatelessWidget {
                 ),
               ],
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 11),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -73,10 +73,10 @@ class FeatureCard extends StatelessWidget {
           Text(
             cardData.title,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: isPrimary ? Colors.white : AppColors.primaryBlue,
-                  height: 1.3,
-                ),
+              fontWeight: FontWeight.w700,
+              color: isPrimary ? Colors.white : AppColors.primaryBlue,
+              height: 1.3,
+            ),
           ),
           const SizedBox(height: 8),
 
@@ -84,12 +84,12 @@ class FeatureCard extends StatelessWidget {
           Text(
             cardData.description,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w400,
-                  color: isPrimary
-                      ? Colors.white.withOpacity(0.88)
-                      : const Color(0xFF6B7280),
-                  height: 1.5,
-                ),
+              fontWeight: FontWeight.w400,
+              color: isPrimary
+                  ? Colors.white.withOpacity(0.88)
+                  : const Color(0xFF6B7280),
+              height: 1.5,
+            ),
           ),
         ],
       ),

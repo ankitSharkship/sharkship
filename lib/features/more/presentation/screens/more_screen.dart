@@ -52,6 +52,7 @@ class MoreScreen extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -480,7 +481,7 @@ class MoreScreen extends ConsumerWidget {
             onPressed: () {
               Navigator.pop(context);
               ref.read(authProvider.notifier).logout(() {
-                context.go('/splash');
+                appRouter.go(Routes.SPLASH);
               });
             },
             child: Text(

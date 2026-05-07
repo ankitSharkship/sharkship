@@ -65,8 +65,7 @@ class WalletRemoteDataSourceImpl implements WalletRemoteDataSource {
       },
     );
 
-    final data = response.data['data'] ?? response.data;
-    return PaymentInitiateModel.fromJson(data);
+    return PaymentInitiateModel.fromResponse(response.data, paymentGateway);
   }
 
   @override

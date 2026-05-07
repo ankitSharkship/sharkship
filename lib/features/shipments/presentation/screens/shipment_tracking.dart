@@ -103,10 +103,11 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
                       padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children:  [
+                        children: [
                           Text(
                             "Let's Track your package",
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            style: Theme.of(context).textTheme.headlineSmall
+                                ?.copyWith(
                                   fontWeight: FontWeight.w800,
                                   color: const Color(0xFF111827),
                                   height: 1.2,
@@ -115,7 +116,8 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
                           SizedBox(height: 6),
                           Text(
                             'Please Enter AWB Number to track your order.',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
                                   fontWeight: FontWeight.w400,
                                   color: const Color(0xFF6B7280),
                                 ),
@@ -166,19 +168,21 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
                                 controller: _awbController,
                                 decoration: InputDecoration(
                                   hintText: 'Enter AWB Number',
-                                  hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: const Color(0xFFB0B8C5),
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                        color: const Color(0xFFB0B8C5),
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                   border: InputBorder.none,
                                   isDense: true,
                                   contentPadding: EdgeInsets.symmetric(
                                     vertical: 2,
                                   ),
                                 ),
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: const Color(0xFF111827),
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(color: const Color(0xFF111827)),
                                 keyboardType: TextInputType.text,
                               ),
                             ),
@@ -208,7 +212,8 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
                                 alignment: Alignment.center,
                                 child: Text(
                                   'Track',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,
                                         letterSpacing: 0.3,
@@ -240,56 +245,56 @@ class _ShipmentTrackingState extends ConsumerState<ShipmentTracking> {
               const SizedBox(height: 28),
 
               // ── "What are you looking for?" heading ─────────────────
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children:  [
-                    Text(
-                      'What are you looking for?',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w800,
-                            color: const Color(0xFF111827),
-                          ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Here are best features',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF9CA3AF),
-                          ),
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 20),
+              //   child: Column(
+              //     children:  [
+              //       Text(
+              //         'What are you looking for?',
+              //         textAlign: TextAlign.center,
+              //         style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              //               fontWeight: FontWeight.w800,
+              //               color: const Color(0xFF111827),
+              //             ),
+              //       ),
+              //       SizedBox(height: 4),
+              //       Text(
+              //         'Here are best features',
+              //         textAlign: TextAlign.center,
+              //         style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              //               fontWeight: FontWeight.w400,
+              //               color: const Color(0xFF9CA3AF),
+              //             ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
-              const SizedBox(height: 20),
+              // const SizedBox(height: 20),
 
-              // ── Feature cards grid ───────────────────────────────────
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: GridView.builder(
-                  // Disable GridView's own scrolling — parent SingleChildScrollView handles it
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    // Adjust childAspectRatio to control card height.
-                    // Lower value = taller cards.
-                    childAspectRatio: 0.72,
-                  ),
-                  itemCount: _features.length,
-                  itemBuilder: (context, index) {
-                    return FeatureCard(cardData: _features[index]);
-                  },
-                ),
-              ),
+              // // ── Feature cards grid ───────────────────────────────────
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 16),
+              //   child: GridView.builder(
+              //     // Disable GridView's own scrolling — parent SingleChildScrollView handles it
+              //     shrinkWrap: true,
+              //     physics: const NeverScrollableScrollPhysics(),
+              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 2,
+              //       crossAxisSpacing: 12,
+              //       mainAxisSpacing: 12,
+              //       // Adjust childAspectRatio to control card height.
+              //       // Lower value = taller cards.
+              //       childAspectRatio: 0.72,
+              //     ),
+              //     itemCount: _features.length,
+              //     itemBuilder: (context, index) {
+              //       return FeatureCard(cardData: _features[index]);
+              //     },
+              //   ),
+              // ),
 
-              const SizedBox(height: 28),
+              // const SizedBox(height: 28),
             ],
           ),
         ),

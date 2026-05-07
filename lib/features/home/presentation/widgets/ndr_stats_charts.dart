@@ -51,6 +51,7 @@ class NDRStatsCharts extends ConsumerWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
+
                   ],
                 ),
               );

@@ -29,11 +29,13 @@ class WalletRepositoryImpl implements WalletRepository {
     String? couponCode,
     required String paymentGateway,
   }) async {
-    return await remoteDataSource.initiatePayment(
-      amount: amount,
-      couponCode: couponCode,
-      paymentGateway: paymentGateway,
-    );
+    return await remoteDataSource
+        .initiatePayment(
+          amount: amount,
+          couponCode: couponCode,
+          paymentGateway: paymentGateway,
+        )
+        .then((model) => model.toEntity());
   }
 
   @override

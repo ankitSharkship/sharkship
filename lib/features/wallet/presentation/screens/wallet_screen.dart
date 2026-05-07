@@ -224,6 +224,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
             width: MediaQuery.of(context).size.width * 0.85,
             child: CouponTicketCard(
               coupon: coupon,
+              isValid: state.amount >= coupon.minAmount,
               isSelected: isSelected,
               onApply: () {
                 if (isSelected) {

@@ -40,13 +40,21 @@
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>digilocker</string>
+			<string>amazonpay</string>
 			<string>upi</string>
-			<string>phonepe</string>
-			<string>ppemerchantsdkv1</string>
-			<string>ppemerchantsdkv2</string>
-			<string>ppemerchantsdkv3</string>
+			<string>credpay</string>
+			<string>bhim</string>
 			<string>paytmmp</string>
-			<string>gpay</string>
+			<string>phonepe</string>
+			<string>tez</string>
+			<string>navipay</string>
+			<string>mobikwik</string>
+			<string>myairtel</string>
+			<string>popclubapp</string>
+			<string>super</string>
+			<string>kiwi</string>
+			<string>simplypayupi</string>
+			<string>whatsapp</string>
 		</array>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>

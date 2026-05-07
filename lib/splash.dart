@@ -81,17 +81,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          Center(child: ThreeDotsLoader()),
-          const Positioned(
-            bottom: 50,
-            left: 0,
-            right: 0,
-            child: Center(child: ThreeDotsLoader()),
-          ),
-        ],
-      ),
+      body: Stack(children: [Center(child: ThreeDotsLoader())]),
     );
   }
 }
