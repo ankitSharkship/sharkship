@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharkship/core/errors/failures.dart';
 import 'package:sharkship/features/finance/domain/entities/cn_invoice_entity.dart';
+import 'package:sharkship/features/finance/domain/entities/billing_cycle_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/initiate_invoice_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/message_metrics_entity.dart';
 import 'package:sharkship/features/finance/domain/entities/message_transaction_entity.dart';
@@ -14,7 +15,10 @@ import 'package:sharkship/features/finance/domain/repositories/finance_repositor
 import 'package:sharkship/features/finance/data/datasources/finance_datasource.dart';
 import 'package:sharkship/features/finance/data/models/remittance_model.dart';
 import 'package:sharkship/features/finance/data/models/message_transaction_model.dart';
+import 'package:sharkship/features/finance/data/models/initiate_invoice_model.dart';
+import 'package:sharkship/features/finance/data/models/billing_cycle_model.dart';
 import 'package:sharkship/features/finance/presentation/state/transactions_notifier.dart';
+
 
 part 'finance_repository_impl.g.dart';
 
@@ -231,6 +235,50 @@ class FinanceRepositoryImpl implements FinanceRepository {
   Future<Either<Failure, void>> verifyBulk(Map<String, dynamic> data) async {
     try {
       await _dataSource.verifyBulk(data);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BillingSummaryEntity>> getBillingCycles({
+    required int total,
+    required int skip,
+    required String startDate,
+    required String endDate,
+    required String dateQuery,
+    String? status,
+  }) async {
+    try {
+      final model = await _dataSource.getBillingCycles(
+        total: total,
+        skip: skip,
+        startDate: startDate,
+        endDate: endDate,
+        dateQuery: dateQuery,
+        status: status
+      );
+      return Right(model);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> downloadBillingSheet(String id) async {
+    try {
+      await _dataSource.downloadBillingSheet(id);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> syncBillingCycles() async {
+    try {
+      await _dataSource.syncBillingCycles();
       return const Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

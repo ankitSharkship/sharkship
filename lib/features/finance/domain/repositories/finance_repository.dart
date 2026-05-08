@@ -10,6 +10,8 @@ import '../../domain/entities/remittance_entity.dart';
 import '../../domain/entities/tax_invoice_entity.dart';
 import '../../domain/entities/cn_invoice_entity.dart';
 import '../../domain/entities/initiate_invoice_entity.dart';
+import '../../domain/entities/billing_cycle_entity.dart';
+
 
 abstract class FinanceRepository {
   Future<List<ShippingRateEntity>> getShippingRates({
@@ -90,4 +92,15 @@ abstract class FinanceRepository {
   Future<Either<Failure, void>> verifySingle(Map<String, dynamic> data);
 
   Future<Either<Failure, void>> verifyBulk(Map<String, dynamic> data);
+
+  Future<Either<Failure, BillingSummaryEntity>> getBillingCycles({
+    required int total,
+    required int skip,
+    required String startDate,
+    required String endDate,
+    required String dateQuery,
+    String? status,
+  });
+  Future<Either<Failure, void>> downloadBillingSheet(String id);
+  Future<Either<Failure, void>> syncBillingCycles();
 }

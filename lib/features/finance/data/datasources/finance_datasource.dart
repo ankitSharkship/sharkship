@@ -15,6 +15,7 @@ import '../models/message_transaction_model.dart';
 import '../models/tax_invoice_model.dart';
 import '../models/cn_invoice_model.dart';
 import '../models/initiate_invoice_model.dart';
+import '../models/billing_cycle_model.dart';
 
 part 'finance_datasource.g.dart';
 
@@ -262,7 +263,10 @@ class FinanceDataSource {
         directory = await getDownloadsDirectory();
       }
 
-      final String timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
+      final String timestamp = DateTime.now().toIso8601String().replaceAll(
+        ':',
+        '-',
+      );
       final String fileExt = data['fileType'] ?? 'pdf';
       final String filePath = '${directory!.path}/Invoice_$timestamp.$fileExt';
 
@@ -301,7 +305,10 @@ class FinanceDataSource {
         directory = await getDownloadsDirectory();
       }
 
-      final String timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
+      final String timestamp = DateTime.now().toIso8601String().replaceAll(
+        ':',
+        '-',
+      );
       final String filePath = '${directory!.path}/Invoices_Bulk_$timestamp.zip';
 
       final response = await _dio.post(
@@ -323,6 +330,71 @@ class FinanceDataSource {
       print('Download Bulk Invoice Error: $e');
       rethrow;
     }
+  }
+
+  Future<void> syncBillingCycles() async {
+    await _dio.post('/v1/finance/billing-cycles');
+  }
+
+  Future<void> downloadBillingSheet(String id) async {
+    try {
+      Directory? directory;
+      if (Platform.isAndroid) {
+        directory = Directory('/storage/emulated/0/Download');
+        if (!await directory.exists()) {
+          directory = await getExternalStorageDirectory();
+        }
+      } else if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = await getDownloadsDirectory();
+      }
+
+      final String filePath = '${directory!.path}/Billing_Sheet_$id.xlsx';
+
+      final response = await _dio.get(
+        '/v1/finance/billing-cycles-sheet/$id',
+        options: Options(
+          responseType: ResponseType.bytes,
+          followRedirects: false,
+        ),
+      );
+
+      final File file = File(filePath);
+      await file.writeAsBytes(response.data);
+      final result = await OpenFile.open(filePath);
+      if (result.type != ResultType.done) {
+        print("Could not open file: ${result.message}");
+      }
+    } catch (e) {
+      print('Download Billing Sheet Error: $e');
+      rethrow;
+    }
+  }
+
+  Future<BillingSummaryResponseModel> getBillingCycles({
+    required int total,
+    required int skip,
+    required String startDate,
+    required String endDate,
+    required String dateQuery,
+    String? status,
+  }) async {
+    final response = await _dio.get(
+      '/v1/finance/billing-cycles',
+      queryParameters: {
+        'total': total,
+        'skip': skip,
+        'startDate': startDate,
+        'endDate': endDate,
+        'dateQuery': dateQuery,
+        if (status != null && status != "All") 'status': status,
+      },
+    );
+
+    return BillingSummaryResponseModel.fromJson(
+      response.data as Map<String, dynamic>,
+    );
   }
 }
 

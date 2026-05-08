@@ -6,6 +6,7 @@ import 'package:sharkship/features/businessTools/presentation/screens/reports_sc
 import 'package:sharkship/features/businessTools/presentation/screens/shipping_label_screen.dart';
 import 'package:sharkship/features/businessTools/presentation/widgets/shipping_label.dart';
 import 'package:sharkship/features/buyerCommunication/presentation/screens/buyer_communication_screen.dart';
+import 'package:sharkship/features/finance/presentation/screens/billing_summary.dart';
 import 'package:sharkship/features/finance/presentation/screens/invoice_summary.dart';
 import 'package:sharkship/features/finance/presentation/screens/remittance_summary.dart';
 import 'package:sharkship/features/finance/presentation/screens/seller_charges.dart';
@@ -113,10 +114,10 @@ final appRouter = GoRouter(
       path: Routes.REMITTANCE_SUMMARY,
       builder: (context, state) => const RemittanceSummary(),
     ),
-    // GoRoute(
-    //   path: Routes.TRANSACTION_SUMMARY,
-    //   builder: (context, state) => const RemittanceSummary(),
-    // ),
+    GoRoute(
+      path: Routes.BILLING_SUMMARY,
+      builder: (context, state) => const BillingSummary(),
+    ),
     GoRoute(
       path: Routes.INVOICE_SUMMARY,
       builder: (context, state) => const InvoiceSummary(),

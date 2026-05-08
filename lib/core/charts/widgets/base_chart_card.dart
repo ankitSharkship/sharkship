@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class BaseChartCard extends StatelessWidget {
   final String title;
   final Widget child;
+  final double? height;
 
-  const BaseChartCard({super.key, required this.title, required this.child});
+  const BaseChartCard({
+    super.key,
+    required this.title,
+    required this.child,
+    this.height,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +30,7 @@ class BaseChartCard extends StatelessWidget {
           Text(title, style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 12),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.30,
+            height: height ?? MediaQuery.of(context).size.height * 0.30,
             child: child,
           ),
         ],

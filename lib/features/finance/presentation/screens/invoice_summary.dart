@@ -116,7 +116,8 @@ class _InvoiceSummaryState extends ConsumerState<InvoiceSummary> {
               child: RefreshIndicator(
                 onRefresh: _onRefresh,
                 child: stateAsync.when(
-                  loading: () => const OrdersSkeletonList(),
+                  loading: () =>
+                      SingleChildScrollView(child: const OrdersSkeletonList()),
                   error: (err, st) => Center(
                     child: ErrorCard(
                       onRetry: () =>

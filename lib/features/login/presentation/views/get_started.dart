@@ -119,18 +119,18 @@ class GetStartedScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
+              
               /// Scooter image overlaid — overflows the circle naturally
               Positioned(
-                top: size.height * 0.04,
+                top: size.height * 0.12,
                 left: 0,
-                right: -100,
+                right: -120,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Image.asset(
                       "assets/images/login/scooter.png",
-                      width: size.width * 0.78,
+                      width: size.width * 0.68,
                       fit: BoxFit.contain,
                     ),
                   ),

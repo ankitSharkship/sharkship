@@ -58,7 +58,7 @@ class MoreScreen extends ConsumerWidget {
                     children: [
                       _buildProfileCard(context, user, ref, balanceState),
                       const SizedBox(height: 32),
-                      _buildItems(context, ref),
+                      _buildItems(context, ref, balanceState),
                     ],
                   ),
                 ),
@@ -239,7 +239,11 @@ class MoreScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildItems(BuildContext context, WidgetRef ref) {
+  Widget _buildItems(
+    BuildContext context,
+    WidgetRef ref,
+    dynamic balanceState,
+  ) {
     return Column(
       children: [
         MenuListItem(
@@ -354,6 +358,15 @@ class MoreScreen extends ConsumerWidget {
                   context.push(Routes.INVOICE_SUMMARY);
                 },
               ),
+              if (balanceState.value?.activeWallet == 'POSTPAID') ...[
+                MenuItem(
+                  title: "Billing Summary",
+                  icon: Icons.assignment_return_outlined,
+                  onTap: () {
+                    context.push(Routes.BILLING_SUMMARY);
+                  },
+                ),
+              ],
             ],
           ),
         ),

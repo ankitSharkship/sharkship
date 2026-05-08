@@ -30,6 +30,7 @@ abstract class Routes {
   static const SHIPPING_LABEL_PREVIEW = _Paths.SHIPPING_LABEL_PREVIEW;
   static const USER_SCREEN = _Paths.USER_SCREEN;
   static const WALLET = _Paths.WALLET;
+  static const BILLING_SUMMARY = _Paths.BILLING_SUMMARY;
 }
 
 abstract class _Paths {
@@ -52,6 +53,7 @@ abstract class _Paths {
   static const REMITTANCE_SUMMARY = '/remittance-summary';
   static const INVOICE_SUMMARY = '/invoice-summary';
   static const TRANSACTION_SUMMARY = '/transaction-summary';
+  static const BILLING_SUMMARY = '/billing-summary';
   static const BUYER_COMMUNICATION = '/buyer-communication';
   static const ADDRESS_SCREEN = '/address-screen';
   static const SHIPPING_LABEL = '/shipping-label';
