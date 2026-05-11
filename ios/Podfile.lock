@@ -128,6 +128,11 @@ PODS:
     - Flutter
     - PhonePePayment (= 4.0.0)
   - PhonePePayment (4.0.0)
+  - PostHog (3.58.1)
+  - posthog_flutter (0.0.1):
+    - Flutter
+    - FlutterMacOS
+    - PostHog (< 4.0.0, >= 3.56.0)
   - razorpay-core-pod (1.0.6)
   - razorpay-pod (1.5.3):
     - razorpay-core-pod (= 1.0.6)
@@ -172,6 +177,7 @@ DEPENDENCIES:
   - payu_checkoutpro_flutter (from `.symlinks/plugins/payu_checkoutpro_flutter/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - phonepe_payment_sdk (from `.symlinks/plugins/phonepe_payment_sdk/ios`)
+  - posthog_flutter (from `.symlinks/plugins/posthog_flutter/darwin`)
   - razorpay_flutter (from `.symlinks/plugins/razorpay_flutter/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
@@ -206,6 +212,7 @@ SPEC REPOS:
     - PayUIndia-PG-SDK
     - PayUIndia-UPICore
     - PhonePePayment
+    - PostHog
     - razorpay-core-pod
     - razorpay-pod
     - SDWebImage
@@ -244,6 +251,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   phonepe_payment_sdk:
     :path: ".symlinks/plugins/phonepe_payment_sdk/ios"
+  posthog_flutter:
+    :path: ".symlinks/plugins/posthog_flutter/darwin"
   razorpay_flutter:
     :path: ".symlinks/plugins/razorpay_flutter/ios"
   shared_preferences_foundation:
@@ -300,6 +309,8 @@ SPEC CHECKSUMS:
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
   phonepe_payment_sdk: cac980d0deb0d024b091e207207fea9418b2a391
   PhonePePayment: c720ada91c0976d6888a44571ced348ed8cd7d83
+  PostHog: 162c013c6a8e442382f6804076bf3ad072c8778a
+  posthog_flutter: 03b15ff7a78e2a4162baaf11f8db37b079412106
   razorpay-core-pod: 6da5fb4ed280279d665507fdb50e213d793a5fe2
   razorpay-pod: 4385cf844aa29389313b741e20c72fe668970d49
   razorpay_flutter: 0e98e4fcaae27ad50e011d85f66d85e0a008754a
@@ -312,6 +323,6 @@ SPEC CHECKSUMS:
   wakelock_plus: e29112ab3ef0b318e58cfa5c32326458be66b556
   webview_flutter_wkwebview: 8ebf4fded22593026f7dbff1fbff31ea98573c8d
 
-PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e
+PODFILE CHECKSUM: 251cb053df7158f337c0712f2ab29f4e0fa474ce
 
 COCOAPODS: 1.16.2

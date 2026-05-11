@@ -505,10 +505,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           child: Column(
             children: [
               _input(
-                label: "Phone Number *",
-                hint: "Enter Phone Number",
+                label: "Email or Phone Number *",
+                hint: "Enter Email or Phone Number",
                 controller: phoneController,
-                validator: Validators.phone,
+                validator: Validators.emailOrPhone,
                 keyboard: TextInputType.phone,
               ),
               if (isPasswordLogin) ...[
@@ -925,7 +925,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     );
   }
 
-  /// ================= INPUT =================
   Widget _input({
     required String label,
     required String hint,

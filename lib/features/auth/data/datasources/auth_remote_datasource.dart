@@ -58,6 +58,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final data = response.data['data'] ?? response.data;
+  
     return LoginResponseModel.fromJson(data);
   }
 

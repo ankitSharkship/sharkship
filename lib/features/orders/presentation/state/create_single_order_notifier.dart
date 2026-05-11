@@ -1,3 +1,4 @@
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharkship/features/orders/presentation/state/create_single_order_state.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_provider.dart';
@@ -233,6 +234,10 @@ class CreateSingleOrderNotifier extends _$CreateSingleOrderNotifier {
       final success = await ref
           .read(createOrderUseCaseProvider)
           .execute(params);
+      Posthog().capture(
+        eventName: 'single_order_creation',
+        properties: {"status": success},
+      );
       state = state.copyWith(isLoading: false);
       return success;
     } catch (e) {

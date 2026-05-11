@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:sharkship/features/auth/presentation/state/auth_notifier.dart';
 import 'package:sharkship/features/kyc/presentation/screens/digi_locker_screen.dart';
 import 'package:sharkship/features/kyc/presentation/state/kyc_notifier.dart';
@@ -60,6 +61,9 @@ class KycScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
+              Posthog().capture(eventName: 'kyc_log_out', properties: {
+                'kycStep': state.currentStep
+              });
               ref.read(authProvider.notifier).logout(() {
                 appRouter.go(Routes.SPLASH);
               });
@@ -177,9 +181,9 @@ class KycScreen extends ConsumerWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _thumbnail(state.kyc.aadhaar!.frontImage!, "Front",context),
+                _thumbnail(state.kyc.aadhaar!.frontImage!, "Front", context),
                 const SizedBox(width: 12),
-                _thumbnail(state.kyc.aadhaar!.backImage!, "Back",context),
+                _thumbnail(state.kyc.aadhaar!.backImage!, "Back", context),
               ],
             ),
           ] else
@@ -213,16 +217,16 @@ class KycScreen extends ConsumerWidget {
         children: [
           Text(
             "Review Your Details",
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(
             "Verify all your information before final submission.",
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.black54,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.black54),
           ),
           const SizedBox(height: 32),
           _ReviewItem(label: "PAN NUMBER", value: kyc.pan?.panNumber ?? "N/A"),
@@ -248,9 +252,9 @@ class KycScreen extends ConsumerWidget {
             Text(
               "AADHAAR IMAGES",
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
-                  ),
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
             ),
             const SizedBox(height: 12),
             Row(
@@ -295,9 +299,9 @@ class KycScreen extends ConsumerWidget {
             Text(
               "KYC Verification Under Review",
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Container(
@@ -309,9 +313,9 @@ class KycScreen extends ConsumerWidget {
               child: Text(
                 "Reviewing your documents",
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: Colors.orange.shade800,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  color: Colors.orange.shade800,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
             const SizedBox(height: 24),
@@ -319,9 +323,9 @@ class KycScreen extends ConsumerWidget {
               "Our team is reviewing your details and will get back within 1-2 business days.",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.black54,
-                    height: 1.5,
-                  ),
+                color: Colors.black54,
+                height: 1.5,
+              ),
             ),
             const SizedBox(height: 48),
             const _StatusRow(
@@ -409,9 +413,9 @@ class KycScreen extends ConsumerWidget {
           child: Text(
             label,
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
           ),
         ),
         Container(
@@ -496,9 +500,9 @@ class _KycStepper extends StatelessWidget {
                     child: Text(
                       "${index + 1}",
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -658,9 +662,9 @@ class _BottomActionButton extends ConsumerWidget {
                 child: Text(
                   "Previous",
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryBlue,
-                      ),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryBlue,
+                  ),
                 ),
               ),
             ),
@@ -756,7 +760,7 @@ class VerifiedBadge extends StatelessWidget {
             ),
           ],
         ),
-        child:  Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min, // Takes minimal space
           children: [
             Icon(
@@ -768,10 +772,10 @@ class VerifiedBadge extends StatelessWidget {
             Text(
               'Verified',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: textColor,
-                    fontWeight: FontWeight.w600, // Semi-bold for clarity
-                    letterSpacing: 0.5,
-                  ),
+                color: textColor,
+                fontWeight: FontWeight.w600, // Semi-bold for clarity
+                letterSpacing: 0.5,
+              ),
             ),
           ],
         ),
@@ -830,7 +834,7 @@ class _BankStepContentState extends ConsumerState<_BankStepContent> {
             const SizedBox(height: 12),
             _inputHelper(
               label: "Account Number",
-              context:context,
+              context: context,
               hint: "Enter Account Number",
               controller: acc,
               onChanged: (_) => _saveDraft(notifier),
@@ -984,9 +988,9 @@ class _TermsStepContent extends ConsumerWidget {
         children: [
           Text(
             "Terms & Conditions",
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -1000,9 +1004,9 @@ class _TermsStepContent extends ConsumerWidget {
               child: SingleChildScrollView(
                 child: HtmlWidget(
                   htmlContent,
-                  textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.black87,
-                      ),
+                  textStyle: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
                   renderMode: RenderMode.column,
                 ),
               ),
@@ -1042,9 +1046,9 @@ Widget _inputHelper({
       Text(
         label,
         style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: Colors.black54,
-            ),
+          fontWeight: FontWeight.w600,
+          color: Colors.black54,
+        ),
       ),
       const SizedBox(height: 6),
       TextField(
@@ -1110,16 +1114,16 @@ class _StatusRow extends StatelessWidget {
               Text(
                 title,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: isLocked ? Colors.black38 : Colors.black,
-                    ),
+                  fontWeight: FontWeight.bold,
+                  color: isLocked ? Colors.black38 : Colors.black,
+                ),
               ),
               const SizedBox(height: 2),
               Text(
                 subtitle,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.black54,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.black54),
               ),
             ],
           ),
@@ -1190,18 +1194,17 @@ class _MiddleSection extends StatelessWidget {
         const SizedBox(height: 24),
         Text(
           title,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 12),
         Text(
           subtitle,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.black54,
-                height: 1.4,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.black54, height: 1.4),
           textAlign: TextAlign.center,
         ),
       ],
@@ -1229,9 +1232,9 @@ class _Dropdown extends StatelessWidget {
         Text(
           label,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: Colors.black54,
-              ),
+            fontWeight: FontWeight.w600,
+            color: Colors.black54,
+          ),
         ),
         const SizedBox(height: 6),
         Container(
@@ -1271,17 +1274,17 @@ class _ReviewItem extends StatelessWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: Colors.grey.shade500,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.5,
-                ),
+              color: Colors.grey.shade500,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.5,
+            ),
           ),
           const SizedBox(height: 6),
           Text(
             value,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -1402,15 +1405,15 @@ class _ActionButton extends StatelessWidget {
                   Text(
                     title,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: textColor,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: textColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     subtitle,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: textColor.withOpacity(0.7),
-                        ),
+                      color: textColor.withOpacity(0.7),
+                    ),
                   ),
                 ],
               ),
@@ -1465,9 +1468,9 @@ class _AadhaarUploadSheetState extends ConsumerState<_AadhaarUploadSheet> {
         children: [
           Text(
             "Upload Aadhaar Card",
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 24),
           _UploadCard(
@@ -1628,16 +1631,16 @@ class _AadhaarCardWidget extends StatelessWidget {
                     Text(
                       aadhaar.aadharName ?? "Verified User",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       aadhaar.aadharNumber ?? "XXXX XXXX XXXX",
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.black54,
-                            letterSpacing: 1.2,
-                          ),
+                        color: Colors.black54,
+                        letterSpacing: 1.2,
+                      ),
                     ),
                   ],
                 ),

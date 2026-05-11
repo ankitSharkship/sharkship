@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/bulk_orders_state.dart';
@@ -81,6 +82,10 @@ class BulkOrdersNotifier extends _$BulkOrdersNotifier {
           .read(bulkUploadUsecaseProvider)
           .execute(state.file!);
       state = state.copyWith(isLoading: false, file: null);
+       Posthog().capture(
+        eventName: 'bulk_order_creation',
+        properties: {"status": result},
+      );
       return result;
     } catch (e) {
       state = state.copyWith(isLoading: false, file: null);

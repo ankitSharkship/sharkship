@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/features/user/domain/entities/user.dart';
 import 'package:sharkship/features/user/presentation/state/user_notifier.dart';
+import 'package:sharkship/features/user/presentation/state/user_role.dart';
 import 'package:sharkship/features/user/presentation/widget/user_profile_card.dart';
 import 'package:sharkship/features/user/presentation/widget/edit_profile_sheet.dart';
 import 'package:sharkship/shared/constants/colors.dart';
@@ -62,7 +63,12 @@ class _UserScreenState extends ConsumerState<UserScreen> {
     });
 
     final user = ref.watch(userProvider);
-    final metricsState = ref.watch(todayMetricsProvider).value;
+    final todayMetricsAllowed = ref
+        .read(allowedFeaturesProvider)
+        .contains(AppFeature.dashboards);
+    var metricsState = null;
+    if (todayMetricsAllowed)
+      metricsState = ref.watch(todayMetricsProvider).value;
     return Scaffold(
       backgroundColor: ColorManager.scaffoldBg,
       appBar: AppBar(

@@ -188,69 +188,73 @@ class UserProfileCard extends ConsumerWidget {
         ),
 
         // ===== STATS =====
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 12),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey.shade200),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Account Statistics",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      ref.read(bottomNavProvider.notifier).setIndex(0);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.insert_chart_outlined, size: 16),
-                          SizedBox(width: 4),
-                          Text("View"),
-                        ],
+        if (todayMetrics != null)
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.grey.shade200),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Account Statistics",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        ref.read(bottomNavProvider.notifier).setIndex(0);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.insert_chart_outlined, size: 16),
+                            SizedBox(width: 4),
+                            Text("View"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const Divider(),
+
+                const SizedBox(height: 8),
+
+                if (todayMetrics != null) ...[
+                  if (todayMetrics?.todayOrderCount != null)
+                    _StatRow(
+                      "Today Order",
+                      todayMetrics!.todayOrderCount.toString(),
+                    ),
+                  if (todayMetrics?.todayRevenue != null)
+                    _StatRow(
+                      "Today Revenue",
+                      "₹${todayMetrics!.todayRevenue ?? 0}",
+                    ),
                 ],
-              ),
-
-              const Divider(),
-
-              const SizedBox(height: 8),
-
-              if (todayMetrics != null) ...[
-                if (todayMetrics?.todayOrderCount != null)
-                  _StatRow(
-                    "Today Order",
-                    todayMetrics!.todayOrderCount.toString(),
-                  ),
-                if (todayMetrics?.todayRevenue != null)
-                  _StatRow(
-                    "Today Revenue",
-                    "₹${todayMetrics!.todayRevenue ?? 0}",
-                  ),
               ],
-            ],
+            ),
           ),
-        ),
       ],
     );
   }

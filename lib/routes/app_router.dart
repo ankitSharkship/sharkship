@@ -28,11 +28,13 @@ import 'package:sharkship/features/wallet/presentation/screens/topUp_wallet.dart
 import 'package:sharkship/features/wallet/presentation/screens/wallet_screen.dart';
 import 'package:sharkship/features/weightDiscrepency/presentation/screens/weight_discrepency.dart';
 import 'package:sharkship/splash.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 part 'app_routes.dart';
 
 final appRouter = GoRouter(
   initialLocation: Routes.SPLASH,
+  observers: [PosthogObserver()],
   redirect: (context, state) {
     try {
       final hasSeenIntro = SharedPreferencesService.getHasSeenIntro();

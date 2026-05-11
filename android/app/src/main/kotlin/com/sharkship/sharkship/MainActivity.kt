@@ -1,4 +1,4 @@
-package com.sharkship.sharkship
+package com.sharkship.app
 
 import io.flutter.embedding.android.FlutterActivity
 

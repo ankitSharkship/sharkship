@@ -44,6 +44,7 @@ dependencies:
   payu_checkoutpro_flutter: ^1.4.3
   permission_handler: ^12.0.1
   phonepe_payment_sdk: ^3.0.2
+  posthog_flutter: ^5.24.2
   razorpay_flutter: ^1.4.5
   riverpod_annotation: ^3.0.0
   shared_preferences: ^2.5.5

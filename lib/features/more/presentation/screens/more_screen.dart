@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:sharkship/features/auth/presentation/state/auth_notifier.dart';
 import 'package:sharkship/features/more/presentation/widgets/menu_list_item.dart';
 import 'package:sharkship/features/nav/presentation/state/bottom_nav_state.dart';
@@ -139,7 +140,10 @@ class MoreScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 12),
                       GestureDetector(
-                        onTap: () => context.push(Routes.USER_SCREEN),
+                        onTap: () {
+                          Posthog().screen(screenName: Routes.USER_SCREEN);
+                          context.push(Routes.USER_SCREEN);
+                        },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -173,9 +177,12 @@ class MoreScreen extends ConsumerWidget {
           /// Balance Section
           GestureDetector(
             onTap: () {
-              balanceState.value?.activeWallet != 'POSTPAID'
-                  ? context.push(Routes.WALLET)
-                  : null;
+              if (balanceState.value?.activeWallet != 'POSTPAID') {
+                Posthog().screen(screenName: Routes.USER_SCREEN);
+                context.push(Routes.WALLET);
+              } else {
+                null;
+              }
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
@@ -251,6 +258,7 @@ class MoreScreen extends ConsumerWidget {
             title: "Dashboard",
             icon: Icons.dashboard_outlined,
             onTap: () {
+              Posthog().screen(screenName: Routes.DASHBOARD);
               ref.read(bottomNavProvider.notifier).setIndex(0);
             },
           ),
@@ -286,6 +294,7 @@ class MoreScreen extends ConsumerWidget {
                 title: "Returns",
                 icon: Icons.assignment_return_outlined,
                 onTap: () {
+                  Posthog().screen(screenName: 'RTO');
                   ref.read(shipmentTabProvider.notifier).state = 4;
                   ref.read(bottomNavProvider.notifier).setIndex(2);
                 },
@@ -396,6 +405,7 @@ class MoreScreen extends ConsumerWidget {
                 title: "Courier Partner Priority",
                 icon: Icons.description_outlined,
                 onTap: () {
+                  Posthog().capture(eventName: 'open_courier_priority_form');
                   showModalBottomSheet(
                     context: context,
                     builder: (_) => CourierPriorityForm(),
@@ -454,17 +464,18 @@ class MoreScreen extends ConsumerWidget {
             title: "Get Support",
             icon: Icons.support_agent,
             onTap: () {
+              Posthog().screen(screenName: 'SUPPORT');
               ref.read(bottomNavProvider.notifier).setIndex(3);
             },
           ),
         ),
-        MenuListItem(
-          item: MenuItem(
-            title: "Channel Integrations",
-            icon: Icons.settings_input_composite_outlined,
-            onTap: () {},
-          ),
-        ),
+        // MenuListItem(
+        //   item: MenuItem(
+        //     title: "Channel Integrations",
+        //     icon: Icons.settings_input_composite_outlined,
+        //     onTap: () {},
+        //   ),
+        // ),
         MenuListItem(
           item: MenuItem(
             title: "Logout",

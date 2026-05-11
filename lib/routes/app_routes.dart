@@ -31,6 +31,7 @@ abstract class Routes {
   static const USER_SCREEN = _Paths.USER_SCREEN;
   static const WALLET = _Paths.WALLET;
   static const BILLING_SUMMARY = _Paths.BILLING_SUMMARY;
+  static const ORDERS = _Paths.ORDERS;
 }
 
 abstract class _Paths {
@@ -43,6 +44,7 @@ abstract class _Paths {
   static const SIGIN = '/signin';
   static const KYC = '/kyc';
   static const CREATE_ORDER = '/create-order';
+  static const ORDERS = '/orders';
   static const SHIPMENT = '/shipment';
   static const NDR = '/ndr';
   static const SHIPMENT_TRACKING = '/shipment-tracking';

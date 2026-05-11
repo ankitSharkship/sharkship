@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:sharkship/routes/app_router.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import 'core/providers/app_providers.dart';
+import 'core/services/shared_preferences_service.dart';
 import 'features/user/presentation/state/user_notifier.dart';
+import 'features/user/presentation/state/user_role.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -42,8 +44,28 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     if (token == null || token.isEmpty) {
       print('[Splash] No token → GET_STARTED');
+      await SharedPreferencesService.clearUserRole();
+      await SharedPreferencesService.clearSupportDetails();
       context.go(Routes.GET_STARTED);
       return;
+    }
+
+    // Restore role
+    final persistedRole = SharedPreferencesService.getUserRole();
+    print('[Splash] Persisted role from prefs: $persistedRole');
+    if (persistedRole != null) {
+      print('[Splash] Restoring role: $persistedRole');
+      ref.read(userRoleProvider.notifier).state =
+          UserRole.fromString(persistedRole);
+    }
+
+    // Restore support details
+    final persistedSupportDetails = SharedPreferencesService.getSupportDetails();
+    print('[Splash] Persisted support details from prefs: ${persistedSupportDetails != null}');
+    if (persistedSupportDetails != null) {
+      print('[Splash] Restoring support details: ${persistedSupportDetails.name}');
+      ref.read(supportRoleUserDetailsProvider.notifier).state =
+          persistedSupportDetails;
     }
 
     _subscription = ref.listenManual(userProvider, (prev, next) {

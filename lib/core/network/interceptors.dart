@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sharkship/core/services/shared_preferences_service.dart';
 import 'package:sharkship/features/user/presentation/state/user_notifier.dart';
 import 'package:sharkship/features/user/presentation/state/user_balance_notifier.dart';
 import 'package:sharkship/routes/app_router.dart';
@@ -37,8 +38,9 @@ class AuthInterceptor extends Interceptor {
           path.contains('/v1/auth/generate-otp') ||
           path.contains('/v1/user/register') ||
           path.contains('/v1/user/authenticateUser');
+      final isUserDetails = path.contains('/v1/user/details');
 
-      if (!isAuthPath) {
+      if (isUserDetails) {
         // Only trigger logout if we actually have a token to clear.
         // This prevents the infinite 401 loop when UserNotifier tries to re-fetch.
         final token = await authService.getToken();
@@ -46,6 +48,8 @@ class AuthInterceptor extends Interceptor {
 
         // 1. Clear Secure Storage (tokens and user data)
         await authService.logout();
+        await SharedPreferencesService.clearUserRole();
+        await SharedPreferencesService.clearSupportDetails();
 
         // 2. Clear Hive Box (profile data)
         try {
@@ -61,6 +65,10 @@ class AuthInterceptor extends Interceptor {
 
         // 4. Navigate to sign-in and clear previous routes
         appRouter.go(Routes.SIGNIN);
+      } else if (isAuthPath) {
+        handler.next(err);
+      } else {
+        return;
       }
     }
 

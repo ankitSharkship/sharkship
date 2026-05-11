@@ -43,6 +43,7 @@
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
+                
 
             <!-- Launcher -->
             <intent-filter>
@@ -66,6 +67,19 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <meta-data
+            android:name="com.posthog.posthog.API_KEY"
+            android:value="phc_unx6aP7dAAasWBmrvLVZNmhESGaNBl0jFNT39xkqblx" />
+
+        <meta-data
+            android:name="com.posthog.posthog.HOST"
+            android:value="https://us.i.posthog.com" />
+
+        <meta-data
+            android:name="com.posthog.posthog.DEBUG"
+            android:value="true" />
+    
 
     </application>
 

@@ -107,5 +107,10 @@
 		<false/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+		<key>com.posthog.posthog.API_KEY</key>
+		<string>phc_unx6aP7dAAasWBmrvLVZNmhESGaNBl0jFNT39xkqblx</string>
+		<key>com.posthog.posthog.HOST</key>
+		<string>https://us.i.posthog.com</string>
+    <true/>
 	</dict>
 </plist>

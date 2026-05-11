@@ -24,6 +24,26 @@ class Validators {
     return null;
   }
 
+  static String? emailOrPhone(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Email or phone number is required";
+    }
+
+    final trimmed = value.trim();
+
+    final isPhone = RegExp(r'^[0-9]{10}$').hasMatch(trimmed);
+
+    final isEmail = RegExp(
+      r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$',
+    ).hasMatch(trimmed);
+
+    if (!isPhone && !isEmail) {
+      return "Enter a valid email or phone number";
+    }
+
+    return null;
+  }
+
   // --- NEW: Password Validator ---
   static String? password(String? value) {
     if (value == null || value.isEmpty) return "Password is required";
@@ -52,7 +72,7 @@ class Validators {
 
   static String? pincode(String? value) {
     if (value == null || value.isEmpty) return "Pincode is required";
-    
+
     // Validates exactly 6 digits (standard Indian Pincode)
     if (!RegExp(r'^[1-9][0-9]{5}$').hasMatch(value)) {
       return "Enter a valid 6-digit pincode";
@@ -63,7 +83,7 @@ class Validators {
   static String? city(String? value) {
     if (value == null || value.isEmpty) return "City is required";
     if (value.length < 3) return "City name is too short";
-    
+
     // Allows letters and spaces (e.g., "New Delhi")
     if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
       return "Invalid city name";
@@ -83,5 +103,4 @@ class Validators {
     if (value.length < 10) return "Please enter a more detailed address";
     return null;
   }
-
 }
