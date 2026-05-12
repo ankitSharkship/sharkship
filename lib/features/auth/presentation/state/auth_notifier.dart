@@ -53,7 +53,7 @@ class AuthNotifier extends _$AuthNotifier {
         userId: response.userId ?? "",
         userProperties: {"name": response.user ?? "", "username": phoneNo},
       );
-       Posthog().capture(
+      Posthog().capture(
         eventName: 'user_otp_login',
         properties: {"status": response.accessToken != null},
       );
@@ -105,7 +105,7 @@ class AuthNotifier extends _$AuthNotifier {
         userId: response.userId ?? "",
         userProperties: {"name": response.user ?? "", "username": phoneNo},
       );
-       Posthog().capture(
+      Posthog().capture(
         eventName: 'user_password_login',
         properties: {"status": response.accessToken != null},
       );
@@ -148,7 +148,8 @@ class AuthNotifier extends _$AuthNotifier {
     try {
       // 1. Call logout API while token is still present
       await useCase(allSession: allSession);
-       Posthog().capture(eventName: 'user_logout');
+      Posthog().capture(eventName: 'user_logout');
+      await Posthog().reset();
     } catch (_) {
       // Ignore API failure and proceed with local logout
     }
@@ -202,7 +203,7 @@ class AuthNotifier extends _$AuthNotifier {
           "username": request.email ?? request.phoneNo,
         },
       );
-       Posthog().capture(
+      Posthog().capture(
         eventName: 'user_registered',
         properties: {"status": response.accessToken != null},
       );

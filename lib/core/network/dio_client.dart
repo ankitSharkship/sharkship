@@ -12,8 +12,8 @@ class DioClient {
     final dio = Dio(
       BaseOptions(
         // baseUrl: "http://192.168.1.103:3000/",
-        baseUrl: "https://staging-api.sharkship.in/",
-        // baseUrl: 'https://api.sharkship.in/',
+        // baseUrl: "https://staging-api.sharkship.in/",
+        baseUrl: 'https://api.sharkship.in/',
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
       ),

@@ -21,22 +21,17 @@ class BusinessOverviewChart extends ConsumerWidget {
       loading: () => const Center(child: ThreeDotsLoader()),
       error: (e, _) => ErrorCard(
         errMssg: "Failed to Load",
-        onRetry: () {
-          ref.invalidate(businessOverviewProvider);
-        },
+        onRetry: () => ref.invalidate(businessOverviewProvider),
       ),
       data: (data) {
         final chartData = data
-            .map(
-              (e) => ChartPoint(
-                DateFormat('dd MMM').format(e.date),
-                e.count.toDouble(),
-              ),
-            )
+            .map((e) => ChartDatePoint(e.date, e.count.toDouble()))
             .toList();
 
         return Container(
-          height: 300,
+          // FIX 1: Use constraints instead of a fixed height so the card
+          //        adapts on smaller screens without overflow.
+          constraints: const BoxConstraints(minHeight: 260, maxHeight: 340),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -52,36 +47,44 @@ class BusinessOverviewChart extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // FIX 2: Use titleLarge (or titleMedium) for a chart header —
+              //        bodyMedium is too small and lacks visual hierarchy.
               Text(
                 "Business Trends",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
+
               if (data.isEmpty)
-                Expanded(
+                // FIX 3: Wrap empty-state in Flexible to prevent RenderFlex
+                //        overflow when the parent column is tightly constrained.
+                Flexible(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
                         'assets/images/home/no_orders.svg',
-                        width: 200,
-                        fit: BoxFit.fitWidth,
+                        // FIX 4: Constrain with a max width so the SVG doesn't
+                        //        blow out on large screens.
+                        width: 160,
+                        fit: BoxFit.contain,
                       ),
-                      Center(
-                        child: Text(
-                          'No Data Available\nSelect a different date range',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'No Data Available\nSelect a different date range',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.black45),
                       ),
                     ],
                   ),
                 )
-              else ...[
-                Expanded(child: AppBarChart(data: chartData)),
-              ],
+              else
+                Expanded(child: AppDateBarChart(data: chartData)),
             ],
           ),
         );

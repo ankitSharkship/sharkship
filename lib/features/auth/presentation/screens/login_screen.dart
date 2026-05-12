@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sharkship/features/auth/data/models/register_user_request_model.dart';
@@ -21,7 +22,8 @@ class AuthScreen extends ConsumerStatefulWidget {
   ConsumerState<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends ConsumerState<AuthScreen> {
+class _AuthScreenState extends ConsumerState<AuthScreen>
+    with WidgetsBindingObserver {
   bool isLogin = true;
   bool isPasswordLogin = false;
   bool isOtpMode = false;
@@ -54,11 +56,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   @override
   void initState() {
     isLogin = widget.initialMode == "login";
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     phoneController.dispose();
     passwordController.dispose();
     firstNameController.dispose();
@@ -71,6 +75,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     }
     _resendTimer?.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached) {
+      Posthog().capture(eventName: 'terminate_sign_up');
+      Posthog().stopSessionRecording();
+    }
   }
 
   void _startResendTimer() {
@@ -115,11 +128,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   }
 
   void _nextStep() {
+    final signupState = ref.read(signupProvider);
     final isValid = _signupFormKey.currentState!.validate();
     print(isValid);
     if (!isValid) return;
 
     ref.read(signupProvider.notifier).nextStep();
+  }
+
+  Future<void> _startRecording() async {
+    await Posthog().startSessionRecording();
   }
 
   void _previousStep() {
@@ -172,6 +190,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         .registerUser(
           request: request,
           onSuccess: () {
+            Posthog().capture(eventName: 'terminate_sign_up');
+            Posthog().stopSessionRecording();
             context.go(Routes.KYC);
           },
         );
@@ -239,9 +259,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       }
     });
     final authState = ref.watch(authProvider);
-    return Scaffold(
+    Widget content = Scaffold(
       resizeToAvoidBottomInset: true,
-
       body: Stack(
         children: [
           Container(
@@ -268,6 +287,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         ],
       ),
     );
+
+    if (!isLogin) {
+      return PostHogWidget(child: content);
+    }
+    return content;
   }
 
   /// ================= TOP =================
@@ -377,7 +401,20 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     return Expanded(
       child: GestureDetector(
-        onTap: () => setState(() => isLogin = value),
+        onTap: () async {
+          if (value && !isLogin) {
+            // Switching from signup to login
+            Posthog().capture(eventName: 'terminate_sign_up');
+            Posthog().stopSessionRecording();
+          } else if (!value && isLogin) {
+            // Switching from login to signup — stop any prior recording
+            // first so PostHog creates a brand-new session replay.
+            Posthog().stopSessionRecording();
+            await Posthog().startSessionRecording();
+            Posthog().capture(eventName: 'intitiate_sign_up');
+          }
+          setState(() => isLogin = value);
+        },
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(

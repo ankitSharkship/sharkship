@@ -111,6 +111,7 @@
 		<string>phc_unx6aP7dAAasWBmrvLVZNmhESGaNBl0jFNT39xkqblx</string>
 		<key>com.posthog.posthog.HOST</key>
 		<string>https://us.i.posthog.com</string>
-    <true/>
+		<key>com.posthog.posthog.AUTO_INIT</key>
+		<false/>
 	</dict>
 </plist>

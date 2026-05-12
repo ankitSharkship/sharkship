@@ -77,9 +77,8 @@
             android:value="https://us.i.posthog.com" />
 
         <meta-data
-            android:name="com.posthog.posthog.DEBUG"
-            android:value="true" />
-    
+            android:name="com.posthog.posthog.AUTO_INIT"
+            android:value="false" />
 
     </application>
 

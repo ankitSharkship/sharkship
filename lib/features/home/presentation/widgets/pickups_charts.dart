@@ -1,6 +1,8 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:sharkship/core/charts/bar/app_stacked_bar_chart.dart';
 import 'package:sharkship/core/charts/models/stacked_chart_point.dart';
 import 'package:sharkship/core/charts/theme/chart_theme.dart';
@@ -9,8 +11,27 @@ import 'package:sharkship/features/home/presentation/state/dashboard_notifier.da
 import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 1. PickupsCharts  (outer shell)
+// ─────────────────────────────────────────────────────────────────────────────
+
 class PickupsCharts extends ConsumerWidget {
   const PickupsCharts({super.key});
+
+  // Stable key ordering so every chart draw uses the same segment sequence.
+  static const List<String> _keys = [
+    "Pickups Done",
+    "Pickups Pending",
+    "Pickups Rescheduled",
+    "Pickups Scheduled Tomorrow",
+  ];
+
+  static const Map<String, Color> _colors = {
+    "Pickups Done": AppChartTheme.secondaryBlue,
+    "Pickups Pending": AppChartTheme.primaryBlue,
+    "Pickups Rescheduled": AppChartTheme.lightBlue,
+    "Pickups Scheduled Tomorrow": AppChartTheme.black,
+  };
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,46 +39,55 @@ class PickupsCharts extends ConsumerWidget {
 
     return metricsState.when(
       loading: () => const Center(
-        child: Padding(padding: EdgeInsets.all(20.0), child: ThreeDotsLoader()),
+        child: Padding(padding: EdgeInsets.all(20), child: ThreeDotsLoader()),
       ),
-      error: (err, stack) =>
-         ErrorCard(
+      error: (err, stack) => ErrorCard(
         errMssg: "Failed to Load",
-        onRetry: () {
-          ref.invalidate(courierPickupProvider);
-        },
+        onRetry: () => ref.invalidate(courierPickupProvider),
       ),
       data: (summary) {
+        // ── Empty state ──────────────────────────────────────────────────────
         if (summary.items.isEmpty) {
           return BaseChartCard(
             title: "Pickups By Courier",
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // FIX 1: Constrain SVG width; fitWidth can blow out on wide
+                //        screens. Use contain so aspect ratio is preserved.
                 SvgPicture.asset(
                   'assets/images/home/no_orders.svg',
-                  width: 200,
-                  fit: BoxFit.fitWidth,
+                  width: 160,
+                  fit: BoxFit.contain,
                 ),
-                Center(
-                  child: Text(
-                    'No Data Available\nSelect a different date range',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
+                const SizedBox(height: 12),
+                Text(
+                  'No Data Available\nSelect a different date range',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: Colors.black45),
                 ),
               ],
             ),
           );
         }
 
-        // Map courier data to StackedChartPoints
+        // ── Build chart data ─────────────────────────────────────────────────
+        // FIX 2: Use a fixed key order when building StackedChartPoint so
+        //        segments stack in the same sequence for every bar. Previously,
+        //        Map iteration order could differ across Dart versions/platforms
+        //        and produces mismatched segment colors.
         final chartData = summary.items.map((item) {
           return StackedChartPoint(item.carrier, {
-            "Pickups Pending": item.pickupPending.count.toDouble(),
-            "Pickups Done": item.pickupDone.count.toDouble(),
-            "Pickups Rescheduled": item.pickupRescheduled.count.toDouble(),
-            "Pickups Scheduled Tomorrow": item.pickupScheduledTomorrow.count
-                .toDouble(),
+            for (final k in _keys)
+              k: switch (k) {
+                "Pickups Pending" => item.pickupPending.count.toDouble(),
+                "Pickups Done" => item.pickupDone.count.toDouble(),
+                "Pickups Rescheduled" =>
+                  item.pickupRescheduled.count.toDouble(),
+                _ => item.pickupScheduledTomorrow.count.toDouble(),
+              },
           });
         }).toList();
 
@@ -65,12 +95,11 @@ class PickupsCharts extends ConsumerWidget {
           title: "Pickups By Courier",
           child: AppStackedBarChart(
             data: chartData,
-            colors: {
-              "Pickups Pending": AppChartTheme.primaryBlue,
-              "Pickups Done": AppChartTheme.secondaryBlue,
-              "Pickups Rescheduled": AppChartTheme.lightBlue,
-              "Pickups Scheduled Tomorrow": AppChartTheme.black,
-            },
+            // FIX 3: Pass ordered key list so the chart renders legend and
+            //        stacks in a predictable, semantically sensible order
+            //        (Done → Pending → Rescheduled → Tomorrow).
+            orderedKeys: _keys,
+            colors: _colors,
           ),
         );
       },

@@ -23,11 +23,14 @@ void main() async {
   await SharedPreferencesService.init();
   final config = PostHogConfig(
     'phc_unx6aP7dAAasWBmrvLVZNmhESGaNBl0jFNT39xkqblx',
-  );
+  ); 
   config.host = 'https://us.i.posthog.com';
   config.captureApplicationLifecycleEvents = true;
-  config.debug = false;
+  config.debug = true;
   config.sessionReplay = true;
+  config.sessionReplayConfig.maskAllTexts = false;
+  config.sessionReplayConfig.maskAllImages = false;
+  config.sessionReplayConfig.throttleDelay = const Duration(milliseconds: 1000);
   await Posthog().setup(config);
   // await PhonePePaymentSdk.init("sandbox", "", "", true);
   runApp(const ProviderScope(child: AppBootstrap()));
@@ -46,3 +49,4 @@ class AppBootstrap extends ConsumerWidget {
 
 
 // stanford cs229 cs224n nlp. cs336 language modelling
+

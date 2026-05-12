@@ -4,6 +4,13 @@ class ChartPoint {
 
   ChartPoint(this.label, this.value);
 }
+class ChartDatePoint {
+  final DateTime label;
+  final double value;
+
+  ChartDatePoint(this.label, this.value);
+}
+
 
 class MultiLinePoint {
   final String label;
