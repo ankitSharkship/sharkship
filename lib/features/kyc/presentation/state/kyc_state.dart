@@ -5,8 +5,6 @@ enum KycStep { aadhaar, pan, bank, gst, review, terms, submitted }
 class KycState {
   final Kyc kyc;
   final KycStep currentStep;
-  final bool isLoading;
-  final String? error;
   final bool isTermsAccepted;
   final String? termsHtml;
   final bool shouldNavigateHome;
@@ -14,8 +12,6 @@ class KycState {
   KycState({
     required this.kyc,
     required this.currentStep,
-    this.isLoading = false,
-    this.error,
     this.isTermsAccepted = false,
     this.termsHtml,
     this.shouldNavigateHome = false,
@@ -24,8 +20,6 @@ class KycState {
   KycState copyWith({
     Kyc? kyc,
     KycStep? currentStep,
-    bool? isLoading,
-    String? error,
     bool? isTermsAccepted,
     String? termsHtml,
     bool? shouldNavigateHome,
@@ -33,8 +27,6 @@ class KycState {
     return KycState(
       kyc: kyc ?? this.kyc,
       currentStep: currentStep ?? this.currentStep,
-      isLoading: isLoading ?? this.isLoading,
-      error: error,
       isTermsAccepted: isTermsAccepted ?? this.isTermsAccepted,
       termsHtml: termsHtml ?? this.termsHtml,
       shouldNavigateHome: shouldNavigateHome ?? this.shouldNavigateHome,

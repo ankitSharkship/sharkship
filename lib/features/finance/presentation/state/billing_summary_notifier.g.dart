@@ -35,7 +35,7 @@ final class BillingSummaryNotifierProvider
 }
 
 String _$billingSummaryNotifierHash() =>
-    r'2bd4b246ebc124958bd2a10f39f20cb889fd540a';
+    r'71e9aba8d278d46cee1feda68e6644147ae4abb1';
 
 abstract class _$BillingSummaryNotifier
     extends $AsyncNotifier<BillingSummaryState> {

@@ -46,38 +46,28 @@ class PickupsCharts extends ConsumerWidget {
         onRetry: () => ref.invalidate(courierPickupProvider),
       ),
       data: (summary) {
-        // ── Empty state ──────────────────────────────────────────────────────
         if (summary.items.isEmpty) {
           return BaseChartCard(
             title: "Pickups By Courier",
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // FIX 1: Constrain SVG width; fitWidth can blow out on wide
-                //        screens. Use contain so aspect ratio is preserved.
                 SvgPicture.asset(
                   'assets/images/home/no_orders.svg',
-                  width: 160,
-                  fit: BoxFit.contain,
+                  width: 200,
+                  fit: BoxFit.fitWidth,
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  'No Data Available\nSelect a different date range',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: Colors.black45),
+                Center(
+                  child: Text(
+                    'No Data Available\nSelect a different date range',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ),
               ],
             ),
           );
         }
-
-        // ── Build chart data ─────────────────────────────────────────────────
-        // FIX 2: Use a fixed key order when building StackedChartPoint so
-        //        segments stack in the same sequence for every bar. Previously,
-        //        Map iteration order could differ across Dart versions/platforms
-        //        and produces mismatched segment colors.
         final chartData = summary.items.map((item) {
           return StackedChartPoint(item.carrier, {
             for (final k in _keys)

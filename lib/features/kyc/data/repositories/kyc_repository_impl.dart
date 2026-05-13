@@ -1,5 +1,6 @@
 import 'package:sharkship/core/network/api_exception.dart';
 import 'package:sharkship/features/kyc/data/datasources/kyc_remote_datasource.dart';
+import 'package:sharkship/features/kyc/data/model/aadhaar_response_model.dart';
 import 'package:sharkship/features/kyc/data/model/digilocker_models.dart';
 import 'package:sharkship/features/kyc/data/model/kyc_response_model.dart';
 import 'package:sharkship/features/kyc/domain/entities/digilocker_init.dart';
@@ -35,15 +36,13 @@ class KycRepositoryImpl implements KycRepository {
   }
 
   @override
-  Future<void> uploadAadhaar({
+  Future<AadhaarResponseModel> uploadAadhaar({
     required String front,
     required String back,
   }) async {
     final res = await remote.uploadAadhaar(frontPath: front, backPath: back);
 
-    if (!res.isValid) {
-      throw ApiException(message: res.message);
-    }
+    return res;
   }
 
   @override

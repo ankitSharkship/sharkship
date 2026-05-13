@@ -84,7 +84,7 @@ class GetStartedScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          "Everything start from here",
+                          "Everything starts from here",
                           style: TextStyle(fontSize: 16, color: Colors.white70),
                         ),
                       ],
@@ -119,7 +119,7 @@ class GetStartedScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              
+
               /// Scooter image overlaid — overflows the circle naturally
               Positioned(
                 top: size.height * 0.12,

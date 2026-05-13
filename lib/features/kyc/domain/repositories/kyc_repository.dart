@@ -1,3 +1,4 @@
+import 'package:sharkship/features/kyc/data/model/aadhaar_response_model.dart';
 import 'package:sharkship/features/kyc/data/model/kyc_response_model.dart';
 import 'package:sharkship/features/kyc/data/model/digilocker_models.dart';
 import 'package:sharkship/features/kyc/domain/entities/digilocker_init.dart';
@@ -8,7 +9,7 @@ abstract class KycRepository {
   Future<bool> verifyBank(BankData bank);
   Future<bool> verifyGst(String gstNumber, String gstImage);
 
-  Future<void> uploadAadhaar({required String front, required String back});
+  Future<AadhaarResponseModel> uploadAadhaar({required String front, required String back});
   Future<void> verifyAadhaar();
 
   Future<void> submitKyc(Kyc kyc);

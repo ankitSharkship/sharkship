@@ -42,7 +42,7 @@ final class BulkOrdersNotifierProvider
 }
 
 String _$bulkOrdersNotifierHash() =>
-    r'f2a143bdb6f8c3bd05fc69bf29a759701d6b979a';
+    r'05b43c2b03f84f92822e4dcddae983a9e69b0037';
 
 abstract class _$BulkOrdersNotifier extends $Notifier<BulkOrdersState> {
   BulkOrdersState build();

@@ -307,17 +307,20 @@ class TsHeader extends ConsumerWidget {
             ),
 
             // title
-            Row(
-              children: const [
-                Icon(Icons.build, size: 23),
-                SizedBox(width: 8),
+           Row(
+              children: [
+                const Icon(Icons.build, size: 23),
+                const SizedBox(width: 8),
                 Text(
                   "Actions",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
                 ),
               ],
             ),
-
             const SizedBox(height: 20),
 
             // card container

@@ -389,17 +389,15 @@ class _EmptyState extends StatelessWidget {
       children: [
         SvgPicture.asset(
           'assets/images/home/no_orders.svg',
-          // FIX 16: 160 + contain prevents blowout on wide screens.
-          width: 160,
-          fit: BoxFit.contain,
+          width: 200,
+          fit: BoxFit.fitWidth,
         ),
-        const SizedBox(height: 12),
-        Text(
-          'No Data Available\nPlace some orders to view the data',
-          textAlign: TextAlign.center,
-          style: Theme.of(
-            context,
-          ).textTheme.bodySmall?.copyWith(color: Colors.black45),
+        Center(
+          child: Text(
+            'No Data Available\nSelect a different date range',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
         ),
       ],
     );

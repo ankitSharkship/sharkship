@@ -13,7 +13,7 @@ part of 'kyc_notifier.dart';
 const kycProvider = KycNotifierProvider._();
 
 final class KycNotifierProvider
-    extends $NotifierProvider<KycNotifier, KycState> {
+    extends $AsyncNotifierProvider<KycNotifier, KycState> {
   const KycNotifierProvider._()
     : super(
         from: null,
@@ -31,30 +31,22 @@ final class KycNotifierProvider
   @$internal
   @override
   KycNotifier create() => KycNotifier();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(KycState value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<KycState>(value),
-    );
-  }
 }
 
-String _$kycNotifierHash() => r'd1506c7b3a3c31989e40c710e0d58a72be82286e';
+String _$kycNotifierHash() => r'819ce83ce3fb7e4ea4ee09d2051df4f5a4fc9f36';
 
-abstract class _$KycNotifier extends $Notifier<KycState> {
-  KycState build();
+abstract class _$KycNotifier extends $AsyncNotifier<KycState> {
+  FutureOr<KycState> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<KycState, KycState>;
+    final ref = this.ref as $Ref<AsyncValue<KycState>, KycState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<KycState, KycState>,
-              KycState,
+              AnyNotifier<AsyncValue<KycState>, KycState>,
+              AsyncValue<KycState>,
               Object?,
               Object?
             >;

@@ -26,7 +26,7 @@
 
     <application
         android:name="${applicationName}"
-        android:label="sharkship"
+        android:label="Sharkship"
         android:icon="@mipmap/launcher_icon"
         tools:replace="android:label">
 

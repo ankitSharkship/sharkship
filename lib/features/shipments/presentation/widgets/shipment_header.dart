@@ -207,13 +207,15 @@ class ShipmentHeader extends ConsumerWidget {
             // title
             Row(
               children: [
-                Icon(Icons.build, size: 23),
-                SizedBox(width: 8),
+                const Icon(Icons.build, size: 23),
+                const SizedBox(width: 8),
                 Text(
                   "Actions",
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
                 ),
               ],
             ),

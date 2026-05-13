@@ -32,6 +32,7 @@ class BusinessOverviewChart extends ConsumerWidget {
           // FIX 1: Use constraints instead of a fixed height so the card
           //        adapts on smaller screens without overflow.
           constraints: const BoxConstraints(minHeight: 260, maxHeight: 340),
+          width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -59,26 +60,20 @@ class BusinessOverviewChart extends ConsumerWidget {
               const SizedBox(height: 16),
 
               if (data.isEmpty)
-                // FIX 3: Wrap empty-state in Flexible to prevent RenderFlex
-                //        overflow when the parent column is tightly constrained.
-                Flexible(
+                Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
                         'assets/images/home/no_orders.svg',
-                        // FIX 4: Constrain with a max width so the SVG doesn't
-                        //        blow out on large screens.
-                        width: 160,
-                        fit: BoxFit.contain,
+                        width: 200,
+                        fit: BoxFit.fitWidth,
                       ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'No Data Available\nSelect a different date range',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodySmall?.copyWith(color: Colors.black45),
+                      Center(
+                        child: Text(
+                          'No Data Available\nSelect a different date range',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
                       ),
                     ],
                   ),

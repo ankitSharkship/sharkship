@@ -24,67 +24,109 @@ class KycScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(kycProvider);
+    final asyncState = ref.watch(kycProvider);
 
-    ref.listen(kycProvider, (prev, next) {
-      if (next.error != null && next.error != prev?.error) {
-        showDialog(
-          context: context,
-          builder: (ctx) => ErrorDialog(
-            message: next.error!,
-            onRetry: () => Navigator.pop(ctx),
-          ),
-        );
-      }
-
-      // Navigate to Home if shouldNavigateHome flag is set
-      if (next.shouldNavigateHome) {
-        context.go(Routes.HOME);
-        return;
-      }
-
-      // Navigate to Home if KYC is RESOLVED and Agreement is Accepted
-      if (next.kyc.status == "RESOLVED" && next.kyc.agreementAccepted) {
-        context.go(Routes.HOME);
-      }
-
-      // Keep backward compatibility for "APPROVED" in case backend uses it
-      if (next.kyc.status == "APPROVED") {
-        context.go(Routes.HOME);
-      }
+    ref.listen<AsyncValue<KycState>>(kycProvider, (prev, next) {
+      next.whenOrNull(
+        error: (err, _) {
+          final prevErr = prev?.asError?.error;
+          if (err != prevErr) {
+            showDialog(
+              context: context,
+              builder: (ctx) => ErrorDialog(
+                message: err.toString(),
+                onRetry: () => Navigator.pop(ctx),
+              ),
+            );
+          }
+        },
+        data: (s) {
+          if (s.shouldNavigateHome) {
+            context.go(Routes.HOME);
+            return;
+          }
+          if (s.kyc.status == 'RESOLVED' && s.kyc.agreementAccepted) {
+            context.go(Routes.HOME);
+          }
+          if (s.kyc.status == 'APPROVED') {
+            context.go(Routes.HOME);
+          }
+        },
+      );
     });
 
-    return Scaffold(
-      appBar: AppBar(
+    return asyncState.when(
+      loading: () => const Scaffold(body: Center(child: ThreeDotsLoader())),
+      error: (err, _) => Scaffold(
+        appBar: AppBar(backgroundColor: AppColors.scaffoldBg, elevation: 0),
         backgroundColor: AppColors.scaffoldBg,
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Posthog().capture(eventName: 'kyc_log_out', properties: {
-                'kycStep': state.currentStep
-              });
-              ref.read(authProvider.notifier).logout(() {
-                appRouter.go(Routes.SPLASH);
-              });
-            },
-            icon: Icon(Icons.logout, color: Colors.black),
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.error_outline, size: 48, color: Colors.red),
+              const SizedBox(height: 16),
+              Text(err.toString()),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => ref.invalidate(kycProvider),
+                child: const Text('Retry'),
+              ),
+            ],
           ),
-        ],
-      ),
-      backgroundColor: AppColors.scaffoldBg,
-      body:
-      SafeArea(
-        child: Column(
-          children: [
-            _KycStepper(currentStep: state.currentStep),
-            Expanded(
-              child: _buildStepContent(state.currentStep, context, state, ref),
-            ),
-            _BottomActionButton(state: state),
-          ],
         ),
       ),
+      data: (state) {
+        // Guard: if KYC is already resolved/approved, return a blank loading
+        // scaffold immediately so ref.listen's navigation fires without the
+        // user ever seeing a flash of the KYC screen.
+        final shouldRedirect =
+            state.shouldNavigateHome ||
+            (state.kyc.status == 'RESOLVED' && state.kyc.agreementAccepted) ||
+            state.kyc.status == 'APPROVED';
+
+        if (shouldRedirect) {
+          return const Scaffold(body: Center(child: ThreeDotsLoader()));
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppColors.scaffoldBg,
+            elevation: 0,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Posthog().capture(
+                    eventName: 'kyc_log_out',
+                    properties: {'kycStep': state.currentStep},
+                  );
+                  ref.read(authProvider.notifier).logout(() {
+                    appRouter.go(Routes.SPLASH);
+                  });
+                },
+                icon: const Icon(Icons.logout, color: Colors.black),
+              ),
+            ],
+          ),
+          backgroundColor: AppColors.scaffoldBg,
+          body: SafeArea(
+            child: Column(
+              children: [
+                Center(child: _KycStepper(currentStep: state.currentStep)),
+                Expanded(
+                  child: _buildStepContent(
+                    state.currentStep,
+                    context,
+                    state,
+                    ref,
+                  ),
+                ),
+                const _BottomActionButton(),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -153,7 +195,6 @@ class KycScreen extends ConsumerWidget {
         (state.kyc.aadhaar?.frontImage != null &&
             state.kyc.aadhaar?.backImage != null) &&
         (showReUpload == null || showReUpload == false);
-    ;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -240,7 +281,11 @@ class KycScreen extends ConsumerWidget {
             value: kyc.bank?.accountNumber ?? "N/A",
           ),
           _ReviewItem(label: "IFSC CODE", value: kyc.bank?.ifscCode ?? "N/A"),
-          _ReviewItem(label: "GST Number", value: kyc.gst?.gstNumber ?? "N/A"),
+          if (kyc.gst?.gstNumber != null)
+            _ReviewItem(
+              label: "GST Number",
+              value: kyc.gst?.gstNumber ?? "N/A",
+            ),
           if (kyc.gst?.gstImage != null && kyc.gst?.gstImage != "") ...[
             _ImageThumb(url: kyc.gst!.gstImage),
           ],
@@ -584,52 +629,57 @@ class AdminRemarksCard extends StatelessWidget {
 }
 
 class _BottomActionButton extends ConsumerWidget {
-  final KycState state;
-  const _BottomActionButton({required this.state});
+  const _BottomActionButton();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (state.currentStep == KycStep.submitted) return const SizedBox.shrink();
+    final asyncState = ref.watch(kycProvider);
+    final isLoading = asyncState.isLoading;
+    final state = asyncState.value;
+
+    if (state == null || state.currentStep == KycStep.submitted) {
+      return const SizedBox.shrink();
+    }
 
     final notifier = ref.read(kycProvider.notifier);
-    String label = "Next";
+    String label = 'Next';
     VoidCallback? onPressed;
 
     switch (state.currentStep) {
       case KycStep.aadhaar:
         final aadharVerified = state.kyc.aadhaar?.isVerified ?? false;
-        label = "Next";
+        label = 'Next';
         onPressed = !aadharVerified
             ? notifier.fetchKycStatus
             : notifier.nextStep;
         break;
       case KycStep.pan:
-        final bool panVerified = state.kyc.pan?.isVerified ?? false;
-        label = !panVerified ? "Verify PAN" : "Next";
+        final panVerified = state.kyc.pan?.isVerified ?? false;
+        label = !panVerified ? 'Verify PAN' : 'Next';
         onPressed = !panVerified ? notifier.verifyPanNumber : notifier.nextStep;
-        // onPressed = notifier.moveToGst;
         break;
       case KycStep.bank:
         final bankVerified = state.kyc.bank?.isVerified ?? false;
-        label = !bankVerified ? "Verify & Next" : "Next";
+        label = !bankVerified ? 'Verify & Next' : 'Next';
         onPressed = !bankVerified ? notifier.verifyBank : notifier.nextStep;
         break;
       case KycStep.gst:
         final gstVerified = state.kyc.gst?.isVerified ?? false;
-        label = !gstVerified ? "Verify & Next" : "Next";
+        label = !gstVerified ? 'Verify & Next' : 'Next';
         onPressed = !gstVerified ? notifier.verifyGst : notifier.nextStep;
         break;
       case KycStep.review:
-        label = "Finalize Review";
+        label = 'Finalize Review';
         onPressed = notifier.submit;
         break;
       case KycStep.terms:
-        label = "Submit KYC";
+        label = 'Submit KYC';
         onPressed = state.isTermsAccepted ? notifier.acceptTerms : null;
         break;
       default:
         break;
     }
+
     final notShowBackButton =
         state.currentStep == KycStep.aadhaar ||
         (state.currentStep == KycStep.pan && !state.kyc.requiresAadhaar) ||
@@ -652,7 +702,7 @@ class _BottomActionButton extends ConsumerWidget {
           if (!notShowBackButton) ...[
             Expanded(
               child: OutlinedButton(
-                onPressed: state.isLoading ? null : notifier.previousStep,
+                onPressed: isLoading ? null : notifier.previousStep,
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   side: const BorderSide(color: Color(0xFF1E5BB1)),
@@ -661,7 +711,7 @@ class _BottomActionButton extends ConsumerWidget {
                   ),
                 ),
                 child: Text(
-                  "Previous",
+                  'Previous',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryBlue,
@@ -674,9 +724,9 @@ class _BottomActionButton extends ConsumerWidget {
           Expanded(
             child: GradientButton(
               text: label,
-              isActive: !state.isLoading && onPressed != null,
-              onTap: state.isLoading ? null : onPressed,
-              child: state.isLoading
+              isActive: !isLoading && onPressed != null,
+              onTap: isLoading ? null : onPressed,
+              child: isLoading
                   ? const ThreeDotsLoader(activeColor: Colors.white)
                   : null,
             ),
@@ -966,69 +1016,64 @@ class _GstStepContentState extends ConsumerState<_GstStepContent> {
 class _TermsStepContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(kycProvider);
+    final asyncState = ref.watch(kycProvider);
     final notifier = ref.read(kycProvider.notifier);
 
-    // 1. Check if we are currently fetching data
-    if (state.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    // 2. Check if we HAVE data but it's empty/null
-    if (state.termsHtml == null || state.termsHtml!.isEmpty) {
-      // This is where it's currently stuck.
-      // If it's not loading, and this is null, we show the empty state.
-      return const Center(child: Text("No terms available."));
-    }
-
-    // 3. Only if loading is FALSE and termsHtml is NOT NULL, show the HTML
-    final String htmlContent = state.termsHtml!;
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          Text(
-            "Terms & Conditions",
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: SingleChildScrollView(
-                child: HtmlWidget(
-                  htmlContent,
-                  textStyle: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
-                  renderMode: RenderMode.column,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Row(
+    return asyncState.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (_, __) => const Center(child: Text('No terms available.')),
+      data: (state) {
+        if (state.termsHtml == null || state.termsHtml!.isEmpty) {
+          return const Center(child: Text('No terms available.'));
+        }
+        return Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
             children: [
-              Checkbox(
-                value: state.isTermsAccepted,
-                onChanged: (v) => notifier.toggleTerms(v ?? false),
+              Text(
+                'Terms & Conditions',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
-              const Expanded(
-                child: Text(
-                  "I agree to all terms and conditions of Sharkship.",
+              const SizedBox(height: 16),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: SingleChildScrollView(
+                    child: HtmlWidget(
+                      state.termsHtml!,
+                      textStyle: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
+                      renderMode: RenderMode.column,
+                    ),
+                  ),
                 ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Checkbox(
+                    value: state.isTermsAccepted,
+                    onChanged: (v) => notifier.toggleTerms(v ?? false),
+                  ),
+                  const Expanded(
+                    child: Text(
+                      'I agree to all terms and conditions of Sharkship.',
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -1449,7 +1494,7 @@ class _AadhaarUploadSheetState extends ConsumerState<_AadhaarUploadSheet> {
         width: 100,
         height: 100,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) =>
+        errorBuilder: (_, _, _) =>
             Image.file(File(url), width: 100, height: 100, fit: BoxFit.cover),
       ),
     );
@@ -1457,7 +1502,9 @@ class _AadhaarUploadSheetState extends ConsumerState<_AadhaarUploadSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(kycProvider);
+    final asyncState = ref.watch(kycProvider);
+    final isLoading = asyncState.isLoading;
+
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: const BoxDecoration(
@@ -1468,14 +1515,14 @@ class _AadhaarUploadSheetState extends ConsumerState<_AadhaarUploadSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Upload Aadhaar Card",
+            'Upload Aadhaar Card',
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 24),
           _UploadCard(
-            title: "Front Side",
+            title: 'Front Side',
             imagePath: frontPath,
             onTap: () async {
               final file = await ImagePicker().pickImage(
@@ -1493,7 +1540,7 @@ class _AadhaarUploadSheetState extends ConsumerState<_AadhaarUploadSheet> {
           ],
           const SizedBox(height: 16),
           _UploadCard(
-            title: "Back Side",
+            title: 'Back Side',
             imagePath: backPath,
             onTap: () async {
               final file = await ImagePicker().pickImage(
@@ -1513,17 +1560,19 @@ class _AadhaarUploadSheetState extends ConsumerState<_AadhaarUploadSheet> {
           SizedBox(
             width: double.infinity,
             child: GradientButton(
-              onTap: (frontPath != null && backPath != null && !state.isLoading)
+              onTap: (frontPath != null && backPath != null && !isLoading)
                   ? () async {
                       await ref
                           .read(kycProvider.notifier)
                           .uploadAadhaar(frontPath!, backPath!);
-                      if (mounted && state.error == null)
+                      // Close sheet only if still mounted and no error
+                      if (mounted && asyncState.hasError == false) {
                         Navigator.pop(context);
+                      }
                     }
                   : null,
-              text: "Verify & Upload",
-              child: state.isLoading
+              text: 'Verify & Upload',
+              child: isLoading
                   ? const ThreeDotsLoader(activeColor: Colors.white)
                   : null,
             ),
