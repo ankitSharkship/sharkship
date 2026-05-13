@@ -389,4 +389,5 @@ abstract class OrdersRepository {
   Future<void> generateManifestation(List<int> orderIds);
   Future<void> cancelOrders(List<int> orderIds);
   Future<void> cloneOrder(int id);
+  Future<bool> deleteLineItem(int id);
 }

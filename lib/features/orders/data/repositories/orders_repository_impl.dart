@@ -116,4 +116,9 @@ class OrdersRepositoryImpl implements OrdersRepository {
   Future<void> cloneOrder(int id) {
     return dataSource.cloneOrder(id);
   }
+
+  @override
+  Future<bool> deleteLineItem(int id) {
+    return dataSource.deleteLineItem(id);
+  }
 }

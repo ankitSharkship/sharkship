@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sharkship/features/orders/presentation/screens/edit_order_screen.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
@@ -106,7 +107,9 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                       child: Text(
                         "Order Id: ${order.id}",
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -181,7 +184,13 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                             onSelected: (value) async {
                               switch (value) {
                                 case 'edit':
-                                  // handle edit
+                                  if (!mounted) break;
+                                  await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          EditOrderScreen(order: order),
+                                    ),
+                                  );
                                   break;
                                 case 'clone':
                                   if (!mounted) break;
@@ -262,12 +271,14 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                               PopupMenuItem(
                                 value: 'edit',
                                 child: Row(
-                                  children:  [
+                                  children: [
                                     Icon(Icons.edit, size: 18),
                                     SizedBox(width: 10),
                                     Text(
                                       'Edit',
-                                      style: Theme.of(context).textTheme.bodyMedium,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium,
                                     ),
                                   ],
                                 ),
@@ -275,12 +286,14 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                               PopupMenuItem(
                                 value: 'clone',
                                 child: Row(
-                                  children:  [
+                                  children: [
                                     Icon(Icons.copy, size: 18),
                                     SizedBox(width: 10),
                                     Text(
                                       'Clone Order',
-                                      style: Theme.of(context).textTheme.bodyMedium,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium,
                                     ),
                                   ],
                                 ),
@@ -288,7 +301,7 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                               PopupMenuItem(
                                 value: 'delete',
                                 child: Row(
-                                  children:  [
+                                  children: [
                                     Icon(
                                       Icons.delete,
                                       size: 18,
@@ -297,7 +310,10 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                                     SizedBox(width: 10),
                                     Text(
                                       'Delete',
-                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(color: Colors.red),
                                     ),
                                   ],
                                 ),
@@ -307,7 +323,6 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                         ),
                       ],
                     ),
-                  
                   ],
                 ),
               ),
@@ -339,9 +354,8 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                         children: [
                           Text(
                             "${order.channel}",
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 4),
                           Text(
@@ -376,9 +390,8 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                           children: [
                             Text(
                               "₹ ${order.productPrice}/-",
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 3),
                             Container(
@@ -406,9 +419,9 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                           preferBelow: false,
                           waitDuration: const Duration(milliseconds: 300),
                           showDuration: const Duration(seconds: 2),
-                          textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.white,
-                          ),
+                          textStyle: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(color: Colors.white),
                           decoration: BoxDecoration(
                             color: Colors.black87,
                             borderRadius: BorderRadius.circular(8),
@@ -438,7 +451,8 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                                   !widget.isFailed
                                       ? "No RTO Risk"
                                       : "Failed Due to",
-                                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                  style: Theme.of(context).textTheme.labelSmall
+                                      ?.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -526,7 +540,9 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                   children: [
                     Text(
                       isExpanded ? "Show Less" : "Show More",
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.blue),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelLarge?.copyWith(color: Colors.blue),
                     ),
                     const SizedBox(width: 6),
                     Icon(
@@ -581,9 +597,9 @@ class _OrderCardState extends ConsumerState<OrderCard> {
             child: Text(
               title,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.black,
-                  ),
+                fontWeight: FontWeight.w700,
+                color: AppColors.black,
+              ),
             ),
           ),
           Expanded(

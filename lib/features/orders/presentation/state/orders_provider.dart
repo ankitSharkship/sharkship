@@ -22,6 +22,7 @@ import '../../domain/usecases/download_order_invoice_usecase.dart';
 import '../../domain/usecases/generate_manifestation_usecase.dart';
 import '../../domain/usecases/cancel_orders_usecase.dart';
 import '../../domain/usecases/clone_order_usecase.dart';
+import '../../domain/usecases/delete_line_item_usecase.dart';
 
 part 'orders_provider.g.dart';
 
@@ -149,4 +150,10 @@ CancelOrdersUseCase cancelOrdersUseCase(Ref ref) {
 CloneOrderUseCase cloneOrderUseCase(Ref ref) {
   final repository = ref.watch(ordersRepositoryProvider);
   return CloneOrderUseCase(repository);
+}
+
+@riverpod
+DeleteLineItemUseCase deleteLineItemUseCase(Ref ref) {
+  final repository = ref.watch(ordersRepositoryProvider);
+  return DeleteLineItemUseCase(repository);
 }

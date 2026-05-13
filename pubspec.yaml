@@ -41,7 +41,6 @@ dependencies:
   logger: ^2.7.0
   open_file: ^3.5.11
   path_provider: ^2.1.5
-  payu_checkoutpro_flutter: ^1.4.3
   permission_handler: ^12.0.1
   phonepe_payment_sdk: ^3.0.2
   posthog_flutter: ^5.24.2

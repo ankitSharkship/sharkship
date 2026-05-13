@@ -33,7 +33,7 @@ final class KycNotifierProvider
   KycNotifier create() => KycNotifier();
 }
 
-String _$kycNotifierHash() => r'819ce83ce3fb7e4ea4ee09d2051df4f5a4fc9f36';
+String _$kycNotifierHash() => r'abe53f57da26b32bf1e174b7868275fc7509dc5b';
 
 abstract class _$KycNotifier extends $AsyncNotifier<KycState> {
   FutureOr<KycState> build();

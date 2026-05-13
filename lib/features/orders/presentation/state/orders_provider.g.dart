@@ -1012,3 +1012,51 @@ final class CloneOrderUseCaseProvider
 }
 
 String _$cloneOrderUseCaseHash() => r'd2141d10e0805801b0cba7f428396dd992b4cda8';
+
+@ProviderFor(deleteLineItemUseCase)
+const deleteLineItemUseCaseProvider = DeleteLineItemUseCaseProvider._();
+
+final class DeleteLineItemUseCaseProvider
+    extends
+        $FunctionalProvider<
+          DeleteLineItemUseCase,
+          DeleteLineItemUseCase,
+          DeleteLineItemUseCase
+        >
+    with $Provider<DeleteLineItemUseCase> {
+  const DeleteLineItemUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'deleteLineItemUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$deleteLineItemUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<DeleteLineItemUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  DeleteLineItemUseCase create(Ref ref) {
+    return deleteLineItemUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DeleteLineItemUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DeleteLineItemUseCase>(value),
+    );
+  }
+}
+
+String _$deleteLineItemUseCaseHash() =>
+    r'2f7b2045341dc2916a33e92effa10bf4575b08c8';

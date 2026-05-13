@@ -749,4 +749,9 @@ extension OrdersDataSourceEdit on OrdersDataSource {
     final response = await _dio.put('v1/order/edit/$id', data: data);
     return response.data as Map<String, dynamic>;
   }
+
+  Future<bool> deleteLineItem(int id) async {
+    final response = await _dio.delete('v1/order/lineItem/$id');
+    return response.statusCode == 200;
+  }
 }
