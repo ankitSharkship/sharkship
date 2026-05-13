@@ -29,6 +29,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   bool isOtpMode = false;
   String? currentVerifyId;
 
+  bool _obscureLoginPassword = true;
+  bool _obscureCreatePassword = true;
+  bool _obscureConfirmPassword = true;
+
   final _loginFormKey = GlobalKey<FormState>();
   final _signupFormKey = GlobalKey<FormState>();
 
@@ -557,7 +561,21 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                   validator: (v) => v != null && v.isNotEmpty
                       ? null
                       : 'Please enter password',
-                  obscureText: true,
+                  obscureText: _obscureLoginPassword,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureLoginPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      size: 20,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureLoginPassword = !_obscureLoginPassword;
+                      });
+                    },
+                  ),
                 ),
               ],
               const SizedBox(height: 20),
@@ -646,16 +664,42 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           hint: "Enter Your Password",
           controller: createPasswordController,
           validator: Validators.password,
+          obscureText: _obscureCreatePassword,
           onChanged: (value) =>
               signupNotifier.updateField("createPassword", value),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _obscureCreatePassword ? Icons.visibility_off : Icons.visibility,
+              size: 20,
+              color: Colors.grey,
+            ),
+            onPressed: () {
+              setState(() {
+                _obscureCreatePassword = !_obscureCreatePassword;
+              });
+            },
+          ),
         ),
         _input(
           label: "Confirm Password *",
           hint: "Re-Enter Your Password",
           controller: confirmPasswordController,
           validator: Validators.password,
+          obscureText: _obscureConfirmPassword,
           onChanged: (value) =>
               signupNotifier.updateField("confirmPassword", value),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+              size: 20,
+              color: Colors.grey,
+            ),
+            onPressed: () {
+              setState(() {
+                _obscureConfirmPassword = !_obscureConfirmPassword;
+              });
+            },
+          ),
         ),
       ],
     );
@@ -970,6 +1014,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     ValueChanged<String>? onChanged,
     TextInputType keyboard = TextInputType.text,
     bool obscureText = false,
+    Widget? suffixIcon,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -996,15 +1041,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide.none,
             ),
-            suffixIcon: controller.text.isNotEmpty
-                ? IconButton(
-                    icon: const Icon(Icons.clear, size: 18),
-                    onPressed: () {
-                      controller.clear();
-                      if (onChanged != null) onChanged('');
-                    },
-                  )
-                : null,
+            suffixIcon: suffixIcon ??
+                (controller.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear, size: 18),
+                        onPressed: () {
+                          controller.clear();
+                          if (onChanged != null) onChanged('');
+                        },
+                      )
+                    : null),
           ),
         ),
       ],
