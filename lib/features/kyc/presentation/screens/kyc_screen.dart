@@ -73,7 +73,8 @@ class KycScreen extends ConsumerWidget {
         ],
       ),
       backgroundColor: AppColors.scaffoldBg,
-      body: SafeArea(
+      body:
+      SafeArea(
         child: Column(
           children: [
             _KycStepper(currentStep: state.currentStep),

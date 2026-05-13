@@ -58,8 +58,6 @@ class KycNotifier extends _$KycNotifier {
   }
 
   void nextStep() {
-    print('Next step');
-    print('++++++++++++++++++++');
     final steps = KycStep.values;
     final currentIndex = state.currentStep.index;
 

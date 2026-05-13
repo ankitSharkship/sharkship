@@ -79,19 +79,24 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/icons/app-logo.png"
+  image_path_android: "assets/icons/android_launcher_icon.png"
+  image_path_ios: "assets/icons/ios_launcher_icon.png"
+  remove_alpha_ios: true
+  background_color_ios: "#ffffff"
 
 flutter_native_splash:
   color: "#ffffff"
   image: assets/images/splash.png
-  fullscreen: false
-  
+  fullscreen: true
+
   # Scaling fixes for wide images
-  android_gravity: fill_horizontal
+  android_gravity: center
   ios_content_mode: scaleAspectFit
-  
+
   android_12:
     color: "#ffffff"
-    image: assets/images/splash.png
+    image: assets/images/android_splash_12.png
     icon_background_color: "#ffffff"
     fullscreen: false
+
+# 9958494593

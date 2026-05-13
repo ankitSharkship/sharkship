@@ -51,8 +51,8 @@ class SignupNotifier extends _$SignupNotifier {
           .getPinDetails(pin);
       if (result != null && result?.city != null && result?.state != null) {
         final updated = Map<String, String>.from(state.form);
-        updated['city'] = "";
-        updated['state'] = "Delhi";
+        updated['city'] = result.city;
+        updated['state'] = result.state;
 
         state = state.copyWith(loading: false, form: updated);
       } else {

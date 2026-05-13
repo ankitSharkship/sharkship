@@ -210,7 +210,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           phoneController.text.trim(),
           passwordController.text,
           () {
-            context.go('/home'); // Replaced /dashboard
+            context.go(Routes.KYC);
           },
         );
       } else {
@@ -1204,7 +1204,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           text,
           style: Theme.of(
             context,
-          ).textTheme.titleMedium?.copyWith(color: Colors.white, fontSize: 18),
+          ).textTheme.bodyLarge?.copyWith(color: Colors.white),
         ),
       ),
     );
