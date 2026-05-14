@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sharkship/features/auth/data/models/authenticate_user_response_model.dart';
 import 'package:sharkship/features/auth/data/models/register_user_request_model.dart';
 import '../models/otp_response_model.dart';
@@ -29,8 +30,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       data: {"phone_no": phoneNo, "otp_type": "LOGIN"},
       options: Options(
         headers: {
-          "api_key": "4e8755af-0b26-4040-bf1d-a1f76a7d1f4d",
-          "client": "SHARKSHIP_FE_CLIENT",
+          "api_key": dotenv.env['AUTH_SECRET_KEY'],
+          "client": dotenv.env['AUTH_SECRET_CLIENT'],
         },
       ),
     );
@@ -58,7 +59,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final data = response.data['data'] ?? response.data;
-  
+
     return LoginResponseModel.fromJson(data);
   }
 
