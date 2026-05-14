@@ -4,6 +4,7 @@ import 'package:sharkship/features/businessTools/presentation/state/manage_addre
 import 'package:sharkship/features/orders/domain/entities/order_address_entity.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
+import 'package:sharkship/utlis/validators.dart';
 
 class AddressFormSheet extends ConsumerStatefulWidget {
   final OrderAddressEntity? address;
@@ -61,12 +62,34 @@ class AddressFormSheetState extends ConsumerState<AddressFormSheet> {
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide.none,
       ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Colors.blue, width: 1),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Colors.red, width: 1),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Colors.red, width: 1.5),
+      ),
+      errorStyle: const TextStyle(
+        color: Colors.red,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+      ),
     );
   }
 
   Widget _field(
     String label,
     TextEditingController controller, {
+    String? Function(String?)? validator,
     bool required = false,
     void Function(String)? onChanged,
   }) {
@@ -96,9 +119,9 @@ class AddressFormSheetState extends ConsumerState<AddressFormSheet> {
         const SizedBox(height: 8),
         TextFormField(
           controller: controller,
-          validator: required
-              ? (v) => v == null || v.isEmpty ? 'Required' : null
-              : null,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: validator ??
+              (required ? (v) => v == null || v.isEmpty ? 'Required' : null : null),
           decoration: _input("Enter $label"),
           onChanged: onChanged,
         ),
@@ -170,18 +193,19 @@ class AddressFormSheetState extends ConsumerState<AddressFormSheet> {
                 key: _formKey,
                 child: ListView(
                   shrinkWrap: true,
-                  children: [
-                    _field("Name", name, required: true),
-                    _field("Phone Number", phone, required: true),
-                    _field("Address Line 1", address1, required: true),
+                   children: [
+                    _field("Name", name, validator: Validators.name, required: true),
+                    _field("Phone Number", phone, validator: Validators.phone, required: true),
+                    _field("Address Line 1", address1, validator: Validators.address, required: true),
                     _field("Address Line 2", address2),
                     _field("Landmark", landmark),
                     _field(
                       "Pin",
                       pin,
+                      validator: Validators.pincode,
                       required: true,
                       onChanged: (value) async {
-                        if (value.length == 6) {
+                        if (Validators.pincode(value) == null) {
                           final details = await ref
                               .read(manageAddressProvider.notifier)
                               .getPinDetails(value);
@@ -192,8 +216,8 @@ class AddressFormSheetState extends ConsumerState<AddressFormSheet> {
                         }
                       },
                     ),
-                    _field("City", city, required: true),
-                    _field("State", stateCtrl, required: true),
+                    _field("City", city, validator: Validators.city, required: true),
+                    _field("State", stateCtrl, validator: Validators.state, required: true),
                     const SizedBox(height: 20),
                   ],
                 ),
@@ -271,7 +295,7 @@ class AddressFormSheetState extends ConsumerState<AddressFormSheet> {
           backgroundColor: Colors.red,
         ),
       );
-    } else if (!newState.isLoading) {
+    } else {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

@@ -7,15 +7,17 @@ class CustomErrorWidget extends StatelessWidget {
 
   const CustomErrorWidget({
     super.key,
-    this.title = 'Error',
+    this.title = 'Uh-oh',
     required this.errorMessage,
     this.onOkay,
   });
 
-  static void show(BuildContext context,
-      {String title = 'Error',
-      required String errorMessage,
-      VoidCallback? onOkay}) {
+  static void show(
+    BuildContext context, {
+    String title = 'Uh-oh',
+    required String errorMessage,
+    VoidCallback? onOkay,
+  }) {
     showDialog(
       context: context,
       builder: (_) => CustomErrorWidget(
@@ -36,10 +38,7 @@ class CustomErrorWidget extends StatelessWidget {
           Expanded(child: Text(title)),
         ],
       ),
-      content: Text(
-        errorMessage,
-        style: const TextStyle(fontSize: 16),
-      ),
+      content: Text(errorMessage, style: const TextStyle(fontSize: 16)),
       actions: [
         ElevatedButton(
           onPressed: () {
@@ -51,7 +50,7 @@ class CustomErrorWidget extends StatelessWidget {
             foregroundColor: Colors.white,
           ),
           child: const Text('Okay'),
-        )
+        ),
       ],
     );
   }

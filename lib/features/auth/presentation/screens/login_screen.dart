@@ -202,11 +202,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   void _submit() {
-    final isValid = isLogin
-        ? _loginFormKey.currentState!.validate()
-        : _signupFormKey.currentState!.validate();
+    // If we're already in OTP mode, we skip form validation because the form
+    // is no longer in the widget tree (hidden).
+    if (!isOtpMode) {
+      final isValid = isLogin
+          ? _loginFormKey.currentState?.validate()
+          : _signupFormKey.currentState?.validate();
 
-    if (!isValid) return;
+      if (isValid != true) return;
+    }
 
     if (isLogin) {
       if (isPasswordLogin) {
@@ -230,7 +234,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         );
       }
     } else {
-      // Signup logic can be placed here later
+      // Signup OTP resend logic
+      final signupState = ref.read(signupProvider);
+      final phone = signupState.form['phoneNumber'] ?? '';
+      if (phone.isNotEmpty) {
+        ref.read(authProvider.notifier).authenticate(phone, (verifyId) {
+          setState(() {
+            isOtpMode = true;
+            currentVerifyId = verifyId;
+          });
+          ref.read(signupProvider.notifier).updateField("verifyId", verifyId);
+          _startResendTimer();
+        });
+      }
     }
   }
 
@@ -350,6 +366,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
 
   /// ================= BOTTOM =================
   Widget _buildBottomSheet() {
+    final signupState = ref.watch(signupProvider);
+    final showTabs = isLogin ? !isOtpMode : signupState.step == 0;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
@@ -359,15 +378,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _buildToggle(),
-            const SizedBox(height: 20),
+            if (showTabs) ...[_buildToggle(), const SizedBox(height: 20)],
             if (isOtpMode)
               _buildOtpForm()
             else
               isLogin ? _buildLoginForm() : _buildSignupForm(),
 
             const SizedBox(height: 20),
-            if (isLogin) ...[
+            if (isLogin && !isOtpMode) ...[
               _buildDivider(),
               const SizedBox(height: 20),
 
@@ -1041,7 +1059,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide.none,
             ),
-            suffixIcon: suffixIcon ??
+            suffixIcon:
+                suffixIcon ??
                 (controller.text.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear, size: 18),

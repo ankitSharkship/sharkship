@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:sharkship/features/businessTools/presentation/state/manage_address_notifier.dart';
 import 'package:sharkship/shared/widgets/gradient_button.dart';
+import 'package:sharkship/utlis/validators.dart';
 
 class AddAddressSheet extends ConsumerStatefulWidget {
   const AddAddressSheet({super.key});
@@ -46,11 +47,33 @@ class AddAddressSheetState extends ConsumerState<AddAddressSheet> {
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide.none,
       ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Colors.blue, width: 1),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Colors.red, width: 1),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Colors.red, width: 1.5),
+      ),
+      errorStyle: const TextStyle(
+        color: Colors.red,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+      ),
     );
   }
 
   Widget _field(
     String label,
+    String? Function(String?)? validator,
     TextEditingController controller, {
     bool required = false,
     void Function(String)? onChanged,
@@ -75,9 +98,12 @@ class AddAddressSheetState extends ConsumerState<AddAddressSheet> {
         const SizedBox(height: 8),
         TextFormField(
           controller: controller,
-          validator: required
-              ? (v) => v == null || v.isEmpty ? 'Required' : null
-              : null,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator:
+              validator ??
+              (required
+                  ? (v) => v == null || v.isEmpty ? 'Required' : null
+                  : null),
           decoration: _input("Enter $label"),
           onChanged: onChanged,
         ),
@@ -140,17 +166,28 @@ class AddAddressSheetState extends ConsumerState<AddAddressSheet> {
                 key: _formKey,
                 child: ListView(
                   children: [
-                    _field("Name", name, required: true),
-                    _field("Phone Number", phone, required: true),
-                    _field("Address Line 1", address1, required: true),
-                    _field("Address Line 2", address2),
-                    _field("Landmark", landmark),
+                    _field("Name", Validators.name, name, required: true),
+                    _field(
+                      "Phone Number",
+                      Validators.phone,
+                      phone,
+                      required: true,
+                    ),
+                    _field(
+                      "Address Line 1",
+                      Validators.address,
+                      address1,
+                      required: true,
+                    ),
+                    _field("Address Line 2", null, address2),
+                    _field("Landmark", null, landmark),
                     _field(
                       "Pin",
+                      Validators.pincode,
                       pin,
                       required: true,
                       onChanged: (value) async {
-                        if (value.length == 6) {
+                        if (Validators.pincode(value) == null) {
                           final details = await ref
                               .read(manageAddressProvider.notifier)
                               .getPinDetails(value);
@@ -161,8 +198,13 @@ class AddAddressSheetState extends ConsumerState<AddAddressSheet> {
                         }
                       },
                     ),
-                    _field("City", city, required: true),
-                    _field("State", stateCtrl, required: true),
+                    _field("City", Validators.city, city, required: true),
+                    _field(
+                      "State",
+                      Validators.state,
+                      stateCtrl,
+                      required: true,
+                    ),
                     const SizedBox(height: 80),
                   ],
                 ),
@@ -207,7 +249,7 @@ class AddAddressSheetState extends ConsumerState<AddAddressSheet> {
                     .addNewAddress(payload);
 
                 if (context.mounted &&
-                    ref.read(manageAddressProvider).error == null) {
+                    !ref.read(manageAddressProvider).hasError) {
                   Navigator.pop(context);
                 }
               },
