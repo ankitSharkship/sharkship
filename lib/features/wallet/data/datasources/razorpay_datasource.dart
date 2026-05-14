@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class RazorpayDataSource {
@@ -11,9 +12,13 @@ class RazorpayDataSource {
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, onFailure);
   }
 
-  void openCheckout({required String orderId, required double amount, required String mobileNumber}) {
+  void openCheckout({
+    required String orderId,
+    required double amount,
+    required String mobileNumber,
+  }) {
     var options = {
-      'key': 'rzp_test_SisDvUG7RZFF3M',
+      'key': dotenv.env['RAZORPAY_KEY'],
       'amount': (amount * 100).toInt(),
       'order_id': orderId,
       'name': 'Sharkship',
