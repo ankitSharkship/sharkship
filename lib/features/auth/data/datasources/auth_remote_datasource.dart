@@ -16,6 +16,7 @@ abstract class AuthRemoteDataSource {
   Future<void> logout({bool allSession = false});
   Future<AuthenticateUserModel> authenticateUser(String phone);
   Future<LoginResponseModel> registerUser(RegisterUserRequestModel request);
+  Future<LoginResponseModel> refreshTokenLogin(String refreshToken);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -109,5 +110,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final message = e.response?.data?['message'] ?? 'Registration failed';
       throw Exception(message);
     }
+  }
+  @override
+  Future<LoginResponseModel> refreshTokenLogin(String refreshToken) async {
+    final response = await dio.get(
+      '/v1/auth/refresh_token_login',
+      options: Options(
+        headers: {
+          'x-refresh-token': refreshToken,
+        },
+      ),
+    );
+
+    final data = response.data['data'] ?? response.data;
+    return LoginResponseModel.fromJson(data);
   }
 }

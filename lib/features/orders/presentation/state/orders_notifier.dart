@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/core/network/api_exception.dart';
 import 'package:sharkship/core/network/dio_exception_handler.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/filters_tab_provider.dart';
@@ -74,6 +76,14 @@ class OrdersNotifier extends _$OrdersNotifier {
     try {
       final response = await _fetchOrders(params);
       return OrdersState(data: response);
+    } on DioException catch (e) {
+      // 401 is handled globally by AuthInterceptor — don't rebuild/retry
+      if (e.response?.statusCode == 401) {
+        // Return empty state quietly; logout is already in progress
+        return OrdersState(); // or whatever your empty state type is
+      }
+      final message = DioExceptionHandler.handle(e);
+      throw ApiException(message: message, statusCode: e.response?.statusCode);
     } catch (e, st) {
       print('DEBUG: OrdersNotifier.build($tabIndex) error: $e');
       final errorMssg = DioExceptionHandler.handle(e);

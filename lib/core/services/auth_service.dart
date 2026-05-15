@@ -8,8 +8,14 @@ class AuthService {
     required String accessToken,
     required String refreshToken,
   }) async {
+    print('savging');
     await _storage.write(key: 'access_token', value: accessToken);
     await _storage.write(key: 'refresh_token', value: refreshToken);
+  }
+
+  Future<void> saveAccess({required String accessToken}) async {
+    print('savging');
+    await _storage.write(key: 'access_token', value: accessToken);
   }
 
   Future<void> saveUserData(Map<String, dynamic> userData) async {

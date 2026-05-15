@@ -10,6 +10,7 @@ import '../../domain/usecases/generate_otp_usecase.dart';
 import '../../domain/usecases/otp_login_usecase.dart';
 import '../../domain/usecases/password_login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
+import '../../domain/usecases/refresh_token_login_usecase.dart';
 
 part 'auth_providers.g.dart';
 
@@ -64,4 +65,9 @@ AuthenticateUserUseCase authenticateUserUseCase(Ref ref) {
 @riverpod
 RegisterUserUseCase registerUserUseCase(Ref ref) {
   return RegisterUserUseCase(ref.watch(authRepositoryProvider));
+}
+
+@riverpod
+RefreshTokenLoginUseCase refreshTokenLoginUseCase(Ref ref) {
+  return RefreshTokenLoginUseCase(ref.watch(authRepositoryProvider));
 }

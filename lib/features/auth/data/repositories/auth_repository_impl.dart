@@ -73,4 +73,18 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<AuthenticateUser> authenticateUser(String phone) async {
     return await remoteDataSource.authenticateUser(phone);
   }
+
+  @override
+  Future<LoginResponse> refreshTokenLogin(String refreshToken) async {
+    final response = await remoteDataSource.refreshTokenLogin(refreshToken);
+
+    if (response.accessToken != null && response.refreshToken != null) {
+      await localDataSource.saveAuthData(
+        response.toJson(),
+        response.accessToken!,
+        response.refreshToken!,
+      );
+    }
+    return response;
+  }
 }

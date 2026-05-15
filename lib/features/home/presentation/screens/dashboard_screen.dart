@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharkship/core/services/auth_service.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sharkship/features/home/presentation/widgets/ndr_grid.dart';
@@ -12,6 +13,7 @@ import 'package:sharkship/features/home/presentation/widgets/revenue_stats_chart
 import 'package:sharkship/features/home/presentation/widgets/shipment_grid.dart';
 import 'package:sharkship/features/home/presentation/widgets/remittance_summary_grid.dart';
 import 'package:sharkship/features/home/presentation/widgets/business_overview_widgets.dart';
+import 'package:sharkship/shared/widgets/gradient_button.dart';
 import '../providers/dashboard_tab_provider.dart';
 import '../state/dashboard_notifier.dart';
 import '../widgets/dashboard_header.dart';
@@ -25,6 +27,7 @@ class DashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedTab = ref.watch(dashboardTabProvider);
+
     Future<void> _onRefresh(int selectedTab) async {
       switch (selectedTab) {
         case 0:
@@ -77,13 +80,29 @@ class DashboardScreen extends ConsumerWidget {
   }
 
   Widget _buildTabContent(int tab, WidgetRef ref, BuildContext context) {
+    final AuthService authService = AuthService();
     switch (tab) {
       case 0:
         return SingleChildScrollView(
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TodayMetricsSummaryGrid(),
+              // GradientButton(
+              //   text: 'Reset',
+              //   onTap: () async {
+              //     authService.saveTokens(
+              //       accessToken: 'adfadfafdfadfadfadf',
+              //       refreshToken: 'asdfafdaadafd9ua8faud9fuadsfa8f8dfuds',
+              //     );
+              //   },
+              // ),
+              // GradientButton(
+              //   text: 'Access reset',
+              //   onTap: () async {
+              //     authService.saveAccess(accessToken: 'adfadfafdfadfadfadf');
+              //   },
+              // ),
               SizedBox(height: 20),
               SectionTitle("Shipments Details"),
               SizedBox(height: 12),

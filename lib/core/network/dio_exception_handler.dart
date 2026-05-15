@@ -1,35 +1,44 @@
+// dio_exception_handler.dart
+
 import 'package:dio/dio.dart';
 
 class DioExceptionHandler {
   static String handle(dynamic e) {
     if (e is DioException) {
-      String message = "Something went wrong";
-      
+      // Try to extract message from JSON body first
       if (e.response?.data != null && e.response?.data is Map) {
-        final data = e.response?.data as Map<String, dynamic>;
-        // Extract message from standard backend error keys
-        message = data['message'] ?? data['error'] ?? data['msg'] ?? message;
-      } else {
-        switch (e.type) {
-          case DioExceptionType.connectionTimeout:
-          case DioExceptionType.sendTimeout:
-          case DioExceptionType.receiveTimeout:
-            message = "Connection timeout. Please check your internet.";
-            break;
-          case DioExceptionType.cancel:
-            message = "Request was cancelled.";
-            break;
-          case DioExceptionType.connectionError:
-            message = "No internet connection.";
-            break;
-          case DioExceptionType.badResponse:
-            message = "Server error: ${e.response?.statusCode}";
-            break;
-          default:
-            message = "An unexpected error occurred.";
-        }
+        final data = e.response!.data as Map<String, dynamic>;
+        final msg = data['message'] ?? data['error'] ?? data['msg'];
+        if (msg != null) return msg.toString();
       }
-      return message;
+
+      // Fall back to status-code-aware messages
+      final statusCode = e.response?.statusCode;
+      switch (statusCode) {
+        case 401:
+          return "Session expired. Please log in again.";
+        case 403:
+          return "You don't have permission to do this.";
+        case 429:
+          return "Too many requests. Please slow down.";
+        case 500:
+        case 502:
+        case 503:
+          return "Server error. Please try again later.";
+      }
+
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          return "Connection timeout. Please check your internet.";
+        case DioExceptionType.cancel:
+          return "Request was cancelled.";
+        case DioExceptionType.connectionError:
+          return "No internet connection.";
+        default:
+          return "Something went wrong.";
+      }
     }
     return e.toString();
   }

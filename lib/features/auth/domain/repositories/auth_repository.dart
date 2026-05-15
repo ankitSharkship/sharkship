@@ -11,4 +11,5 @@ abstract class AuthRepository {
   Future<void> logout({bool allSession = false});
   Future<AuthenticateUser> authenticateUser(String phone);
   Future<LoginResponse> registerUser(RegisterUserRequestModel request);
+  Future<LoginResponse> refreshTokenLogin(String refreshToken);
 }

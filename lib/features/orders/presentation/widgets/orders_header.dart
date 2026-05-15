@@ -322,17 +322,17 @@ class OrdersHeader extends ConsumerWidget {
             ),
 
             // title
-             Row(
+            Row(
               children: [
                 const Icon(Icons.build, size: 23),
                 const SizedBox(width: 8),
                 Text(
                   "Actions",
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
                 ),
               ],
             ),
@@ -356,14 +356,14 @@ class OrdersHeader extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Expanded(
-                        child: ActionButton(
-                          label: "Sync",
-                          icon: Icons.sync,
-                          color: Colors.blue,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
+                      // Expanded(
+                      //   child: ActionButton(
+                      //     label: "Sync",
+                      //     icon: Icons.sync,
+                      //     color: Colors.blue,
+                      //   ),
+                      // ),
+                      // const SizedBox(width: 10),
                       Expanded(
                         child: ActionButton(
                           label: "Select Courier",

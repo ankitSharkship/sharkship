@@ -19,14 +19,15 @@ void main() async {
   );
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // DigilockerDeepLinkService().init();
-  await dotenv.load(fileName: ".env.dev");
+  // await dotenv.load(fileName: ".env.dev");
+  await dotenv.load(fileName: ".env.prod");
   await Hive.initFlutter();
   await Hive.openBox('user_box');
   await SharedPreferencesService.init();
   final config = PostHogConfig(dotenv.env['POSTHOG_KEY'] ?? "");
   config.host = 'https://us.i.posthog.com';
   config.captureApplicationLifecycleEvents = true;
-  config.debug = true;
+  config.debug = false;
   config.sessionReplay = true;
   config.sessionReplayConfig.maskAllTexts = false;
   config.sessionReplayConfig.maskAllImages = false;
