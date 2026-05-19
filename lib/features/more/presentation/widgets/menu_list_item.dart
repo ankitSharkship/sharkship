@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 
 class MenuItem {
   final String title;
   final IconData icon;
+  final List<List<dynamic>>? icon2;
   final bool isDropdown;
   final VoidCallback? onTap;
   final List<MenuItem>? children;
@@ -10,6 +13,7 @@ class MenuItem {
   MenuItem({
     required this.title,
     required this.icon,
+    this.icon2,
     this.isDropdown = false,
     this.onTap,
     this.children,
@@ -47,21 +51,34 @@ class _MenuListItemState extends State<MenuListItem> {
         InkWell(
           onTap: handleTap,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
               children: [
-                Icon(item.icon, color: Colors.blue, size: 22),
+                item.icon2 != null
+                    ? GradientIcon(
+                        size: 28,
+                        child: HugeIcon(
+                          icon: item.icon2!,
+                          color: AppColors.primaryBlue,
+                          size: 28,
+                        ),
+                      )
+                    : GradientIcon(
+                        size: 28,
+                        child: Icon(
+                          item.icon,
+                          color: AppColors.primaryBlue,
+                          size: 28,
+                        ),
+                      ),
                 const SizedBox(width: 12),
 
                 Expanded(
                   child: Text(
                     item.title,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: Colors.black87,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall?.copyWith(color: Colors.black87),
                   ),
                 ),
 
@@ -71,7 +88,7 @@ class _MenuListItemState extends State<MenuListItem> {
                     turns: isExpanded ? 0.5 : 0,
                     child: const Icon(
                       Icons.keyboard_arrow_down,
-                      color: Colors.blue,
+                      color: AppColors.primaryBlue,
                     ),
                   ),
               ],
@@ -102,11 +119,17 @@ class _MenuListItemState extends State<MenuListItem> {
                       ),
                       child: Row(
                         children: [
-                          Icon(
-                            child.icon,
-                            size: 18,
-                            color: Colors.blueGrey,
-                          ),
+                          child.icon2 != null
+                              ? HugeIcon(
+                                  icon: child.icon2!,
+                                  size: 18,
+                                  color: AppColors.primaryBlue,
+                                )
+                              : Icon(
+                                  child.icon,
+                                  size: 18,
+                                  color: AppColors.primaryBlue,
+                                ),
                           const SizedBox(width: 10),
                           Text(
                             child.title,
@@ -120,6 +143,28 @@ class _MenuListItemState extends State<MenuListItem> {
                 .toList(),
           ),
       ],
+    );
+  }
+}
+
+class GradientIcon extends StatelessWidget {
+  final Widget child;
+  final double size;
+
+  const GradientIcon({super.key, required this.child, this.size = 24});
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      shaderCallback: (bounds) {
+        return const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF1D5FAF), Color(0xFF45C2F5)],
+        ).createShader(bounds);
+      },
+      blendMode: BlendMode.srcIn,
+      child: SizedBox(width: size, height: size, child: child),
     );
   }
 }

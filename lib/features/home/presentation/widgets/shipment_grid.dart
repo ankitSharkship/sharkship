@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/features/nav/presentation/state/bottom_nav_state.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
@@ -32,31 +33,37 @@ class ShipmentGrid extends ConsumerWidget {
             "To Be Processed",
             summary.getStatusCount("TO_BE_PROCESSED").toString(),
             Icons.sync,
+            HugeIcons.strokeRoundedPackageProcess,
           ),
           (
             "Ready to Ship",
             summary.getStatusCount("PROCESSED").toString(),
             Icons.check_box,
+            HugeIcons.strokeRoundedTaskDone01,
           ),
           (
             "In Transit",
             summary.getStatusCount("SHIPPED").toString(),
             Icons.local_shipping,
+            HugeIcons.strokeRoundedDeliveryTruck02,
           ),
           (
             "Out For Delivery",
             summary.getStatusCount("OUT_FOR_DELIVERY").toString(),
             Icons.delivery_dining,
+            HugeIcons.strokeRoundedPackageMoving,
           ),
           (
             "Delivered",
             summary.getStatusCount("DELIVERED").toString(),
             Icons.inventory_2,
+            HugeIcons.strokeRoundedCheckmarkBadge01,
           ),
           (
             "RTO",
             summary.getStatusCount("RETURNED").toString(),
             Icons.assignment_return,
+            HugeIcons.strokeRoundedReturnRequest,
           ),
         ];
 
@@ -78,6 +85,7 @@ class ShipmentGrid extends ConsumerWidget {
                 title: items[i].$1,
                 value: items[i].$2,
                 icon: items[i].$3,
+                icon2: items[i].$4,
                 onTap: () {
                   switch (i) {
                     case 0:

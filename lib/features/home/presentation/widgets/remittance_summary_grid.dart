@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:sharkship/features/home/presentation/widgets/shipment_stat_card.dart';
 import 'package:sharkship/features/home/presentation/widgets/summary_stat_card.dart';
+import 'package:sharkship/routes/app_router.dart';
 import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
@@ -29,24 +32,28 @@ class RemittanceSummaryGrid extends ConsumerWidget {
             "Remittance Paid",
             "₹ ${data.totalRemittancePaid}",
             Icons.account_balance_outlined,
+            HugeIcons.strokeRoundedMoneyReceive02,
           ),
           (
             "COD Collected",
             "₹ ${data.totalCodCollected}",
 
             Icons.payments_outlined,
+            HugeIcons.strokeRoundedCash02,
           ),
           (
             "Upcoming Remittance",
             "₹ ${data.upcomingRemittance}",
 
             Icons.schedule_outlined,
+            HugeIcons.strokeRoundedCalendar03,
           ),
           (
             "Due Remittance",
             "₹ ${data.dueRemittance}",
 
             Icons.warning_amber_outlined,
+            HugeIcons.strokeRoundedCalendarAdd01,
           ),
         ];
 
@@ -69,7 +76,10 @@ class RemittanceSummaryGrid extends ConsumerWidget {
                   title: item.$1,
                   value: item.$2,
                   icon: item.$3,
-                  onTap: () {},
+                  icon2: item.$4,
+                  onTap: () {
+                    context.push(Routes.REMITTANCE_SUMMARY);
+                  },
                 );
               },
             );

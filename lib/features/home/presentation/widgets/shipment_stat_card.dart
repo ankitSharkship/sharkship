@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
 
@@ -6,6 +7,7 @@ class ShipmentStatCard extends StatelessWidget {
   final String title;
   final String value;
   final IconData icon;
+  final List<List<dynamic>>? icon2;
   final VoidCallback onTap;
 
   const ShipmentStatCard({
@@ -13,6 +15,7 @@ class ShipmentStatCard extends StatelessWidget {
     required this.title,
     required this.value,
     required this.icon,
+    this.icon2,
     required this.onTap,
   });
 
@@ -26,7 +29,8 @@ class ShipmentStatCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color.fromARGB(255, 220, 220, 220)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
@@ -43,7 +47,14 @@ class ShipmentStatCard extends StatelessWidget {
                 // color: iconColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: iconColor, size: 20),
+              child: icon2 != null
+                  ? HugeIcon(
+                      icon: icon2!,
+                      color: iconColor,
+                      size: 20,
+                      strokeWidth: 2,
+                    )
+                  : Icon(icon, color: iconColor, size: 20),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -56,16 +67,16 @@ class ShipmentStatCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Text(
                     value,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black,
-                        ),
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),
@@ -75,6 +86,4 @@ class ShipmentStatCard extends StatelessWidget {
       ),
     );
   }
-
-
 }

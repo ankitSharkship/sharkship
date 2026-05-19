@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:sharkship/features/home/presentation/state/dashboard_notifier.dart';
 import 'package:sharkship/features/ndr/presentation/state/ndr_tab_provider.dart';
 import 'package:sharkship/routes/app_router.dart';
@@ -33,17 +34,29 @@ class NDRGrid extends ConsumerWidget {
         final group = summary.countByNDRStatus.first;
 
         final items = [
-          ("NDR Order", group.totalNdrOrders.toString(), Icons.sync),
-          ("Reattempted", group.totalReattempted.toString(), Icons.check_box),
+          (
+            "NDR Order",
+            group.totalNdrOrders.toString(),
+            Icons.sync,
+            HugeIcons.strokeRoundedNote01,
+          ),
+          (
+            "Reattempted",
+            group.totalReattempted.toString(),
+            Icons.check_box,
+            HugeIcons.strokeRoundedReload,
+          ),
           (
             "NDR Delivered",
             group.totalDelivered.toString(),
             Icons.local_shipping,
+            HugeIcons.strokeRoundedDeliveryTruck01,
           ),
           (
             "NDR Returned",
             group.totalReturned.toString(),
             Icons.delivery_dining,
+            HugeIcons.strokeRoundedReturnRequest,
           ),
         ];
 
@@ -65,6 +78,7 @@ class NDRGrid extends ConsumerWidget {
                 title: items[i].$1,
                 value: items[i].$2,
                 icon: items[i].$3,
+                icon2: items[i].$4,
                 onTap: () {
                   context.push(Routes.NDR);
                   switch (i) {
@@ -86,8 +100,6 @@ class NDRGrid extends ConsumerWidget {
       },
     );
   }
-
-
 }
 
 class NDRGridSkeleton extends StatelessWidget {

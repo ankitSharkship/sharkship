@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:sharkship/shared/widgets/error_card.dart';
 
 import '../state/dashboard_notifier.dart';
@@ -105,10 +106,30 @@ class PickupsSummaryGrid extends ConsumerWidget {
         );
 
         final items = [
-          ("Pickup's Order", "$totalPending Orders", Icons.inventory),
-          ("Today's Pickup", "$grandTotalToday Pickups", Icons.local_shipping),
-          ("Pickup's Done", "$totalDone Orders", Icons.check_circle_outline),
-          ("Tomorrow's Pickup", "$totalTomorrow", Icons.schedule),
+          (
+            "Pickup's Order",
+            "$totalPending Orders",
+            Icons.inventory,
+            HugeIcons.strokeRoundedClock01,
+          ),
+          (
+            "Today's Pickup",
+            "$grandTotalToday Pickups",
+            Icons.local_shipping,
+            HugeIcons.strokeRoundedTimeManagementCircle,
+          ),
+          (
+            "Pickup's Done",
+            "$totalDone Orders",
+            Icons.check_circle_outline,
+            HugeIcons.strokeRoundedTaskDone01,
+          ),
+          (
+            "Tomorrow's Pickup",
+            "$totalTomorrow",
+            Icons.schedule,
+            HugeIcons.strokeRoundedCalendar03,
+          ),
         ];
 
         return LayoutBuilder(
@@ -129,6 +150,7 @@ class PickupsSummaryGrid extends ConsumerWidget {
                 title: items[i].$1,
                 value: items[i].$2,
                 icon: items[i].$3,
+                icon2: items[i].$4,
                 showGrowth: false,
               ),
             );
@@ -148,7 +170,7 @@ class NDRSummaryGrid extends ConsumerWidget {
 
     return ndrStatusAsync.when(
       loading: () => _TodayMetricsSkeleton(),
-      error: (err, stack) =>  ErrorCard(
+      error: (err, stack) => ErrorCard(
         errMssg: "Failed to Load",
         onRetry: () {
           ref.invalidate(ndrStatusProvider);
@@ -162,21 +184,29 @@ class NDRSummaryGrid extends ConsumerWidget {
         final group = metrics.countByNDRStatus.first;
         final items = [
           (
-            "NDR OrderS",
+            "NDR Orders",
             "${group.totalNdrOrders.toString()} Orders",
             Icons.inventory,
+            HugeIcons.strokeRoundedPackage02,
           ),
           (
             "Reattempts",
             "${group.totalReattempted} Pickups",
             Icons.local_shipping,
+            HugeIcons.strokeRoundedTaskDaily01,
           ),
           (
             "NDR Delivered",
             "${group.totalDelivered} Orders",
             Icons.check_circle_outline,
+            HugeIcons.strokeRoundedTaskDone01,
           ),
-          ("NDR Returned", group.totalReturned.toString(), Icons.schedule),
+          (
+            "NDR Returned",
+            group.totalReturned.toString(),
+            Icons.schedule,
+            HugeIcons.strokeRoundedReturnRequest,
+          ),
         ];
 
         return LayoutBuilder(
@@ -197,6 +227,7 @@ class NDRSummaryGrid extends ConsumerWidget {
                 title: items[i].$1,
                 value: items[i].$2,
                 icon: items[i].$3,
+                icon2: items[i].$4,
                 showGrowth: false,
               ),
             );

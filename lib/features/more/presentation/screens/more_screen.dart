@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:sharkship/features/auth/presentation/state/auth_notifier.dart';
 import 'package:sharkship/features/more/presentation/widgets/menu_list_item.dart';
@@ -113,7 +114,16 @@ class MoreScreen extends ConsumerWidget {
                         ? CachedNetworkImageProvider(user.profileImageUrl!)
                         : null,
                     child: user.profileImageUrl == null
-                        ? const Icon(Icons.person, size: 30, color: Colors.blue)
+                        ? Center(
+                            child: GradientIcon(
+                              size: 33,
+                              child: const Icon(
+                                Icons.person,
+                                size: 33,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          )
                         : null,
                   ),
                 ),
@@ -188,24 +198,33 @@ class MoreScreen extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF2D7FB8).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                  // Container(
+                  //   padding: const EdgeInsets.all(8),
+                  //   decoration: BoxDecoration(
+                  //     color: const Color(0xFF2D7FB8).withOpacity(0.1),
+                  //     borderRadius: BorderRadius.circular(8),
+                  //   ),
+                  //   child: const Icon(
+                  //     Icons.account_balance_wallet_outlined,
+                  //     color: Color(0xFF2D7FB8),
+                  //     size: 19,
+                  //   ),
+                  // ),
+                  GradientIcon(
+                    size: 32,
                     child: const Icon(
                       Icons.account_balance_wallet_outlined,
                       color: Color(0xFF2D7FB8),
-                      size: 19,
+                      size: 32,
                     ),
                   ),
                   const SizedBox(width: 16),
                   if (balanceState.value?.activeWallet != "POSTPAID") ...[
                     Text(
                       "Total Balance",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF2D7FB8),
                       ),
@@ -258,6 +277,7 @@ class MoreScreen extends ConsumerWidget {
           item: MenuItem(
             title: "Dashboard",
             icon: Icons.dashboard_outlined,
+            icon2: HugeIcons.strokeRoundedMenuSquare,
             onTap: () {
               Posthog().screen(screenName: Routes.DASHBOARD);
               ref.read(bottomNavProvider.notifier).setIndex(0);
@@ -268,11 +288,14 @@ class MoreScreen extends ConsumerWidget {
           item: MenuItem(
             title: "Orders",
             icon: Icons.inventory,
+            icon2: HugeIcons.strokeRoundedPackage02,
             isDropdown: true,
             children: [
               MenuItem(
                 title: "Manage Orders",
                 icon: Icons.description_outlined,
+
+                icon2: HugeIcons.strokeRoundedPackageAdd,
                 onTap: () {
                   ref.read(bottomNavProvider.notifier).setIndex(1);
                 },
@@ -280,6 +303,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "Create Orders",
                 icon: Icons.add_box_outlined,
+                icon2: HugeIcons.strokeRoundedAddCircle,
                 onTap: () {
                   context.push(Routes.CREATE_ORDER);
                 },
@@ -287,6 +311,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "Shipment Tracking",
                 icon: Icons.local_shipping_outlined,
+                icon2: HugeIcons.strokeRoundedPackageSearch,
                 onTap: () {
                   context.push(Routes.SHIPMENT_TRACKING);
                 },
@@ -294,6 +319,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "Returns",
                 icon: Icons.assignment_return_outlined,
+                icon2: HugeIcons.strokeRoundedReturnRequest,
                 onTap: () {
                   Posthog().screen(screenName: 'RTO');
                   ref.read(shipmentTabProvider.notifier).state = 4;
@@ -307,6 +333,7 @@ class MoreScreen extends ConsumerWidget {
           item: MenuItem(
             title: "NDR",
             icon: Icons.assignment_return_outlined,
+            icon2: HugeIcons.strokeRoundedReturnRequest,
             onTap: () {
               context.push(Routes.NDR);
             },
@@ -316,6 +343,7 @@ class MoreScreen extends ConsumerWidget {
           item: MenuItem(
             title: "Weight Discrepancy",
             icon: Icons.dashboard_outlined,
+            icon2: HugeIcons.strokeRoundedPackageSearch,
             onTap: () {
               context.push(Routes.WEIGHT_DISC);
             },
@@ -325,17 +353,20 @@ class MoreScreen extends ConsumerWidget {
           item: MenuItem(
             title: "Finances",
             icon: Icons.wallet,
+            icon2: HugeIcons.strokeRoundedWallet02,
             isDropdown: true,
             children: [
               // MenuItem(
               //   title: "Shipping Charges",
               //   icon: Icons.description_outlined,
+              // icon2:HugeIcons.strokeRoundedDeliveryTruck02,
               //   onTap: () {
               //   },
               // ),
               MenuItem(
                 title: "Seller Charges",
                 icon: Icons.add_box_outlined,
+                icon2: HugeIcons.strokeRoundedMoneySend02,
                 onTap: () {
                   context.push(Routes.SELLER_CHARGES);
                 },
@@ -343,6 +374,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "Rate Calculator",
                 icon: Icons.local_shipping_outlined,
+                icon2: HugeIcons.strokeRoundedCalculator,
                 onTap: () {
                   context.push(Routes.RATE_CALCULATOR);
                 },
@@ -350,6 +382,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "Transaction Summary",
                 icon: Icons.assignment_return_outlined,
+                icon2: HugeIcons.strokeRoundedTransactionHistory,
                 onTap: () {
                   context.push(Routes.TRANSACTION_SUMMARY);
                 },
@@ -357,6 +390,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "Remittance Summary",
                 icon: Icons.assignment_return_outlined,
+                icon2: HugeIcons.strokeRoundedMoneyReceive02,
                 onTap: () {
                   context.push(Routes.REMITTANCE_SUMMARY);
                 },
@@ -364,6 +398,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "Invoice Summary",
                 icon: Icons.assignment_return_outlined,
+                icon2: HugeIcons.strokeRoundedInvoice01,
                 onTap: () {
                   context.push(Routes.INVOICE_SUMMARY);
                 },
@@ -384,11 +419,13 @@ class MoreScreen extends ConsumerWidget {
           item: MenuItem(
             title: "Buyer Experience",
             icon: Icons.supervised_user_circle_outlined,
+            icon2: HugeIcons.strokeRoundedCustomerSupport,
             isDropdown: true,
             children: [
               MenuItem(
                 title: "Buyer Communication",
                 icon: Icons.description_outlined,
+                icon2: HugeIcons.strokeRoundedMessageMultiple01,
                 onTap: () {
                   context.push(Routes.BUYER_COMMUNICATION);
                 },
@@ -400,11 +437,13 @@ class MoreScreen extends ConsumerWidget {
           item: MenuItem(
             title: "Business Tools",
             icon: Icons.settings_applications_outlined,
+            icon2: HugeIcons.strokeRoundedTools,
             isDropdown: true,
             children: [
               MenuItem(
                 title: "Courier Partner Priority",
                 icon: Icons.description_outlined,
+                icon2: HugeIcons.strokeRoundedDeliveryTruck01,
                 onTap: () {
                   Posthog().capture(eventName: 'open_courier_priority_form');
                   showModalBottomSheet(
@@ -416,6 +455,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "Manage Pickup Address",
                 icon: Icons.add_box_outlined,
+                icon2: HugeIcons.strokeRoundedMapsLocation01,
                 onTap: () {
                   context.push(Routes.ADDRESS_SCREEN);
                 },
@@ -423,6 +463,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "Customize Shipping Label",
                 icon: Icons.local_shipping_outlined,
+                icon2: HugeIcons.strokeRoundedShippingCenter,
                 onTap: () {
                   context.push(Routes.SHIPPING_LABEL);
                 },
@@ -430,6 +471,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "API Integration",
                 icon: Icons.assignment_return_outlined,
+                icon2: HugeIcons.strokeRoundedApi,
                 onTap: () {
                   context.push(Routes.API_INTEGRATION);
                 },
@@ -437,6 +479,7 @@ class MoreScreen extends ConsumerWidget {
               MenuItem(
                 title: "Reports",
                 icon: Icons.assignment_return_outlined,
+                icon2: HugeIcons.strokeRoundedAnalytics01,
                 onTap: () {
                   context.push(Routes.GET_MIS_REPORTS);
                 },
@@ -455,6 +498,7 @@ class MoreScreen extends ConsumerWidget {
           item: MenuItem(
             title: "KYC Info",
             icon: Icons.contact_emergency_outlined,
+            icon2: HugeIcons.strokeRoundedIdentityCard,
             onTap: () {
               context.push(Routes.KYC_INFO);
             },
@@ -464,6 +508,7 @@ class MoreScreen extends ConsumerWidget {
           item: MenuItem(
             title: "Get Support",
             icon: Icons.support_agent,
+            icon2: HugeIcons.strokeRoundedHeadset,
             onTap: () {
               Posthog().screen(screenName: 'SUPPORT');
               ref.read(bottomNavProvider.notifier).setIndex(3);
@@ -474,6 +519,7 @@ class MoreScreen extends ConsumerWidget {
         //   item: MenuItem(
         //     title: "Channel Integrations",
         //     icon: Icons.settings_input_composite_outlined,
+        // icon2: HugeIcons.strokeRoundedPlugSocket,
         //     onTap: () {},
         //   ),
         // ),
