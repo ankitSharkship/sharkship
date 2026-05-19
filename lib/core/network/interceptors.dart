@@ -5,12 +5,11 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:sharkship/core/services/auth_service.dart';
 import 'package:sharkship/features/auth/data/models/login_response_model.dart';
-
+ 
 class AuthInterceptor extends Interceptor {
   final Dio dio;
   final AuthService authService;
   final Future<void> Function() onUnauthenticated;
-
   Completer<void>? _refreshCompleter;
   bool _isLoggingOut = false;
 

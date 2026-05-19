@@ -299,145 +299,151 @@ class SingleOrderShipForm extends ConsumerWidget {
     SingleOrderShipState state,
     SingleOrderShipNotifier notifier,
   ) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 16, 16),
-          child: Row(
-            children: [
-              Text(
-                "Change Shipment Details",
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF1A1A1A),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 24, 16, 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Change Shipment Details",
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w900,
+                    color: const Color(0xFF1A1A1A),
+                  ),
                 ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.close, color: Colors.grey),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
+                IconButton(
+                  icon: const Icon(Icons.close, color: Colors.grey),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
           ),
-        ),
-        Flexible(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Form(
-              child: Column(
-                children: [
-                  _input(
-                    context,
-                    key: ValueKey('len_${state.isEditMode}'),
-                    label: 'Length (cm)*',
-                    hint: "",
-                    initialValue: state.length,
-                    onChanged: notifier.updateLength,
-                    isEnabled: state.isEditMode,
-                  ),
-                  _input(
-                    context,
-                    key: ValueKey('wid_${state.isEditMode}'),
-                    label: 'Width (cm)*',
-                    hint: "",
-                    initialValue: state.width,
-                    onChanged: notifier.updateWidth,
-                    isEnabled: state.isEditMode,
-                  ),
-                  _input(
-                    context,
-                    key: ValueKey('hei_${state.isEditMode}'),
-                    label: 'Height (cm)*',
-                    hint: "",
-                    initialValue: state.height,
-                    onChanged: notifier.updateHeight,
-                    isEnabled: state.isEditMode,
-                  ),
-                  _input(
-                    context,
-                    key: ValueKey('wei_${state.isEditMode}'),
-                    label: 'Weight (kg)*',
-                    hint: "",
-                    initialValue: state.weight,
-                    onChanged: notifier.updateWeight,
-                    isEnabled: state.isEditMode,
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: notifier.toggleEditMode,
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Form(
+                child: Column(
+                  children: [
+                    _input(
+                      context,
+                      key: ValueKey('len_${state.isEditMode}'),
+                      label: 'Length (cm)*',
+                      hint: "",
+                      initialValue: state.length,
+                      onChanged: notifier.updateLength,
+                      isEnabled: state.isEditMode,
+                    ),
+
+                    _input(
+                      context,
+                      key: ValueKey('wid_${state.isEditMode}'),
+                      label: 'Width (cm)*',
+                      hint: "",
+                      initialValue: state.width,
+                      onChanged: notifier.updateWidth,
+                      isEnabled: state.isEditMode,
+                    ),
+
+                    _input(
+                      context,
+                      key: ValueKey('hei_${state.isEditMode}'),
+                      label: 'Height (cm)*',
+                      hint: "",
+                      initialValue: state.height,
+                      onChanged: notifier.updateHeight,
+                      isEnabled: state.isEditMode,
+                    ),
+
+                    _input(
+                      context,
+                      key: ValueKey('wei_${state.isEditMode}'),
+                      label: 'Weight (kg)*',
+                      hint: "",
+                      initialValue: state.weight,
+                      onChanged: notifier.updateWeight,
+                      isEnabled: state.isEditMode,
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: notifier.toggleEditMode,
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 12,
+                              ),
+                              backgroundColor: const Color(
+                                0xFF0EA5E9,
+                              ).withOpacity(0.1),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                             ),
-                            backgroundColor: const Color(
-                              0xFF0EA5E9,
-                            ).withOpacity(0.1),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                            child: Text(
+                              !state.isEditMode ? "Edit" : "Cancel",
+                              style: Theme.of(context).textTheme.labelLarge
+                                  ?.copyWith(
+                                    color: const Color(0xFF0EA5E9),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
-                          ),
-                          child: Text(
-                            !state.isEditMode ? "Edit" : "Cancel",
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(
-                                  color: const Color(0xFF0EA5E9),
-                                  fontWeight: FontWeight.bold,
-                                ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: GradientButton(
-                          onTap: () async {
-                            if (state.isEditMode) {
-                              final success = await notifier.saveDetails();
-                              if (success) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      "Shipment details updated successfully",
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: GradientButton(
+                            onTap: () async {
+                              if (state.isEditMode) {
+                                final success = await notifier.saveDetails();
+                                if (success) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "Shipment details updated successfully",
+                                      ),
                                     ),
-                                  ),
-                                );
-                              } else if (state.error != null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      "Failed to update shipment details: ${state.error}",
+                                  );
+                                } else if (state.error != null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "Failed to update shipment details: ${state.error}",
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                }
+                              } else {
+                                notifier.nextStep();
                               }
-                            } else {
-                              notifier.nextStep();
-                            }
-                          },
-                          text: state.isEditMode ? "Save & Next" : "Next",
-                          child: state.isSaving
-                              ? const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : null,
+                            },
+                            text: state.isEditMode ? "Save & Next" : "Next",
+                            child: state.isSaving
+                                ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : null,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

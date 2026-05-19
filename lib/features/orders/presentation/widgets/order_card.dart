@@ -357,12 +357,17 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                             style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            "Channel Id: ${order.channelOrderId ?? '-'}",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          const SizedBox(height: 8),
+
+                          if (order.channelOrderId != "" &&
+                              order.channelOrderId != null) ...[
+                            const SizedBox(height: 4),
+                            Text(
+                              "Channel Id: ${order.channelOrderId ?? '-'}",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+
                           Row(
                             children: [
                               _statusIcon(

@@ -12,6 +12,7 @@ import 'package:sharkship/features/shipments/presentation/state/shipment_tab_pro
 import 'package:sharkship/features/user/presentation/state/user_notifier.dart';
 import 'package:sharkship/features/user/presentation/state/user_balance_notifier.dart';
 import 'package:sharkship/routes/app_router.dart';
+import 'package:sharkship/shared/constants/app_colors.dart';
 import 'package:sharkship/shared/widgets/error_card.dart';
 import 'package:sharkship/shared/widgets/global_popups.dart';
 import 'package:sharkship/shared/widgets/loader.dart';
@@ -29,7 +30,7 @@ class MoreScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: AppColors.scaffoldBg,
 
       body: userAsync.when(
         loading: () => const Center(child: ThreeDotsLoader()),

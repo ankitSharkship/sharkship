@@ -24,6 +24,14 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Sharkship requires access to your photo library to allow you to upload KYC documents, shipment images, and profile photos from your gallery.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Sharkship requires access to your camera to capture KYC documents and shipment photos directly within the app.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Sharkship uses your location to provide secure and verified payment transactions through our integrated payment gateways.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Sharkship uses your location to provide secure and verified payment transactions through our integrated payment gateways.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

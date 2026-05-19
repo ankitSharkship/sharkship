@@ -595,6 +595,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                     },
                   ),
                 ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     SizedBox(width: 2),
+                //     TextButton(
+                //       onPressed: () {},
+                //       child: Text('Forgot Password?'),
+                //     ),
+                //   ],
+                // ),
               ],
               const SizedBox(height: 20),
               _buildPrimaryButtonLogin(),
