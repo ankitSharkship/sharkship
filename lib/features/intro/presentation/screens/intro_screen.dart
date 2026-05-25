@@ -33,12 +33,10 @@ class _IntroScreenState extends State<IntroScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          const SizedBox(height: 80),
-
           /// Image
           SizedBox(
-            height: 280,
-            width: MediaQuery.of(context).size.width * 0.5,
+            height: MediaQuery.of(context).size.height * 0.55,
+            width: MediaQuery.of(context).size.width * 0.75,
             child: SvgPicture.asset(image, fit: BoxFit.contain),
           ),
 

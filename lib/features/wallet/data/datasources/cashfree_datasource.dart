@@ -1,5 +1,6 @@
 import 'package:flutter_cashfree_pg_sdk/api/cferrorresponse/cferrorresponse.dart';
 import 'package:flutter_cashfree_pg_sdk/api/cfpayment/cfdropcheckoutpayment.dart';
+import 'package:flutter_cashfree_pg_sdk/api/cfpaymentcomponents/cfpaymentcomponent.dart';
 import 'package:flutter_cashfree_pg_sdk/api/cfpaymentgateway/cfpaymentgatewayservice.dart';
 import 'package:flutter_cashfree_pg_sdk/api/cfpaymentgateway/cfpaymentgatewayservice.dart'
     as cf;
@@ -23,30 +24,22 @@ class CashfreeDataSource {
     required String orderId,
   }) {
     try {
+      print('(((((((((((((((((((((((((((((((((((((((((object)))))))))))))))))))))))))))))))))))))))))');
       print(paymentSessionId);
       print(orderId);
       var session = CFSessionBuilder()
-          .setEnvironment(CFEnvironment.SANDBOX) // or PRODUCTION
+          .setEnvironment(CFEnvironment.PRODUCTION)
           .setOrderId(orderId)
           .setPaymentSessionId(paymentSessionId)
           .build();
-
       var theme = CFThemeBuilder()
           .setNavigationBarBackgroundColorColor("#2D7FB8")
-          .setPrimaryFont("WorkSans")
-          .setSecondaryFont("WorkSans")
           .build();
-      print(session);
-      print(theme);
-
       var dropCheckoutPayment = CFDropCheckoutPaymentBuilder()
           .setSession(session)
           .setTheme(theme)
           .build();
-      print(dropCheckoutPayment);
-
       cfPaymentGatewayService.doPayment(dropCheckoutPayment);
-      print("What happend?");
     } catch (e) {
       print("failed");
       print(

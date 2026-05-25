@@ -7,8 +7,6 @@ class GetStartedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -23,130 +21,188 @@ class GetStartedScreen extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// Top Logo
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 16,
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Image.asset(
-                        "assets/images/login/login_logo.png",
-                        height: 28,
-                      ),
-                    ),
-                  ),
+          bottom: true,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final double screenHeight = constraints.maxHeight;
+              final double screenWidth = constraints.maxWidth;
 
-                  /// White circle — sits behind the scooter
-                  Center(
-                    // Vertically centers the entire widget
-                    child: Transform.translate(
-                      offset: Offset(
-                        size.width * 0.31,
-                        0,
-                      ), // Move up by 1/2 radius (half cut off)
-                      child: Container(
-                        width: size.width * 0.92,
-                        height: size.width * 0.92,
-                        decoration: const BoxDecoration(
-                          color: ColorManager.white,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ),
+              // Normalized scale: 0.0 (very small) → 1.0 (large screens)
+              // Clamp between 580 (iPhone SE) and 900 (tablet)
+              final double screenScale = ((screenHeight - 580) / (900 - 580))
+                  .clamp(0.0, 1.0);
 
-                  const Spacer(),
+              // Derived sizing tokens
+              final double logoHeight = screenWidth * 0.065;
+              final double verticalPaddingTop = _lerp(10, 24, screenScale);
+              final double circleSize = _lerp(
+                screenWidth * 0.82,
+                screenWidth * 0.90,
+                screenScale,
+              );
+              final double scooterWidth = _lerp(
+                screenWidth * 0.70,
+                screenWidth * 0.82,
+                screenScale,
+              );
+              final double heroAreaHeight = _lerp(220, 340, screenScale);
+              final double displayFontSize = _lerp(40, 56, screenScale);
+              final double subFontSize = _lerp(14, 17, screenScale);
+              final double buttonHeight = _lerp(50, 58, screenScale);
+              final double buttonFontSize = _lerp(15, 17, screenScale);
+              final double gapAfterHero = _lerp(12, 28, screenScale);
+              final double gapBetweenButtons = _lerp(12, 16, screenScale);
+              final double bottomPadding =
+                  MediaQuery.of(context).padding.bottom + 12;
 
-                  /// Text Section
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 5,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Let's\nget started",
-                          style: TextStyle(
-                            fontSize: 52,
-                            fontWeight: FontWeight.bold,
-                            color: ColorManager.white,
-                            height: 1.15,
+              return MediaQuery(
+                // Prevent system text scale from breaking layout
+                data: MediaQuery.of(
+                  context,
+                ).copyWith(textScaler: TextScaler.noScaling),
+                child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: screenHeight),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // ── Logo ──────────────────────────────────────────
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.055,
+                              vertical: verticalPaddingTop,
+                            ),
+                            child: Image.asset(
+                              "assets/images/login/login_logo.png",
+                              height: logoHeight,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "Everything starts from here",
-                          style: TextStyle(fontSize: 16, color: Colors.white70),
-                        ),
-                      ],
-                    ),
-                  ),
 
-                  const SizedBox(height: 12),
+                          // ── Hero: Circle + Scooter ────────────────────────
+                          SizedBox(
+                            height: heroAreaHeight,
+                            width: screenWidth,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              alignment: Alignment.center,
+                              children: [
+                                // White circle — offset right
+                                Positioned(
+                                  right: -circleSize * 0.15,
 
-                  /// Buttons
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 20,
-                    ),
-                    child: Column(
-                      children: [
-                        _buildButton(
-                          text: "Sign In",
-                          onTap: () {
-                            context.push('/signin', extra: "login");
-                          },
-                        ),
-                        const SizedBox(height: 14),
-                        _buildButton(
-                          text: "Sign Up",
-                          onTap: () {
-                            context.push('/signin', extra: "signup");
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                                  child: Container(
+                                    width: circleSize,
+                                    height: circleSize,
+                                    decoration: const BoxDecoration(
+                                      color: ColorManager.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                ),
 
-              /// Scooter image overlaid — overflows the circle naturally
-              Positioned(
-                top: size.height * 0.12,
-                left: 0,
-                right: -120,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Image.asset(
-                      "assets/images/login/scooter.png",
-                      width: size.width * 0.68,
-                      fit: BoxFit.contain,
+                                // Scooter image
+                                Positioned(
+                                  right: screenWidth * 0.02,
+                                  top: 10,
+                                  child: Image.asset(
+                                    "assets/images/login/scooter.png",
+                                    width: scooterWidth,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          const Spacer(),
+                          // ── Headline + Subtitle ───────────────────────────
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.055,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Let's\nget started",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayLarge
+                                      ?.copyWith(
+                                        color: Colors.white,
+                                        fontSize: displayFontSize,
+                                        height: 1.1,
+                                        letterSpacing: -0.5,
+                                      ),
+                                ),
+                                SizedBox(height: _lerp(6, 12, screenScale)),
+                                Text(
+                                  "Everything starts from here",
+                                  style: TextStyle(
+                                    fontSize: subFontSize,
+                                    color: Colors.white70,
+                                    letterSpacing: 0.1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: gapAfterHero),
+                          // ── Buttons ───────────────────────────────────────
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: screenWidth * 0.06,
+                              right: screenWidth * 0.06,
+                              bottom: bottomPadding,
+                            ),
+                            child: Column(
+                              children: [
+                                _buildButton(
+                                  text: "Sign In",
+                                  height: buttonHeight,
+                                  fontSize: buttonFontSize,
+                                  onTap: () =>
+                                      context.push('/signin', extra: "login"),
+                                ),
+                                SizedBox(height: gapBetweenButtons),
+                                _buildButton(
+                                  text: "Sign Up",
+                                  height: buttonHeight,
+                                  fontSize: buttonFontSize,
+                                  onTap: () =>
+                                      context.push('/signin', extra: "signup"),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
     );
   }
 
-  Widget _buildButton({required String text, required VoidCallback onTap}) {
+  /// Linear interpolation helper
+  double _lerp(double min, double max, double t) => min + (max - min) * t;
+
+  Widget _buildButton({
+    required String text,
+    required VoidCallback onTap,
+    required double height,
+    required double fontSize,
+  }) {
     return SizedBox(
       width: double.infinity,
-      height: 54,
+      height: height,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorManager.white,
@@ -159,7 +215,11 @@ class GetStartedScreen extends StatelessWidget {
         onPressed: onTap,
         child: Text(
           text,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.2,
+          ),
         ),
       ),
     );
