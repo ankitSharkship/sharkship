@@ -5,5 +5,5 @@ shorebird release android --flutter-version=3.29.0
 
 
 patch:-
-shorebird patch --platforms=android --release-version=1.0.0+5
+shorebird patch --platforms=android --release-version=1.0.0+8
 shorebird patch --platforms=ios --release-version=1.0.0+5

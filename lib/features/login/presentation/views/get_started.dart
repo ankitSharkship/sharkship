@@ -92,18 +92,16 @@ class GetStartedScreen extends StatelessWidget {
                                 // White circle — offset right
                                 Positioned(
                                   right: -circleSize * 0.15,
-
                                   child: Container(
                                     width: circleSize,
                                     height: circleSize,
                                     decoration: const BoxDecoration(
                                       color: ColorManager.white,
                                       shape: BoxShape.circle,
-                                    ),
+                                    ), 
                                   ),
                                 ),
-
-                                // Scooter image
+                                
                                 Positioned(
                                   right: screenWidth * 0.02,
                                   top: 10,
