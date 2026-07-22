@@ -308,9 +308,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       ),
     );
 
-    if (!isLogin) {
-      return PostHogWidget(child: content);
-    }
     return content;
   }
 

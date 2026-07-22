@@ -19,8 +19,8 @@ void main() async {
   );
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // DigilockerDeepLinkService().init();
-  // await dotenv.load(fileName: ".env.dev");
-  await dotenv.load(fileName: ".env.prod");
+  await dotenv.load(fileName: ".env.dev");
+  // await dotenv.load(fileName: ".env.prod");
   await Hive.initFlutter();
   await Hive.openBox('user_box');
   await SharedPreferencesService.init();
@@ -28,10 +28,6 @@ void main() async {
   config.host = 'https://us.i.posthog.com';
   config.captureApplicationLifecycleEvents = true;
   config.debug = false;
-  config.sessionReplay = true;
-  config.sessionReplayConfig.maskAllTexts = false;
-  config.sessionReplayConfig.maskAllImages = false;
-  config.sessionReplayConfig.throttleDelay = const Duration(milliseconds: 1000);
   await Posthog().setup(config);
   // await PhonePePaymentSdk.init("sandbox", "", "", true);
   runApp(const ProviderScope(child: AppBootstrap()));

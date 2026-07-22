@@ -78,14 +78,12 @@ PODS:
     - Flutter
     - PhonePePayment (= 4.0.0)
   - PhonePePayment (4.0.0)
-  - PostHog (3.58.1)
+  - PostHog (3.61.0)
   - posthog_flutter (0.0.1):
     - Flutter
     - FlutterMacOS
     - PostHog (< 4.0.0, >= 3.56.0)
-  - razorpay-core-pod (1.0.6)
-  - razorpay-pod (1.5.3):
-    - razorpay-core-pod (= 1.0.6)
+  - razorpay-pod (1.5.4)
   - razorpay_flutter (1.1.10):
     - Flutter
     - razorpay-pod
@@ -146,7 +144,6 @@ SPEC REPOS:
     - OrderedSet
     - PhonePePayment
     - PostHog
-    - razorpay-core-pod
     - razorpay-pod
     - SDWebImage
     - SwiftyGif
@@ -221,10 +218,9 @@ SPEC CHECKSUMS:
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
   phonepe_payment_sdk: cac980d0deb0d024b091e207207fea9418b2a391
   PhonePePayment: c720ada91c0976d6888a44571ced348ed8cd7d83
-  PostHog: 162c013c6a8e442382f6804076bf3ad072c8778a
+  PostHog: 82eee1ba92efc8144b06b6e4412abba5438c8fda
   posthog_flutter: 03b15ff7a78e2a4162baaf11f8db37b079412106
-  razorpay-core-pod: 6da5fb4ed280279d665507fdb50e213d793a5fe2
-  razorpay-pod: 4385cf844aa29389313b741e20c72fe668970d49
+  razorpay-pod: 3ba80419f3315352d6ffa336a194ad95ab249700
   razorpay_flutter: 0e98e4fcaae27ad50e011d85f66d85e0a008754a
   SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
   shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
