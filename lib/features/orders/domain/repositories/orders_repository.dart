@@ -167,6 +167,23 @@ class ShippingRateParams {
   }
 }
 
+class OrderCourierRatesParams {
+  final int orderId;
+  final int pickupAddressId;
+
+  OrderCourierRatesParams({
+    required this.orderId,
+    required this.pickupAddressId,
+  });
+
+  Map<String, dynamic> getQueryParameters() {
+    return {
+      'orderId': orderId.toString(),
+      'pickupAddressId': pickupAddressId.toString(),
+    };
+  }
+}
+
 class CreateOrderParams {
   final OrderCustomerParams customer;
   final OrderDataParams order;
@@ -372,6 +389,9 @@ abstract class OrdersRepository {
   Future<bool> setDefaultPickupAddress(int id);
   Future<ShippingRateResponseEntity> getShippingRates(
     ShippingRateParams params,
+  );
+  Future<OrderCourierRatesEntity> getOrderCourierRates(
+    OrderCourierRatesParams params,
   );
   Future<bool> createOrder(CreateOrderParams params);
   Future<void> downloadTemplate();

@@ -5,6 +5,7 @@ import 'package:sharkship/features/orders/presentation/state/bulk_orders_notifie
 import 'package:sharkship/features/orders/presentation/state/create_orders_tab_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/create_single_order_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/create_single_order_state.dart';
+import 'package:sharkship/features/orders/presentation/state/single_order_ship_notifier.dart';
 import 'package:sharkship/features/orders/presentation/widgets/create_order_tabbar.dart';
 import 'package:sharkship/features/orders/presentation/widgets/create_orders_header.dart';
 import 'package:sharkship/shared/constants/app_colors.dart';
@@ -68,6 +69,19 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
   Widget build(BuildContext context) {
     final selectedTab = ref.watch(createOrdersTabProvider);
     final state = ref.watch(createSingleOrderProvider);
+
+    ref.listen(createSingleOrderProvider, (previous, next) {
+      final details = next.customerDetails;
+      if (details == null) return;
+      if (previous?.customerDetails?.city != details.city &&
+          cityController.text != details.city) {
+        cityController.text = details.city;
+      }
+      if (previous?.customerDetails?.state != details.state &&
+          stateController.text != details.state) {
+        stateController.text = details.state;
+      }
+    });
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
@@ -382,6 +396,13 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
                   controller: pinController,
                   keyboard: TextInputType.number,
                   validator: (v) => v!.length != 6 ? 'Invalid PIN' : null,
+                  onChanged: (value) {
+                    if (value.length == 6) {
+                      ref
+                          .read(createSingleOrderProvider.notifier)
+                          .fetchCityState(value);
+                    }
+                  },
                 ),
               ),
               const SizedBox(width: 12),

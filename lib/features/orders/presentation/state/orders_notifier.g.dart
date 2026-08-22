@@ -50,7 +50,7 @@ final class OrdersNotifierProvider
   }
 }
 
-String _$ordersNotifierHash() => r'cb054aaee54a0a2dce13c3b65267e9abffb17029';
+String _$ordersNotifierHash() => r'8c6a3a0cf57f001fa1bc0db50eceac6d7a0286fc';
 
 final class OrdersNotifierFamily extends $Family
     with

@@ -243,6 +243,55 @@ final class GetShippingRatesUseCaseProvider
 String _$getShippingRatesUseCaseHash() =>
     r'35668ddc17263712b6434773991c242290bc8452';
 
+@ProviderFor(getOrderCourierRatesUseCase)
+const getOrderCourierRatesUseCaseProvider =
+    GetOrderCourierRatesUseCaseProvider._();
+
+final class GetOrderCourierRatesUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetOrderCourierRatesUseCase,
+          GetOrderCourierRatesUseCase,
+          GetOrderCourierRatesUseCase
+        >
+    with $Provider<GetOrderCourierRatesUseCase> {
+  const GetOrderCourierRatesUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getOrderCourierRatesUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getOrderCourierRatesUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetOrderCourierRatesUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetOrderCourierRatesUseCase create(Ref ref) {
+    return getOrderCourierRatesUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetOrderCourierRatesUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetOrderCourierRatesUseCase>(value),
+    );
+  }
+}
+
+String _$getOrderCourierRatesUseCaseHash() =>
+    r'0d36c72489585d1e0df3598c4748489738f48e1e';
+
 @ProviderFor(createOrderUseCase)
 const createOrderUseCaseProvider = CreateOrderUseCaseProvider._();
 

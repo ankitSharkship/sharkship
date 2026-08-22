@@ -43,7 +43,7 @@ final class CreateSingleOrderNotifierProvider
 }
 
 String _$createSingleOrderNotifierHash() =>
-    r'9ce286f4294d768768ac87e337ac537c977c2622';
+    r'326f523e343ae1618b4454158e2cb49aa0fde479';
 
 abstract class _$CreateSingleOrderNotifier
     extends $Notifier<CreateSingleOrderState> {

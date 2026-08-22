@@ -60,7 +60,7 @@ final class SingleOrderShipNotifierProvider
 }
 
 String _$singleOrderShipNotifierHash() =>
-    r'411af8f75fe1028ae333e196daf8baa787e071c3';
+    r'1b29b915bb670a948ae364d6544042c6b6a2b049';
 
 final class SingleOrderShipNotifierFamily extends $Family
     with

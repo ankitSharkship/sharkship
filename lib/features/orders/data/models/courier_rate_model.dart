@@ -65,3 +65,21 @@ class ShippingLocationModel extends ShippingLocationEntity {
     );
   }
 }
+
+class OrderCourierRatesModel extends OrderCourierRatesEntity {
+  OrderCourierRatesModel({
+    required super.orderId,
+    required super.zone,
+    required super.rates,
+  });
+
+  factory OrderCourierRatesModel.fromJson(Map<String, dynamic> json) {
+    return OrderCourierRatesModel(
+      orderId: json['orderId']?.toString() ?? '',
+      zone: json['zone']?.toString() ?? '',
+      rates: (json['rates'] as List? ?? [])
+          .map((e) => CourierRateModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}

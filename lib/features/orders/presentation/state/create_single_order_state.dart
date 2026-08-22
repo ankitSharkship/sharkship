@@ -61,6 +61,28 @@ class CustomerDetails {
     required this.city,
     required this.state,
   });
+   CustomerDetails copyWith({
+    String? customerName,
+    String? customerMobileNumber,
+    String? customerEmail,
+    String? addressLine1,
+    String? addressLine2,
+    String? pin,
+    String? city,
+    String? state,
+  }) {
+    return CustomerDetails(
+      customerName: customerName ?? this.customerName,
+      customerMobileNumber:
+          customerMobileNumber ?? this.customerMobileNumber,
+      customerEmail: customerEmail ?? this.customerEmail,
+      addressLine1: addressLine1 ?? this.addressLine1,
+      addressLine2: addressLine2 ?? this.addressLine2,
+      pin: pin ?? this.pin,
+      city: city ?? this.city,
+      state: state ?? this.state,
+    );
+  }
 }
 
 class OrderDetails {

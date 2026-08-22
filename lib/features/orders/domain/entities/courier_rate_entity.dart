@@ -49,3 +49,15 @@ class ShippingLocationEntity {
     this.state,
   });
 }
+
+class OrderCourierRatesEntity {
+  final String orderId;
+  final String zone;
+  final List<CourierRateEntity> rates;
+
+  OrderCourierRatesEntity({
+    required this.orderId,
+    required this.zone,
+    required this.rates,
+  });
+}

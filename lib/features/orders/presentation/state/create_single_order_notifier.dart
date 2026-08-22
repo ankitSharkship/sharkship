@@ -1,5 +1,6 @@
 import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharkship/features/businessTools/presentation/state/manage_address_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/create_single_order_state.dart';
 import 'package:sharkship/features/orders/presentation/state/orders_provider.dart';
 import 'package:sharkship/features/orders/domain/repositories/orders_repository.dart';
@@ -43,6 +44,43 @@ class CreateSingleOrderNotifier extends _$CreateSingleOrderNotifier {
         selectedPickupAddress: address,
       ),
     );
+  }
+
+  Future<void> fetchCityState(String pin) async {
+    if (state.isLoading) return;
+
+    state = state.copyWith(isLoading: true);
+
+    try {
+      final result = await ref
+          .read(manageAddressProvider.notifier)
+          .getPinDetails(pin);
+
+      if (result != null && result.city != null && result.state != null) {
+        final currentCustomer = state.customerDetails;
+        final updatedCustomer =
+            (currentCustomer ??
+                    CustomerDetails(
+                      customerName: '',
+                      customerMobileNumber: '',
+                      customerEmail: '',
+                      addressLine1: '',
+                      pin: pin,
+                      city: '',
+                      state: '',
+                    ))
+                .copyWith(pin: pin, city: result.city, state: result.state);
+
+        state = state.copyWith(
+          customerDetails: updatedCustomer,
+          isLoading: false,
+        );
+      } else {
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (e) {
+      state = state.copyWith(isLoading: false);
+    }
   }
 
   Future<bool> nextStep() async {

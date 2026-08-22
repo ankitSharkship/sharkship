@@ -420,3 +420,51 @@ final class RegisterUserUseCaseProvider
 
 String _$registerUserUseCaseHash() =>
     r'9fde872e9b1222f61db4975e0fe64267fcc23504';
+
+@ProviderFor(refreshTokenLoginUseCase)
+const refreshTokenLoginUseCaseProvider = RefreshTokenLoginUseCaseProvider._();
+
+final class RefreshTokenLoginUseCaseProvider
+    extends
+        $FunctionalProvider<
+          RefreshTokenLoginUseCase,
+          RefreshTokenLoginUseCase,
+          RefreshTokenLoginUseCase
+        >
+    with $Provider<RefreshTokenLoginUseCase> {
+  const RefreshTokenLoginUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'refreshTokenLoginUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$refreshTokenLoginUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<RefreshTokenLoginUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  RefreshTokenLoginUseCase create(Ref ref) {
+    return refreshTokenLoginUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(RefreshTokenLoginUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<RefreshTokenLoginUseCase>(value),
+    );
+  }
+}
+
+String _$refreshTokenLoginUseCaseHash() =>
+    r'5391fec896f7b5e87720d0986a29159e7c80e265';

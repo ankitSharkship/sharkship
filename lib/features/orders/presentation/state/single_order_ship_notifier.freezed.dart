@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 mixin _$SingleOrderShipState {
 
  int get step; OrderEntity get order;// --- Shipment dimensions (shared with ship-flow) ---
- String get length; String get width; String get height; String get weight; bool get isEditMode; bool get isSaving; String? get error;// --- Editable customer fields ---
+ String get length; String get width; String get height; String get weight; bool get isEditMode; bool get isSaving; String? get error; int? get selectedPickupAddressId;// --- Editable customer fields ---
  String get customerName; String get customerMobile; String get addressLane1; String get addressLane2; String get landmark; String get pin; String get city; String get state;// --- Editable order fields ---
  String get paymentMode; String get serviceType; String get codAmount; String get clientOrderId;// --- Editable line items ---
  List<EditLineItem> get lineItems;
@@ -29,16 +29,16 @@ $SingleOrderShipStateCopyWith<SingleOrderShipState> get copyWith => _$SingleOrde
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SingleOrderShipState&&(identical(other.step, step) || other.step == step)&&(identical(other.order, order) || other.order == order)&&(identical(other.length, length) || other.length == length)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.isEditMode, isEditMode) || other.isEditMode == isEditMode)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.error, error) || other.error == error)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerMobile, customerMobile) || other.customerMobile == customerMobile)&&(identical(other.addressLane1, addressLane1) || other.addressLane1 == addressLane1)&&(identical(other.addressLane2, addressLane2) || other.addressLane2 == addressLane2)&&(identical(other.landmark, landmark) || other.landmark == landmark)&&(identical(other.pin, pin) || other.pin == pin)&&(identical(other.city, city) || other.city == city)&&(identical(other.state, state) || other.state == state)&&(identical(other.paymentMode, paymentMode) || other.paymentMode == paymentMode)&&(identical(other.serviceType, serviceType) || other.serviceType == serviceType)&&(identical(other.codAmount, codAmount) || other.codAmount == codAmount)&&(identical(other.clientOrderId, clientOrderId) || other.clientOrderId == clientOrderId)&&const DeepCollectionEquality().equals(other.lineItems, lineItems));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SingleOrderShipState&&(identical(other.step, step) || other.step == step)&&(identical(other.order, order) || other.order == order)&&(identical(other.length, length) || other.length == length)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.isEditMode, isEditMode) || other.isEditMode == isEditMode)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.error, error) || other.error == error)&&(identical(other.selectedPickupAddressId, selectedPickupAddressId) || other.selectedPickupAddressId == selectedPickupAddressId)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerMobile, customerMobile) || other.customerMobile == customerMobile)&&(identical(other.addressLane1, addressLane1) || other.addressLane1 == addressLane1)&&(identical(other.addressLane2, addressLane2) || other.addressLane2 == addressLane2)&&(identical(other.landmark, landmark) || other.landmark == landmark)&&(identical(other.pin, pin) || other.pin == pin)&&(identical(other.city, city) || other.city == city)&&(identical(other.state, state) || other.state == state)&&(identical(other.paymentMode, paymentMode) || other.paymentMode == paymentMode)&&(identical(other.serviceType, serviceType) || other.serviceType == serviceType)&&(identical(other.codAmount, codAmount) || other.codAmount == codAmount)&&(identical(other.clientOrderId, clientOrderId) || other.clientOrderId == clientOrderId)&&const DeepCollectionEquality().equals(other.lineItems, lineItems));
 }
 
 
 @override
-int get hashCode => Object.hashAll([runtimeType,step,order,length,width,height,weight,isEditMode,isSaving,error,customerName,customerMobile,addressLane1,addressLane2,landmark,pin,city,state,paymentMode,serviceType,codAmount,clientOrderId,const DeepCollectionEquality().hash(lineItems)]);
+int get hashCode => Object.hashAll([runtimeType,step,order,length,width,height,weight,isEditMode,isSaving,error,selectedPickupAddressId,customerName,customerMobile,addressLane1,addressLane2,landmark,pin,city,state,paymentMode,serviceType,codAmount,clientOrderId,const DeepCollectionEquality().hash(lineItems)]);
 
 @override
 String toString() {
-  return 'SingleOrderShipState(step: $step, order: $order, length: $length, width: $width, height: $height, weight: $weight, isEditMode: $isEditMode, isSaving: $isSaving, error: $error, customerName: $customerName, customerMobile: $customerMobile, addressLane1: $addressLane1, addressLane2: $addressLane2, landmark: $landmark, pin: $pin, city: $city, state: $state, paymentMode: $paymentMode, serviceType: $serviceType, codAmount: $codAmount, clientOrderId: $clientOrderId, lineItems: $lineItems)';
+  return 'SingleOrderShipState(step: $step, order: $order, length: $length, width: $width, height: $height, weight: $weight, isEditMode: $isEditMode, isSaving: $isSaving, error: $error, selectedPickupAddressId: $selectedPickupAddressId, customerName: $customerName, customerMobile: $customerMobile, addressLane1: $addressLane1, addressLane2: $addressLane2, landmark: $landmark, pin: $pin, city: $city, state: $state, paymentMode: $paymentMode, serviceType: $serviceType, codAmount: $codAmount, clientOrderId: $clientOrderId, lineItems: $lineItems)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $SingleOrderShipStateCopyWith<$Res>  {
   factory $SingleOrderShipStateCopyWith(SingleOrderShipState value, $Res Function(SingleOrderShipState) _then) = _$SingleOrderShipStateCopyWithImpl;
 @useResult
 $Res call({
- int step, OrderEntity order, String length, String width, String height, String weight, bool isEditMode, bool isSaving, String? error, String customerName, String customerMobile, String addressLane1, String addressLane2, String landmark, String pin, String city, String state, String paymentMode, String serviceType, String codAmount, String clientOrderId, List<EditLineItem> lineItems
+ int step, OrderEntity order, String length, String width, String height, String weight, bool isEditMode, bool isSaving, String? error, int? selectedPickupAddressId, String customerName, String customerMobile, String addressLane1, String addressLane2, String landmark, String pin, String city, String state, String paymentMode, String serviceType, String codAmount, String clientOrderId, List<EditLineItem> lineItems
 });
 
 
@@ -66,7 +66,7 @@ class _$SingleOrderShipStateCopyWithImpl<$Res>
 
 /// Create a copy of SingleOrderShipState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? step = null,Object? order = null,Object? length = null,Object? width = null,Object? height = null,Object? weight = null,Object? isEditMode = null,Object? isSaving = null,Object? error = freezed,Object? customerName = null,Object? customerMobile = null,Object? addressLane1 = null,Object? addressLane2 = null,Object? landmark = null,Object? pin = null,Object? city = null,Object? state = null,Object? paymentMode = null,Object? serviceType = null,Object? codAmount = null,Object? clientOrderId = null,Object? lineItems = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? step = null,Object? order = null,Object? length = null,Object? width = null,Object? height = null,Object? weight = null,Object? isEditMode = null,Object? isSaving = null,Object? error = freezed,Object? selectedPickupAddressId = freezed,Object? customerName = null,Object? customerMobile = null,Object? addressLane1 = null,Object? addressLane2 = null,Object? landmark = null,Object? pin = null,Object? city = null,Object? state = null,Object? paymentMode = null,Object? serviceType = null,Object? codAmount = null,Object? clientOrderId = null,Object? lineItems = null,}) {
   return _then(_self.copyWith(
 step: null == step ? _self.step : step // ignore: cast_nullable_to_non_nullable
 as int,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
@@ -77,7 +77,8 @@ as String,weight: null == weight ? _self.weight : weight // ignore: cast_nullabl
 as String,isEditMode: null == isEditMode ? _self.isEditMode : isEditMode // ignore: cast_nullable_to_non_nullable
 as bool,isSaving: null == isSaving ? _self.isSaving : isSaving // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,customerName: null == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
+as String?,selectedPickupAddressId: freezed == selectedPickupAddressId ? _self.selectedPickupAddressId : selectedPickupAddressId // ignore: cast_nullable_to_non_nullable
+as int?,customerName: null == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
 as String,customerMobile: null == customerMobile ? _self.customerMobile : customerMobile // ignore: cast_nullable_to_non_nullable
 as String,addressLane1: null == addressLane1 ? _self.addressLane1 : addressLane1 // ignore: cast_nullable_to_non_nullable
 as String,addressLane2: null == addressLane2 ? _self.addressLane2 : addressLane2 // ignore: cast_nullable_to_non_nullable
@@ -175,10 +176,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int step,  OrderEntity order,  String length,  String width,  String height,  String weight,  bool isEditMode,  bool isSaving,  String? error,  String customerName,  String customerMobile,  String addressLane1,  String addressLane2,  String landmark,  String pin,  String city,  String state,  String paymentMode,  String serviceType,  String codAmount,  String clientOrderId,  List<EditLineItem> lineItems)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int step,  OrderEntity order,  String length,  String width,  String height,  String weight,  bool isEditMode,  bool isSaving,  String? error,  int? selectedPickupAddressId,  String customerName,  String customerMobile,  String addressLane1,  String addressLane2,  String landmark,  String pin,  String city,  String state,  String paymentMode,  String serviceType,  String codAmount,  String clientOrderId,  List<EditLineItem> lineItems)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SingleOrderShipState() when $default != null:
-return $default(_that.step,_that.order,_that.length,_that.width,_that.height,_that.weight,_that.isEditMode,_that.isSaving,_that.error,_that.customerName,_that.customerMobile,_that.addressLane1,_that.addressLane2,_that.landmark,_that.pin,_that.city,_that.state,_that.paymentMode,_that.serviceType,_that.codAmount,_that.clientOrderId,_that.lineItems);case _:
+return $default(_that.step,_that.order,_that.length,_that.width,_that.height,_that.weight,_that.isEditMode,_that.isSaving,_that.error,_that.selectedPickupAddressId,_that.customerName,_that.customerMobile,_that.addressLane1,_that.addressLane2,_that.landmark,_that.pin,_that.city,_that.state,_that.paymentMode,_that.serviceType,_that.codAmount,_that.clientOrderId,_that.lineItems);case _:
   return orElse();
 
 }
@@ -196,10 +197,10 @@ return $default(_that.step,_that.order,_that.length,_that.width,_that.height,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int step,  OrderEntity order,  String length,  String width,  String height,  String weight,  bool isEditMode,  bool isSaving,  String? error,  String customerName,  String customerMobile,  String addressLane1,  String addressLane2,  String landmark,  String pin,  String city,  String state,  String paymentMode,  String serviceType,  String codAmount,  String clientOrderId,  List<EditLineItem> lineItems)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int step,  OrderEntity order,  String length,  String width,  String height,  String weight,  bool isEditMode,  bool isSaving,  String? error,  int? selectedPickupAddressId,  String customerName,  String customerMobile,  String addressLane1,  String addressLane2,  String landmark,  String pin,  String city,  String state,  String paymentMode,  String serviceType,  String codAmount,  String clientOrderId,  List<EditLineItem> lineItems)  $default,) {final _that = this;
 switch (_that) {
 case _SingleOrderShipState():
-return $default(_that.step,_that.order,_that.length,_that.width,_that.height,_that.weight,_that.isEditMode,_that.isSaving,_that.error,_that.customerName,_that.customerMobile,_that.addressLane1,_that.addressLane2,_that.landmark,_that.pin,_that.city,_that.state,_that.paymentMode,_that.serviceType,_that.codAmount,_that.clientOrderId,_that.lineItems);case _:
+return $default(_that.step,_that.order,_that.length,_that.width,_that.height,_that.weight,_that.isEditMode,_that.isSaving,_that.error,_that.selectedPickupAddressId,_that.customerName,_that.customerMobile,_that.addressLane1,_that.addressLane2,_that.landmark,_that.pin,_that.city,_that.state,_that.paymentMode,_that.serviceType,_that.codAmount,_that.clientOrderId,_that.lineItems);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -216,10 +217,10 @@ return $default(_that.step,_that.order,_that.length,_that.width,_that.height,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int step,  OrderEntity order,  String length,  String width,  String height,  String weight,  bool isEditMode,  bool isSaving,  String? error,  String customerName,  String customerMobile,  String addressLane1,  String addressLane2,  String landmark,  String pin,  String city,  String state,  String paymentMode,  String serviceType,  String codAmount,  String clientOrderId,  List<EditLineItem> lineItems)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int step,  OrderEntity order,  String length,  String width,  String height,  String weight,  bool isEditMode,  bool isSaving,  String? error,  int? selectedPickupAddressId,  String customerName,  String customerMobile,  String addressLane1,  String addressLane2,  String landmark,  String pin,  String city,  String state,  String paymentMode,  String serviceType,  String codAmount,  String clientOrderId,  List<EditLineItem> lineItems)?  $default,) {final _that = this;
 switch (_that) {
 case _SingleOrderShipState() when $default != null:
-return $default(_that.step,_that.order,_that.length,_that.width,_that.height,_that.weight,_that.isEditMode,_that.isSaving,_that.error,_that.customerName,_that.customerMobile,_that.addressLane1,_that.addressLane2,_that.landmark,_that.pin,_that.city,_that.state,_that.paymentMode,_that.serviceType,_that.codAmount,_that.clientOrderId,_that.lineItems);case _:
+return $default(_that.step,_that.order,_that.length,_that.width,_that.height,_that.weight,_that.isEditMode,_that.isSaving,_that.error,_that.selectedPickupAddressId,_that.customerName,_that.customerMobile,_that.addressLane1,_that.addressLane2,_that.landmark,_that.pin,_that.city,_that.state,_that.paymentMode,_that.serviceType,_that.codAmount,_that.clientOrderId,_that.lineItems);case _:
   return null;
 
 }
@@ -231,7 +232,7 @@ return $default(_that.step,_that.order,_that.length,_that.width,_that.height,_th
 
 
 class _SingleOrderShipState implements SingleOrderShipState {
-  const _SingleOrderShipState({required this.step, required this.order, required this.length, required this.width, required this.height, required this.weight, required this.isEditMode, required this.isSaving, this.error, required this.customerName, required this.customerMobile, required this.addressLane1, required this.addressLane2, required this.landmark, required this.pin, required this.city, required this.state, required this.paymentMode, required this.serviceType, required this.codAmount, required this.clientOrderId, required final  List<EditLineItem> lineItems}): _lineItems = lineItems;
+  const _SingleOrderShipState({required this.step, required this.order, required this.length, required this.width, required this.height, required this.weight, required this.isEditMode, required this.isSaving, this.error, this.selectedPickupAddressId, required this.customerName, required this.customerMobile, required this.addressLane1, required this.addressLane2, required this.landmark, required this.pin, required this.city, required this.state, required this.paymentMode, required this.serviceType, required this.codAmount, required this.clientOrderId, required final  List<EditLineItem> lineItems}): _lineItems = lineItems;
   
 
 @override final  int step;
@@ -244,6 +245,7 @@ class _SingleOrderShipState implements SingleOrderShipState {
 @override final  bool isEditMode;
 @override final  bool isSaving;
 @override final  String? error;
+@override final  int? selectedPickupAddressId;
 // --- Editable customer fields ---
 @override final  String customerName;
 @override final  String customerMobile;
@@ -278,16 +280,16 @@ _$SingleOrderShipStateCopyWith<_SingleOrderShipState> get copyWith => __$SingleO
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SingleOrderShipState&&(identical(other.step, step) || other.step == step)&&(identical(other.order, order) || other.order == order)&&(identical(other.length, length) || other.length == length)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.isEditMode, isEditMode) || other.isEditMode == isEditMode)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.error, error) || other.error == error)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerMobile, customerMobile) || other.customerMobile == customerMobile)&&(identical(other.addressLane1, addressLane1) || other.addressLane1 == addressLane1)&&(identical(other.addressLane2, addressLane2) || other.addressLane2 == addressLane2)&&(identical(other.landmark, landmark) || other.landmark == landmark)&&(identical(other.pin, pin) || other.pin == pin)&&(identical(other.city, city) || other.city == city)&&(identical(other.state, state) || other.state == state)&&(identical(other.paymentMode, paymentMode) || other.paymentMode == paymentMode)&&(identical(other.serviceType, serviceType) || other.serviceType == serviceType)&&(identical(other.codAmount, codAmount) || other.codAmount == codAmount)&&(identical(other.clientOrderId, clientOrderId) || other.clientOrderId == clientOrderId)&&const DeepCollectionEquality().equals(other._lineItems, _lineItems));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SingleOrderShipState&&(identical(other.step, step) || other.step == step)&&(identical(other.order, order) || other.order == order)&&(identical(other.length, length) || other.length == length)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.isEditMode, isEditMode) || other.isEditMode == isEditMode)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.error, error) || other.error == error)&&(identical(other.selectedPickupAddressId, selectedPickupAddressId) || other.selectedPickupAddressId == selectedPickupAddressId)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerMobile, customerMobile) || other.customerMobile == customerMobile)&&(identical(other.addressLane1, addressLane1) || other.addressLane1 == addressLane1)&&(identical(other.addressLane2, addressLane2) || other.addressLane2 == addressLane2)&&(identical(other.landmark, landmark) || other.landmark == landmark)&&(identical(other.pin, pin) || other.pin == pin)&&(identical(other.city, city) || other.city == city)&&(identical(other.state, state) || other.state == state)&&(identical(other.paymentMode, paymentMode) || other.paymentMode == paymentMode)&&(identical(other.serviceType, serviceType) || other.serviceType == serviceType)&&(identical(other.codAmount, codAmount) || other.codAmount == codAmount)&&(identical(other.clientOrderId, clientOrderId) || other.clientOrderId == clientOrderId)&&const DeepCollectionEquality().equals(other._lineItems, _lineItems));
 }
 
 
 @override
-int get hashCode => Object.hashAll([runtimeType,step,order,length,width,height,weight,isEditMode,isSaving,error,customerName,customerMobile,addressLane1,addressLane2,landmark,pin,city,state,paymentMode,serviceType,codAmount,clientOrderId,const DeepCollectionEquality().hash(_lineItems)]);
+int get hashCode => Object.hashAll([runtimeType,step,order,length,width,height,weight,isEditMode,isSaving,error,selectedPickupAddressId,customerName,customerMobile,addressLane1,addressLane2,landmark,pin,city,state,paymentMode,serviceType,codAmount,clientOrderId,const DeepCollectionEquality().hash(_lineItems)]);
 
 @override
 String toString() {
-  return 'SingleOrderShipState(step: $step, order: $order, length: $length, width: $width, height: $height, weight: $weight, isEditMode: $isEditMode, isSaving: $isSaving, error: $error, customerName: $customerName, customerMobile: $customerMobile, addressLane1: $addressLane1, addressLane2: $addressLane2, landmark: $landmark, pin: $pin, city: $city, state: $state, paymentMode: $paymentMode, serviceType: $serviceType, codAmount: $codAmount, clientOrderId: $clientOrderId, lineItems: $lineItems)';
+  return 'SingleOrderShipState(step: $step, order: $order, length: $length, width: $width, height: $height, weight: $weight, isEditMode: $isEditMode, isSaving: $isSaving, error: $error, selectedPickupAddressId: $selectedPickupAddressId, customerName: $customerName, customerMobile: $customerMobile, addressLane1: $addressLane1, addressLane2: $addressLane2, landmark: $landmark, pin: $pin, city: $city, state: $state, paymentMode: $paymentMode, serviceType: $serviceType, codAmount: $codAmount, clientOrderId: $clientOrderId, lineItems: $lineItems)';
 }
 
 
@@ -298,7 +300,7 @@ abstract mixin class _$SingleOrderShipStateCopyWith<$Res> implements $SingleOrde
   factory _$SingleOrderShipStateCopyWith(_SingleOrderShipState value, $Res Function(_SingleOrderShipState) _then) = __$SingleOrderShipStateCopyWithImpl;
 @override @useResult
 $Res call({
- int step, OrderEntity order, String length, String width, String height, String weight, bool isEditMode, bool isSaving, String? error, String customerName, String customerMobile, String addressLane1, String addressLane2, String landmark, String pin, String city, String state, String paymentMode, String serviceType, String codAmount, String clientOrderId, List<EditLineItem> lineItems
+ int step, OrderEntity order, String length, String width, String height, String weight, bool isEditMode, bool isSaving, String? error, int? selectedPickupAddressId, String customerName, String customerMobile, String addressLane1, String addressLane2, String landmark, String pin, String city, String state, String paymentMode, String serviceType, String codAmount, String clientOrderId, List<EditLineItem> lineItems
 });
 
 
@@ -315,7 +317,7 @@ class __$SingleOrderShipStateCopyWithImpl<$Res>
 
 /// Create a copy of SingleOrderShipState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? step = null,Object? order = null,Object? length = null,Object? width = null,Object? height = null,Object? weight = null,Object? isEditMode = null,Object? isSaving = null,Object? error = freezed,Object? customerName = null,Object? customerMobile = null,Object? addressLane1 = null,Object? addressLane2 = null,Object? landmark = null,Object? pin = null,Object? city = null,Object? state = null,Object? paymentMode = null,Object? serviceType = null,Object? codAmount = null,Object? clientOrderId = null,Object? lineItems = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? step = null,Object? order = null,Object? length = null,Object? width = null,Object? height = null,Object? weight = null,Object? isEditMode = null,Object? isSaving = null,Object? error = freezed,Object? selectedPickupAddressId = freezed,Object? customerName = null,Object? customerMobile = null,Object? addressLane1 = null,Object? addressLane2 = null,Object? landmark = null,Object? pin = null,Object? city = null,Object? state = null,Object? paymentMode = null,Object? serviceType = null,Object? codAmount = null,Object? clientOrderId = null,Object? lineItems = null,}) {
   return _then(_SingleOrderShipState(
 step: null == step ? _self.step : step // ignore: cast_nullable_to_non_nullable
 as int,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
@@ -326,7 +328,8 @@ as String,weight: null == weight ? _self.weight : weight // ignore: cast_nullabl
 as String,isEditMode: null == isEditMode ? _self.isEditMode : isEditMode // ignore: cast_nullable_to_non_nullable
 as bool,isSaving: null == isSaving ? _self.isSaving : isSaving // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,customerName: null == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
+as String?,selectedPickupAddressId: freezed == selectedPickupAddressId ? _self.selectedPickupAddressId : selectedPickupAddressId // ignore: cast_nullable_to_non_nullable
+as int?,customerName: null == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
 as String,customerMobile: null == customerMobile ? _self.customerMobile : customerMobile // ignore: cast_nullable_to_non_nullable
 as String,addressLane1: null == addressLane1 ? _self.addressLane1 : addressLane1 // ignore: cast_nullable_to_non_nullable
 as String,addressLane2: null == addressLane2 ? _self.addressLane2 : addressLane2 // ignore: cast_nullable_to_non_nullable

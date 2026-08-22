@@ -48,6 +48,16 @@ class OrdersDataSource {
     return ShippingRateResponseModel.fromJson(response.data);
   }
 
+  Future<OrderCourierRatesModel> getOrderCourierRates(
+    OrderCourierRatesParams params,
+  ) async {
+    final response = await _dio.get(
+      'v1/calculator/rates',
+      queryParameters: params.getQueryParameters(),
+    );
+    return OrderCourierRatesModel.fromJson(response.data);
+  }
+
   Future<bool> createOrder(CreateOrderParams params) async {
     final response = await _dio.post('v1/order/create', data: params.toJson());
     return response.statusCode == 200 || response.statusCode == 201;

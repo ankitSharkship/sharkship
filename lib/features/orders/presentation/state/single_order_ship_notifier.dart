@@ -79,6 +79,7 @@ abstract class SingleOrderShipState with _$SingleOrderShipState {
     required bool isEditMode,
     required bool isSaving,
     String? error,
+    int? selectedPickupAddressId,
 
     // --- Editable customer fields ---
     required String customerName,
@@ -155,6 +156,9 @@ class SingleOrderShipNotifier extends _$SingleOrderShipNotifier {
   void previousStep() {
     if (state.step > 0) state = state.copyWith(step: state.step - 1);
   }
+
+  void setSelectedPickupAddressId(int id) =>
+      state = state.copyWith(selectedPickupAddressId: id);
 
   void toggleEditMode() {
     if (state.isEditMode) {
@@ -282,7 +286,7 @@ class SingleOrderShipNotifier extends _$SingleOrderShipNotifier {
       "customer_address_state": order.deliveryAddress.state,
       "shipment_weight": state.weight,
       "shipment_length": int.tryParse(state.length) ?? 0,
-      "shipment_width": int.tryParse(state.width) ?? 0,
+      "shipment_widht": int.tryParse(state.width) ?? 0, // API typo retained
       "shipment_height": int.tryParse(state.height) ?? 0,
     };
 

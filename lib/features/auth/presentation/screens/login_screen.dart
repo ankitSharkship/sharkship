@@ -131,12 +131,50 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     });
   }
 
+  /// Pushes the current text of every controller on [step] into the
+  /// signup provider's form map. Needed because a field's onChanged only
+  /// fires when the user edits it — fields whose value was carried over
+  /// from elsewhere (e.g. the phone number typed on the Login tab, which
+  /// shares `phoneController` with signup step 1) would otherwise leave
+  /// the provider's copy empty even though the field displays a valid
+  /// value, causing SignupNotifier.validate() to silently fail.
+  void _syncStepFieldsFromControllers(int step) {
+    final signupNotifier = ref.read(signupProvider.notifier);
+    switch (step) {
+      case 0:
+        signupNotifier.updateField('firstName', firstNameController.text);
+        signupNotifier.updateField('lastName', lastNameController.text);
+        signupNotifier.updateField('phoneNumber', phoneController.text);
+        break;
+      case 1:
+        signupNotifier.updateField('email', emailController.text);
+        signupNotifier.updateField(
+          'createPassword',
+          createPasswordController.text,
+        );
+        signupNotifier.updateField(
+          'confirmPassword',
+          confirmPasswordController.text,
+        );
+        break;
+      case 2:
+        signupNotifier.updateField('businessName', businessNameController.text);
+        signupNotifier.updateField('address1', addressLine1Controller.text);
+        signupNotifier.updateField('address2', addressLine2Controller.text);
+        signupNotifier.updateField('pin', pinController.text);
+        signupNotifier.updateField('landmark', landmarkController.text);
+        signupNotifier.updateField('city', cityController.text);
+        signupNotifier.updateField('state', stateController.text);
+        break;
+    }
+  }
+
   void _nextStep() {
     final signupState = ref.read(signupProvider);
     final isValid = _signupFormKey.currentState!.validate();
-    print(isValid);
     if (!isValid) return;
 
+    _syncStepFieldsFromControllers(signupState.step);
     ref.read(signupProvider.notifier).nextStep();
   }
 
@@ -840,7 +878,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                   signupNotifier.updateField("pin", value);
                   // Trigger fetch only when a valid 6-digit pin is entered
                   if (value.length == 6) {
-                    print('hellloooo');
                     signupNotifier.fetchCityState(value);
                   }
                 },

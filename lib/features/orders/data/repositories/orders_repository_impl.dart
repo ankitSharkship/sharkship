@@ -36,6 +36,13 @@ class OrdersRepositoryImpl implements OrdersRepository {
   }
 
   @override
+  Future<OrderCourierRatesEntity> getOrderCourierRates(
+    OrderCourierRatesParams params,
+  ) async {
+    return await dataSource.getOrderCourierRates(params);
+  }
+
+  @override
   Future<bool> createOrder(CreateOrderParams params) async {
     return await dataSource.createOrder(params);
   }

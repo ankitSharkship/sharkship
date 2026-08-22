@@ -1,7 +1,7 @@
 name: sharkship
 description: Sharkship customer app"
 publish_to: "none"
-version: 1.0.0+11
+version: 1.0.1+13
 
 environment:
   sdk: ">=3.8.0 <4.0.0"
@@ -77,8 +77,6 @@ flutter:
     - assets/images/businessTools/
     - assets/images/intro/
     - shorebird.yaml
-
-
 
 flutter_native_splash:
   color: "#ffffff"

@@ -9,9 +9,9 @@ import 'package:sharkship/features/orders/presentation/state/orders_notifier.dar
 import 'package:sharkship/features/orders/presentation/state/orders_tab_provider.dart';
 import 'package:sharkship/features/orders/presentation/state/selected_orders_notifier.dart';
 import 'package:sharkship/features/orders/presentation/state/single_order_ship_notifier.dart';
-import 'package:sharkship/features/orders/presentation/widgets/address_picker_form.dart';
-import 'package:sharkship/features/orders/presentation/widgets/courier_priority_form.dart';
 import 'package:sharkship/features/orders/presentation/widgets/order_card.dart';
+import 'package:sharkship/features/orders/presentation/widgets/single_order_courier_rates_form.dart';
+import 'package:sharkship/features/orders/presentation/widgets/single_order_ship_address_form.dart';
 import 'package:sharkship/features/orders/presentation/widgets/order_skeleton.dart';
 import 'package:sharkship/features/orders/presentation/widgets/orders_header.dart';
 import 'package:sharkship/features/orders/presentation/widgets/orders_tabbar.dart';
@@ -286,9 +286,29 @@ class SingleOrderShipForm extends ConsumerWidget {
       case 0:
         return _changeShipmentDetails(context, state, notifier);
       case 1:
-        return AddressPickerForm(onlyAddress: false, onNext: notifier.nextStep);
+        return SingleOrderShipAddressForm(
+          initialAddressId: state.selectedPickupAddressId,
+          onNext: (addressId) {
+            notifier.setSelectedPickupAddressId(addressId);
+            notifier.nextStep();
+          },
+          onPrevious: notifier.previousStep,
+        );
       case 2:
-        return CourierPriorityForm(orderId: order.id, onlyCourier: false);
+        final pickupAddressId = state.selectedPickupAddressId;
+        if (pickupAddressId == null) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(40),
+              child: Text('Please select a pickup address first.'),
+            ),
+          );
+        }
+        return SingleOrderCourierRatesForm(
+          orderId: order.id,
+          pickupAddressId: pickupAddressId,
+          onPrevious: notifier.previousStep,
+        );
       default:
         return const ThreeDotsLoader();
     }
@@ -437,6 +457,7 @@ class SingleOrderShipForm extends ConsumerWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 24 + MediaQuery.of(context).padding.bottom),
                   ],
                 ),
               ),

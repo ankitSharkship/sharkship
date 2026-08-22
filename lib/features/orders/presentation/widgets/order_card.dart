@@ -198,7 +198,7 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                                     context,
                                   );
                                   // 1. Show Loading
-                                  final controller = messenger.showSnackBar(
+                                  messenger.showSnackBar(
                                     SnackBar(
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
@@ -215,7 +215,7 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                                     await ref
                                         .read(cloneOrderUseCaseProvider)
                                         .execute(order.id);
-                                    controller.close();
+                                    messenger.removeCurrentSnackBar();
                                     messenger.showSnackBar(
                                       SnackBar(
                                         elevation: 0,
@@ -234,7 +234,7 @@ class _OrderCardState extends ConsumerState<OrderCard> {
                                     );
                                     ref.invalidate(ordersProvider(selectedTab));
                                   } catch (e) {
-                                    controller.close();
+                                    messenger.removeCurrentSnackBar();
                                     messenger.showSnackBar(
                                       SnackBar(
                                         elevation: 0,
