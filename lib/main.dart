@@ -19,8 +19,8 @@ void main() async {
   );
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // DigilockerDeepLinkService().init();
-  // await dotenv.load(fileName: ".env.dev");
-  await dotenv.load(fileName: ".env.prod");
+  await dotenv.load(fileName: ".env.dev");
+  // await dotenv.load(fileName: ".env.prod");
   await Hive.initFlutter();
   await Hive.openBox('user_box');
   await SharedPreferencesService.init();
@@ -44,6 +44,4 @@ class AppBootstrap extends ConsumerWidget {
   }
 }
 
-
 // stanford cs229 cs224n nlp. cs336 language modelling
-

@@ -231,7 +231,9 @@ class CreateSingleOrderNotifier extends _$CreateSingleOrderNotifier {
         customer: OrderCustomerParams(
           name: customer.customerName,
           mobileNo: customer.customerMobileNumber,
-          email: customer.customerEmail,
+          email: customer.customerEmail.isEmpty
+              ? "support@sharkship.in"
+              : customer.customerEmail,
           address: OrderAddressParams(
             addressLane1: customer.addressLine1,
             addressLane2: customer.addressLine2 ?? "",

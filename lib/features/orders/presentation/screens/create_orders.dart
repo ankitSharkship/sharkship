@@ -139,7 +139,7 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
             Expanded(flex: 1, child: _buildSecondaryButton()),
             const SizedBox(width: 12),
           ],
-          Expanded(flex: 2, child: _buildPrimaryButtonLogin()),
+          Expanded(flex: 1, child: _buildPrimaryButtonLogin()),
         ],
       ),
     );
@@ -367,11 +367,12 @@ class _CreateOrdersState extends ConsumerState<CreateOrders> {
           ),
           const SizedBox(height: 16),
           _input(
-            label: 'Customer Email *',
+            label: 'Customer Email',
             hint: "Enter Customer's Email",
             controller: customerEmailController,
             keyboard: TextInputType.emailAddress,
-            validator: (v) => !v!.contains('@') ? 'Enter valid email' : null,
+            validator: (v) =>
+                v!.isNotEmpty && !v.contains('@') ? 'Enter valid email' : null,
           ),
           const SizedBox(height: 16),
           _input(
